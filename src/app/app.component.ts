@@ -2,6 +2,7 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { ThemesService, SettingsService, TitleService } from '@delon/theme';
 import { filter } from 'rxjs/operators';
+import { CacheService } from '@delon/cache';
 
 @Component({
   selector: 'app-root',
@@ -17,10 +18,19 @@ export class AppComponent implements OnInit {
     private theme: ThemesService,
     private settings: SettingsService,
     private router: Router,
-    private titleSrv: TitleService) {
+    private titleSrv: TitleService,
+  private cacheService: CacheService) {
   }
 
   ngOnInit() {
+    // 判断一下，如果当前有有效的token，就自动登录，否则显示登录界面
+    // console.log('IN AppComponent init...');
+    // if (this.cacheService.get('token') == null) {
+      
+    //   this.router.navigate(['/passport/login']);
+    // } else {
+    //   console.log('token=' + this.cacheService.get('token') + '所以，自动登录。');
+    // }
     this.router.events
         .pipe(filter(evt => evt instanceof NavigationEnd))
         .subscribe(() => this.titleSrv.setTitle());
