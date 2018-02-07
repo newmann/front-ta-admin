@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from '@shared/shared.module';
-import { RouteRoutingModule } from './routes-routing.module';
+import { BusinessRoutingModule } from 'app/business/business-routing.module';
 
 
 @NgModule({
-    imports: [ SharedModule, RouteRoutingModule ],
+    imports: [ SharedModule, BusinessRoutingModule ],
     declarations: [
 
     ]

@@ -1,5 +1,5 @@
 
-import { InjectionToken } from '@angular/core/src/di/injection_token';
+import { InjectionToken } from '@angular/core';
 
 
-export const API_URL_LOGIN = new InjectionToken<string>('/api/auth/login');
+export const API_URL_LOGIN = new InjectionToken<string>('apiURLLogin');

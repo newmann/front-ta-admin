@@ -5,11 +5,12 @@ import { Inject, Injectable } from '@angular/core';
 import {AuthDataService} from './auth.data.service';
 import { Account } from './../account/account.model';
 import { Observable } from 'rxjs/Observable';
+import { API_URL_LOGIN } from 'app/service/constant/backend.url.constant';
 
 @Injectable()
 export class AuthService {
     constructor(private http: HttpClient, 
-        @Inject('API_URL_LOGIN') private apiLogin) {
+        @Inject(API_URL_LOGIN) private apiURLLogin) {
 
     }
 
@@ -17,7 +18,7 @@ export class AuthService {
         const loginAccount = new Account();
         loginAccount.username = username;
         loginAccount.password = password;
-        return this.http.post<ResultBody<LoginResultModel>>(this.apiLogin, loginAccount);
+        return this.http.post<ResultBody<LoginResultModel>>(this.apiURLLogin, loginAccount);
         //   .subscribe(
         //   data=>{
         //     if(data.code == ResultBody.RESULT_CODE_SUCCESS){

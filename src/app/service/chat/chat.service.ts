@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { Message } from '@stomp/stompjs';
-import { AuthDataService } from './auth-data.service';
+import { AuthDataService } from 'app/service/auth/auth.data.service';
 // import * as SockJS from "sockjs-client";
 // import * as Stomp from "@stomp/stompjs";
 import { StompConfig, StompRService, StompState } from '@stomp/ng2-stompjs';
@@ -99,13 +99,13 @@ export class ChatService {
     this.stompService.initAndConnect();
     this.websocketState = this.stompService.state
       .map((state: number) => StompState[state]);
-    this.generalMessage = this.stompService.subscribe(WebsocketService.WEBSOCKET_CHANNEL_TOPIC)
+    this.generalMessage = this.stompService.subscribe(ChatService.WEBSOCKET_CHANNEL_TOPIC)
       .map((message: Message) => {
         console.log('topic:' + message.body);
         return message.body;
       })
       ;
-    this.chatMessage = this.stompService.subscribe(WebsocketService.WEBSOCKET_CHANNEL_SYSTEM)
+    this.chatMessage = this.stompService.subscribe(ChatService.WEBSOCKET_CHANNEL_SYSTEM)
       .map((message: Message) => {
         console.log('/user/system:' + message.body);
         return JSON.parse(message.body);
