@@ -6,12 +6,16 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { SocialService, SocialOpenType, ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
 import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
+import { AuthService } from 'app/service/auth/auth.service';
+import { ResultBody } from 'app/service/common/result.body.model';
+import { AuthDataService } from 'app/service/auth/auth.data.service';
+import { ChatService } from 'app/service/chat/chat.service';
 
 @Component({
     selector: 'passport-login',
     templateUrl: './login.component.html',
-    styleUrls: [ './login.component.less' ],
-    providers: [ SocialService ]
+    styleUrls: ['./login.component.less'],
+    providers: [SocialService]
 })
 export class UserLoginComponent implements OnDestroy {
 
@@ -26,6 +30,9 @@ export class UserLoginComponent implements OnDestroy {
         public msg: NzMessageService,
         private settingsService: SettingsService,
         private socialService: SocialService,
+        private authService: AuthService,
+        private authDataService: AuthDataService,
+        private chatService: ChatService,
         @Optional() @Inject(ReuseTabService) private reuseTabService: ReuseTabService,
         @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {
         this.form = fb.group({
@@ -77,28 +84,32 @@ export class UserLoginComponent implements OnDestroy {
             this.captcha.markAsDirty();
             if (this.mobile.invalid || this.captcha.invalid) return;
         }
-        // mock http
-        this.loading = true;
-        setTimeout(() => {
-            this.loading = false;
-            if (this.type === 0) {
-                if (this.userName.value !== 'admin' || this.password.value !== '888888') {
-                    this.error = `账户或密码错误`;
-                    return;
-                }
-            }
 
-            // 清空路由复用信息
-            this.reuseTabService.clear();
-            this.tokenService.set({
-                token: '123456789',
-                name: this.userName.value,
-                email: `cipchk@qq.com`,
-                id: 10000,
-                time: +new Date
-            });
-            this.router.navigate(['/']);
-        }, 1000);
+        this.loading = true;
+
+        this.loginInWithUsername();
+
+        // mock http
+        // setTimeout(() => {
+        //     this.loading = false;
+        //     if (this.type === 0) {
+        //         if (this.userName.value !== 'admin' || this.password.value !== '888888') {
+        //             this.error = `账户或密码错误`;
+        //             return;
+        //         }
+        //     }
+
+        //     // 清空路由复用信息
+        //     this.reuseTabService.clear();
+        //     this.tokenService.set({
+        //         token: '123456789',
+        //         name: this.userName.value,
+        //         email: `cipchk@qq.com`,
+        //         id: 10000,
+        //         time: +new Date
+        //     });
+        //     this.router.navigate(['/']);
+        // }, 1000);
     }
 
     // region: social
@@ -141,5 +152,37 @@ export class UserLoginComponent implements OnDestroy {
 
     ngOnDestroy(): void {
         if (this.interval$) clearInterval(this.interval$);
+    }
+
+    loginInWithUsername() {
+        this.authService.login(this.userName.value, this.password.value).subscribe(
+            data => {
+                this.loading = false;
+                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                    this.authDataService.changeAccount(data.data.account);
+                    this.authDataService.token = data.data.token;
+                    // 清空路由复用信息
+                    this.reuseTabService.clear();
+                    this.tokenService.set({
+                        token: '123456789',
+                        name: this.userName.value,
+                        email: `cipchk@qq.com`,
+                        id: 10000,
+                        time: +new Date
+                    });                    
+                    this.router.navigate(['/']);
+                    this.chatService.initStomp(); // 重新初始化websocket
+                } else {
+                    this.error = data.msg;
+                }
+            },
+            err => {
+                this.loading = false;
+                console.log(err);
+                this.error = err.toString();
+            }
+
+        );
+
     }
 }

@@ -178,6 +178,7 @@ import { DelonCacheModule } from '@delon/cache';
 import { DelonMockModule } from '@delon/mock';
 import * as MOCKDATA from '../../_mock';
 import { environment } from '@env/environment';
+
 const MOCKMODULE = !environment.production || environment.chore === true ?
                     [ DelonMockModule.forRoot({ data: MOCKDATA }) ] : [];
 
@@ -205,7 +206,7 @@ const MOCKMODULE = !environment.production || environment.chore === true ?
         // auth
         AlainAuthModule.forRoot({
             // ignores: [ `\\/login`, `assets\\/` ],
-            login_url: `/passport/login`
+            login_url: `/passport/login` // 转跳的路径，不是登陆api的url
         }),
         // acl
         AlainACLModule.forRoot(),
