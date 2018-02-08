@@ -211,9 +211,9 @@ const MOCKMODULE = !environment.production || environment.chore === true ?
         // acl
         AlainACLModule.forRoot(),
         // cache
-        DelonCacheModule.forRoot(),
+        DelonCacheModule.forRoot() 
         // mock
-        ...MOCKMODULE
+        // , ...MOCKMODULE // mock登录后台有问题，
     ]
 })
 export class DelonModule {

@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "description": "在ng-alain基础上开发的前端系统",
   "author": "newmann",
-  "homepage": "",
+  "homepage": "https://github.com/newmann/front-alain",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/newmann/front-alain/issues"
   },
   "engines": {
     "node": ">= 4.2.1",
@@ -17,6 +17,7 @@
     "ng": "ng",
     "start": "ng serve -o",
     "serve:hmr": "ng serve -o --hmr -e=hmr",
+    "debug": "ng serve -o --hmr -e=hmr --proxy-config proxy.conf.js",
     "build": "ng build --prod --build-optimizer",
     "analyze": "ng build --prod --build-optimizer --stats-json",
     "lint": "run-s lint:ts lint:style",

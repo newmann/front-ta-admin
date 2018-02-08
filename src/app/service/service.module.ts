@@ -15,7 +15,7 @@ import { API_URL_LOGIN } from 'app/service/constant/backend.url.constant';
       CustomStompRService,
       {
         provide: API_URL_LOGIN,
-        useValue: 'http://localhost:8090/api/auth/login'
+        useValue: '/api/auth/login'
       }
     ]
 })

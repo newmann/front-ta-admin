@@ -9,36 +9,52 @@ import { Account } from '../account/account.model';
 
 @Injectable()
 export class AuthDataService {
-    public token = ''; // 当前账户的token,初始值为空字符串
-    public currentAccount: Account = null; // 当前登录的用户
-    public currentAccountSubject: BehaviorSubject<Account> = new BehaviorSubject<Account>(null);
+    get Token(): string{
+        return this.token;
+    }
+    set Token(t: string){
+        this.token = t;
+        this.Token$.next(t);
+    }
+    private token = ''; // 当前账户的token,初始值为空字符串
+    get Account(): Account{
+        return this.account;
+    }
+    set Account(newAccount: Account){
+        this.account = newAccount;
+        this.Account$.next(newAccount);        
+    }
+    private account: Account = null; // 当前登录的用户
+    public Account$: BehaviorSubject<Account> = new BehaviorSubject<Account>(null);
+    public Token$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+
     constructor() { }
 
     get authenticated() {
-        return this.currentAccount !== null;
+        return this.account !== null;
     }
 
     // 当前登录用户id
     get currentUserId(): string {
-        return this.authenticated ? this.currentAccount.id : '';
+        return this.authenticated ? this.account.id : '';
     }
 
     // 用户账号
     get currentAccountDisplayName(): string {
-        if (!this.currentAccount) {
+        if (!this.account) {
             return '未知账户';
         } else {
-            return this.currentAccount.fullName + '[' + this.currentAccount.username + ']';
+            return this.account.fullName + '[' + this.account.username + ']';
         }
     }
 
     get currentUserObservable() {
-        return this.currentAccountSubject.asObservable;
+        return this.Account$.asObservable;
         // return this.afAuth.currentAccount;
     }
 
-    public changeAccount(newAccount: Account) {
-        this.currentAccount = newAccount;
-        this.currentAccountSubject.next(newAccount);
-    }
+    // public changeAccount(newAccount: Account) {
+    //     this.account = newAccount;
+    //     this.Account$.next(newAccount);
+    // }
 }

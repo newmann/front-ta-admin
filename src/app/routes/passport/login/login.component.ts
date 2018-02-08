@@ -36,8 +36,11 @@ export class UserLoginComponent implements OnDestroy {
         @Optional() @Inject(ReuseTabService) private reuseTabService: ReuseTabService,
         @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {
         this.form = fb.group({
-            userName: [null, [Validators.required, Validators.minLength(5)]],
-            password: [null, Validators.required],
+            // userName: [null, [Validators.required, Validators.minLength(5)]],
+            // password: [null, Validators.required],
+            userName: ['admin', [Validators.required, Validators.minLength(5)]],
+            password: ['20180118', Validators.required],
+
             mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
             captcha: [null, [Validators.required]],
             remember: [true]
@@ -159,15 +162,15 @@ export class UserLoginComponent implements OnDestroy {
             data => {
                 this.loading = false;
                 if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
-                    this.authDataService.changeAccount(data.data.account);
-                    this.authDataService.token = data.data.token;
+                    this.authDataService.Account = data.data.account;
+                    this.authDataService.Token = data.data.token;
                     // 清空路由复用信息
                     this.reuseTabService.clear();
                     this.tokenService.set({
-                        token: '123456789',
-                        name: this.userName.value,
-                        email: `cipchk@qq.com`,
-                        id: 10000,
+                        token: this.authDataService.Token,
+                        name: this.authDataService.Account.username,
+                        email: this.authDataService.Account.email,
+                        id: this.authDataService.Account.id,
                         time: +new Date
                     });                    
                     this.router.navigate(['/']);

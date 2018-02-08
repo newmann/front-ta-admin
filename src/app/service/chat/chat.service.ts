@@ -11,6 +11,8 @@ import { CustomStompRService } from './custom.stomp.r.service';
 import { StompHeaders } from '@stomp/ng2-stompjs/src/stomp-headers';
 import { ChatMessageModel } from './chat.message.model';
 import { exitCodeFromResult } from '@angular/compiler-cli';
+import { environment } from '@env/environment';
+import { NzMessageService } from 'ng-zorro-antd';
 /**
  * 
  * 
@@ -37,8 +39,30 @@ export class ChatService {
   publishHeaders: StompHeaders;
   subscribeHeaders: StompHeaders;
 
-  constructor(private authData: AuthDataService, private stompService: CustomStompRService) {
-    this.defaultUri = ChatService.WEBSOCKET_ENDPOINT + '?Authorization=' + this.authData.token;
+  constructor(private authData: AuthDataService,
+    private msg: NzMessageService,
+    private stompService: CustomStompRService) {
+
+    this.authData.Token$.subscribe(t => {
+      this.defaultUri = environment.WEBSOCKET + ChatService.WEBSOCKET_ENDPOINT + '?Authorization=' + t;
+      this.stompConfig.url = this.defaultUri;
+    });
+
+    this.authData.Account$.subscribe(a => {
+      this.stompConfig.headers = {
+        user: a.id,
+        passcode: '123456'
+      };
+      this.publishHeaders = {
+        user: a.id,
+        passcode: '123456'
+      };
+      this.subscribeHeaders = {
+        user: a.id,
+        passcode: '123456'
+      };
+
+    });
 
     this.stompConfig = {
       // Which server?
@@ -101,12 +125,14 @@ export class ChatService {
       .map((state: number) => StompState[state]);
     this.generalMessage = this.stompService.subscribe(ChatService.WEBSOCKET_CHANNEL_TOPIC)
       .map((message: Message) => {
+        this.msg.info('订阅topic频道成功。');
         console.log('topic:' + message.body);
         return message.body;
       })
       ;
     this.chatMessage = this.stompService.subscribe(ChatService.WEBSOCKET_CHANNEL_SYSTEM)
       .map((message: Message) => {
+        this.msg.info('订阅system频道成功。');
         console.log('/user/system:' + message.body);
         return JSON.parse(message.body);
       })
