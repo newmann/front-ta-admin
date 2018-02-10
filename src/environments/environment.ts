@@ -5,8 +5,8 @@
 
 export const environment = {
     chore: false,
-    // SERVER_URL: `./`,
-    SERVER_URL: ``,
+    SERVER_URL: `./`,
+    // SERVER_URL: '',
     HOST: 'http://localhost:8090',
     WEBSOCKET: 'ws://localhost:8090',
     production: false,

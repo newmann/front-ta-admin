@@ -1,15 +1,15 @@
 import { LoginResultModel } from './login.result.model';
 import { ResultBody } from './../common/result.body.model';
-import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import {AuthDataService} from './auth.data.service';
 import { Account } from './../account/account.model';
 import { Observable } from 'rxjs/Observable';
 import { API_URL_LOGIN } from 'app/service/constant/backend.url.constant';
+import { _HttpClient } from '@delon/theme';
 
 @Injectable()
 export class AuthService {
-    constructor(private http: HttpClient, 
+    constructor(private http: _HttpClient, 
         @Inject(API_URL_LOGIN) private apiURLLogin) {
 
     }

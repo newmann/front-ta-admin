@@ -173,8 +173,9 @@ export class UserLoginComponent implements OnDestroy {
                         id: this.authDataService.Account.id,
                         time: +new Date
                     });                    
-                    this.router.navigate(['/']);
-                    this.chatService.initStomp(); // 重新初始化websocket
+                    this.chatService.initAndConnect(); // 重新初始化websocket
+                    this.router.navigate(['/dashboard/v1']);
+
                 } else {
                     this.error = data.msg;
                 }

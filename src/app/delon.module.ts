@@ -213,7 +213,7 @@ const MOCKMODULE = !environment.production || environment.chore === true ?
         // cache
         DelonCacheModule.forRoot() 
         // mock
-        // , ...MOCKMODULE // mock登录后台有问题，
+        , ...MOCKMODULE // mock登录后台有问题，
     ]
 })
 export class DelonModule {

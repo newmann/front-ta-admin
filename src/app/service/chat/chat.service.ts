@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { Message } from '@stomp/stompjs';
@@ -13,6 +13,8 @@ import { ChatMessageModel } from './chat.message.model';
 import { exitCodeFromResult } from '@angular/compiler-cli';
 import { environment } from '@env/environment';
 import { NzMessageService } from 'ng-zorro-antd';
+import { Subscription } from 'rxjs/Subscription';
+import { StompSubscribeModel } from './stomp.subscribe.model';
 /**
  * 
  * 
@@ -20,7 +22,12 @@ import { NzMessageService } from 'ng-zorro-antd';
  * @class ChatService
  */
 @Injectable()
-export class ChatService {
+export class ChatService implements OnDestroy {
+  ngOnDestroy(): void {
+    // this.tokenSubscription.unsubscribe();
+    // this.accountSubscription.unsubscribe();
+  }
+
   public static WEBSOCKET_ENDPOINT = '/beiyelin';
   public static WEBSOCKET_CHANNEL_TOPIC = '/topic';
   public static WEBSOCKET_CHANNEL_SYSTEM = '/user/system';
@@ -28,42 +35,86 @@ export class ChatService {
   public static WEBSOCKET_PUBLISH_CRUD = '/app/crud/submit';
   public static WEBSOCKET_PUBLISH_CHAT = '/app/chat/submit';
 
-  websocketState: Observable<String>;
-  generalMessage: Observable<String>;
-  chatMessage: Observable<ChatMessageModel<any>>;
+  websocketState$: Observable<String>;
+  generalMessage$: Observable<String>;
+  chatMessage$: Observable<ChatMessageModel<any>>;
 
-  defaultUri: string; // = "http://localhost:8090/beiyelin?Authorization=123456";
+  generalSubscribe: StompSubscribeModel;
+  chatSubscribe: StompSubscribeModel;
+
+  defaultUri = ''; // = "http://localhost:8090/beiyelin?Authorization=123456";
 
   stompConfig: StompConfig; // 链接和断开的时候使用
   // 在publish之后，publis的url会写到headers中，造成后续断开操作在后台报错，所hi这里需要单独设置一个
   publishHeaders: StompHeaders;
   subscribeHeaders: StompHeaders;
 
+  // tokenSubscription: Subscription;
+  // accountSubscription: Subscription;
+
+  // token$ = {
+  //   next: t => {
+  //     this.defaultUri = environment.WEBSOCKET + ChatService.WEBSOCKET_ENDPOINT + '?Authorization=' + t;
+  //     this.stompConfig.url = this.defaultUri;
+  //   },
+  //   error: e => { console.log(e); }
+  // };
+  // account$ = {
+  //   next: a => {
+  //     this.stompConfig.headers = {
+  //       user: a.id,
+  //       passcode: '123456'
+  //     };
+  //     this.publishHeaders = {
+  //       user: a.id,
+  //       passcode: '123456'
+  //     };
+  //     this.subscribeHeaders = {
+  //       user: a.id,
+  //       passcode: '123456'
+  //     };
+  //   },
+  //   error: e => { console.log(e); }
+  // };
+
   constructor(private authData: AuthDataService,
     private msg: NzMessageService,
     private stompService: CustomStompRService) {
+    this.websocketState$ = this.stompService.state
+      .map((state: number) => StompState[state]);
 
-    this.authData.Token$.subscribe(t => {
-      this.defaultUri = environment.WEBSOCKET + ChatService.WEBSOCKET_ENDPOINT + '?Authorization=' + t;
-      this.stompConfig.url = this.defaultUri;
+
+    // 在stomp连接接成功后订阅两个频道
+    this.stompService.connectObservable.subscribe(statue => {
+
+      this.generalMessage$ = this.stompService.subscribe(ChatService.WEBSOCKET_CHANNEL_TOPIC)
+        .map((message: Message) => {
+          console.log('topic:' + message.body);
+          return message.body;
+        })
+        ;
+      this.generalMessage$.subscribe((m) => {
+          console.log(m);
+      });  
+
+      this.chatMessage$ = this.stompService.subscribe(ChatService.WEBSOCKET_CHANNEL_SYSTEM)
+        .map((message: Message) => {
+          console.log('/user/system:' + message.body);
+          return JSON.parse(message.body);
+        })
+        ;
+      this.chatMessage$.subscribe((m) => {
+        console.log(m.data);
+      });
+
     });
 
-    this.authData.Account$.subscribe(a => {
-      this.stompConfig.headers = {
-        user: a.id,
-        passcode: '123456'
-      };
-      this.publishHeaders = {
-        user: a.id,
-        passcode: '123456'
-      };
-      this.subscribeHeaders = {
-        user: a.id,
-        passcode: '123456'
-      };
+  }
 
-    });
-
+  private initStompConfig() {
+    // 2
+    this.defaultUri = environment.WEBSOCKET + ChatService.WEBSOCKET_ENDPOINT + '?Authorization=' + this.authData.currentUserId;
+    // 先初始化变量，后订阅authData
     this.stompConfig = {
       // Which server?
       url: this.defaultUri,
@@ -72,6 +123,7 @@ export class ChatService {
       // Typical keys: login, passcode, host
       headers: {
         user: this.authData.currentUserId,
+        token: this.authData.Token,
         passcode: '123456'
       },
 
@@ -97,12 +149,25 @@ export class ChatService {
       user: this.authData.currentUserId,
       passcode: '123456'
     };
-
-
   }
+  /**
+   * 1、判断是否已经登录
+   * 2、断开现有链接
+   * 2、初始化config
+   * 3、登录、订阅
+   */
+  public initAndConnect() {
+    // 1    
+    if (!this.authData.authenticated) {
+      console.log('还没有登录，无法打开消息通道。');
+      this.msg.warning('还没有登录，无法打开消息通道。');
+      return;
+    }
+    // 2
+    this.disconnectStomp();
 
-  public initStomp() {
-
+    // 3
+    this.initStompConfig();
     // if (this.socketjs == null) {
     //   this.socketjs = new SockJS(this.defaultUri);
     // }
@@ -118,83 +183,71 @@ export class ChatService {
     //       console.log('err', err);
     //     },
     //   );
+    // 4
+    this.connectStomp();
 
+    this.sendMsg('test');
+
+  }
+
+  private connectStomp() {
     this.stompService.config = this.stompConfig;
     this.stompService.initAndConnect();
-    this.websocketState = this.stompService.state
-      .map((state: number) => StompState[state]);
-    this.generalMessage = this.stompService.subscribe(ChatService.WEBSOCKET_CHANNEL_TOPIC)
-      .map((message: Message) => {
-        this.msg.info('订阅topic频道成功。');
-        console.log('topic:' + message.body);
-        return message.body;
-      })
-      ;
-    this.chatMessage = this.stompService.subscribe(ChatService.WEBSOCKET_CHANNEL_SYSTEM)
-      .map((message: Message) => {
-        this.msg.info('订阅system频道成功。');
-        console.log('/user/system:' + message.body);
-        return JSON.parse(message.body);
-      })
-      ;
-
+    // this.generalMessage$ = this.stompService.subscribe(ChatService.WEBSOCKET_CHANNEL_TOPIC)
+    //   .map((message: Message) => {
+    //     console.log('收到topic频道消息:' + message.body);
+    //     return message.body;
+    //   })
+    //   ;
+    // this.chatMessage$ = this.stompService.directSubscribe(ChatService.WEBSOCKET_CHANNEL_SYSTEM)
+    //   .map((message: Message) => {
+    //     console.log('收到/user/system频道消息:' + message.body);
+    //     return JSON.parse(message.body);
+    //   })
+    //   ;
+    // this.chatMessage$.subscribe((m) => {
+    //   console.log(m.data);
+    // });
   }
 
-  //   public connectWS(uri: string){
-  //     if ((this.ws == null) || (this.ws.readyState=== WebSocket.CLOSED)){
-  //       this.ws = new WebSocket(uri);
-  //       this.ws.onopen = function(e) {
-  //         // Check the protocol chosen by the server
-  //         console.log("WS opened ");
-  //       };
-  // // Event handler for receiving text messages
-  //       this.ws.onmessage = function(e) {
-  //         if(typeof e.data === "string"){
-  //           console.log("WS String message received", e, e.data);
-  //         } else {
-  //           console.log("WS Other message received", e, e.data);
-  //         }
-  //       };
-  // // Event handler for errors in the WebSocket object
-  //       this.ws.onerror = function(e) {
-  //         console.log("WS Error: " , e);
-  //         //Custom function for handling errors
-  //
-  //       };
-  // // Event handler for closed connections
-  //       this.ws.onclose = function(e) {
-  //         console.log("WS Connection closed", e);
-  //       };
-  //     }
-  //   }
-  //
-  //   public disconnectWS(){
-  //     this.ws.close();
-  //   }
-  //
-  //   public connectSockjs(uri: string){
-  //
-  //     if (this.socketjs == null) {
-  //       this.socketjs = new SockJS(uri);
-  //       console.log('connect Sockjs')
-  //     }
-  //
-  //   }
-  //   public disconnectSockjs(){
-  //     if (this.socketjs != null) {
-  //       this.socketjs.close();
-  //       this.socketjs = null;
-  //       console.log('disconnect Sockjs')
-  //     }
-  //
-  //   }
-  public connectStomp(uri: string) {
+  /**
+ * 1、判断是否已经登录
+ * 2、断开现有链接
+ * 3、初始化config
+ * 4、设置指定的uri
+ * 5、登录、订阅
+ */
+  public connectTargetURI(uri: string) {
+    // 1    
+    if (!this.authData.authenticated) {
+      console.log('还没有登录，无法打开消息通道。');
+      this.msg.warning('还没有登录，无法打开消息通道。');
+      return;
+    }
+    // 2
+    this.disconnectStomp();
+    // 3
+    this.initStompConfig();
+    // 4
     this.stompConfig.url = uri;
-    this.initStomp();
-  }
-  public disconnectStomp() {
+    // 5
+    this.connectStomp();
 
-    this.stompService.disconnectWithHeader(this.stompConfig.headers);
+  }
+
+  public disconnectStomp() {
+    if (this.stompService.connected()) {
+      if (this.stompService.state.getValue() === StompState.CONNECTED) {
+        console.log(`Will unsubscribe from ${ChatService.WEBSOCKET_CHANNEL_TOPIC} at Stomp`);
+        // this.generalSubscribe.subscription.unsubscribe();
+        console.log(`Will unsubscribe from ${ChatService.WEBSOCKET_CHANNEL_SYSTEM} at Stomp`);
+        // this.chatSubscribe.subscription.unsubscribe();
+
+      } else {
+        console.log(`Stomp not connected, no need to unsubscribe at Stomp`);
+      }
+      this.stompService.disconnectWithHeader(this.stompConfig.headers);
+    }
   }
 
 
