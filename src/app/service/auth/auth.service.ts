@@ -1,5 +1,5 @@
 import { LoginResultModel } from './login.result.model';
-import { ResultBody } from './../common/result.body.model';
+import { ResultBody } from '../model/result.body.model';
 import { Inject, Injectable } from '@angular/core';
 import {AuthDataService} from './auth.data.service';
 import { Account } from './../account/account.model';
@@ -9,7 +9,7 @@ import { _HttpClient } from '@delon/theme';
 
 @Injectable()
 export class AuthService {
-    constructor(private http: _HttpClient, 
+    constructor(private http: _HttpClient,
         @Inject(API_URL_LOGIN) private apiURLLogin) {
 
     }

@@ -7,7 +7,7 @@ import { SocialService, SocialOpenType, ITokenService, DA_SERVICE_TOKEN } from '
 import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
 import { AuthService } from 'app/service/auth/auth.service';
-import { ResultBody } from 'app/service/common/result.body.model';
+import { ResultBody } from 'app/service/model/result.body.model';
 import { AuthDataService } from 'app/service/auth/auth.data.service';
 import { ChatService } from 'app/service/chat/chat.service';
 
@@ -172,7 +172,7 @@ export class UserLoginComponent implements OnDestroy {
                         email: this.authDataService.Account.email,
                         id: this.authDataService.Account.id,
                         time: +new Date
-                    });                    
+                    });
                     this.chatService.initAndConnect(); // 重新初始化websocket
                     this.router.navigate(['/dashboard/v1']);
 

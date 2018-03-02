@@ -3,7 +3,7 @@
  * @Author: newmann
  * @Date: Created in 21:05 2018-01-22
  */
-import { ModelBaseModel } from '../common/model.base.model';
+import { ModelBaseModel } from '../model/model.base.model';
 import { Permission } from 'app/service/account/permission.model';
 
 export class Account extends ModelBaseModel {
