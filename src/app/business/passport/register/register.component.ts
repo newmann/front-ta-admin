@@ -35,7 +35,8 @@ export class UserRegisterComponent implements OnDestroy {
             confirm: [null, [Validators.required, Validators.minLength(6), UserRegisterComponent.passwordEquar]],
             mobilePrefix: [ '+86' ],
             mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
-            captcha: [null, [Validators.required]]
+            captcha: [null, []]
+            // captcha: [null, [Validators.required]]
         });
     }
 

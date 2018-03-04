@@ -35,6 +35,15 @@
                 "translate": "dashboard_workplace"
             }]
         }, {
+            "text": "账户管理",
+            "translate": "account",
+            "icon": "icon-speedometer",
+            "children": [{
+                "text": "角色管理",
+                "link": "/account/role/list",
+                "translate": "role_list"
+            }]
+        },{
             "text": "快捷菜单",
             "translate": "shortcut",
             "icon": "icon-rocket",

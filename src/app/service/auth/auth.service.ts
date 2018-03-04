@@ -6,6 +6,8 @@ import { Account } from './../account/account.model';
 import { Observable } from 'rxjs/Observable';
 import { API_URL_LOGIN } from 'app/service/constant/backend.url.constant';
 import { _HttpClient } from '@delon/theme';
+import {UUID} from "angular2-uuid";
+import {getEmailName} from "../utils/string.utils";
 
 @Injectable()
 export class AuthService {
@@ -35,6 +37,20 @@ export class AuthService {
         //   }
         // );
     }
+    /**
+     *  邮箱注册
+     * */
+    emailRegister(email: string, password: string, mobile?: string) :Observable < ResultBody < Account >> {
+        let registerAccount = new Account();
+        registerAccount.username = UUID.UUID();//给出一个uuid,以便保证后台的处理要求
+        registerAccount.password = password;
+        registerAccount.nickname = getEmailName(email);
+        registerAccount.email = email;
+        registerAccount.phone = mobile;
+
+        return this.http.post<ResultBody<Account>>("/api/auth/register", registerAccount);
+    }
+
     // githubLogin() {
         // const provide = new firebase.auth.GithubAuthProvider();
         // return this.afAuth.auth.signInWithPopup(provide).then((credential) => {
@@ -73,15 +89,6 @@ export class AuthService {
         // });
     // }
 
-    /**
-     *  邮箱注册
-     * */
-    // emailSignUp(email: string, password: string) {
-        // return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then((user) => {
-        //   this.currentAccount = user;
-        //   this.updateUserData();
-        // }).catch(error => console.log(error));
-    // }
 
     // resetPassword(email: string) {
         // const fbAuth = firebase.auth();

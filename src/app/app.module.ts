@@ -8,7 +8,7 @@ import { DelonModule } from './delon.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
-import { RoutesModule } from './routes/routes.module';
+// import { RoutesModule } from './routes/routes.module';
 import { LayoutModule } from './layout/layout.module';
 import { StartupService } from '@core/startup/startup.service';
 import { DefaultInterceptor } from '@core/net/default.interceptor';
@@ -24,6 +24,7 @@ import { ALAIN_I18N_TOKEN } from '@delon/theme';
 import { I18NService } from '@core/i18n/i18n.service';
 import { JWTInterceptor} from '@delon/auth';
 import { API_URL_LOGIN } from 'app/service/constant/backend.url.constant';
+import {BusinessModule} from "./business/business.module";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -47,7 +48,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         ServiceModule, // 自定义服务模块
         SharedModule,
         LayoutModule,
-        RoutesModule,
+        BusinessModule,
         // i18n
         TranslateModule.forRoot({
             loader: {
@@ -55,7 +56,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient]
             }
-        })      
+        })
     ],
     providers: [
         { provide: LOCALE_ID, useValue: 'zh-Hans' },

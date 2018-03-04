@@ -3,9 +3,9 @@
  * @Author: newmann
  * @Date: Created in 21:04 2018-01-22
  */
-import { ModelBaseModel } from '../model/model.base.model';
+import { BaseModel } from '../model/base.model';
 
-export class Permission extends ModelBaseModel {
+export class Permission extends BaseModel {
 
     packageName: string;
     moduleName: string;
