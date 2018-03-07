@@ -25,11 +25,11 @@ const routes: Routes = [
     {
         path: 'list',
         children: [
-            { path: 'table-listData', component: ProTableListComponent },
-            { path: 'basic-listData', component: ProBasicListComponent },
-            { path: 'card-listData', component: ProCardListComponent },
-            { path: 'cover-card-listData', component: ProCoverCardListComponent },
-            { path: 'filter-card-listData', component: ProFilterCardListComponent },
+            { path: 'table-list', component: ProTableListComponent },
+            { path: 'basic-list', component: ProBasicListComponent },
+            { path: 'card-list', component: ProCardListComponent },
+            { path: 'cover-card-list', component: ProCoverCardListComponent },
+            { path: 'filter-card-list', component: ProFilterCardListComponent },
             { path: 'search', component: ProSearchComponent }
         ]
     },

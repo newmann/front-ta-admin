@@ -14,11 +14,14 @@ export class RoleListComponent  implements OnInit {
     q: any = {
         pi: 1, //当前页
         ps: 10, //每页条数
+        name: '',
         sorter: '',
+        modifyDate: Date(),
         status: null,
         statusList: []
     };
     expandQuery = false;//是否展开查询条件界面
+    expandForm = false;
 
     // pi = 1;//当前页
     // ps: number;//每页条数
@@ -26,7 +29,8 @@ export class RoleListComponent  implements OnInit {
 
     listData = [];//显示内容
     loading = false;
-    args: any = { };//查询条件
+    // args: any = { };//查询条件
+    sortMap: any = {};
 
     selectedRows: any[] = [];
     indeterminate = false;
@@ -44,6 +48,7 @@ export class RoleListComponent  implements OnInit {
     ) {
         this.q.ps = configService.PAGESIZE;
         this.q.statusList = RoleStatus;
+        this.newRole = new Role();
     }
 
     checkAll() {
@@ -107,6 +112,36 @@ export class RoleListComponent  implements OnInit {
     }
 
     clear(){
-        this.args = {};
+        this.q.name = '';
+        this.q.modifyDate = Date();
+
+    }
+
+    batchDelete(){
+
+    }
+
+    batchApproval(){
+
+    }
+
+    sort(field: string, value: any) {
+        this.sortMap = {};
+        this.sortMap[field] = value;
+        this.q.sorter = value ? `${field}_${value}` : '';
+        this.search();
+    }
+
+    refreshStatus() {
+        // const allChecked = this.curRows.every(value => value.disabled || value.checked);
+        // const allUnChecked = this.curRows.every(value => value.disabled || !value.checked);
+        // this.allChecked = allChecked;
+        // this.indeterminate = (!allChecked) && (!allUnChecked);
+        // this.selectedRows = this.data.filter(value => value.checked);
+        // this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
+    }
+
+    update(id: string){
+
     }
 }

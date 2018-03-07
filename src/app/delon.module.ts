@@ -136,7 +136,8 @@ import {
     AdUtilsModule,
     AdFullContentModule,
     AdXlsxModule,
-    AdZipModule
+    AdZipModule,
+    AdNumberToChineseModule
 } from '@delon/abc';
 export const ABCMODULES = [
     AdSimpleTableModule,
@@ -163,14 +164,14 @@ export const ABCMODULES = [
     AdUtilsModule,
     AdFullContentModule,
     AdXlsxModule,
-    AdZipModule
+    AdZipModule,
+    AdNumberToChineseModule
 ];
 // endregion
 
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { NgZorroAntdExtraModule } from 'ng-zorro-antd-extra';
 import { AlainThemeModule } from '@delon/theme';
-import { AlainABCModule } from '@delon/abc';
 import { AlainAuthModule } from '@delon/auth';
 import { AlainACLModule } from '@delon/acl';
 import { DelonCacheModule } from '@delon/cache';
@@ -178,7 +179,6 @@ import { DelonCacheModule } from '@delon/cache';
 import { DelonMockModule } from '@delon/mock';
 import * as MOCKDATA from '../../_mock';
 import { environment } from '@env/environment';
-
 const MOCKMODULE = !environment.production || environment.chore === true ?
                     [ DelonMockModule.forRoot({ data: MOCKDATA }) ] : [];
 
@@ -202,18 +202,19 @@ const MOCKMODULE = !environment.production || environment.chore === true ?
         AdAvatarListModule.forRoot(), AdDescListModule.forRoot(), AdEllipsisModule.forRoot(), AdExceptionModule.forRoot(), AdExceptionModule.forRoot(),
         AdNoticeIconModule.forRoot(), AdNumberInfoModule.forRoot(), AdProHeaderModule.forRoot(), AdResultModule.forRoot(), AdStandardFormRowModule.forRoot(),
         AdTagSelectModule.forRoot(), AdTrendModule.forRoot(), AdUtilsModule.forRoot(), AdChartsModule.forRoot(), AdCountDownModule.forRoot(), AdSimpleTableModule.forRoot(),
-        AdReuseTabModule.forRoot(), AdFullContentModule.forRoot(), AdXlsxModule.forRoot(), AdZipModule.forRoot(),
+        AdReuseTabModule.forRoot(), AdFullContentModule.forRoot(), AdXlsxModule.forRoot(), AdZipModule.forRoot(), AdNumberToChineseModule.forRoot(),
         // auth
         AlainAuthModule.forRoot({
+            // 受限于 https://github.com/cipchk/ng-alain/issues/246， 只支持字符串形式
             // ignores: [ `\\/login`, `assets\\/` ],
-            login_url: `/passport/login` // 转跳的路径，不是登陆api的url
+            login_url: `/passport/login`
         }),
         // acl
         AlainACLModule.forRoot(),
         // cache
-        DelonCacheModule.forRoot() 
+        DelonCacheModule.forRoot(),
         // mock
-        , ...MOCKMODULE // mock登录后台有问题，
+        ...MOCKMODULE
     ]
 })
 export class DelonModule {
