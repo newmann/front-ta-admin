@@ -5,7 +5,8 @@
  **/
 import {BaseModel} from "../model/base.model";
 import {Permission} from "./permission.model";
-import {StatusModel} from "../model/status.model";
+import {DefineStatus, IStatusItem} from "../model/status.model";
+import {Injectable} from "@angular/core";
 
 class Role extends BaseModel{
     name: string;
@@ -14,11 +15,14 @@ class Role extends BaseModel{
     accountList: Set<Account>;
 
 }
-//角色的状态定义
-const RoleStatus : StatusModel[] = [
-    {value:1,caption:"正常"},
-    {value:0, caption: '锁定'},
-    {value:-1, caption: '删除'}
-    ];
 
-export {Role, RoleStatus}
+
+//角色的状态定义
+const enum RoleStatus{
+    NORMAL_ROLE = 1 ,
+    LOCKED_ROLE = 0,
+    DELETED_ROLE = -1
+}
+
+
+export {Role,RoleStatus}

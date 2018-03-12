@@ -6,7 +6,7 @@
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="qName">角色名称</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="q.name" name="qName" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="qName"></nz-input>
+                        <nz-input [(ngModel)]="q.name" name="'qName'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="'qName'"></nz-input>
                     </div>
                 </div>
             </div>
@@ -20,6 +20,15 @@
                     </div>
                 </div>
             </div>
+            <div *ngIf="expandQuery" nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="modifyDateBegin">起始最后修改日期</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-datepicker [(ngModel)] = "q.modifyDateBegin" [nzSize]="'large'" [nzPlaceHolder]="'请输入更新日期'" nzId="modifyDateBegin" class="d-block"></nz-datepicker>
+                    </div>
+                </div>
+            </div>
+
             <div *ngIf="expandQuery" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="updatedAt">更新日期</label></div>
@@ -106,7 +115,7 @@
             </td>
             <td nz-td>{{i.name}}</td>
             <td nz-td>{{i.remarks}}</td>
-            <td nz-td><nz-badge [nzStatus]="i.status" [nzText]="i.status"></nz-badge></td>
+            <td nz-td>{{getStatusCaption(i.status)}}</td>
             <td nz-td>{{i.modifyAction.modifyDateTime | _date}}</td>
             <td nz-td>
                 <a (click)="update(i.id)">修改</a>
@@ -119,15 +128,16 @@
           (nzOnCancel)="modalVisible=false" (nzOnOk)="saveNew()">
     <ng-template #modalContent>
         <div nz-form-item class="d-flex">
-            <div nz-form-label><label for="roleName">名称</label></div>
-            <div nz-form-control class="flex-1">
-                <nz-input [(ngModel)]="newRole.name" name="roleName" [nzSize]="'large'" [nzPlaceHolder]="'名称'" nzId="roleName"></nz-input>
+            <div nz-form-label><label for="roleName" nz-form-item-required>名称</label></div>
+            <div nz-form-control class="flex-1" nzHasFeedback>
+                <nz-input [(ngModel)]="newRole.name" formControlName="roleName" [nzSize]="'large'" [nzPlaceHolder]="'名称'" nzId="'roleName'"></nz-input>
+                <div nz-form-explain *ngIf="(roleName.dirty || roleName.touch) && roleName.errors?.required">请输入角色名称</div>
             </div>
         </div>
         <div nz-form-item class="d-flex">
             <div nz-form-label><label for="remarks">备注</label></div>
             <div nz-form-control class="flex-1">
-                <nz-input [(ngModel)]="newRole.remarks" name="remarks" [nzSize]="'large'" [nzPlaceHolder]="'请输入备注'" nzId="remarks"></nz-input>
+                <nz-input [(ngModel)]="newRole.remarks" formControlName="remarks" [nzSize]="'large'" [nzPlaceHolder]="'请输入备注'" nzId="'remarks'"></nz-input>
             </div>
         </div>
     </ng-template>

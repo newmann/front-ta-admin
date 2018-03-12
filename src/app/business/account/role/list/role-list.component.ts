@@ -5,6 +5,7 @@ import {RoleService} from "../../../../service/account/role.service";
 import {ConfigService} from "../../../../service/constant/config.service";
 import {ResultBody} from "../../../../service/model/result.body.model";
 import {Role, RoleStatus} from "../../../../service/account/role.model";
+import {IStatusItem} from "../../../../service/model/status.model";
 
 @Component({
   selector: 'role-list',
@@ -41,13 +42,12 @@ export class RoleListComponent  implements OnInit {
     newRole: Role;
 
     constructor(
-        private http: _HttpClient,
         private message: NzMessageService,
         private roleService: RoleService,
         private configService: ConfigService
     ) {
         this.q.ps = configService.PAGESIZE;
-        this.q.statusList = RoleStatus;
+        this.q.statusList = RoleService.statusArray();
         this.newRole = new Role();
     }
 
@@ -83,7 +83,29 @@ export class RoleListComponent  implements OnInit {
      * 保存新增内容
      */
     saveNew(){
-        // this.roleService.
+        // this.showMsg(JSON.stringify(this.newRole));
+        //设置保存的对象状态
+        this.newRole.status = RoleStatus.NORMAL_ROLE;
+        this.roleService.add(this.newRole).subscribe(
+            data => {
+                this.loading = false;
+                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                    //正确获取数据
+                    //保存正确后：1、显示成功数据，2、添加到显示界面中，3、掩藏新增界面
+                    this.showMsg('成功新增角色！');
+                    this.listData.push(data.data);
+                    this.modalVisible = false;
+
+                } else {
+                    this.showMsg(data.msg);
+                }
+            },
+            err => {
+                this.loading = false;
+                console.log(err);
+                this.showMsg( err.toString());
+            }
+        )
     }
     /**
      * 查找
@@ -143,5 +165,9 @@ export class RoleListComponent  implements OnInit {
 
     update(id: string){
 
+    }
+
+    getStatusCaption(status: number): string{
+        return RoleService.getStatusCaption(status);
     }
 }

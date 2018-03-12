@@ -42,7 +42,12 @@
                 "text": "角色管理",
                 "link": "/account/role/list",
                 "i18n": "role_list"
-            }]
+            },{
+                "text": "角色新增",
+                "link": "/account/role/add",
+                "i18n": "role_add"
+            }
+            ]
         },{
             "text": "快捷菜单",
             "i18n": "shortcut",

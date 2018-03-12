@@ -4,6 +4,7 @@ import { ImageCropperModule } from 'ng2-img-cropper';
 import { SharedModule } from '@shared/shared.module';
 import {AccountRoutingModule} from "./account-routing.module";
 import {RoleListComponent} from "./role/list/role-list.component";
+import { RoleOperComponent } from './role/oper/role-oper.component';
 
 
 
@@ -15,7 +16,8 @@ import {RoleListComponent} from "./role/list/role-list.component";
         ImageCropperModule
     ],
     declarations: [
-        RoleListComponent
+        RoleListComponent,
+        RoleOperComponent
     ]
 })
 export class AccountModule { }

@@ -3,11 +3,13 @@ import {_HttpClient} from "@delon/theme";
 import {ResultBody} from "../model/result.body.model";
 import {LoginResultModel} from "../auth/login.result.model";
 import {Observable} from "rxjs/Observable";
-import {Role} from "./role.model";
+import {Role, RoleStatus} from "./role.model";
 import {Account} from "./account.model";
 import {PageRespModel} from "../model/page.resp.model";
 import {PageReqModel} from "../model/page.req.model";
 import {ConfigService} from "../constant/config.service";
+import {I18NService} from "@core/i18n/i18n.service";
+import {IStatusItem} from "../model/status.model";
 
 /**
  * @Description: 角色管理service
@@ -17,7 +19,25 @@ import {ConfigService} from "../constant/config.service";
 @Injectable()
 export class RoleService{
     constructor(private http: _HttpClient,
-                private configServer:ConfigService){}
+                private configServer:ConfigService,
+                private i18nService: I18NService){}
+
+    static getStatusCaption(status:number): string{
+        switch (status){
+            case RoleStatus.NORMAL_ROLE: return '正常';
+            case RoleStatus.LOCKED_ROLE: return '锁定';
+            case RoleStatus.DELETED_ROLE: return "删除";
+            default: return "unknown";
+
+        }
+    }
+    static statusArray() : IStatusItem[] {
+        return [
+            {value:RoleStatus.NORMAL_ROLE,caption:this.getStatusCaption(RoleStatus.NORMAL_ROLE)},
+            {value:RoleStatus.LOCKED_ROLE,caption:this.getStatusCaption(RoleStatus.LOCKED_ROLE)},
+            {value:RoleStatus.DELETED_ROLE,caption:this.getStatusCaption(RoleStatus.DELETED_ROLE)}
+            ];
+    }
 
     /**
      * 返回所有正常状态的角色
@@ -49,10 +69,14 @@ export class RoleService{
         return this.http.post< ResultBody < PageRespModel<Role> >>("api/role/find-page-normal",page);
     }
 
-    add(name: string): Observable< ResultBody < Role >> {
-        let newItem = new Role();
-        newItem.name = name;
-        return this.http.post<ResultBody<Role>>("/api/role/add", newItem);
+    // add(name: string): Observable< ResultBody < Role >> {
+    //     let newItem = new Role();
+    //     newItem.name = name;
+    //     return this.http.post<ResultBody<Role>>("/api/role/add", newItem);
+    // }
+
+    add(item: Role):Observable< ResultBody < Role >> {
+        return this.http.post<ResultBody<Role>>("/api/role/add", item);
     }
 
     update(updateItem: Role):Observable< ResultBody < Role >> {
@@ -63,5 +87,4 @@ export class RoleService{
         return this.http.post<ResultBody<boolean>>("/api/role/check-name-available", name);
 
     }
-
 }
