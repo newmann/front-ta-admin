@@ -38,11 +38,17 @@
             <div nz-form-control nz-col [nzSpan]="20" [nzOffset]="4">
                 <button nz-button [nzType]="'primary'" [disabled]="form.invalid">保存</button>
                 <button nz-button (click)="reset()">重置</button>
-                <button nz-button (click)="test()">测试</button>
-                <ng-container>
-                    <p>{{testResult}}</p>
-                </ng-container>
+
+
             </div>
         </div>
     </form>
+    <div class="mb-md">
+        <button nz-button (click)="test()" [nzType]="'primary'" [nzSize]="'large'">
+            <i class="anticon anticon-plus"></i><span>测试</span>
+        </button>
+        <ng-container  *ngIf="testResult.length > 0">
+            <p>{{testResult}}</p>
+        </ng-container>
+    </div>
 </nz-card>

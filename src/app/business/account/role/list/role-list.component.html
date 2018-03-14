@@ -130,14 +130,14 @@
         <div nz-form-item class="d-flex">
             <div nz-form-label><label for="roleName" nz-form-item-required>名称</label></div>
             <div nz-form-control class="flex-1" nzHasFeedback>
-                <nz-input [(ngModel)]="newRole.name" formControlName="roleName" [nzSize]="'large'" [nzPlaceHolder]="'名称'" nzId="'roleName'"></nz-input>
+                <nz-input [(ngModel)]="newRole.name"  [nzSize]="'large'" [nzPlaceHolder]="'名称'" nzId="'roleName'"></nz-input>
                 <div nz-form-explain *ngIf="(roleName.dirty || roleName.touch) && roleName.errors?.required">请输入角色名称</div>
             </div>
         </div>
         <div nz-form-item class="d-flex">
             <div nz-form-label><label for="remarks">备注</label></div>
             <div nz-form-control class="flex-1">
-                <nz-input [(ngModel)]="newRole.remarks" formControlName="remarks" [nzSize]="'large'" [nzPlaceHolder]="'请输入备注'" nzId="'remarks'"></nz-input>
+                <nz-input [(ngModel)]="newRole.remarks" [nzSize]="'large'" [nzPlaceHolder]="'请输入备注'" nzId="'remarks'"></nz-input>
             </div>
         </div>
     </ng-template>
