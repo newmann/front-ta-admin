@@ -51,14 +51,16 @@ export class RoleOperComponent implements OnInit {
         private subject: NzModalSubject,
         private fb: FormBuilder
 
-    ) { }
-
-    ngOnInit() {
+    ) {
         //绑定验证模式
         this.form = this.fb.group({
             name: [null, Validators.compose([Validators.required, Validators.minLength(2)]), this.nameValidator],
             remarks: [null]
         });
+    }
+
+    ngOnInit() {
+
 
         this.role = new Role();
         //本界面即支持新增，又支持修改和浏览
