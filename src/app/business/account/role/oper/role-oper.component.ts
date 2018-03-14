@@ -5,10 +5,11 @@ import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
 import {Role} from "../../../../service/account/role.model";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs/Observable";
-import {map, delay, debounceTime, flatMap, distinctUntilChanged, first} from 'rxjs/operators';
+import {map, delay, debounceTime, flatMap, distinctUntilChanged, first, catchError} from 'rxjs/operators';
 import {ResultBody} from "../../../../service/model/result.body.model";
 import {_HttpClient} from "@delon/theme";
 import {HttpClient} from "@angular/common/http";
+import {of} from "rxjs/observable/of";
 
 
 
@@ -20,6 +21,24 @@ export class RoleOperComponent implements OnInit {
     role:Role;
     form: FormGroup;
     loading = false;
+    testResult = '';
+    test(){
+        this.roleService.checkNameAvailable('test').subscribe(
+            (data) => {
+                console.log(data);
+                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                    // control.setErrors(null);
+                    // return Observable.throw(null);
+                    this.testResult = "不重复";
+                } else {
+                    // control.setErrors({ duplicate: true, error: true });
+                    this.testResult = "重复了";
+                    // return Observable.throw({duplicate: true, error: true })
+
+                }
+            }
+        )
+    }
 
     @Input() sourceRole: Role;
 
@@ -37,8 +56,8 @@ export class RoleOperComponent implements OnInit {
     ngOnInit() {
         //绑定验证模式
         this.form = this.fb.group({
-            name: [null, Validators.compose([Validators.required, Validators.minLength(2)]), this.nameValidator.bind(this)],
-            remarks: [null, []]
+            name: [null, Validators.compose([Validators.required, Validators.minLength(2)]), this.nameValidator],
+            remarks: [null]
         });
 
         this.role = new Role();
@@ -94,7 +113,8 @@ export class RoleOperComponent implements OnInit {
         return control.valueChanges.pipe(
             debounceTime(1000),
             distinctUntilChanged(),
-            flatMap((value) => {
+            flatMap((value) =>
+                {
 
                 // if (!value) {
                 //     return Observable.throw({ required: true });
@@ -102,38 +122,27 @@ export class RoleOperComponent implements OnInit {
                 console.log(value);
                 // return this.http.post<ResultBody<boolean>>('"/api/role/check-name-available"',value);
                 return this.roleService.checkNameAvailable(value);
-                // this.roleService.checkNameAvailable(value).subscribe(
-                //     data => {
-                //         console.log(data              );
-                //         if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
-                //             control.setErrors(null);
-                //             return Observable.throw(null);
-                //         } else {
-                //             control.setErrors({ duplicate: true, error: true });
-                //             return Observable.throw({duplicate: true, error: true })
-                //
-                //         }
-                //     },
-                //     err => {
-                //         console.log(err);
-                //         control.setErrors({other: true, error: true ,msg: err});
-                //         return Observable.throw({other: true, error: true, msg: err })
-                //
-                //     }
-                // )
-            }),
-            // map((data) =>{
-            //     console.log(data              );
-            //     if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
-            //         // control.setErrors(null);
-            //         return Observable.throw(null);
-            //     } else {
-            //         // control.setErrors({ duplicate: true, error: true });
-            //         return Observable.throw({duplicate: true, error: true })
-            //
-            //     }
-            //
-            // }),
+            }
+            ),
+            map((data) =>{
+                console.log(data              );
+                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                    // control.setErrors(null);
+                    // return Observable.throw(null);
+                    return null;
+                } else {
+                    // control.setErrors({ duplicate: true, error: true });
+                    return({ duplicate: true });
+                    // return Observable.throw({duplicate: true, error: true })
+
+                }
+
+            },
+                // catchError((err) => {
+                //     console.log(err);
+                //     return of({})
+                // })
+            ),
             first()
         );
     };

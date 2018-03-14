@@ -84,7 +84,7 @@ export class RoleService{
     }
 
     checkNameAvailable(name: string):Observable< ResultBody < boolean >> {
-        return this.http.post<ResultBody<boolean>>("/api/role/check-name-available", name);
+        return this.http.post<ResultBody<boolean>>("/api/role/check-name-available", {"name":name});
 
     }
 }
