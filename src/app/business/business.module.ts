@@ -15,6 +15,7 @@ import {Exception403Component} from "../routes/exception/403.component";
 import {Exception404Component} from "../routes/exception/404.component";
 import {DashboardV1Component} from "../routes/dashboard/v1/v1.component";
 import {WaitingComponent} from "./common/waiting/waiting.component";
+import {BylCRUDWaitingComponent} from "./common/waiting/crud-waiting.component";
 
 
 
@@ -35,12 +36,14 @@ import {WaitingComponent} from "./common/waiting/waiting.component";
         Exception403Component,
         Exception404Component,
         Exception500Component,
-        WaitingComponent
+        WaitingComponent,
+        BylCRUDWaitingComponent
 
 
     ],
     entryComponents:[
-        WaitingComponent
+        WaitingComponent,
+        BylCRUDWaitingComponent
     ]
 })
 

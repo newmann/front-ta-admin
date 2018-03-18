@@ -9,6 +9,7 @@ import {ConfigService} from "../../../../service/constant/config.service";
 import {Role, RoleStatus} from "../../../../service/account/role.model";
 import {HttpClient} from "@angular/common/http";
 import {WaitingComponent} from "../../../common/waiting/waiting.component";
+import {BylCRUDWaitingComponent} from "../../../common/waiting/crud-waiting.component";
 
 @Component({
   selector: 'role-crud',
@@ -121,9 +122,15 @@ export class RoleCrudComponent implements OnInit,OnChanges {
             }
         );
     }
-    saveButtonClick(){
 
+    showButtonClick(){
+        this.showWaiting();
+        setTimeout(() => {
+            console.log("set showSaveCorrect true");
+            this.showSaving.showSaveCorrect = true;
+        },1000)
     }
+
     resetButtonClick($event: MouseEvent) {
         $event.preventDefault();
         this.reset();
@@ -186,22 +193,30 @@ export class RoleCrudComponent implements OnInit,OnChanges {
 
     showWaiting() {
         this.showSaving = this.modalService.open({
-            title          : '对话框标题',
-            content        : WaitingComponent,
-            onOk() {
-            },
-            onCancel() {
-                console.log('Click cancel');
-            },
+            title          : '提交',
+            content        : BylCRUDWaitingComponent,
+            // onOk() {
+            //
+            // },
+            // onCancel() {
+            //     console.log('Click cancel');
+            // },
             footer         : false,
             componentParams: {
-                name: '测试渲染Component'
+                // name: '测试渲染Component'
             },
             maskClosable: false
         });
 
         this.showSaving.subscribe(result => {
             console.log(result);
+            if (result == "new") {
+                this.role.name="new";
+                this.role.remarks = " from show waiting";
+                this.reset();
+            }
+
+
         })
     }
 
