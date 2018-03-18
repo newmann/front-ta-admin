@@ -1,0 +1,50 @@
+<pro-header [title]="'角色维护'"></pro-header>
+<nz-card [nzBordered]="false">
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" role ="form">
+
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="4">
+                <label for="name" nz-form-item-required>
+                        <span>
+                            名称
+                            <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+                                <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+                            <!--</nz-tooltip>-->
+                        </span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="name">
+                <nz-input formControlName="name" nzPlaceHolder="最少为2个字符" [nzId]="'name'" ></nz-input>
+
+                <ng-container *ngIf="name.dirty || name.touched">
+                    <p nz-form-explain *ngIf="name.errors?.required">必须输入角色名称</p>
+                    <p nz-form-explain *ngIf="name.errors?.duplicate">输入的角色名称已经被使用</p>
+                    <p nz-form-explain *ngIf="name.errors?.other">验证出现异常：{{name.errors?.msg}}</p>
+                    <p nz-form-explain *ngIf="name.errors?.minlength">最少为两个字符</p>
+                    <p nz-form-explain *ngIf="name.pending">Validating...</p>
+                </ng-container>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="4">
+                <label for="remarks"> 备注      </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback >
+                <nz-input formControlName="remarks" nzPlaceHolder="备注" [nzId]="'remarks'"></nz-input>
+            </div>
+        </div>
+
+        <div nz-form-item nz-row class="mb0">
+            <ng-container *ngIf="errMsg.length > 0">
+                <p >{{errMsg}}</p>
+            </ng-container>
+
+            <div nz-form-control nz-col [nzSpan]="20" [nzOffset]="4">
+                <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="form.invalid">保存</button>
+                <button nz-button (click)="resetButtonClick($event)">重置</button>
+
+
+            </div>
+        </div>
+    </form>
+</nz-card>

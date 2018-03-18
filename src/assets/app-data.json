@@ -46,7 +46,12 @@
                 "text": "角色新增",
                 "link": "/account/role/add",
                 "i18n": "role_add"
+            },{
+                "text": "角色维护",
+                "link": "/account/role/crud",
+                "i18n": "role_crud"
             }
+
             ]
         },{
             "text": "快捷菜单",

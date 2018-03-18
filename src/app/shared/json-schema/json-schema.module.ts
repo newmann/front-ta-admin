@@ -27,5 +27,6 @@ export class JsonSchemaModule {
     constructor(widgetRegistry: WidgetRegistry) {
         widgetRegistry.register(TinymceWidget.KEY, TinymceWidget);
         widgetRegistry.register(UEditorWidget.KEY, UEditorWidget);
+
     }
 }

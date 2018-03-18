@@ -5,6 +5,7 @@ import { SharedModule } from '@shared/shared.module';
 import {AccountRoutingModule} from "./account-routing.module";
 import {RoleListComponent} from "./role/list/role-list.component";
 import { RoleOperComponent } from './role/oper/role-oper.component';
+import { RoleCrudComponent } from './role/crud/crud.component';
 
 
 
@@ -17,7 +18,8 @@ import { RoleOperComponent } from './role/oper/role-oper.component';
     ],
     declarations: [
         RoleListComponent,
-        RoleOperComponent
+        RoleOperComponent,
+        RoleCrudComponent
     ]
 })
 export class AccountModule { }
