@@ -10,8 +10,11 @@ import {NzModalSubject} from "ng-zorro-antd";
       <!--<br/>-->
         <div class="customize-content">
           <nz-spin *ngIf="! showSaveCorrect" nzTip="正在提交..."></nz-spin>
-          <h4 *ngIf="showSaveCorrect"> 保存成功！ </h4>
         </div>
+        <div *ngIf="showSaveCorrect">
+            <h4> 保存成功！ </h4>
+        </div>
+        <p>{{saveCorrect}}</p>
       <div class="customize-footer">
         <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="emitDataOutside($event)">
           新增新一条记录
@@ -41,7 +44,7 @@ import {NzModalSubject} from "ng-zorro-antd";
 export class BylCRUDWaitingComponent implements OnInit {
 
     // _name: string;
-    showSaveCorrect= false;
+    protected  showSaveCorrect: boolean;
 
     // @Input()
     // set name(value: string) {
@@ -50,6 +53,10 @@ export class BylCRUDWaitingComponent implements OnInit {
 
     set saveCorrect(value: boolean){
         this.showSaveCorrect = value;
+    }
+
+    get saveCorrect():boolean{
+        return this.showSaveCorrect || false;
     }
 
     emitDataOutside() {
@@ -64,6 +71,12 @@ export class BylCRUDWaitingComponent implements OnInit {
         this.subject.on('onDestory', () => {
             console.log('destroy');
         });
+
+        this.subject.on('showSaveCorrect', () => {
+            this.saveCorrect = true;
+            console.log('deshowSaveCorrect');
+        });
+
     }
 
     ngOnInit() {

@@ -127,7 +127,7 @@ export class RoleCrudComponent implements OnInit,OnChanges {
         this.showWaiting();
         setTimeout(() => {
             console.log("set showSaveCorrect true");
-            this.showSaving.showSaveCorrect = true;
+            this.showSaving.next("showSaveCorrect");
         },1000)
     }
 
