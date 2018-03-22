@@ -9,7 +9,7 @@ import {ConfigService} from "../../../../service/constant/config.service";
 import {Role, RoleStatus} from "../../../../service/account/role.model";
 import {HttpClient} from "@angular/common/http";
 import {WaitingComponent} from "../../../common/waiting/waiting.component";
-import {BylCRUDWaitingComponent} from "../../../common/waiting/crud-waiting.component";
+import {BylCrudEvent, BylCRUDWaitingComponent} from "../../../common/waiting/crud-waiting.component";
 
 @Component({
   selector: 'role-crud',
@@ -126,8 +126,8 @@ export class RoleCrudComponent implements OnInit,OnChanges {
     showButtonClick(){
         this.showWaiting();
         setTimeout(() => {
-            console.log("set showSaveCorrect true");
-            this.showSaving.next("showSaveCorrect");
+            console.log(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
+            this.showSaving.next(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
         },1000)
     }
 

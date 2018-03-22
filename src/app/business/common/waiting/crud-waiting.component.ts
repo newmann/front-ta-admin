@@ -2,6 +2,18 @@ import {Component, Input, OnInit} from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import {NzModalSubject} from "ng-zorro-antd";
 
+/**
+ *  crud界面调用本界面之间的消息传递
+ *  bylAdd,通知调用方继续新增
+ *  bylSaveCorrect, 调用方通知本界面保存成功，
+ *  bylSaveError，调用方通知本界面保存失败
+ * **/
+export enum BylCrudEvent{
+    bylAdd,
+    bylSaveCorrect,
+    bylSaveError
+}
+
 @Component({
   selector: 'byl-crud-waiting',
   template: `
@@ -60,7 +72,8 @@ export class BylCRUDWaitingComponent implements OnInit {
     }
 
     emitDataOutside() {
-        this.subject.next('new');
+        this.subject.next('new');//通知调用新增
+        this.subject.destroy();//退出界面
     }
 
     handleCancel(e) {
@@ -68,13 +81,14 @@ export class BylCRUDWaitingComponent implements OnInit {
     }
 
     constructor(private subject: NzModalSubject) {
+
         this.subject.on('onDestory', () => {
             console.log('destroy');
         });
 
-        this.subject.on('showSaveCorrect', () => {
+        this.subject.on(BylCrudEvent[BylCrudEvent.bylSaveCorrect], () => {
             this.saveCorrect = true;
-            console.log('deshowSaveCorrect');
+            console.log(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
         });
 
     }
