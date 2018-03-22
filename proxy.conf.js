@@ -4,6 +4,9 @@ const proxyConfig = [
   {
     context: '/api',
     // pathRewrite: { '^/api': '' },
+
+
+
     target: 'http://testserver:8110',
     changeOrigin: true,
     secure: false,
