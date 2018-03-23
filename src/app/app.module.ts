@@ -84,7 +84,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
     providers: [
         { provide: LOCALE_ID, useValue: 'zh-Hans' },
         // { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true},
-        { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true}, // 全程采用jwt格式的token
+        // { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true}, // 全程采用jwt格式的token
         { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true},
         { provide: ALAIN_I18N_TOKEN, useClass: I18NService, multi: false },
         StartupService,

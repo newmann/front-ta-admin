@@ -48,7 +48,7 @@
                 "i18n": "role_add"
             },{
                 "text": "角色维护",
-                "link": "/account/role/crud",
+                "link": "/account/role/crud/:id",
                 "i18n": "role_crud"
             }
 
