@@ -44,12 +44,12 @@
                 "i18n": "role_list"
             },{
                 "text": "角色新增",
-                "link": "/account/role/add",
-                "i18n": "role_add"
+                "link": "/account/role/crud/new",
+                "i18n": "role_new"
             },{
                 "text": "角色维护",
-                "link": "/account/role/crud/:id",
-                "i18n": "role_crud"
+                "link": "/account/role/crud/modify",
+                "i18n": "role_modify"
             }
 
             ]

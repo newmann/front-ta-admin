@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
 import {AuthService} from "../../../service/auth/auth.service";
-import {ResultBody} from "../../../service/model/result.body.model";
+import {ResultBody} from "../../../service/model/result-body.model";
 
 @Component({
     selector: 'passport-register',

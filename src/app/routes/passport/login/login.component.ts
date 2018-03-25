@@ -7,8 +7,8 @@ import { SocialService, SocialOpenType, ITokenService, DA_SERVICE_TOKEN } from '
 import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
 import { AuthService } from 'app/service/auth/auth.service';
-import { ResultBody } from 'app/service/model/result.body.model';
-import { AuthDataService } from 'app/service/auth/auth.data.service';
+import { ResultBody } from 'app/service/model/result-body.model';
+import { AuthDataService } from 'app/service/auth/auth-data.service';
 import { ChatService } from 'app/service/chat/chat.service';
 
 @Component({

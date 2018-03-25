@@ -2,14 +2,14 @@ import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
 import {RoleService} from '../../../../service/account/role.service';
 import {catchError, debounceTime, distinctUntilChanged, first, flatMap, map} from 'rxjs/operators';
-import {ResultBody} from '../../../../service/model/result.body.model';
+import {ResultBody} from '../../../../service/model/result-body.model';
 import {Observable} from 'rxjs/Observable';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ConfigService} from '../../../../service/constant/config.service';
 import {Role, RoleStatus} from '../../../../service/account/role.model';
 import {HttpClient} from '@angular/common/http';
 import {WaitingComponent} from '../../../common/waiting/waiting.component';
-import {BylCrudEvent, BylCRUDWaitingComponent} from '../../../common/waiting/crud-waiting.component';
+import {BylCrudEvent, BylCrudWaitingComponent} from '../../../common/waiting/crud-waiting.component';
 import {ReuseTabService} from '@delon/abc';
 import {ActivatedRoute} from '@angular/router';
 
@@ -17,8 +17,8 @@ import {ActivatedRoute} from '@angular/router';
     selector: 'role-crud',
     templateUrl: './crud.component.html',
 })
-export class RoleCrudComponent implements OnInit, OnChanges {
-    private _role: Role;
+export class BylRoleCrudComponent implements OnInit {
+    private _role = new Role;
     public form: FormGroup;
     private _loading = false;
     public errMsg = '';  // 保存时错误信息
@@ -34,9 +34,9 @@ export class RoleCrudComponent implements OnInit, OnChanges {
      */
     private _savingReveal: any;
 
-    @Input() sourceRole: Role;
+    @Input() sourceRoleId: string;
 
-    private processRoleId: string;
+    public processType: string;
 
     constructor(public msgService: NzMessageService,
                 public roleService: RoleService,
@@ -52,50 +52,72 @@ export class RoleCrudComponent implements OnInit, OnChanges {
             remarks: [null]
         });
 
-        // 获取传入的角色名称
+
         this.activatedRoute
-            .queryParams
+            .paramMap
             .subscribe(params => {
-                console.log(params['id']);
-                this.processRoleId = params['id'] || ''; });
+                console.log(params);
+                console.log(params.get('type'));
+                this.processType = params.get('type') || '';
+
+            });
+
     }
 
     ngOnInit() {
-
-
-        // 本界面即支持新增，又支持修改和浏览
-        // 在修改或浏览的时候，支持从list界面调用的时候直接传入被修改的记录
-        //
-        if (this.processRoleId.length === 0) {
-            // 设置Tab的title
-            this.reuseTabService.title = '新增角色';
-            this._role = new Role();
-
-        }else{
-            // Object.assign(this._role, this.sourceRole);
-            this.reuseTabService.title = `修改角色- ${this._role.name}`;
-            // todo 从后台载入数据
-            this._role = new Role();
-        }
-
+        console.log('ngOnInit');
+        //在从list窗口调入的情况下，载入数据
+        if (this.sourceRoleId) this.loadRole(this.sourceRoleId);
     }
 
-    ngOnChanges() {
-        this.reset();
-    }
+    // ngOnChanges() {
+    //     console.log('ngOnChanges');
+    //     this.reset();
+    // }
 
     /**
      * 用于list调用
      */
-    ok() {
-        this.modalSubject.next(this._role);
-        this.cancel();
-    }
+    // ok() {
+    //     this.modalSubject.next(this._role);
+    //     this.cancel();
+    // }
+    //
+    // cancel() {
+    //     this.modalSubject.destroy();
+    // }
 
-    cancel() {
-        this.modalSubject.destroy();
-    }
+    loadRole(id:String){
 
+        // this.showLoadingReveal();
+        this._loading = true;
+        this.errMsg = '';
+        this.roleService.findById(this.sourceRoleId).subscribe(
+            data => {
+                this._loading = false;
+                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                    console.log(data.data);
+                    Object.assign(this._role,data.data);
+                    this.reset();
+                } else {
+
+                    this.errMsg = data.msg;
+                }
+                // 退出显示窗口
+                this._loading = false;
+                // this.destorySavingReveal();
+
+            },
+            err => {
+                this.errMsg = err.toString();
+
+                // 退出显示窗口
+                this._loading = false;
+                // this.destorySavingReveal();
+
+            }
+        );
+    }
     /**
      * 保存
      */
@@ -145,13 +167,13 @@ export class RoleCrudComponent implements OnInit, OnChanges {
         );
     }
 
-    showButtonClick() {
-        this.showSavingReveal();
-        setTimeout(() => {
-            console.log(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
-            this._savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
-        }, 1000);
-    }
+    // showButtonClick() {
+    //     this.showSavingReveal();
+    //     setTimeout(() => {
+    //         console.log(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
+    //         this._savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
+    //     }, 1000);
+    // }
 
     resetButtonClick($event: MouseEvent) {
         $event.preventDefault();
@@ -166,10 +188,14 @@ export class RoleCrudComponent implements OnInit, OnChanges {
         this.form.reset({
             name: this._role.name,
             remarks: this._role.remarks
-        });
-        for (const key in this.form.controls) {
-            this.form.controls[key].markAsPristine();
-        }
+        },{onlySelf:true,emitEvent:false});
+
+        this.form.markAsPristine();
+        // for (const key in this.form.controls) {
+        //     this.form.controls[key].markAsPristine();
+        // }
+        console.log('this.form.dirty'+ this.form.dirty);
+        console.log('this.form.invalid'+ this.form.invalid);
     }
 
     /**
@@ -214,10 +240,10 @@ export class RoleCrudComponent implements OnInit, OnChanges {
     }
 
     showSavingReveal() {
-
         this._savingReveal = this.modalService.open({
             title: '提交',
-            content: BylCRUDWaitingComponent,
+            zIndex: 9999, //最外层
+            content: BylCrudWaitingComponent,
             // onOk() {
             //
             // },
@@ -230,17 +256,68 @@ export class RoleCrudComponent implements OnInit, OnChanges {
             },
             maskClosable: false
         });
+        this._savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
         //
         this._savingReveal.subscribe(result => {
             console.log(result);
-            if (result === BylCrudEvent[BylCrudEvent.bylAdd]) {
-                // 新增界面
-                this._role = new Role();
-                this.reset();
+            //判断是否退出界面
+            if(result === 'onDestroy'){
+                console.log('退出提示界面');
+                switch(this.processType){
+                    case "new":
+                        //新增界面
+                        this._role = new Role();
+                        this.reset();
+                        break;
+                    case "modify":
+                        break;
+                    default:
+                        // 从list界面进入修改
+                        console.log('this.modalSubject.destroy();');
+                        //将修改后的数据传回list界面
+                        this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate],data: this._role});
+                        this.modalSubject.destroy();
+
+                }
+
             }
+            // if (result === BylCrudEvent[BylCrudEvent.bylAdd]) {
+            //     // 新增界面
+            //     this._role = new Role();
+            //     this.reset();
+            // }
 
 
         });
+    }
+    destorySavingReveal(){
+        if (this._savingReveal)  this._savingReveal.destroy();
+    }
+
+    showLoadingReveal() {
+
+        this._savingReveal = this.modalService.open({
+            title: '读取数据',
+            content: BylCrudWaitingComponent,
+            // onOk() {
+            //
+            // },
+            // onCancel() {
+            //     console.log('Click cancel');
+            // },
+            footer: false,
+            componentParams: {
+                // name: '测试渲染Component'
+            },
+            maskClosable: false
+        });
+
+        this._savingReveal.next(BylCrudEvent[BylCrudEvent.bylLoading]);
+
+    }
+
+    destoryLoadingReveal(){
+        if (this._savingReveal)  this._savingReveal.destroy();
     }
 
     //#region get form fields

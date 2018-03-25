@@ -10,8 +10,11 @@ import {NzModalSubject} from 'ng-zorro-antd';
  * **/
 export enum BylCrudEvent {
     bylAdd,
+    bylUpdate,
     bylSaveCorrect,
-    bylSaveError
+    bylSaveError,
+    bylLoading,
+    bylSaving
 }
 
 @Component({
@@ -21,15 +24,15 @@ export enum BylCrudEvent {
             <!--<h4>{{_name}}</h4>-->
             <!--<br/>-->
             <div class="customize-content">
-                <nz-spin *ngIf="! showSaveCorrectMsg" nzTip="正在提交..."></nz-spin>
+                <nz-spin *ngIf="! showSaveCorrectMsg" nzTip="{{tipMsg}}"></nz-spin>
             </div>
             <div *ngIf="showSaveCorrectMsg">
                 <h4> 保存成功！ </h4>
             </div>
             <div class="customize-footer" *ngIf="showSaveCorrectMsg">
-                <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="emitDataOutside($event)">
-                    继续新增
-                </button>
+                <!--<button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="emitDataOutside($event)">-->
+                    <!--继续新增-->
+                <!--</button>-->
                 <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">
                     退出
                 </button>
@@ -52,11 +55,11 @@ export enum BylCrudEvent {
         `
     ]
 })
-export class BylCRUDWaitingComponent implements OnInit {
+export class BylCrudWaitingComponent implements OnInit {
 
     // _name: string;
     protected showSaveCorrectMsg = false;
-
+    protected tipMsg= "...";
 
     emitDataOutside() {
         this.subject.next(BylCrudEvent[BylCrudEvent.bylAdd]); // 通知调用新增
@@ -75,7 +78,15 @@ export class BylCRUDWaitingComponent implements OnInit {
 
         this.subject.on(BylCrudEvent[BylCrudEvent.bylSaveCorrect], () => {
             this.showSaveCorrectMsg = true;
-            console.log(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
+            // console.log(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
+        });
+
+        this.subject.on(BylCrudEvent[BylCrudEvent.bylLoading], () => {
+            this.tipMsg = "正在装载...";
+        });
+
+        this.subject.on(BylCrudEvent[BylCrudEvent.bylSaving], () => {
+            this.tipMsg = "正在提交...";
         });
 
     }

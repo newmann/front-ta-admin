@@ -1,10 +1,10 @@
-import { LoginResultModel } from './login.result.model';
-import { ResultBody } from '../model/result.body.model';
+import { LoginResultModel } from './login-result.model';
+import { ResultBody } from '../model/result-body.model';
 import { Inject, Injectable } from '@angular/core';
-import {AuthDataService} from './auth.data.service';
+import {AuthDataService} from './auth-data.service';
 import { Account } from './../account/account.model';
 import { Observable } from 'rxjs/Observable';
-import { API_URL_LOGIN } from 'app/service/constant/backend.url.constant';
+import { API_URL_LOGIN } from 'app/service/constant/backend-url.constant';
 import { _HttpClient } from '@delon/theme';
 import {UUID} from "angular2-uuid";
 import {getEmailName} from "../utils/string.utils";

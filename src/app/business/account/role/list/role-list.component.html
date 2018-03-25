@@ -6,42 +6,49 @@
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="qName">角色名称</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="q.name" name="'qName'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" nzId="'qName'"></nz-input>
+                        <nz-input [(ngModel)]="q.name" name="'qName'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
+                                  nzId="'qName'"></nz-input>
                     </div>
                 </div>
             </div>
             <div nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="status">角色状态</label></div>
+                    <div nz-form-label><label for="qStatus">角色状态</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-select [(ngModel)]="q.status" name="status" nzId="status" [nzPlaceHolder]="'请选择'" [nzShowSearch]="true" [nzSize]="'large'">
-                            <nz-option *ngFor="let i of q.statusList; let idx = index" [nzLabel]="i.caption" [nzValue]="i.value"></nz-option>
+                        <nz-select [(ngModel)]="q.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"
+                                   [nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">
+                            <nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"
+                                       [nzValue]="i.value"></nz-option>
                         </nz-select>
                     </div>
                 </div>
             </div>
             <div *ngIf="expandQuery" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="modifyDateBegin">起始最后修改日期</label></div>
+                    <div nz-form-label><label for="qModifyDateBegin">最后修改起始日期</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-datepicker [(ngModel)] = "q.modifyDateBegin" [nzSize]="'large'" [nzPlaceHolder]="'请输入更新日期'" nzId="modifyDateBegin" class="d-block"></nz-datepicker>
+                        <nz-datepicker [(ngModel)]="q.modifyDateBegin" name="'qModifyDateBegin" nzId="'qModifyDateBegin"
+                                       [nzSize]="'large'" [nzPlaceHolder]="'起始日期'" class="d-block"></nz-datepicker>
                     </div>
                 </div>
             </div>
 
             <div *ngIf="expandQuery" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="updatedAt">更新日期</label></div>
+                    <div nz-form-label><label for="qModifyDateEnd">最后修改截止日期</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-datepicker [(ngModel)] = "q.modifyDate" [nzSize]="'large'" [nzPlaceHolder]="'请输入更新日期'" nzId="updatedAt" class="d-block"></nz-datepicker>
+                        <nz-datepicker [(ngModel)]="q.modifyDateEnd" name="qModifyDateEnd" nzId="qModifyDateEnd"
+                                       [nzSize]="'large'" [nzPlaceHolder]="'截止日期'" class="d-block"></nz-datepicker>
                     </div>
                 </div>
             </div>
 
-            <div nz-col [nzSpan]="expandQuery ? 24 : 8" class="mb-md" [class.text-right]="expandQuery">
-                <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询</button>
-                <button nz-button type="reset" (click)="search()" [nzSize]="'large'" class="mx-sm">重置</button>
-                <a (click)="expandForm=!expandQuery">
+            <!--<div nz-col [nzSpan]="expandQuery ? 24 : 8" class="mb-md" [class.text-right]="expandQuery">-->
+            <div nz-col [nzSpan]="expandQuery ? 24 : 8" class="mb-md" [class.text-right]="true">
+                <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询
+                </button>
+                <button nz-button type="reset" (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
+                <a (click)="expandQuery =!expandQuery">
                     {{expandQuery ? '收起' : '展开'}}
                     <i class="anticon" [class.anticon-down]="!expandQuery" [class.anticon-up]="expandQuery"></i>
                 </a>
@@ -50,7 +57,7 @@
     </form>
     <div class="mb-md">
         <!--<a  [routerLink]="'/account/role/crud'" >-->
-            <!--新增-->
+        <!--新增-->
         <!--</a>-->
         <button nz-button (click)="add()" [nzType]="'primary'" [nzSize]="'large'">
             <i class="anticon anticon-plus"></i><span>新建</span>
@@ -77,9 +84,12 @@
             </span>
         </nz-alert>
     </div>
-    <nz-table #nzTable [nzDataSource]="listData" [nzPageSize]="q.ps" [nzLoading]="loading" >
-              <!--(nzDataChange)="dataChange($event)"-->
-              <!--(nzPageIndexChange)="pageChange($event)">-->
+    <!--<nz-table #nzTable [nzDataSource]="listData" [nzPageSize]="page.pageSize" [nzLoading]="loading" >-->
+    <!--(nzDataChange)="dataChange($event)"-->
+    <!--(nzPageIndexChange)="pageChange($event)">-->
+    <nz-table #nzTable [nzAjaxData]="listData" [nzPageSize]="page.pageSize" [nzLoading]="loading"
+              nzShowSizeChanger [nzTotal]="total" [(nzPageIndex)]="page.page" nzShowTotal="true"
+              (nzPageIndexChange)="search()" (nzPageSizeChange)="pageSizeChange($event)">
         <thead nz-thead>
         <tr>
             <th nz-th [nzCheckbox]="true">
@@ -93,19 +103,20 @@
                 <nz-dropdown [nzTrigger]="'click'">
                     <i class="anticon anticon-filter" nz-dropdown></i>
                     <ul nz-menu>
-                        <li nz-menu-item *ngFor="let i of q.statusList">
+                        <li nz-menu-item *ngFor="let i of statusList">
                             <label nz-checkbox [(ngModel)]="i.value"><span>{{i.caption}}</span></label>
                         </li>
                     </ul>
                     <div nz-table-filter>
                         <span nz-table-filter-confirm (click)="search()">确定</span>
-                        <span nz-table-filter-clear >重置</span>
+                        <span nz-table-filter-clear>重置</span>
                     </div>
                 </nz-dropdown>
             </th>
             <th nz-th>
                 <span>更新时间</span>
-                <nz-table-sort [(nzValue)]="sortMap.updatedAt" (nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>
+                <nz-table-sort [(nzValue)]="sortMap.updatedAt"
+                               (nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>
             </th>
             <th nz-th><span>操作</span></th>
         </tr>
@@ -113,36 +124,57 @@
         <tbody nz-tbody>
         <tr nz-tbody-tr *ngFor="let i of nzTable.data">
             <td nz-td [nzCheckbox]="true">
-                <label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked" (ngModelChange)="refreshStatus($event)">
+                <label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"
+                       (ngModelChange)="refreshStatus($event)">
                 </label>
             </td>
-            <td nz-td>{{i.name}}</td>
-            <td nz-td>{{i.remarks}}</td>
-            <td nz-td>{{getStatusCaption(i.status)}}</td>
-            <td nz-td>{{i.modifyAction.modifyDateTime | _date}}</td>
+            <td nz-td>{{i.item.name}}</td>
+            <td nz-td>{{i.item.remarks}}</td>
+            <td nz-td>{{getStatusCaption(i.item.status)}}</td>
+            <td nz-td>{{i.item.modifyAction.modifyDateTime | _date}}</td>
             <td nz-td>
                 <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
-                <a (click)=modify(i.id) >修改</a>
+                <span>
+                    <a (click)="showModifyForm(i.item.id)">修改</a>
+                    <span nz-table-divider></span>
+                    <nz-dropdown>
+                        <a class="ant-dropdown-link" nz-dropdown>
+                            更多 <i class="anticon anticon-down"></i>
+                        </a>
+                        <ul nz-menu>
+                            <li nz-menu-item>
+                                <a (click)="lockRole(i.item.id)">锁定</a>
+                            </li>
+                            <!--<li nz-menu-item>-->
+                            <!--<a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">2nd menu item</a>-->
+                            <!--</li>-->
+                            <!--<li nz-menu-item>-->
+                            <!--<a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">3rd menu item</a>-->
+                            <!--</li>-->
+                        </ul>
+                    </nz-dropdown>
+                </span>
             </td>
         </tr>
         </tbody>
     </nz-table>
+
 </nz-card>
 <!--<nz-modal [nzVisible]="modalVisible" [nzTitle]="'新建角色'" [nzConfirmLoading]="loading" [nzContent]="modalContent"-->
-          <!--(nzOnCancel)="modalVisible=false" (nzOnOk)="saveNew()">-->
-    <!--<ng-template #modalContent>-->
-        <!--<div nz-form-item class="d-flex">-->
-            <!--<div nz-form-label><label for="roleName" nz-form-item-required>名称</label></div>-->
-            <!--<div nz-form-control class="flex-1" nzHasFeedback>-->
-                <!--<nz-input [(ngModel)]="newRole.name"  [nzSize]="'large'" [nzPlaceHolder]="'名称'" nzId="'roleName'"></nz-input>-->
-                <!--<div nz-form-explain *ngIf="(roleName.dirty || roleName.touch) && roleName.errors?.required">请输入角色名称</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div nz-form-item class="d-flex">-->
-            <!--<div nz-form-label><label for="remarks">备注</label></div>-->
-            <!--<div nz-form-control class="flex-1">-->
-                <!--<nz-input [(ngModel)]="newRole.remarks" [nzSize]="'large'" [nzPlaceHolder]="'请输入备注'" nzId="'remarks'"></nz-input>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</ng-template>-->
+<!--(nzOnCancel)="modalVisible=false" (nzOnOk)="saveNew()">-->
+<!--<ng-template #modalContent>-->
+<!--<div nz-form-item class="d-flex">-->
+<!--<div nz-form-label><label for="roleName" nz-form-item-required>名称</label></div>-->
+<!--<div nz-form-control class="flex-1" nzHasFeedback>-->
+<!--<nz-input [(ngModel)]="newRole.name"  [nzSize]="'large'" [nzPlaceHolder]="'名称'" nzId="'roleName'"></nz-input>-->
+<!--<div nz-form-explain *ngIf="(roleName.dirty || roleName.touch) && roleName.errors?.required">请输入角色名称</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div nz-form-item class="d-flex">-->
+<!--<div nz-form-label><label for="remarks">备注</label></div>-->
+<!--<div nz-form-control class="flex-1">-->
+<!--<nz-input [(ngModel)]="newRole.remarks" [nzSize]="'large'" [nzPlaceHolder]="'请输入备注'" nzId="'remarks'"></nz-input>-->
+<!--</div>-->
+<!--</div>-->
+<!--</ng-template>-->
 <!--</nz-modal>-->

@@ -1,15 +1,17 @@
 import {Injectable} from "@angular/core";
 import {_HttpClient} from "@delon/theme";
-import {ResultBody} from "../model/result.body.model";
-import {LoginResultModel} from "../auth/login.result.model";
+import {ResultBody} from "../model/result-body.model";
+import {LoginResultModel} from "../auth/login-result.model";
 import {Observable} from "rxjs/Observable";
 import {Role, RoleStatus} from "./role.model";
 import {Account} from "./account.model";
-import {PageRespModel} from "../model/page.resp.model";
-import {PageReqModel} from "../model/page.req.model";
+import {PageRespModel} from "../model/page-resp.model";
+import {PageReqModel} from "../model/page-req.model";
 import {ConfigService} from "../constant/config.service";
 import {I18NService} from "@core/i18n/i18n.service";
 import {IStatusItem} from "../model/status.model";
+import {RoleQueryModel} from "./role-query.model";
+import {QueryReqBodyModel} from "../model/query-req-body.model";
 
 /**
  * @Description: 角色管理service
@@ -69,6 +71,17 @@ export class RoleService{
         return this.http.post< ResultBody < PageRespModel<Role> >>("api/role/find-page-normal",page);
     }
 
+    /**
+     * 按分页方式返回不同状态的角色
+     * @returns {Observable<ResultBody<LoginResultModel>>}
+     */
+    findPage(query: RoleQueryModel,page: PageReqModel): Observable < ResultBody < PageRespModel<Role> >> {
+        let queryModel = new QueryReqBodyModel<RoleQueryModel>();
+        queryModel.pageReq = page;
+        queryModel.queryReq = query;
+
+        return this.http.post< ResultBody < PageRespModel<Role> >>("api/role/find-page",queryModel);
+    }
     // add(name: string): Observable< ResultBody < Role >> {
     //     let newItem = new Role();
     //     newItem.name = name;
@@ -86,5 +99,9 @@ export class RoleService{
     checkNameAvailable(name: string):Observable< ResultBody < boolean >> {
         return this.http.post<ResultBody<boolean>>("/api/role/check-name-available", name);
 
+    }
+
+    findById(id:string): Observable<ResultBody<Role>>{
+        return this.http.get<ResultBody<Role>>("/api/role/find-by-id/" + id);
     }
 }

@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { Message } from '@stomp/stompjs';
-import { AuthDataService } from 'app/service/auth/auth.data.service';
+import { AuthDataService } from 'app/service/auth/auth-data.service';
 // import * as SockJS from "sockjs-client";
 // import * as Stomp from "@stomp/stompjs";
 import { StompConfig, StompRService, StompState } from '@stomp/ng2-stompjs';
@@ -16,8 +16,8 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { Subscription } from 'rxjs/Subscription';
 import { StompSubscribeModel } from './stomp.subscribe.model';
 /**
- * 
- * 
+ *
+ *
  * @export
  * @class ChatService
  */
@@ -95,7 +95,7 @@ export class ChatService implements OnDestroy {
         ;
       this.generalMessage$.subscribe((m) => {
           console.log(m);
-      });  
+      });
 
       this.chatMessage$ = this.stompService.subscribe(ChatService.WEBSOCKET_CHANNEL_SYSTEM)
         .map((message: Message) => {
@@ -157,7 +157,7 @@ export class ChatService implements OnDestroy {
    * 3、登录、订阅
    */
   public initAndConnect() {
-    // 1    
+    // 1
     if (!this.authData.authenticated) {
       console.log('还没有登录，无法打开消息通道。');
       this.msg.warning('还没有登录，无法打开消息通道。');
@@ -218,7 +218,7 @@ export class ChatService implements OnDestroy {
  * 5、登录、订阅
  */
   public connectTargetURI(uri: string) {
-    // 1    
+    // 1
     if (!this.authData.authenticated) {
       console.log('还没有登录，无法打开消息通道。');
       this.msg.warning('还没有登录，无法打开消息通道。');
