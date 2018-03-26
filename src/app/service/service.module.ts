@@ -7,6 +7,8 @@ import {CustomStompRService} from 'app/service/chat/custom.stomp.r.service';
 import {API_URL_LOGIN} from 'app/service/constant/backend-url.constant';
 import {ConfigService} from "./constant/config.service";
 import {RoleService} from "./account/role.service";
+import { LOGGER_SERVICE_PROVIDER } from './utils/logger/logger.service';
+import { BYL_LOGGER_STATE } from './utils/logger';
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import {RoleService} from "./account/role.service";
         {
             provide: API_URL_LOGIN,
             useValue: '/api/auth/login'
-        }
+        },
+        { provide: BYL_LOGGER_STATE, useValue: false },
+        LOGGER_SERVICE_PROVIDER
     ]
 })
 export class ServiceModule {
