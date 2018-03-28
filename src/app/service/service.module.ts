@@ -24,7 +24,7 @@ import { BYL_LOGGER_STATE } from './utils/logger';
             provide: API_URL_LOGIN,
             useValue: '/api/auth/login'
         },
-        { provide: BYL_LOGGER_STATE, useValue: false },
+        { provide: BYL_LOGGER_STATE, useValue: true },
         LOGGER_SERVICE_PROVIDER
     ]
 })
