@@ -15,7 +15,7 @@ import {ActivatedRoute} from '@angular/router';
 import {LoggerService} from "../../../../service/utils/logger";
 
 @Component({
-    selector: 'role-crud',
+    selector: 'byl-role-crud',
     templateUrl: './crud.component.html',
 })
 export class BylRoleCrudComponent implements OnInit {

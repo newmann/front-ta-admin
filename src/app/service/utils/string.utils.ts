@@ -15,3 +15,12 @@ export function getEmailName(email: string): string{
     return email.substr(0,pos);
 }
 
+/**
+ * 拼接代码+名称字符串
+ * @param {string} code
+ * @param {string} name
+ * @returns {string}
+ */
+export function mixCodeName(code: string, name: string): string{
+    return name + '(' + code + ')';
+}

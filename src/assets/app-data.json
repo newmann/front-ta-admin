@@ -38,21 +38,39 @@
             "text": "账户管理",
             "i18n": "account",
             "icon": "icon-speedometer",
-            "children": [{
-                "text": "角色管理",
-                "link": "/account/role/list",
-                "i18n": "role_list"
+            "children":[{
+                "text": "角色",
+                "i18n": "role",
+                "icon": "icon-speedometer",
+                "children": [{
+                    "text": "角色管理",
+                    "link": "/account/role/list",
+                    "i18n": "role_list"
+                },{
+                    "text": "角色新增",
+                    "link": "/account/role/crud/new",
+                    "i18n": "role_new"
+                },{
+                    "text": "角色维护",
+                    "link": "/account/role/crud/modify",
+                    "i18n": "role_modify"
+                }
+                ]
             },{
-                "text": "角色新增",
-                "link": "/account/role/crud/new",
-                "i18n": "role_new"
-            },{
-                "text": "角色维护",
-                "link": "/account/role/crud/modify",
-                "i18n": "role_modify"
-            }
-
-            ]
+                "text": "部门",
+                "i18n": "department",
+                "icon": "icon-speedometer",
+                "children": [{
+                    "text": "部门管理",
+                    "link": "/account/department/list",
+                    "i18n": "department_list"
+                },{
+                    "text": "部门新增",
+                    "link": "/account/department/crud/new",
+                    "i18n": "department_new"
+                }
+                ]
+            }]
         },{
             "text": "快捷菜单",
             "i18n": "shortcut",

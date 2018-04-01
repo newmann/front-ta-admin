@@ -5,6 +5,20 @@
  **/
 import {BaseModel} from "../model/base.model";
 
-export class Department extends  BaseModel{
+class Department extends  BaseModel{
+    code: string;
+    name: string;
+    status: number;
+    parentId: string;
 
+    accountList: Set<Account>;
 }
+
+//角色的状态定义
+const enum DepartmentStatus{
+    NORMAL_DEPARTMENT = 1 ,
+    LOCKED_DEPARTMENT = 0,
+    DELETED_DEPARTMENT = -1
+}
+
+export {Department,DepartmentStatus}
