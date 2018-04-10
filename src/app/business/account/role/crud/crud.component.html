@@ -1,6 +1,11 @@
 <pro-header [title]="'角色维护'" *ngIf="processType.length > 0 "></pro-header>
 <nz-card [nzBordered]="false">
-    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" role ="form">
+    <nz-tabset>
+        <nz-tab>
+            <ng-template #nzTabHeading>基本信息
+            </ng-template>
+            <span>
+                <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" role ="form">
 
         <div nz-form-item nz-row>
             <div nz-form-label nz-col [nzSm]="4">
@@ -57,7 +62,29 @@
         </div>
 
     </form>
+            </span>
+        </nz-tab>
+        <nz-tab>
+            <ng-template #nzTabHeading>权限</ng-template>
+            <span>权限列表</span>
+        </nz-tab>
+        <nz-tab>
+            <ng-template #nzTabHeading>用户</ng-template>
+            <span>用户列表</span>
+        </nz-tab>
+        <nz-tab>
+            <ng-template #nzTabHeading>日志</ng-template>
+            <span>
+                <nz-timeline>
+                  <nz-timeline-item [nzColor]="'green'">Create a services site 2015-09-01</nz-timeline-item>
+                  <nz-timeline-item [nzColor]="'green'">Solve initial network problems 2015-09-01</nz-timeline-item>
+                  <nz-timeline-item [nzColor]="'red'">Technical testing 2015-09-01</nz-timeline-item>
+                  <nz-timeline-item>Network problems being solved 2015-09-01</nz-timeline-item>
+                </nz-timeline>
+            </span>
+        </nz-tab>
 
+    </nz-tabset>
     <!--<div nz-row >-->
         <!--<div  nz-col [nzSpan]="20" [nzOffset]="4">-->
             <!--<button nz-button [nzType]="'primary'" [nzSize]="'large'" (click) = "showButtonClick($event)">show</button>-->

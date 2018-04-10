@@ -9,6 +9,7 @@ import {ConfigService} from "./constant/config.service";
 import {RoleService} from "./account/role.service";
 import { LOGGER_SERVICE_PROVIDER } from './utils/logger/logger.service';
 import { BYL_LOGGER_STATE } from './utils/logger';
+import {DepartmentService} from "./account/department.service";
 
 
 @NgModule({
@@ -17,6 +18,8 @@ import { BYL_LOGGER_STATE } from './utils/logger';
         AuthService,
         AuthDataService,
         RoleService,
+        DepartmentService,
+
         ChatService,
         CustomStompRService,
         {

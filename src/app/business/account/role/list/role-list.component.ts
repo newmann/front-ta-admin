@@ -16,10 +16,10 @@ import {RoleQueryModel} from "../../../../service/account/role-query.model";
 import {ListFormDataModel} from "../../../../service/model/list-form-data.model";
 
 @Component({
-    selector: 'role-list',
+    selector: 'byl-role-list',
     templateUrl: './role-list.component.html',
 })
-export class RoleListComponent implements OnInit {
+export class BylRoleListComponent implements OnInit {
     q: any = {
         name: '',
         modifyDateBegin: moment().subtract(1,'week').format('l'),
