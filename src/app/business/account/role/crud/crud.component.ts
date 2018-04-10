@@ -12,12 +12,16 @@ import {WaitingComponent} from '../../../common/waiting/waiting.component';
 import {BylCrudEvent, BylCrudWaitingComponent} from '../../../common/waiting/crud-waiting.component';
 import {ReuseTabService} from '@delon/abc';
 import {ActivatedRoute} from '@angular/router';
+import {CheckClientBrowserType} from '../../../../service/utils/client-browser-type.utils';
+import {LoggerService} from '../../../../service/utils/logger';
 
 @Component({
     selector: 'role-crud',
     templateUrl: './crud.component.html',
 })
 export class BylRoleCrudComponent implements OnInit {
+    public clientBrowserType:any;
+
     private _role = new Role;
     public form: FormGroup;
     private _loading = false;
@@ -45,6 +49,7 @@ export class BylRoleCrudComponent implements OnInit {
                 public modalSubject: NzModalSubject,
                 public reuseTabService: ReuseTabService,
                 private activatedRoute: ActivatedRoute,
+                private log: LoggerService,
                 public fb: FormBuilder) {
         // 绑定验证模式
         this.form = this.fb.group({
@@ -66,8 +71,13 @@ export class BylRoleCrudComponent implements OnInit {
 
     ngOnInit() {
         console.log('ngOnInit');
-        //在从list窗口调入的情况下，载入数据
+        // 在从list窗口调入的情况下，载入数据
         if (this.sourceRoleId) this.loadRole(this.sourceRoleId);
+
+        this.clientBrowserType = CheckClientBrowserType();
+        const clientFrom = this.clientBrowserType.from();
+        this.log.debug(this.clientBrowserType);
+        this.log.debug(clientFrom);
     }
 
     // ngOnChanges() {

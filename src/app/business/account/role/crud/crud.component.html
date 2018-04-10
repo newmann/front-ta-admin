@@ -40,6 +40,7 @@
                 <p >form.dirty:{{form.dirty}}</p>
                 <p>form.touched:{{form.touched}}</p>
                 <p>disabled: {{form.invalid || (!form.dirty)}}</p>
+                <p>{{clientBrowserType}}</p>
             </ng-container>
 
             <ng-container *ngIf="errMsg.length > 0">

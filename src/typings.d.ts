@@ -16,3 +16,7 @@ declare var require: NodeRequire;
 declare var G2: any;
 declare var Slider: any;
 declare var Cloud: any;
+
+// 微信
+declare var hljs: any;
+declare var wx: any;
