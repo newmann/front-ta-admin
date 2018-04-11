@@ -16,12 +16,15 @@ import {LayoutPassportComponent} from "../layout/passport/passport.component";
 import {LayoutDefaultComponent} from "../layout/default/default.component";
 import {LayoutFullScreenComponent} from "../layout/fullscreen/fullscreen.component";
 import {DashboardV1Component} from "../routes/dashboard/v1/v1.component";
+import {LayoutMobileComponent} from '../layout/mobile/mobile.component';
+import {RouterGuardService} from '../service/router/router-guard.service';
 
 
 const routes: Routes = [
     {
         path: '',
         component: LayoutDefaultComponent,
+        canActivate: [RouterGuardService],
         children: [
             { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
             { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
@@ -61,6 +64,34 @@ const routes: Routes = [
             { path: 'login', component: UserLoginComponent },
             { path: 'register', component: UserRegisterComponent },
             { path: 'register-result', component: UserRegisterResultComponent }
+        ]
+    },
+    // 移动布局
+    {
+        path: 'mobile',
+        component: LayoutMobileComponent,
+        canActivate: [RouterGuardService],
+        children: [
+            { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
+            { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
+            { path: 'dashboard/v1', component: DashboardV1Component, data: { translate: 'dashboard_v1' } },
+            { path: 'dashboard/analysis', component: DashboardAnalysisComponent, data: { translate: 'dashboard_analysis' } },
+            { path: 'dashboard/monitor', component: DashboardMonitorComponent, data: { translate: 'dashboard_monitor' } },
+            { path: 'dashboard/workplace', component: DashboardWorkplaceComponent, data: { translate: 'dashboard_workplace' } },
+            { path: 'widgets', loadChildren: '../routes/widgets/widgets.module#WidgetsModule' },
+            { path: 'elements', loadChildren: '../routes/elements/elements.module#ElementsModule' },
+            { path: 'other', loadChildren: '../routes/other/other.module#OtherModule' },
+            { path: 'forms', loadChildren: '../routes/forms/forms.module#FormsModule' },
+            { path: 'editor', loadChildren: '../routes/editor/editor.module#EditorModule' },
+            { path: 'charts', loadChildren: '../routes/charts/charts.module#ChartsModule' },
+            { path: 'tables', loadChildren: '../routes/tables/tables.module#TablesModule' },
+            { path: 'maps', loadChildren: '../routes/maps/maps.module#MapsModule' },
+            { path: 'pages', loadChildren: '../routes/pages/pages.module#PagesModule' },
+            { path: 'logics', loadChildren: '../routes/logics/logics.module#LogicsModule' },
+            { path: 'extras', loadChildren: '../routes/extras/extras.module#ExtrasModule' },
+            { path: 'pro', loadChildren: '../routes/pro/pro.module#ProModule' },
+
+            { path: 'account', loadChildren: './account/account.module#AccountModule' },
         ]
     },
     // 单页不包裹Layout

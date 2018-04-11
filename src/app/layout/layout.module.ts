@@ -40,17 +40,25 @@ const PASSPORT = [
     LayoutPassportComponent
 ];
 
+// 移动端，含微信
+import { LayoutMobileComponent } from './mobile/mobile.component';
+const MOBILE = [
+    LayoutMobileComponent
+];
+
 @NgModule({
     imports: [SharedModule],
     providers: [],
     declarations: [
         ...COMPONENTS,
         ...HEADERCOMPONENTS,
-        ...PASSPORT
+        ...PASSPORT,
+        ...MOBILE
     ],
     exports: [
         ...COMPONENTS,
-        ...PASSPORT
+        ...PASSPORT,
+        ...MOBILE
     ]
 })
 export class LayoutModule { }

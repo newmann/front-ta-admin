@@ -19,6 +19,7 @@ import { CallbackComponent } from './callback/callback.component';
 import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
+import {LayoutMobileComponent} from '../layout/mobile/mobile.component';
 
 const routes: Routes = [
     {
@@ -61,6 +62,31 @@ const routes: Routes = [
             { path: 'login', component: UserLoginComponent },
             { path: 'register', component: UserRegisterComponent },
             { path: 'register-result', component: UserRegisterResultComponent }
+        ]
+    },
+    // 移动布局
+    {
+        path: 'mobile',
+        component: LayoutMobileComponent,
+        children: [
+            { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
+            { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
+            { path: 'dashboard/v1', component: DashboardV1Component },
+            { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
+            { path: 'dashboard/monitor', component: DashboardMonitorComponent },
+            { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },
+            { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' },
+            { path: 'elements', loadChildren: './elements/elements.module#ElementsModule' },
+            { path: 'other', loadChildren: './other/other.module#OtherModule' },
+            { path: 'forms', loadChildren: './forms/forms.module#FormsModule' },
+            { path: 'editor', loadChildren: './editor/editor.module#EditorModule' },
+            { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
+            { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
+            { path: 'maps', loadChildren: './maps/maps.module#MapsModule' },
+            { path: 'pages', loadChildren: './pages/pages.module#PagesModule' },
+            { path: 'logics', loadChildren: './logics/logics.module#LogicsModule' },
+            { path: 'extras', loadChildren: './extras/extras.module#ExtrasModule' },
+            { path: 'pro', loadChildren: './pro/pro.module#ProModule' }
         ]
     },
     // 单页不包裹Layout

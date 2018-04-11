@@ -14,7 +14,7 @@ import {ReuseTabService} from '@delon/abc';
 import {ActivatedRoute} from '@angular/router';
 import {LoggerService} from "../../../../service/utils/logger";
 import {CheckClientBrowserType} from '../../../../service/utils/client-browser-type.utils';
-import {LoggerService} from '../../../../service/utils/logger';
+
 
 @Component({
     selector: 'byl-role-crud',

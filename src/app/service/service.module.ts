@@ -10,6 +10,7 @@ import {RoleService} from "./account/role.service";
 import { LOGGER_SERVICE_PROVIDER } from './utils/logger/logger.service';
 import { BYL_LOGGER_STATE } from './utils/logger';
 import {DepartmentService} from "./account/department.service";
+import {RouterGuardService} from './router/router-guard.service';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import {DepartmentService} from "./account/department.service";
             useValue: '/api/auth/login'
         },
         { provide: BYL_LOGGER_STATE, useValue: true },
-        LOGGER_SERVICE_PROVIDER
+        LOGGER_SERVICE_PROVIDER,
+        RouterGuardService
     ]
 })
 export class ServiceModule {
