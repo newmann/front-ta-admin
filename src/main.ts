@@ -7,8 +7,7 @@ import { environment } from './environments/environment';
 import { hmrBootstrap } from './hmr';
 
 import { preloaderFinished } from '@delon/theme';
-import {CheckClientBrowserType} from './app/service/utils/client-browser-type.utils';
-import {WxAppModule} from './wechat/wxapp.module';
+
 preloaderFinished();
 
 if (environment.production) {
@@ -16,20 +15,10 @@ if (environment.production) {
 }
 
 const bootstrap = () => {
-    // // 判断是否在微信环境，如果在微信环境，则进入微信界面，否则进入正常界面
-    // const clientBrowseType = CheckClientBrowserType().from();
-    // if (clientBrowseType === 'weixin') {
-    //     return platformBrowserDynamic().bootstrapModule(WxAppModule, {
-    //         defaultEncapsulation: ViewEncapsulation.Emulated,
-    //         preserveWhitespaces: false
-    //     });
-    //
-    // } else {
         return platformBrowserDynamic().bootstrapModule(AppModule, {
             defaultEncapsulation: ViewEncapsulation.Emulated,
             preserveWhitespaces: false
         });
-    // }
 };
 
 if (environment.hmr) {

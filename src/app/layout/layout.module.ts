@@ -42,7 +42,9 @@ const PASSPORT = [
 
 // 移动端，含微信
 import { LayoutMobileComponent } from './mobile/mobile.component';
+import {MobileHeaderComponent} from './mobile/mobile-header.component';
 const MOBILE = [
+    MobileHeaderComponent,
     LayoutMobileComponent
 ];
 

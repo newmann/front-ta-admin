@@ -1,0 +1,58 @@
+<!--<div class="logo">-->
+    <!--<a [routerLink]="['/']">-->
+        <!--&lt;!&ndash;<img class="expanded" src="./assets/img/logo-full.svg" alt="{{settings.app.name}}" style="max-height:40px;" />&ndash;&gt;-->
+        <!--<img class="collapsed" src="./assets/img/logo.svg" alt="{{settings.app.name}}" style="max-height:30px;" />-->
+    <!--</a>-->
+<!--</div>-->
+<div class="top-nav-wrap">
+    <ul class="top-nav">
+        <li>
+            <a [routerLink]="['/']">
+                <!--<img class="expanded" src="./assets/img/logo-full.svg" alt="{{settings.app.name}}" style="max-height:40px;" />-->
+                <img class="collapsed" src="./assets/img/logo.svg" alt="{{settings.app.name}}" style="max-height:30px;" />
+            </a>
+        </li>
+    </ul>
+    <!--<header-search class="header-search" [toggleChange]="searchToggleStatus"></header-search>-->
+    <ul class="top-nav" >
+        <!-- Notify -->
+        <!--<li>-->
+            <!--<header-notify></header-notify>-->
+        <!--</li>-->
+        <!-- Task -->
+        <!--<li class="hidden-xs">-->
+            <!--<header-task></header-task>-->
+        <!--</li>-->
+        <!-- App Icons -->
+        <!--<li class="hidden-xs">-->
+        <li >
+            <header-icon></header-icon>
+        </li>
+        <!--&lt;!&ndash; Settings &ndash;&gt;-->
+        <!--<li class="hidden-xs">-->
+            <!--<nz-dropdown nzTrigger="click" nzPlacement="bottomRight">-->
+                <!--<div class="item" nz-dropdown>-->
+                    <!--<i class="anticon anticon-setting"></i>-->
+                <!--</div>-->
+                <!--<div nz-menu style="width:200px">-->
+                    <!--<div nz-menu-item class="theme-switch">-->
+                        <!--<header-theme></header-theme>-->
+                    <!--</div>-->
+                    <!--<div nz-menu-item>-->
+                        <!--<header-fullscreen></header-fullscreen>-->
+                    <!--</div>-->
+                    <!--<div nz-menu-item>-->
+                        <!--<header-storage></header-storage>-->
+                    <!--</div>-->
+                    <!--<div nz-menu-item>-->
+                        <!--<header-i18n></header-i18n>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</nz-dropdown>-->
+        <!--</li>-->
+        <!--<li class="hidden-xs">-->
+        <li >
+            <header-user></header-user>
+        </li>
+    </ul>
+</div>
