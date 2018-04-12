@@ -5,13 +5,13 @@
  * @abstract
  * @class BaseModel
  */
-import {EmbeddableCreateActionModel} from "./embeddable-create-action.model";
-import {EmbeddableModifyActionModel} from "./embeddable-modify-action.model";
+import {EmbeddableCreateAction} from "./embeddable-create-action.model";
+import {EmbeddableModifyAction} from "./embeddable-modify-action.model";
 
 
 export abstract class BaseModel {
     id: string;
-    createAction: EmbeddableCreateActionModel;
-    modifyAction: EmbeddableModifyActionModel;
+    createAction: EmbeddableCreateAction;
+    modifyAction: EmbeddableModifyAction;
     remarks: string;
   }

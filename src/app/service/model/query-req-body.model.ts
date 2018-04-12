@@ -3,9 +3,9 @@
  * @Author: newmannhu@qq.com
  * @Date: Created in 2018-03-25 8:57
  **/
-import {PageReqModel} from "./page-req.model";
+import {PageReq} from "./page-req.model";
 
-export class QueryReqBodyModel<T>{
+export class QueryReqBody<T>{
     queryReq: T;
-    pageReq: PageReqModel;
+    pageReq: PageReq;
 }

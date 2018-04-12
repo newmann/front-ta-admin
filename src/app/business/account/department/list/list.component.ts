@@ -1,11 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
-import {ListFormDataModel} from "../../../../service/model/list-form-data.model";
+import {ListFormData} from "../../../../service/model/list-form-data.model";
 import {Router} from "@angular/router";
 import {IStatusItem} from "../../../../service/model/status.model";
 import {ResultBody} from "../../../../service/model/result-body.model";
-import {PageReqModel} from "../../../../service/model/page-req.model";
+import {PageReq} from "../../../../service/model/page-req.model";
 import * as moment from "moment";
 import {ConfigService} from "../../../../service/constant/config.service";
 import {BylCrudEvent} from "../../../common/waiting/crud-waiting.component";
@@ -15,7 +15,7 @@ import {DepartmentQueryModel} from "../../../../service/account/department-query
 import {BylDepartmentCrudComponent} from "../crud/crud.component";
 import {NzTreeComponent} from "ng-tree-antd";
 import {LoggerService} from "../../../../service/utils/logger";
-import {BaseTreeModel} from "../../../../service/model/base-tree.model";
+import {BaseTree} from "../../../../service/model/base-tree.model";
 import {mixCodeName} from "../../../../service/utils/string.utils";
 import {Subject} from "rxjs/Subject";
 import {debounceTime, distinctUntilChanged, flatMap} from "rxjs/operators";
@@ -37,7 +37,7 @@ export class BylDepartmentListComponent implements OnInit {
         status: [1]
     };
 
-    page:PageReqModel ={
+    page:PageReq ={
         page: 1,// 缺省当前页
         pageSize: 10,// 缺省每页条数
         sortField: 'code',
@@ -49,16 +49,16 @@ export class BylDepartmentListComponent implements OnInit {
     statusList: IStatusItem[]; //状态
 
 
-    listData : Array<ListFormDataModel<Department>> = []; // 显示内容
+    listData : Array<ListFormData<Department>> = []; // 显示内容
     loading = false;
     // args: any = { };//查询条件
     sortMap: any = {};
 
-    selectedRows: Array<ListFormDataModel<Department>> = [];
+    selectedRows: Array<ListFormData<Department>> = [];
     indeterminate = false;
     allChecked = false;
 
-    nodes: Array<BaseTreeModel<Department>> = [];
+    nodes: Array<BaseTree<Department>> = [];
 
     options = {
         allowDrag: false
@@ -72,9 +72,9 @@ export class BylDepartmentListComponent implements OnInit {
         // }
     };
 
-    private _treeExpand$: Subject<BaseTreeModel<Department>> = new Subject<BaseTreeModel<Department>>();
+    private _treeExpand$: Subject<BaseTree<Department>> = new Subject<BaseTree<Department>>();
 
-    private _nodeObservable: Observable<BaseTreeModel<Department>>;
+    private _nodeObservable: Observable<BaseTree<Department>>;
     private _departmentObservable: Observable<ResultBody<Array<Department>>>;
     private _expandObservable: any;
 
@@ -110,7 +110,7 @@ export class BylDepartmentListComponent implements OnInit {
         this._expandObservable = zip(
             this._nodeObservable,
             this._departmentObservable,
-            (node: BaseTreeModel<Department>, data: ResultBody<Array<Department>>) => ({node,data})
+            (node: BaseTree<Department>, data: ResultBody<Array<Department>>) => ({node,data})
         );
         this._expandObservable.subscribe(
             ({node,data}) => {
@@ -249,16 +249,16 @@ export class BylDepartmentListComponent implements OnInit {
         );
     }
 
-    updateNodeData(data: Array<BaseTreeModel<Department>>, node: BaseTreeModel<Department>): void{
+    updateNodeData(data: Array<BaseTree<Department>>, node: BaseTree<Department>): void{
         node.children = data;
     }
 
     /**
      * 根据查询的结果，生成界面显示的内容，重点是处理好checkec和disabled字段的值。
      */
-    genNodeData(findResult: Array<Department>):Array<BaseTreeModel<Department>>{
+    genNodeData(findResult: Array<Department>):Array<BaseTree<Department>>{
         return findResult.map(data => {
-            let item = new BaseTreeModel<Department>();
+            let item = new BaseTree<Department>();
             item.item = new Department();
             Object.assign(item.item,data);
             item.id = item.item.id;
@@ -272,7 +272,7 @@ export class BylDepartmentListComponent implements OnInit {
 
     // addNode(dept: Department): void {
     //     if (!(this.nodes)) this.nodes = [];
-    //     let node = new BaseTreeModel<Department>();
+    //     let node = new BaseTree<Department>();
     //     node.item = new Department();
     //     Object.assign(node.item,dept);
     //     node.id = node.item.id;
@@ -293,7 +293,7 @@ export class BylDepartmentListComponent implements OnInit {
     //         })
     // }
     //
-    // searchChildren(parentId:string) : Array<BaseTreeModel<Department>>{
+    // searchChildren(parentId:string) : Array<BaseTree<Department>>{
     //     if (parentId === "-") {
     //         return this.nodes;
     //     }else{

@@ -11,9 +11,9 @@ import {Observable} from "rxjs/Observable";
 import {BylCrudEvent, BylCrudWaitingComponent} from "../../../common/waiting/crud-waiting.component";
 import {BylRoleCrudComponent} from "../crud/crud.component";
 import * as moment from 'moment';
-import {PageReqModel} from "../../../../service/model/page-req.model";
+import {PageReq} from "../../../../service/model/page-req.model";
 import {RoleQueryModel} from "../../../../service/account/role-query.model";
-import {ListFormDataModel} from "../../../../service/model/list-form-data.model";
+import {ListFormData} from "../../../../service/model/list-form-data.model";
 
 @Component({
     selector: 'byl-role-list',
@@ -27,7 +27,7 @@ export class BylRoleListComponent implements OnInit {
         status: [1]
     };
 
-    page:PageReqModel ={
+    page:PageReq ={
         page: 1,// 缺省当前页
         pageSize: 10,// 缺省每页条数
         sortField: 'name',
@@ -42,12 +42,12 @@ export class BylRoleListComponent implements OnInit {
     // ps: number;//每页条数
     total: number; // 总条数
 
-    listData : Array<ListFormDataModel<Role>> = []; // 显示内容
+    listData : Array<ListFormData<Role>> = []; // 显示内容
     loading = false;
     // args: any = { };//查询条件
     sortMap: any = {};
 
-    selectedRows: Array<ListFormDataModel<Role>> = [];
+    selectedRows: Array<ListFormData<Role>> = [];
     indeterminate = false;
     allChecked = false;
 
@@ -192,11 +192,11 @@ export class BylRoleListComponent implements OnInit {
     /**
      * 根据查询的结果，生成界面显示的内容，重点是处理好checkec和disabled字段的值。
      * @param {Array<Role>} findResult
-     * @returns {Array<ListFormDataModel<Role>>}
+     * @returns {Array<ListFormData<Role>>}
      */
-    genListData(findResult: Array<Role>):Array<ListFormDataModel<Role>>{
+    genListData(findResult: Array<Role>):Array<ListFormData<Role>>{
         return findResult.map(data => {
-            let item = new ListFormDataModel<Role>();
+            let item = new ListFormData<Role>();
             item.checked = false;
             item.disabled = (data.status === RoleStatus.DELETED_ROLE);
             item.item = new Role();

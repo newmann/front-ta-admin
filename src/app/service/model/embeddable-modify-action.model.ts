@@ -5,7 +5,7 @@
  * @Date：
 
  */
-export class EmbeddableModifyActionModel{
+export class EmbeddableModifyAction{
     modifyId: string;
     modifyCode: string;
     modifyName: string;

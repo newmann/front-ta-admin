@@ -4,7 +4,7 @@
  * @Date: Created in 2018-03-04 14:44
  **/
 
-export class PageRespModel<T>{
+export class PageResp<T>{
     rows: Set<T>;
 
     page: number;

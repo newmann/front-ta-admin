@@ -5,7 +5,7 @@
  * @Date：
 
  */
-export class EmbeddableCreateActionModel{
+export class EmbeddableCreateAction{
 
     createId: string;
     createCode: string;

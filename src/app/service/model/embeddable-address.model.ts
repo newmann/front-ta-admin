@@ -5,7 +5,7 @@
  * @Date：
 
  */
-export class EmbeddableAddressModel{
+export class EmbeddableAddress{
 
     countryId: string;
     countryCode: string;

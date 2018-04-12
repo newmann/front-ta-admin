@@ -5,7 +5,7 @@
  * @Date：
 
  */
-export class EmbeddableContactMethodModel{
+export class EmbeddableContactMethod{
     contactId: string;
     contactCode: string;
     contactName: string;

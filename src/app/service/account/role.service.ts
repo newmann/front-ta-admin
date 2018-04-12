@@ -5,13 +5,13 @@ import {LoginResultModel} from "../auth/login-result.model";
 import {Observable} from "rxjs/Observable";
 import {Role, RoleStatus} from "./role.model";
 import {Account} from "./account.model";
-import {PageRespModel} from "../model/page-resp.model";
-import {PageReqModel} from "../model/page-req.model";
+import {PageResp} from "../model/page-resp.model";
+import {PageReq} from "../model/page-req.model";
 import {ConfigService} from "../constant/config.service";
 import {I18NService} from "@core/i18n/i18n.service";
 import {IStatusItem} from "../model/status.model";
 import {RoleQueryModel} from "./role-query.model";
-import {QueryReqBodyModel} from "../model/query-req-body.model";
+import {QueryReqBody} from "../model/query-req-body.model";
 
 /**
  * @Description: 角色管理service
@@ -61,26 +61,26 @@ export class RoleService{
      * 按分页方式返回所有正常状态的角色
      * @returns {Observable<ResultBody<LoginResultModel>>}
      */
-    findPageNormal(pageNo: number): Observable < ResultBody < PageRespModel<Role> >> {
-        let page = new PageReqModel();
+    findPageNormal(pageNo: number): Observable < ResultBody < PageResp<Role> >> {
+        let page = new PageReq();
         page.page = pageNo;
         page.pageSize = this.configServer.PAGESIZE;
         page.sortField = 'name';
         page.sort = "desc";
 
-        return this.http.post< ResultBody < PageRespModel<Role> >>("api/role/find-page-normal",page);
+        return this.http.post< ResultBody < PageResp<Role> >>("api/role/find-page-normal",page);
     }
 
     /**
      * 按分页方式返回不同状态的角色
      * @returns {Observable<ResultBody<LoginResultModel>>}
      */
-    findPage(query: RoleQueryModel,page: PageReqModel): Observable < ResultBody < PageRespModel<Role> >> {
-        let queryModel = new QueryReqBodyModel<RoleQueryModel>();
+    findPage(query: RoleQueryModel,page: PageReq): Observable < ResultBody < PageResp<Role> >> {
+        let queryModel = new QueryReqBody<RoleQueryModel>();
         queryModel.pageReq = page;
         queryModel.queryReq = query;
 
-        return this.http.post< ResultBody < PageRespModel<Role> >>("api/role/find-page",queryModel);
+        return this.http.post< ResultBody < PageResp<Role> >>("api/role/find-page",queryModel);
     }
     // add(name: string): Observable< ResultBody < Role >> {
     //     let newItem = new Role();

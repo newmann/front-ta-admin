@@ -5,13 +5,13 @@ import {LoginResultModel} from "../auth/login-result.model";
 import {Observable} from "rxjs/Observable";
 import {Department, DepartmentStatus} from "./department.model";
 import {Account} from "./account.model";
-import {PageRespModel} from "../model/page-resp.model";
-import {PageReqModel} from "../model/page-req.model";
+import {PageResp} from "../model/page-resp.model";
+import {PageReq} from "../model/page-req.model";
 import {ConfigService} from "../constant/config.service";
 import {I18NService} from "@core/i18n/i18n.service";
 import {IStatusItem} from "../model/status.model";
 import {DepartmentQueryModel} from "./department-query.model";
-import {QueryReqBodyModel} from "../model/query-req-body.model";
+import {QueryReqBody} from "../model/query-req-body.model";
 
 
 /**
@@ -62,14 +62,14 @@ export class DepartmentService{
      * 按分页方式返回所有正常状态的部门
      * @returns {Observable<ResultBody<LoginResultModel>>}
      */
-    // findPageNormal(pageNo: number): Observable < ResultBody < PageRespModel<Department> >> {
-    //     let page = new PageReqModel();
+    // findPageNormal(pageNo: number): Observable < ResultBody < PageResp<Department> >> {
+    //     let page = new PageReq();
     //     page.page = pageNo;
     //     page.pageSize = this.configServer.PAGESIZE;
     //     page.sortField = 'name';
     //     page.sort = "desc";
     //
-    //     return this.http.post< ResultBody < PageRespModel<Department> >>("api/department/find-page-normal",page);
+    //     return this.http.post< ResultBody < PageResp<Department> >>("api/department/find-page-normal",page);
     // }
     /**
      * 返回指定parentId的部门
@@ -87,12 +87,12 @@ export class DepartmentService{
      * 按分页方式返回不同状态的部门
      * @returns {Observable<ResultBody<LoginResultModel>>}
      */
-    findPage(query: DepartmentQueryModel,page: PageReqModel): Observable < ResultBody < PageRespModel<Department> >> {
-        let queryModel = new QueryReqBodyModel<DepartmentQueryModel>();
+    findPage(query: DepartmentQueryModel,page: PageReq): Observable < ResultBody < PageResp<Department> >> {
+        let queryModel = new QueryReqBody<DepartmentQueryModel>();
         queryModel.pageReq = page;
         queryModel.queryReq = query;
 
-        return this.http.post< ResultBody < PageRespModel<Department> >>("api/department/find-page",queryModel);
+        return this.http.post< ResultBody < PageResp<Department> >>("api/department/find-page",queryModel);
     }
 
     // add(name: string): Observable< ResultBody < Department >> {

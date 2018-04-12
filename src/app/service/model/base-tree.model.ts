@@ -4,7 +4,7 @@
  * @Date: Created in 2018-03-31 15:21
  **/
 
-export class BaseTreeModel<T>{
+export class BaseTree<T>{
     //用来给node tree展示用
     id: string;
     name: string;
@@ -12,7 +12,7 @@ export class BaseTreeModel<T>{
     checked: boolean;
     disableCheckbox: boolean;
     hasChildren: boolean;
-    children: Array<BaseTreeModel<T>> = [] ;
+    children: Array<BaseTree<T>> = [] ;
 
     //具体对象的数据
     item : T;

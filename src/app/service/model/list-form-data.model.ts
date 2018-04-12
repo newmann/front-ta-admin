@@ -4,7 +4,7 @@
  * @Date: Created in 2018-03-25 15:31
  **/
 
-export class ListFormDataModel<T>{
+export class ListFormData<T>{
     checked: boolean;
     disabled: boolean;
     item: T;
