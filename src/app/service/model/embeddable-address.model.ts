@@ -5,7 +5,7 @@
  * @Date：
 
  */
-export class EmbeddableAddress{
+export class BylEmbeddableAddress{
 
     countryId: string;
     countryCode: string;

@@ -1,19 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {_HttpClient, MenuService} from '@delon/theme';
 import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
-import {RoleService} from '../../../../service/account/role.service';
-import {ConfigService} from '../../../../service/constant/config.service';
-import {ResultBody} from '../../../../service/model/result-body.model';
-import {Role, RoleStatus} from '../../../../service/account/role.model';
-import {IStatusItem} from '../../../../service/model/status.model';
+import {RoleService} from '../../../../service/account/role/role.service';
+import {BylConfigService} from '../../../../service/constant/config.service';
+import {BylResultBody} from '../../../../service/model/result-body.model';
+import {Role, RoleStatus} from '../../../../service/account/role/role.model';
+import {BylIStatusItem} from '../../../../service/model/status.model';
 import {Router} from '@angular/router';
 import {Observable} from "rxjs/Observable";
 import {BylCrudEvent, BylCrudWaitingComponent} from "../../../common/waiting/crud-waiting.component";
 import {BylRoleCrudComponent} from "../crud/crud.component";
 import * as moment from 'moment';
-import {PageReq} from "../../../../service/model/page-req.model";
-import {RoleQueryModel} from "../../../../service/account/role-query.model";
-import {ListFormData} from "../../../../service/model/list-form-data.model";
+import {BylPageReq} from "../../../../service/model/page-req.model";
+import {RoleQueryModel} from "../../../../service/account/role/role-query.model";
+import {BylListFormData} from "../../../../service/model/list-form-data.model";
 
 @Component({
     selector: 'byl-role-list',
@@ -27,7 +27,7 @@ export class BylRoleListComponent implements OnInit {
         status: [1]
     };
 
-    page:PageReq ={
+    page:BylPageReq ={
         page: 1,// 缺省当前页
         pageSize: 10,// 缺省每页条数
         sortField: 'name',
@@ -36,18 +36,18 @@ export class BylRoleListComponent implements OnInit {
     };
 
     expandQuery = false; // 是否展开查询条件界面
-    statusList: IStatusItem[]; //状态
+    statusList: BylIStatusItem[]; //状态
 
     // pi = 1;//当前页
     // ps: number;//每页条数
     total: number; // 总条数
 
-    listData : Array<ListFormData<Role>> = []; // 显示内容
+    listData : Array<BylListFormData<Role>> = []; // 显示内容
     loading = false;
     // args: any = { };//查询条件
     sortMap: any = {};
 
-    selectedRows: Array<ListFormData<Role>> = [];
+    selectedRows: Array<BylListFormData<Role>> = [];
     indeterminate = false;
     allChecked = false;
 
@@ -58,7 +58,7 @@ export class BylRoleListComponent implements OnInit {
 
     constructor(private message: NzMessageService,
                 private roleService: RoleService,
-                private configService: ConfigService,
+                private configService: BylConfigService,
                 public modalService: NzModalService,
                 public router: Router) {
         this.q.ps = configService.PAGESIZE;
@@ -111,7 +111,7 @@ export class BylRoleListComponent implements OnInit {
     //     this.roleService.add(this.newRole).subscribe(
     //         data => {
     //             this.loading = false;
-    //             if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+    //             if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
     //                 //正确获取数据
     //                 //保存正确后：1、显示成功数据，2、添加到显示界面中，3、掩藏新增界面
     //                 this.showMsg('成功新增角色！');
@@ -170,7 +170,7 @@ export class BylRoleListComponent implements OnInit {
         this.roleService.findPage(this.getRoleQueryModel(this.q),this.page).subscribe(
             data => {
                 this.loading = false;
-                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     // 正确获取数据
                     this.total = data.data.total;
 
@@ -192,11 +192,11 @@ export class BylRoleListComponent implements OnInit {
     /**
      * 根据查询的结果，生成界面显示的内容，重点是处理好checkec和disabled字段的值。
      * @param {Array<Role>} findResult
-     * @returns {Array<ListFormData<Role>>}
+     * @returns {Array<BylListFormData<Role>>}
      */
-    genListData(findResult: Array<Role>):Array<ListFormData<Role>>{
+    genListData(findResult: Array<Role>):Array<BylListFormData<Role>>{
         return findResult.map(data => {
-            let item = new ListFormData<Role>();
+            let item = new BylListFormData<Role>();
             item.checked = false;
             item.disabled = (data.status === RoleStatus.DELETED_ROLE);
             item.item = new Role();
@@ -268,7 +268,7 @@ export class BylRoleListComponent implements OnInit {
         this.roleService.update(lockItem).subscribe(
             data => {
                 this.loading = false;
-                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
 
                     // this.listData = Array.from(data.data.rows);
                     this.updateListData(data.data);

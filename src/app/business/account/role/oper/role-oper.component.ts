@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RoleService} from "../../../../service/account/role.service";
-import {ConfigService} from "../../../../service/constant/config.service";
+import {RoleService} from "../../../../service/account/role/role.service";
+import {BylConfigService} from "../../../../service/constant/config.service";
 import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
-import {Role} from "../../../../service/account/role.model";
+import {Role} from "../../../../service/account/role/role.model";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs/Observable";
 import {map, delay, debounceTime, flatMap, distinctUntilChanged, first, catchError} from 'rxjs/operators';
-import {ResultBody} from "../../../../service/model/result-body.model";
+import {BylResultBody} from "../../../../service/model/result-body.model";
 import {_HttpClient} from "@delon/theme";
 import {HttpClient} from "@angular/common/http";
 import {of} from "rxjs/observable/of";
@@ -26,7 +26,7 @@ export class RoleOperComponent implements OnInit {
         this.roleService.checkNameAvailable('test').subscribe(
             (data) => {
                 console.log(data);
-                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     // control.setErrors(null);
                     // return Observable.throw(null);
                     this.testResult = "不重复";
@@ -46,7 +46,7 @@ export class RoleOperComponent implements OnInit {
         private http: HttpClient,
         private msgService: NzMessageService,
         private roleService: RoleService,
-        private configService: ConfigService,
+        private configService: BylConfigService,
         private modal: NzModalService,
         private subject: NzModalSubject,
         private fb: FormBuilder
@@ -122,13 +122,13 @@ export class RoleOperComponent implements OnInit {
                 //     return Observable.throw({ required: true });
                 // }
                 console.log(value);
-                // return this.http.post<ResultBody<boolean>>('"/api/role/check-name-available"',value);
+                // return this.http.post<BylResultBody<boolean>>('"/api/role/check-name-available"',value);
                 return this.roleService.checkNameAvailable(value);
             }
             ),
             map((data) =>{
                 console.log(data              );
-                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     // control.setErrors(null);
                     // return Observable.throw(null);
                     return null;

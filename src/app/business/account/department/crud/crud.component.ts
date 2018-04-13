@@ -5,13 +5,13 @@ import {ReuseTabService} from "@delon/abc";
 import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
 import {LoggerService} from "../../../../service/utils/logger";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {ConfigService} from "../../../../service/constant/config.service";
-import {RoleService} from "../../../../service/account/role.service";
-import {DepartmentService} from "../../../../service/account/department.service";
-import {Role, RoleStatus} from "../../../../service/account/role.model";
-import {Department, DepartmentStatus} from "../../../../service/account/department.model";
+import {BylConfigService} from "../../../../service/constant/config.service";
+import {RoleService} from "../../../../service/account/role/role.service";
+import {DepartmentService} from "../../../../service/account/department/department.service";
+import {Role, RoleStatus} from "../../../../service/account/role/role.model";
+import {Department, DepartmentStatus} from "../../../../service/account/department/department.model";
 import {debounceTime, distinctUntilChanged, first, flatMap, map} from "rxjs/operators";
-import {ResultBody} from "../../../../service/model/result-body.model";
+import {BylResultBody} from "../../../../service/model/result-body.model";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/observable/fromEvent';
 import {BylCrudEvent, BylCrudWaitingComponent} from "../../../common/waiting/crud-waiting.component";
@@ -43,7 +43,7 @@ export class BylDepartmentCrudComponent implements OnInit {
     constructor(
         public msgService: NzMessageService,
         public departmentService: DepartmentService,
-        public configService: ConfigService,
+        public configService: BylConfigService,
         public modalService: NzModalService,
         public modalSubject: NzModalSubject,
         public activatedRoute: ActivatedRoute,
@@ -100,7 +100,7 @@ export class BylDepartmentCrudComponent implements OnInit {
             ),
             map((data) => {
                     console.log(data);
-                    if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                         if (data.data) {
                             return null;
                         } else {
@@ -132,7 +132,7 @@ export class BylDepartmentCrudComponent implements OnInit {
         this.departmentService.findById(this.sourceId).subscribe(
             data => {
                 this._loading = false;
-                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     this.logger.info(data.data);
                     Object.assign(this._department,data.data);
                     this.reset();
@@ -168,7 +168,7 @@ export class BylDepartmentCrudComponent implements OnInit {
         this.departmentService.add(this._department).subscribe(
             data => {
                 this._loading = false;
-                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     // 通知显示窗口保存正确
                     this._savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
                     // this.msgService.success('保存正确！');
@@ -202,7 +202,7 @@ export class BylDepartmentCrudComponent implements OnInit {
             ).subscribe(
 
                 data => {
-                    if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
 
                         // this.listData = Array.from(data.data.rows);
                         this.logger.log(data.data);

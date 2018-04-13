@@ -3,9 +3,9 @@
  * @Author: newmannhu@qq.com
  * @Date: Created in 2018-03-25 8:57
  **/
-import {PageReq} from "./page-req.model";
+import {BylPageReq} from "./page-req.model";
 
-export class QueryReqBody<T>{
+export class BylQueryReqBody<T>{
     queryReq: T;
-    pageReq: PageReq;
+    pageReq: BylPageReq;
 }

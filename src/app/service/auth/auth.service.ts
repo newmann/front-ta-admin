@@ -1,10 +1,10 @@
 import { LoginResultModel } from './login-result.model';
-import { ResultBody } from '../model/result-body.model';
+import { BylResultBody } from '../model/result-body.model';
 import { Inject, Injectable } from '@angular/core';
 import {AuthDataService} from './auth-data.service';
-import { Account } from './../account/account.model';
+import { Account } from '../account/account/account.model';
 import { Observable } from 'rxjs/Observable';
-import { API_URL_LOGIN } from 'app/service/constant/backend-url.constant';
+import { BYL_API_URL_LOGIN } from 'app/service/constant/backend-url.constant';
 import { _HttpClient } from '@delon/theme';
 import {UUID} from "angular2-uuid";
 import {getEmailName} from "../utils/string.utils";
@@ -12,18 +12,18 @@ import {getEmailName} from "../utils/string.utils";
 @Injectable()
 export class AuthService {
     constructor(private http: _HttpClient,
-        @Inject(API_URL_LOGIN) private apiURLLogin) {
+        @Inject(BYL_API_URL_LOGIN) private apiURLLogin) {
 
     }
 
-    login(username: string, password: string): Observable < ResultBody < LoginResultModel >> {
+    login(username: string, password: string): Observable < BylResultBody < LoginResultModel >> {
         const loginAccount = new Account();
         loginAccount.username = username;
         loginAccount.password = password;
-        return this.http.post<ResultBody<LoginResultModel>>(this.apiURLLogin, loginAccount);
+        return this.http.post<BylResultBody<LoginResultModel>>(this.apiURLLogin, loginAccount);
         //   .subscribe(
         //   data=>{
-        //     if(data.code == ResultBody.RESULT_CODE_SUCCESS){
+        //     if(data.code == BylResultBody.RESULT_CODE_SUCCESS){
         //       this.changeAccount(data.data.account);
         //       this.token = data.data.token;
         //       return   AuthService.URL_AUTH_LOGIN;
@@ -40,7 +40,7 @@ export class AuthService {
     /**
      *  邮箱注册
      * */
-    emailRegister(email: string, password: string, mobile?: string) :Observable < ResultBody < Account >> {
+    emailRegister(email: string, password: string, mobile?: string) :Observable < BylResultBody < Account >> {
         let registerAccount = new Account();
         registerAccount.username = UUID.UUID();//给出一个uuid,以便保证后台的处理要求
         registerAccount.password = password;
@@ -48,7 +48,7 @@ export class AuthService {
         registerAccount.email = email;
         registerAccount.phone = mobile;
 
-        return this.http.post<ResultBody<Account>>("/api/auth/register", registerAccount);
+        return this.http.post<BylResultBody<Account>>("/api/auth/register", registerAccount);
     }
 
     // githubLogin() {

@@ -5,7 +5,7 @@
  * @Date：
 
  */
-export class EmbeddableProject{
+export class BylEmbeddableProject{
 
     projectId: string;
     projectCode: string;

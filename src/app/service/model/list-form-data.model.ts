@@ -4,7 +4,7 @@
  * @Date: Created in 2018-03-25 15:31
  **/
 
-export class ListFormData<T>{
+export class BylListFormData<T>{
     checked: boolean;
     disabled: boolean;
     item: T;

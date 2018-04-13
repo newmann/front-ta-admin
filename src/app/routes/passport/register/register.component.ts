@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
 import {AuthService} from "../../../service/auth/auth.service";
-import {ResultBody} from "../../../service/model/result-body.model";
+import {BylResultBody} from "../../../service/model/result-body.model";
 
 @Component({
     selector: 'passport-register',
@@ -98,7 +98,7 @@ export class UserRegisterComponent implements OnDestroy {
         this.auth.emailRegister(this.mail.value,this.password.value,this.mobile.value).subscribe(
             data => {
                 this.loading = false;
-                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     this.router.navigate(['/passport/register-result']);
 
                 } else {

@@ -6,8 +6,8 @@
 
 
 
-//角色的状态定义
-export const enum DepartmentStatus{
+
+export const enum BylBusinessEntityType{
     PERSON = 1 ,
     ORGANIZATION = 2
 }

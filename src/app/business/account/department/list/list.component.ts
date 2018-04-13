@@ -1,17 +1,17 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
-import {ListFormData} from "../../../../service/model/list-form-data.model";
+import {BylListFormData} from "../../../../service/model/list-form-data.model";
 import {Router} from "@angular/router";
-import {IStatusItem} from "../../../../service/model/status.model";
-import {ResultBody} from "../../../../service/model/result-body.model";
-import {PageReq} from "../../../../service/model/page-req.model";
+import {BylIStatusItem} from "../../../../service/model/status.model";
+import {BylResultBody} from "../../../../service/model/result-body.model";
+import {BylPageReq} from "../../../../service/model/page-req.model";
 import * as moment from "moment";
-import {ConfigService} from "../../../../service/constant/config.service";
+import {BylConfigService} from "../../../../service/constant/config.service";
 import {BylCrudEvent} from "../../../common/waiting/crud-waiting.component";
-import {Department, DepartmentStatus} from "../../../../service/account/department.model";
-import {DepartmentService} from "../../../../service/account/department.service";
-import {DepartmentQueryModel} from "../../../../service/account/department-query.model";
+import {Department, DepartmentStatus} from "../../../../service/account/department/department.model";
+import {DepartmentService} from "../../../../service/account/department/department.service";
+import {DepartmentQueryModel} from "../../../../service/account/department/department-query.model";
 import {BylDepartmentCrudComponent} from "../crud/crud.component";
 import {NzTreeComponent} from "ng-tree-antd";
 import {LoggerService} from "../../../../service/utils/logger";
@@ -37,7 +37,7 @@ export class BylDepartmentListComponent implements OnInit {
         status: [1]
     };
 
-    page:PageReq ={
+    page:BylPageReq ={
         page: 1,// 缺省当前页
         pageSize: 10,// 缺省每页条数
         sortField: 'code',
@@ -46,15 +46,15 @@ export class BylDepartmentListComponent implements OnInit {
     };
 
     expandQuery = false; // 是否展开查询条件界面
-    statusList: IStatusItem[]; //状态
+    statusList: BylIStatusItem[]; //状态
 
 
-    listData : Array<ListFormData<Department>> = []; // 显示内容
+    listData : Array<BylListFormData<Department>> = []; // 显示内容
     loading = false;
     // args: any = { };//查询条件
     sortMap: any = {};
 
-    selectedRows: Array<ListFormData<Department>> = [];
+    selectedRows: Array<BylListFormData<Department>> = [];
     indeterminate = false;
     allChecked = false;
 
@@ -75,7 +75,7 @@ export class BylDepartmentListComponent implements OnInit {
     private _treeExpand$: Subject<BaseTree<Department>> = new Subject<BaseTree<Department>>();
 
     private _nodeObservable: Observable<BaseTree<Department>>;
-    private _departmentObservable: Observable<ResultBody<Array<Department>>>;
+    private _departmentObservable: Observable<BylResultBody<Array<Department>>>;
     private _expandObservable: any;
 
 
@@ -110,14 +110,14 @@ export class BylDepartmentListComponent implements OnInit {
         this._expandObservable = zip(
             this._nodeObservable,
             this._departmentObservable,
-            (node: BaseTree<Department>, data: ResultBody<Array<Department>>) => ({node,data})
+            (node: BaseTree<Department>, data: BylResultBody<Array<Department>>) => ({node,data})
         );
         this._expandObservable.subscribe(
             ({node,data}) => {
                 this.logger.info("_expandOberservable","node",node);
                 this.logger.info("_expandOberservable","data",data);
 
-                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
 
                     // this.listData = Array.from(data.data.rows);
                     this.logger.log(data.data);
@@ -146,7 +146,7 @@ export class BylDepartmentListComponent implements OnInit {
     constructor(private message: NzMessageService,
                 private logger: LoggerService,
                 private departmentService: DepartmentService,
-                private configService: ConfigService,
+                private configService: BylConfigService,
                 public modalService: NzModalService,
                 public router: Router) {
         this.q.ps = configService.PAGESIZE;
@@ -232,7 +232,7 @@ export class BylDepartmentListComponent implements OnInit {
         this.departmentService.findDepartmendByParentId('-').subscribe(
             data => {
                 this.loading = false;
-                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
 
                     // this.listData = Array.from(data.data.rows);
                     this.nodes = this.genNodeData(data.data);
@@ -364,7 +364,7 @@ export class BylDepartmentListComponent implements OnInit {
         this.departmentService.update(lockItem).subscribe(
             data => {
                 this.loading = false;
-                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
 
                     // this.listData = Array.from(data.data.rows);
                     this.updateListData(data.data);

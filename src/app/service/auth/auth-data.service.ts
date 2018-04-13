@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Account } from '../account/account.model';
+import { Account } from '../account/account/account.model';
 /**
  *  @Author: xinsh
  * @Description: 保存登录后的token和account信息
@@ -22,7 +22,7 @@ export class AuthDataService {
     }
     set Account(newAccount: Account){
         this.account = newAccount;
-        this.Account$.next(newAccount);        
+        this.Account$.next(newAccount);
     }
     private account: Account = null; // 当前登录的用户
     public Account$: BehaviorSubject<Account> = new BehaviorSubject<Account>(null);

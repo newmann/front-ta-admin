@@ -3,15 +3,15 @@
  *
  * @export
  * @abstract
- * @class BaseModel
+ * @class BylBaseModel
  */
-import {EmbeddableCreateAction} from "./embeddable-create-action.model";
-import {EmbeddableModifyAction} from "./embeddable-modify-action.model";
+import {BylEmbeddableCreateAction} from "./embeddable-create-action.model";
+import {BylEmbeddableModifyAction} from "./embeddable-modify-action.model";
 
 
-export abstract class BaseModel {
+export abstract class BylBaseModel {
     id: string;
-    createAction: EmbeddableCreateAction;
-    modifyAction: EmbeddableModifyAction;
+    createAction: BylEmbeddableCreateAction;
+    modifyAction: BylEmbeddableModifyAction;
     remarks: string;
   }

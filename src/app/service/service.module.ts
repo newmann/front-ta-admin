@@ -4,18 +4,18 @@ import {NgModule, Optional, SkipSelf} from '@angular/core';
 import {throwIfAlreadyLoaded} from './../core/module-import-guard';
 import {AuthDataService} from 'app/service/auth/auth-data.service';
 import {CustomStompRService} from 'app/service/chat/custom.stomp.r.service';
-import {API_URL_LOGIN} from 'app/service/constant/backend-url.constant';
-import {ConfigService} from "./constant/config.service";
-import {RoleService} from "./account/role.service";
+import {BYL_API_URL_LOGIN} from 'app/service/constant/backend-url.constant';
+import {BylConfigService} from "./constant/config.service";
+import {RoleService} from "./account/role/role.service";
 import { LOGGER_SERVICE_PROVIDER } from './utils/logger/logger.service';
 import { BYL_LOGGER_STATE } from './utils/logger';
-import {DepartmentService} from "./account/department.service";
+import {DepartmentService} from "./account/department/department.service";
 import {RouterGuardService} from './router/router-guard.service';
 
 
 @NgModule({
     providers: [
-        ConfigService,
+        BylConfigService,
         AuthService,
         AuthDataService,
         RoleService,
@@ -24,7 +24,7 @@ import {RouterGuardService} from './router/router-guard.service';
         ChatService,
         CustomStompRService,
         {
-            provide: API_URL_LOGIN,
+            provide: BYL_API_URL_LOGIN,
             useValue: '/api/auth/login'
         },
         { provide: BYL_LOGGER_STATE, useValue: true },

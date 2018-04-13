@@ -1,12 +1,12 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
-import {RoleService} from '../../../../service/account/role.service';
+import {RoleService} from '../../../../service/account/role/role.service';
 import {catchError, debounceTime, distinctUntilChanged, first, flatMap, map} from 'rxjs/operators';
-import {ResultBody} from '../../../../service/model/result-body.model';
+import {BylResultBody} from '../../../../service/model/result-body.model';
 import {Observable} from 'rxjs/Observable';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ConfigService} from '../../../../service/constant/config.service';
-import {Role, RoleStatus} from '../../../../service/account/role.model';
+import {BylConfigService} from '../../../../service/constant/config.service';
+import {Role, RoleStatus} from '../../../../service/account/role/role.model';
 import {HttpClient} from '@angular/common/http';
 import {WaitingComponent} from '../../../common/waiting/waiting.component';
 import {BylCrudEvent, BylCrudWaitingComponent} from '../../../common/waiting/crud-waiting.component';
@@ -45,7 +45,7 @@ export class BylRoleCrudComponent implements OnInit {
 
     constructor(public msgService: NzMessageService,
                 public roleService: RoleService,
-                public configService: ConfigService,
+                public configService: BylConfigService,
                 public modalService: NzModalService,
                 public modalSubject: NzModalSubject,
                 public reuseTabService: ReuseTabService,
@@ -101,7 +101,7 @@ export class BylRoleCrudComponent implements OnInit {
         this.roleService.findById(this.sourceRoleId).subscribe(
             data => {
                 this._loading = false;
-                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     this.logger.info(data.data);
                     Object.assign(this._role,data.data);
                     this.reset();
@@ -148,7 +148,7 @@ export class BylRoleCrudComponent implements OnInit {
         this.roleService.add(this._role).subscribe(
             data => {
                 this._loading = false;
-                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     // 通知显示窗口保存正确
                     this._savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
                     // this.msgService.success('保存正确！');
@@ -221,7 +221,7 @@ export class BylRoleCrudComponent implements OnInit {
             ),
             map((data) => {
                     console.log(data);
-                    if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                         if (data.data) {
                             return null;
                         } else {

@@ -5,7 +5,7 @@
  * @Date：
 
  */
-export class EmbeddableContactMethod{
+export class BylEmbeddableContactMethod{
     contactId: string;
     contactCode: string;
     contactName: string;

@@ -4,7 +4,7 @@
  * @Date: Created in 2018-03-04 14:40
  **/
 
-export class PageReq{
+export class BylPageReq{
     page: number;
     pageSize: number;
     sortField: string;

@@ -7,7 +7,7 @@ import { SocialService, SocialOpenType, ITokenService, DA_SERVICE_TOKEN } from '
 import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
 import { AuthService } from 'app/service/auth/auth.service';
-import { ResultBody } from 'app/service/model/result-body.model';
+import { BylResultBody } from 'app/service/model/result-body.model';
 import { AuthDataService } from 'app/service/auth/auth-data.service';
 import { ChatService } from 'app/service/chat/chat.service';
 
@@ -161,7 +161,7 @@ export class UserLoginComponent implements OnDestroy {
         this.authService.login(this.userName.value, this.password.value).subscribe(
             data => {
                 this.loading = false;
-                if (data.code === ResultBody.RESULT_CODE_SUCCESS) {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     this.authDataService.Account = data.data.account;
                     this.authDataService.Token = data.data.token;
                     // 清空路由复用信息

@@ -5,7 +5,7 @@
  **/
 
 
-import {URL_MOBILE_TAG} from '../constant/general.constant';
+import {BYL_URL_MOBILE_TAG} from '../constant/general.constant';
 
 /**
  * 获取邮箱中含有的用户名称
@@ -34,7 +34,7 @@ export function mixCodeName(code: string, name: string): string {
  */
 export function isMobileUrl(url: string): boolean {
 
-    return url.substr(0, URL_MOBILE_TAG.length) === URL_MOBILE_TAG;
+    return url.substr(0, BYL_URL_MOBILE_TAG.length) === BYL_URL_MOBILE_TAG;
 
 }
 
@@ -44,12 +44,12 @@ export function isMobileUrl(url: string): boolean {
  * @returns {string}
  */
 export  function genMobileUrl(url: string): string {
-    return URL_MOBILE_TAG + url;
+    return BYL_URL_MOBILE_TAG + url;
 }
 
 export function removeMobileTag(url: string): string{
     if (isMobileUrl(url)){
-        return url.substring(URL_MOBILE_TAG.length);
+        return url.substring(BYL_URL_MOBILE_TAG.length);
     }else{
         return url;
     }

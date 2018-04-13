@@ -6,7 +6,7 @@
 import {Injectable} from "@angular/core";
 
 @Injectable()
-export class ConfigService{
+export class BylConfigService{
     private pageSize = 10;
 
     get PAGESIZE(){ return this.pageSize;}
