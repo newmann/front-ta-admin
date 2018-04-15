@@ -7,7 +7,7 @@
  */
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
-import {LoggerService} from '../utils/logger';
+import {BylLoggerService} from '../utils/logger';
 import {CheckClientBrowserType} from '../utils/client-browser-type.utils';
 import {genMobileUrl, isMobileUrl} from '../utils/string.utils';
 
@@ -16,7 +16,7 @@ export class RouterGuardService implements CanActivate{
     private _browserType: string; // 客户端类型
     private _isMobile: boolean; // 是否为移动端
 
-    constructor(private logger: LoggerService, private router: Router){
+    constructor(private logger: BylLoggerService, private router: Router){
         // 获取当前的浏览器环境
         const check = CheckClientBrowserType();
         this._browserType = check.from();

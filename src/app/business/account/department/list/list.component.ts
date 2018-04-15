@@ -9,12 +9,12 @@ import {BylPageReq} from "../../../../service/model/page-req.model";
 import * as moment from "moment";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {BylCrudEvent} from "../../../common/waiting/crud-waiting.component";
-import {Department, DepartmentStatus} from "../../../../service/account/department/department.model";
-import {DepartmentService} from "../../../../service/account/department/department.service";
-import {DepartmentQueryModel} from "../../../../service/account/department/department-query.model";
+import {Department, DepartmentStatus} from "../../../../service/account/model/department.model";
+import {DepartmentService} from "../../../../service/account/service/department.service";
+import {DepartmentQueryModel} from "../../../../service/account/query/department-query.model";
 import {BylDepartmentCrudComponent} from "../crud/crud.component";
 import {NzTreeComponent} from "ng-tree-antd";
-import {LoggerService} from "../../../../service/utils/logger";
+import {BylLoggerService} from "../../../../service/utils/logger";
 import {BaseTree} from "../../../../service/model/base-tree.model";
 import {mixCodeName} from "../../../../service/utils/string.utils";
 import {Subject} from "rxjs/Subject";
@@ -144,7 +144,7 @@ export class BylDepartmentListComponent implements OnInit {
     // newDepartment: Department;
 
     constructor(private message: NzMessageService,
-                private logger: LoggerService,
+                private logger: BylLoggerService,
                 private departmentService: DepartmentService,
                 private configService: BylConfigService,
                 public modalService: NzModalService,

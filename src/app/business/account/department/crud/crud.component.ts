@@ -3,13 +3,13 @@ import { _HttpClient } from '@delon/theme';
 import {ActivatedRoute} from "@angular/router";
 import {ReuseTabService} from "@delon/abc";
 import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
-import {LoggerService} from "../../../../service/utils/logger";
+import {BylLoggerService} from "../../../../service/utils/logger";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BylConfigService} from "../../../../service/constant/config.service";
-import {RoleService} from "../../../../service/account/role/role.service";
-import {DepartmentService} from "../../../../service/account/department/department.service";
-import {Role, RoleStatus} from "../../../../service/account/role/role.model";
-import {Department, DepartmentStatus} from "../../../../service/account/department/department.model";
+import {RoleService} from "../../../../service/account/service/role.service";
+import {DepartmentService} from "../../../../service/account/service/department.service";
+import {Role, RoleStatus} from "../../../../service/account/model/role.model";
+import {Department, DepartmentStatus} from "../../../../service/account/model/department.model";
 import {debounceTime, distinctUntilChanged, first, flatMap, map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {Observable} from "rxjs/Observable";
@@ -47,7 +47,7 @@ export class BylDepartmentCrudComponent implements OnInit {
         public modalService: NzModalService,
         public modalSubject: NzModalSubject,
         public activatedRoute: ActivatedRoute,
-        public logger: LoggerService,
+        public logger: BylLoggerService,
         public fb: FormBuilder
     ) {
         // 绑定验证模式

@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {_HttpClient, MenuService} from '@delon/theme';
 import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
-import {RoleService} from '../../../../service/account/role/role.service';
+import {RoleService} from '../../../../service/account/service/role.service';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylResultBody} from '../../../../service/model/result-body.model';
-import {Role, RoleStatus} from '../../../../service/account/role/role.model';
+import {Role, RoleStatus} from '../../../../service/account/model/role.model';
 import {BylIStatusItem} from '../../../../service/model/status.model';
 import {Router} from '@angular/router';
 import {Observable} from "rxjs/Observable";
@@ -12,7 +12,7 @@ import {BylCrudEvent, BylCrudWaitingComponent} from "../../../common/waiting/cru
 import {BylRoleCrudComponent} from "../crud/crud.component";
 import * as moment from 'moment';
 import {BylPageReq} from "../../../../service/model/page-req.model";
-import {RoleQueryModel} from "../../../../service/account/role/role-query.model";
+import {RoleQueryModel} from "../../../../service/account/query/role-query.model";
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
 
 @Component({
@@ -71,6 +71,14 @@ export class BylRoleListComponent implements OnInit {
         this.refreshStatus();
     }
 
+    refreshStatus() {
+        const allChecked = this.listData.every(value => value.disabled || value.checked);
+        const allUnChecked = this.listData.every(value => value.disabled || !value.checked);
+        this.allChecked = allChecked;
+        this.indeterminate = (!allChecked) && (!allUnChecked);
+        this.selectedRows = this.listData.filter(value => value.checked);
+        // this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
+    }
     // refChecked() {
     //     this.selectedRows = this.listData.filter(w => w.checked);
     //     const checkedCount = this.selectedRows.length;
@@ -239,14 +247,7 @@ export class BylRoleListComponent implements OnInit {
         this.search();
     }
 
-    refreshStatus() {
-        const allChecked = this.listData.every(value => value.disabled || value.checked);
-        const allUnChecked = this.listData.every(value => value.disabled || !value.checked);
-        this.allChecked = allChecked;
-        this.indeterminate = (!allChecked) && (!allUnChecked);
-        this.selectedRows = this.listData.filter(value => value.checked);
-        // this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
-    }
+
 
     /**
      * 将当前记录锁定

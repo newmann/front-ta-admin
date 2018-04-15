@@ -1,6 +1,6 @@
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { OnInit} from '@angular/core';
-import {LoggerService} from '../../service/utils/logger';
+import {BylLoggerService} from '../../service/utils/logger';
 import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
 
@@ -9,6 +9,7 @@ import {Subject} from 'rxjs/Subject';
 import {BylResultBody} from '../../service/model/result-body.model';
 import {BylBaseService} from '../../service/service/base.service';
 import {BylCrudEvent, BylCrudWaitingComponent} from './waiting/crud-waiting.component';
+import {ReuseTabService} from "@delon/abc";
 
 
 /**
@@ -33,8 +34,7 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
     public searchData$: Subject<string> = new Subject<string>();
 
     ngOnInit() {
-        //在从list窗口调入的情况下，载入数据
-        if (this.sourceId) this.loadData(this.sourceId);
+
     }
 
     constructor(public msgService: NzMessageService,
@@ -42,18 +42,29 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
                 public modalService: NzModalService,
                 public modalSubject: NzModalSubject,
                 public activatedRoute: ActivatedRoute,
-                public logger: LoggerService,
+                public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {
         this.defineForm();
+
+        //初始化businessData
+        this.businessData = this.newBusinessData();
 
         this.activatedRoute
             .paramMap
             .subscribe(params => {
-                this.logger.log('activedRoute', params);
-                this.logger.log('activedRoute', params.get('type'));
+                // this.logger.log('activedRoute', params);
+                // this.logger.log('activedRoute', params.get('type'));
                 this.processType = params.get('type') || '';
+                if (this.processType.length>0) {
+                    if (this.processType != "new") {
+                        this.sourceId = this.processType;
+                        // this.loadData(this.sourceId);
+                    }
+                }
 
+                console.log('processType',this.processType);
             });
+
 
         // this.loadData();
     }
@@ -66,16 +77,16 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
     /**
      *  载入数据
      */
-    loadData(id: String) {
+    loadData(id: string) {
 
         // this.showLoadingReveal();
         // this._loading = true;
         this.errMsg = '';
-        this.businessService.findById(this.sourceId).subscribe(
+        this.businessService.findById(id).subscribe(
             data => {
                 // this._loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                    this.logger.info(data.data);
+                    console.info(data.data);
                     Object.assign(this.businessData, data.data);
                     this.reset();
                 } else {
@@ -148,8 +159,9 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
         // }, {onlySelf: true, emitEvent: false});
 
         this.form.markAsPristine();
-        this.logger.log('this.form.dirty' + this.form.dirty);
-        this.logger.log('this.form.invalid' + this.form.invalid);
+
+        // this.logger.log('this.form.dirty' + this.form.dirty);
+        // this.logger.log('this.form.invalid' + this.form.invalid);
     }
 
     showSavingReveal() {
@@ -172,7 +184,7 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
         this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
         //
         this.savingReveal.subscribe(result => {
-            this.logger.info(result);
+            console.info(result);
             //判断是否退出界面
             if (result === 'onDestroy') {
                 console.log('退出提示界面');
@@ -186,7 +198,7 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
                         break;
                     default:
                         // 从list界面进入修改
-                        this.logger.info('将修改后的数据传回list界面');
+                        console.info('将修改后的数据传回list界面');
                         //将修改后的数据传回list界面
                         this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate], data: this.businessData});
                         this.modalSubject.destroy();

@@ -1,18 +1,18 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
-import {RoleService} from '../../../../service/account/role/role.service';
+import {RoleService} from '../../../../service/account/service/role.service';
 import {catchError, debounceTime, distinctUntilChanged, first, flatMap, map} from 'rxjs/operators';
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import {Observable} from 'rxjs/Observable';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {Role, RoleStatus} from '../../../../service/account/role/role.model';
+import {Role, RoleStatus} from '../../../../service/account/model/role.model';
 import {HttpClient} from '@angular/common/http';
 import {WaitingComponent} from '../../../common/waiting/waiting.component';
 import {BylCrudEvent, BylCrudWaitingComponent} from '../../../common/waiting/crud-waiting.component';
 import {ReuseTabService} from '@delon/abc';
 import {ActivatedRoute} from '@angular/router';
-import {LoggerService} from "../../../../service/utils/logger";
+import {BylLoggerService} from "../../../../service/utils/logger";
 import {CheckClientBrowserType} from '../../../../service/utils/client-browser-type.utils';
 
 
@@ -50,7 +50,7 @@ export class BylRoleCrudComponent implements OnInit {
                 public modalSubject: NzModalSubject,
                 public reuseTabService: ReuseTabService,
                 private activatedRoute: ActivatedRoute,
-                private logger: LoggerService,
+                private logger: BylLoggerService,
                 public fb: FormBuilder) {
         // 绑定验证模式
         this.form = this.fb.group({

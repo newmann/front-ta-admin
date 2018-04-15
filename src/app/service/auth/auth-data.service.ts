@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Account } from '../account/account/account.model';
+import { Account } from '../account/model/account.model';
 /**
  *  @Author: xinsh
  * @Description: 保存登录后的token和account信息

@@ -1,0 +1,119 @@
+<pro-header [title]="'个体的地址信息维护'" *ngIf="processType.length > 0 "></pro-header>
+<nz-card [nzBordered]="false">
+
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" role="form">
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="4">
+                <label for="type" nz-form-item-required>
+                        <span>
+                            地址类型
+                            <nz-tooltip [nzTitle]="'比如家庭地址、单位地址、现居住地等'">
+                            <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+                            </nz-tooltip>
+                        </span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="type">
+                <!--<nz-input formControlName="type" nzPlaceHolder="地址类型" ></nz-input>-->
+                <!--nzTags-->
+                <nz-select
+                    formControlName="type"
+                    [nzPlaceHolder]="'请选择或输入地址类型'"
+                    [nzNotFoundContent]="'无法找到'"
+                    nzShowSearch [nzMultiple]="false">
+                    <nz-option
+                        *ngFor="let option of typeOptions"
+                        [nzLabel]="option.label"
+                        [nzValue]="option">
+                    </nz-option>
+                </nz-select>
+
+                <ng-container *ngIf="type.dirty && type.touched">
+                    <p nz-form-explain *ngIf="type.errors?.required">必须输入地址类型</p>
+                    <p nz-form-explain *ngIf="type.errors?.other">验证出现异常：{{type.errors?.msg}}</p>
+                    <!--<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>-->
+                    <p nz-form-explain *ngIf="type.pending">验证中...</p>
+                </ng-container>
+
+            </div>
+        </div>
+
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="4">
+                <label for="addressTree" nz-form-item-required>
+                        <span>
+                            地址
+                            <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+                            <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+                            <!--</nz-tooltip>-->
+                        </span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
+                <nz-cascader
+                    formControlName = "addressTree"
+                    (nzLoad)="loadAddressTree($event)">
+                </nz-cascader>
+            </div>
+        </div>
+
+
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="4">
+                <label for="detailAddress" >
+                        <span>
+                            详细地址
+                            <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+                            <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+                            <!--</nz-tooltip>-->
+                        </span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="detailAddress">
+                <nz-input formControlName="detailAddress" nzPlaceHolder="详细地址" ></nz-input>
+
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="4">
+                <label for="zipCode" >
+                        <span>
+                            邮政编码
+                            <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+                            <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+                            <!--</nz-tooltip>-->
+                        </span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="zipCode">
+                <nz-input formControlName="zipCode" nzPlaceHolder="邮政编码" ></nz-input>
+
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="4">
+                <label for="remarks"> 备注</label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
+                <nz-input formControlName="remarks" nzPlaceHolder="备注" ></nz-input>
+            </div>
+        </div>
+
+        <div nz-form-item nz-row class="mb0">
+            <ng-container *ngIf="errMsg.length > 0">
+                <p>{{errMsg}}</p>
+            </ng-container>
+
+            <div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
+                <button nz-button [nzType]="'primary'" [nzSize]="'large'"
+                        [disabled]="form.invalid || (!form.dirty)">保存</button>
+                <button nz-button (click)="formResetButtonClick($event)">重置</button>
+
+
+            </div>
+
+        </div>
+
+    </form>
+
+</nz-card>

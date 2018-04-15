@@ -2,7 +2,7 @@ import { LoginResultModel } from './login-result.model';
 import { BylResultBody } from '../model/result-body.model';
 import { Inject, Injectable } from '@angular/core';
 import {AuthDataService} from './auth-data.service';
-import { Account } from '../account/account/account.model';
+import { Account } from '../account/model/account.model';
 import { Observable } from 'rxjs/Observable';
 import { BYL_API_URL_LOGIN } from 'app/service/constant/backend-url.constant';
 import { _HttpClient } from '@delon/theme';

@@ -45,8 +45,8 @@ export class BylBaseService<T> {
 
         return this.http.post<BylResultBody<BylPageResp<T>>>(this.BASE_API_URL + '/find-page', queryModel);
     }
-    
-    findByAll(): Observable<BylResultBody<T>> {
-        return this.http.get<BylResultBody<T>>(this.BASE_API_URL + '/find-all/');
-    }    
+
+    findByAll(): Observable<BylResultBody<Array<T>>> {
+        return this.http.get<BylResultBody<Array<T>>>(this.BASE_API_URL + '/find-all/');
+    }
 }

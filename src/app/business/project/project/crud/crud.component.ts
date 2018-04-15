@@ -5,8 +5,8 @@ import {BylConfigService} from "../../../../service/constant/config.service";
 import {FormBuilder} from "@angular/forms";
 import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
 
-import {LoggerService} from "../../../../service/utils/logger";
-import {ProjectService} from '../../../../service/project/project/project.service';
+import {BylLoggerService} from "../../../../service/utils/logger";
+import {ProjectService} from '../../../../service/project/service/project.service';
 
 
 @Component({
@@ -22,7 +22,7 @@ export class ProjectCrudComponent implements OnInit {
         public modalService: NzModalService,
         public modalSubject: NzModalSubject,
         public activatedRoute: ActivatedRoute,
-        public logger: LoggerService,
+        public logger: BylLoggerService,
         public fb: FormBuilder
     ) { }
 

@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RoleService} from "../../../../service/account/role/role.service";
+import {RoleService} from "../../../../service/account/service/role.service";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
-import {Role} from "../../../../service/account/role/role.model";
+import {Role} from "../../../../service/account/model/role.model";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs/Observable";
 import {map, delay, debounceTime, flatMap, distinctUntilChanged, first, catchError} from 'rxjs/operators';

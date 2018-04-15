@@ -2,7 +2,7 @@
 import { Inject, Injectable, InjectionToken, Optional, Provider, SkipSelf } from '@angular/core';
 
 @Injectable()
-export class LoggerService {
+export class BylLoggerService {
   constructor(@Inject(BYL_LOGGER_STATE) private _loggerState: boolean) {}
 
   log(...args: any[]): void {
@@ -44,10 +44,10 @@ export class LoggerService {
 
 export const BYL_LOGGER_STATE = new InjectionToken<boolean>('byl-logger-state'); // Whether print the log
 
-export function LOGGER_SERVICE_PROVIDER_FACTORY(exist: LoggerService, loggerState: boolean): LoggerService { return exist || new LoggerService(loggerState); }
+export function LOGGER_SERVICE_PROVIDER_FACTORY(exist: BylLoggerService, loggerState: boolean): BylLoggerService { return exist || new BylLoggerService(loggerState); }
 
 export const LOGGER_SERVICE_PROVIDER: Provider = {
-  provide: LoggerService,
+  provide: BylLoggerService,
   useFactory: LOGGER_SERVICE_PROVIDER_FACTORY,
-  deps: [ [ new Optional(), new SkipSelf(), LoggerService ], BYL_LOGGER_STATE ]
+  deps: [ [ new Optional(), new SkipSelf(), BylLoggerService ], BYL_LOGGER_STATE ]
 };
