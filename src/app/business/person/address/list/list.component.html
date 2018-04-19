@@ -1,0 +1,41 @@
+<div >
+    <button nz-button (click)="add()" [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mb-sm">
+        <i class="anticon anticon-plus"></i><span>添加</span>
+    </button>
+    <nz-list [nzDataSource]="listData" [nzLoading]="loading">
+        <ng-template #item let-item>
+            <nz-list-item [nzContent]="nzContent">
+                <nz-list-item-action><a (click)="showModifyForm(item.item.id)">编辑</a></nz-list-item-action>
+                <nz-list-item-action><a (click)="delete(item.item.id)">删除</a>
+                </nz-list-item-action>
+                <nz-list-item-meta
+                    [nzTitle]="nzTitle"
+                    [nzDescription]="item.item.remarks">
+                    <!--[nzAvatar]="nzAvatar">-->
+                    <ng-template #nzTitle>
+                        <a href="">{{item.item.type}}</a>
+                    </ng-template>
+                    <!--<ng-template #nzAvatar>-->
+                        <!--<nz-avatar [nzSrc]="item.logo" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>-->
+                    <!--</ng-template>-->
+                </nz-list-item-meta>
+                <ng-template #nzContent>
+                    <div class="width-md">
+                        <div class="d-flex text-grey-dark">
+                            <div class="flex-1">
+                                地址
+                                <p>{{item.item.address}}</p>
+                            </div>
+                            <div class="text-right">
+                                邮编
+                                <p>{{item.item.addr.zipCode}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </nz-list-item>
+        </ng-template>
+    </nz-list>
+
+</div>
+

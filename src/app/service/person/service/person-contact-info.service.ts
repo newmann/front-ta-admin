@@ -13,6 +13,7 @@ import {BylIStatusItem} from '../../model/status.model';
 
 import {BylPersonContactInfo} from '../model/person-contact-info.model';
 import {BylBaseService} from '../../service/base.service';
+import {BylItemBaseService} from "../../service/item-base.service";
 
 
 /**
@@ -21,7 +22,7 @@ import {BylBaseService} from '../../service/base.service';
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylPersonContactInfoService extends BylBaseService<BylPersonContactInfo> {
+export class BylPersonContactInfoService extends BylItemBaseService<BylPersonContactInfo> {
     // private BASE_API_URL = "api/person/certificate";
 
     constructor(protected http: _HttpClient,
@@ -47,9 +48,9 @@ export class BylPersonContactInfoService extends BylBaseService<BylPersonContact
     //     return this.http.get<BylResultBody<BylPersonContactInfo>>(this.BASE_API_URL+"/find-by-id/" + id);
     // }
 
-    findByPersonId(personId: string): Observable<BylResultBody<BylPersonContactInfo>> {
-        return this.http.get<BylResultBody<BylPersonContactInfo>>(this.BASE_API_URL + '/find-by-personid/' + personId);
-    }
+    // findByPersonId(personId: string): Observable<BylResultBody<BylPersonContactInfo>> {
+    //     return this.http.get<BylResultBody<BylPersonContactInfo>>(this.BASE_API_URL + '/find-by-personid/' + personId);
+    // }
 
     // /**
     //  * 按分页方式返回不同查询条件下的值

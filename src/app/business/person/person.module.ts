@@ -12,6 +12,7 @@ import {NzTreeModule} from "ng-tree-antd";
 import { BylPersonCrudComponent } from './person/crud/crud.component';
 import { BylPersonListComponent } from './person/list/list.component';
 import { BylPersonAddressCrudComponent } from './address/crud/crud.component';
+import { BylPersonAddressListComponent } from './address/list/list.component';
 
 
 
@@ -32,7 +33,8 @@ import { BylPersonAddressCrudComponent } from './address/crud/crud.component';
         // BylDepartmentCrudComponent
         BylPersonCrudComponent,
         BylPersonListComponent,
-        BylPersonAddressCrudComponent],
+        BylPersonAddressCrudComponent,
+        BylPersonAddressListComponent],
     entryComponents:[
         BylPersonCrudComponent
     ]

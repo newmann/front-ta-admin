@@ -221,6 +221,13 @@
             </span>
         </nz-tab>
 
+        <nz-tab [nzDisabled]="!sourceId">
+            <ng-template #nzTabHeading>地址</ng-template>
+            <span>
+                <byl-person-address-list [setMasterId]="sourceId"></byl-person-address-list>;
+            </span>
+        </nz-tab>
+
         <nz-tab>
             <ng-template #nzTabHeading>日志</ng-template>
             <span>

@@ -5,8 +5,9 @@
  * @Date: Created in 2018-03-03 14:23
  **/
 
-export abstract class BaseItemModel{
+export abstract class BylBaseItemModal{
     id: string;
     masterId: string;//所属主对象的id
     lineNo: number;
+    remarks: string;
 }

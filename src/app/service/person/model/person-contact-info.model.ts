@@ -6,9 +6,10 @@
 import { BylBaseModel } from '../../model/base.model';
 import {BylEmbeddableAddress} from "../../model/embeddable-address.model";
 import {BylEmbeddableContactMethod} from "../../model/embeddable-contact-method.model";
+import {BylBaseItemModal} from "../../model/base-item.model";
 
-export class BylPersonContactInfo extends BylBaseModel {
-    personId: string;
+export class BylPersonContactInfo extends BylBaseItemModal {
+    // personId: string;
     type: string;
 
     contactMethod: BylEmbeddableContactMethod;

@@ -14,6 +14,7 @@ import {BylQueryReqBody} from "../../model/query-req-body.model";
 import {BylPersonAddress} from "../model/person-address.model";
 import {BylPersonQuery} from "../query/person-query.model";
 import {BylBaseService} from '../../service/base.service';
+import {BylItemBaseService} from "../../service/item-base.service";
 
 
 
@@ -23,7 +24,7 @@ import {BylBaseService} from '../../service/base.service';
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylPersonAddressService extends BylBaseService<BylPersonAddress>{
+export class BylPersonAddressService extends BylItemBaseService<BylPersonAddress>{
     // private BASE_API_URL = "api/person/address";
 
     constructor(protected http: _HttpClient,
@@ -35,35 +36,4 @@ export class BylPersonAddressService extends BylBaseService<BylPersonAddress>{
         this.BASE_API_URL = "api/person/person-address";
     }
 
-
-
-    // add(item: BylPersonAddress):Observable< BylResultBody < BylPersonAddress >> {
-    //     return this.http.post<BylResultBody<BylPersonAddress>>(this.BASE_API_URL+"/add", item);
-    // }
-    //
-    // update(updateItem: BylPersonAddress):Observable< BylResultBody < BylPersonAddress >> {
-    //     return this.http.post<BylResultBody<BylPersonAddress>>(this.BASE_API_URL+"/update", updateItem);
-    // }
-    //
-    //
-    //
-    // findById(id:string): Observable<BylResultBody<BylPersonAddress>>{
-    //     return this.http.get<BylResultBody<BylPersonAddress>>(this.BASE_API_URL+"/find-by-id/" + id);
-    // }
-
-    findByPersonId(personId:string): Observable<BylResultBody<BylPersonAddress>>{
-        return this.http.get<BylResultBody<BylPersonAddress>>(this.BASE_API_URL+"/find-by-personid/" + personId);
-    }
-
-    // /**
-    //  * 按分页方式返回不同查询条件下的值
-    //  * @returns {Observable<BylResultBody<LoginResultModel>>}
-    //  */
-    // findPage(query: BylPersonQuery,page: BylPageReq): Observable < BylResultBody < BylPageResp<BylPersonAddress> >> {
-    //     let queryModel = new BylQueryReqBody<BylPersonQuery>();
-    //     queryModel.pageReq = page;
-    //     queryModel.queryReq = query;
-    //
-    //     return this.http.post< BylResultBody < BylPageResp<BylPersonAddress> >>(this.BASE_API_URL + "/find-page",queryModel);
-    // }
 }
