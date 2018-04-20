@@ -1,31 +1,34 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { _HttpClient } from '@delon/theme';
-import {BylCrudComponentBase} from "../../../common/crud-component-base";
-import {BylPerson} from "../../../../service/person/model/person.model";
-import {BylPersonAddress} from "../../../../service/person/model/person-address.model";
-import {BylLoggerService} from "../../../../service/utils/logger";
-import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
-import {BylConfigService} from "../../../../service/constant/config.service";
-import {BylCountryService} from "../../../../service/address/service/country.service";
-import {BylPersonService} from "../../../../service/person/service/person.service";
-import {BylProvinceService} from "../../../../service/address/service/province.service";
-import {BylPoliticalStatusService} from "../../../../service/person/service/political-status.service";
-import {ActivatedRoute} from "@angular/router";
-import {BylNationService} from "../../../../service/person/service/nation.service";
-import {BylCityService} from "../../../../service/address/service/city.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {BylPersonAddressService} from "../../../../service/person/service/person-address.service";
-import {BylResultBody} from "../../../../service/model/result-body.model";
-import {ReuseTabService} from "@delon/abc";
+import {_HttpClient} from '@delon/theme';
+import {BylCrudComponentBase} from '../../../common/crud-component-base';
+import {BylPerson} from '../../../../service/person/model/person.model';
+import {BylPersonAddress} from '../../../../service/person/model/person-address.model';
+import {BylLoggerService} from '../../../../service/utils/logger';
+import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {BylConfigService} from '../../../../service/constant/config.service';
+import {BylCountryService} from '../../../../service/address/service/country.service';
+import {BylPersonService} from '../../../../service/person/service/person.service';
+import {BylProvinceService} from '../../../../service/address/service/province.service';
+import {BylPoliticalStatusService} from '../../../../service/person/service/political-status.service';
+import {ActivatedRoute} from '@angular/router';
+import {BylNationService} from '../../../../service/person/service/nation.service';
+import {BylCityService} from '../../../../service/address/service/city.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {BylPersonAddressService} from '../../../../service/person/service/person-address.service';
+import {BylResultBody} from '../../../../service/model/result-body.model';
+import {ReuseTabService} from '@delon/abc';
 
 @Component({
-  selector: 'byl-person-address-crud',
-  templateUrl: './crud.component.html',
+    selector: 'byl-person-address-crud',
+    templateUrl: './crud.component.html',
 })
 export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPersonAddress> {
-    public errMsg = "";
+    public errMsg = '';
 
-    public typeOptions = [{value:"家庭地址",label:"家庭地址"},{value:"单位地址",label:"单位地址"},{value:"常用地址",label:"常用地址"}]
+    public typeOptions = [{value: '家庭地址', label: '家庭地址'}, {value: '单位地址', label: '单位地址'}, {
+        value: '常用地址',
+        label: '常用地址'
+    }];
     @Input() sourceId: string;
 
     newBusinessData(): BylPersonAddress {
@@ -53,29 +56,30 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
     defineForm(): void {
         // 绑定验证模式
         this.form = this.fb.group({
-            type: [null,Validators.compose([Validators.required])],
+            type: [null, Validators.compose([Validators.required])],
             addressTree: [null, Validators.compose([Validators.required])],
-            detailAddress:[null, Validators.compose([Validators.required])],
+            detailAddress: [null, Validators.compose([Validators.required])],
             zipCode: [null],
             remarks: [null]
         });
 
     }
 
-    formResetButtonClick($event): void{
+    formResetButtonClick($event): void {
         $event.preventDefault();
         this.resetAddressForm();
     }
+
     /**
      * 重置地址界面内容
      */
 
-    resetAddressForm():void {
+    resetAddressForm(): void {
         this.form.reset({
             type: this.businessData.type,
-            addressTree: [{value:this.businessData.addr.countryCode,label:this.businessData.addr.countryName},
-                {value:this.businessData.addr.provinceCode,label:this.businessData.addr.provinceName},
-                {value:this.businessData.addr.cityCode,label:this.businessData.addr.cityName}],
+            addressTree: [{value: this.businessData.addr.countryCode, label: this.businessData.addr.countryName},
+                {value: this.businessData.addr.provinceCode, label: this.businessData.addr.provinceName},
+                {value: this.businessData.addr.cityCode, label: this.businessData.addr.cityName}],
             detailAddress: this.businessData.addr.detailAddress,
             zipCode: this.businessData.addr.zipCode,
 
@@ -84,7 +88,7 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
 
     }
 
-    loadAddressTree(e: {option: any, index: number, resolve: Function, reject: Function}): void {
+    loadAddressTree(e: { option: any, index: number, resolve: Function, reject: Function }): void {
         console.log(e);
 
         const option = e.option;
@@ -95,7 +99,9 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
                     // option.loading = false;
                     if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                         // this.logger.log("countryService findall:",data.data);
-                        let countrys = data.data.map(item =>{return {value: item.code,label:item.name}});
+                        let countrys = data.data.map(item => {
+                            return {value: item.code, label: item.name};
+                        });
                         // this.logger.log("countrys:",countrys);
                         e.resolve(countrys);
                     } else {
@@ -106,7 +112,7 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
                     // option.loading = false;
                     this.errMsg = err.toString();
                 }
-            )
+            );
 
         }
 
@@ -116,9 +122,11 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
                 data => {
                     option.loading = false;
                     if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                        console.log("provinceService findByCountryId:",data.data);
-                        let provinces = data.data.map(item =>{return {value: item.code,label:item.name}});
-                        console.log("provinces:",provinces);
+                        console.log('provinceService findByCountryId:', data.data);
+                        let provinces = data.data.map(item => {
+                            return {value: item.code, label: item.name};
+                        });
+                        console.log('provinces:', provinces);
                         e.resolve(provinces);
                     } else {
                         this.errMsg = data.msg;
@@ -128,8 +136,7 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
                     option.loading = false;
                     this.errMsg = err.toString();
                 }
-
-            )
+            );
         }
         if (e.index === 1) {
             option.loading = true;
@@ -138,9 +145,11 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
                 data => {
                     option.loading = false;
                     if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                        console.log("cityService findByProvinceId:",data.data);
-                        let citys = data.data.map(item =>{return {value: item.code,label:item.name,isLeaf: true}});
-                        console.log("citys:",citys);
+                        console.log('cityService findByProvinceId:', data.data);
+                        let citys = data.data.map(item => {
+                            return {value: item.code, label: item.name, isLeaf: true};
+                        });
+                        console.log('citys:', citys);
                         e.resolve(citys);
                     } else {
                         this.errMsg = data.msg;
@@ -150,21 +159,21 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
                     option.loading = false;
                     this.errMsg = err.toString();
                 }
-
-            )
+            );
             // setTimeout(() => {
             //     option.loading = false;
             //     e.resolve(scenicspots[option.value]);
             // }, 1000);
         }
     }
+
     getFormData() {
         for (const i in this.form.controls) {
             this.form.controls[i].markAsDirty();
         }
 
         console.log('log', this.form.value);
-        Object.assign(this.businessData,this.form.value);
+        Object.assign(this.businessData, this.form.value);
 
         // this.businessData.idCard = this.idCard.value.toString();
         // this.businessData.name = this.name.value.toString();
@@ -199,11 +208,12 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
         // }
 
     }
-    submitAddressForm(){
+
+    submitAddressForm() {
 
     }
 
-    addressFormSelect($event): void{
+    addressFormSelect($event): void {
 
     }
 

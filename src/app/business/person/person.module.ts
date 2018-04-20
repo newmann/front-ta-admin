@@ -13,6 +13,8 @@ import { BylPersonCrudComponent } from './person/crud/crud.component';
 import { BylPersonListComponent } from './person/list/list.component';
 import { BylPersonAddressCrudComponent } from './address/crud/crud.component';
 import { BylPersonAddressListComponent } from './address/list/list.component';
+import { BylPersonCertificateCrudComponent } from './certificate/crud/crud.component';
+import {BylPersonCertificateListComponent} from './certificate/list/list.component';
 
 
 
@@ -34,7 +36,9 @@ import { BylPersonAddressListComponent } from './address/list/list.component';
         BylPersonCrudComponent,
         BylPersonListComponent,
         BylPersonAddressCrudComponent,
-        BylPersonAddressListComponent],
+        BylPersonAddressListComponent,
+        BylPersonCertificateCrudComponent,
+        BylPersonCertificateListComponent],
     entryComponents:[
         BylPersonCrudComponent
     ]

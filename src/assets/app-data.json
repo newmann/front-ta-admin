@@ -91,6 +91,10 @@
                     "text": "个人地址新增",
                     "link": "/person/address/crud/new",
                     "i18n": "person_address_new"
+                },{
+                    "text": "个人证件新增",
+                    "link": "/person/certificate/crud/new",
+                    "i18n": "person_certificate_new"
                 }
                 ]
             },{

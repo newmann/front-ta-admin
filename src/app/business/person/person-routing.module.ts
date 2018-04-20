@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {BylPersonListComponent} from './person/list/list.component';
 import {BylPersonCrudComponent} from './person/crud/crud.component';
 import {BylPersonAddressCrudComponent} from "./address/crud/crud.component";
+import {BylPersonCertificateCrudComponent} from './certificate/crud/crud.component';
 
 
 
@@ -12,7 +13,8 @@ const routes: Routes = [
     // { path: 'role/crud/:type', component: BylRoleCrudComponent },
     { path: 'person/list', component: BylPersonListComponent },
     { path: 'person/crud/:type', component: BylPersonCrudComponent },
-    { path: 'address/crud/:type', component: BylPersonAddressCrudComponent }
+    { path: 'address/crud/:type', component: BylPersonAddressCrudComponent },
+    { path: 'certificate/crud/:type', component: BylPersonCertificateCrudComponent }
 ];
 
 @NgModule({
