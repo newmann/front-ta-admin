@@ -12,6 +12,7 @@ import {BylBaseService} from '../../service/base.service';
 import {BylItemBaseService} from "../../service/item-base.service";
 
 
+
 /**
  * @Description: 证件管理service
  * @Author: newmannhu@qq.com
@@ -20,6 +21,7 @@ import {BylItemBaseService} from "../../service/item-base.service";
 @Injectable()
 export class BylPersonCertificateService extends BylItemBaseService<BylPersonCertificate>{
     // private BASE_API_URL = 'api/person/certificate';
+
 
     constructor(protected http: _HttpClient,
                 protected configServer: BylConfigService,
@@ -30,5 +32,10 @@ export class BylPersonCertificateService extends BylItemBaseService<BylPersonCer
         this.BASE_API_URL =  'api/person/person-certificate';
     }
 
-
+    // add(item: BylPersonCertificate): Observable<BylResultBody<BylPersonCertificate>> {
+    //     let formData = new FormData();                  // 可以增加表单数据
+    //
+    //
+    //     return this.http.post<BylResultBody<BylPersonCertificate>>(this.BASE_API_URL + '/add', item);
+    // }
 }

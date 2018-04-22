@@ -11,6 +11,16 @@ export class BylPersonAddress extends BylBaseItemModal {
     // personId: string;
     type: string;
 
-    addr: BylEmbeddableAddress;
+    addr: BylEmbeddableAddress = new BylEmbeddableAddress();
 
+    get detailAddress(): string{
+        let result = "";
+        if ( this.addr) {
+            if (this.addr.countryName) result = result +this.addr.countryName;
+            if ( this.addr.provinceName) result = result + "/" + this.addr.provinceName;
+            if (this.addr.cityName) result = result +"/" + this.addr.cityName;
+            if ( this.addr.detailAddress ) result = result + "/" + this.addr.detailAddress;
+        }
+        return result;
+    }
 }

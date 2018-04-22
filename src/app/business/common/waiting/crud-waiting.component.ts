@@ -77,7 +77,16 @@ export class BylCrudWaitingComponent implements OnInit {
         // });
 
         this.subject.on(BylCrudEvent[BylCrudEvent.bylSaveCorrect], () => {
-            this.showSaveCorrectMsg = true;
+            // this.showSaveCorrectMsg = true;
+            this.tipMsg = "保存成功！";
+            // this.subject.destroy();//退出显示界面
+            // console.log(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
+        });
+
+        this.subject.on(BylCrudEvent[BylCrudEvent.bylSaveError], () => {
+            // this.showSaveCorrectMsg = true;
+            this.tipMsg = "保存失败...";
+            // this.subject.destroy();//退出显示界面
             // console.log(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
         });
 

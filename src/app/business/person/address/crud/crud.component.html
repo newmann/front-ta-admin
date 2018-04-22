@@ -24,7 +24,7 @@
                     <nz-option
                         *ngFor="let option of typeOptions"
                         [nzLabel]="option.label"
-                        [nzValue]="option">
+                        [nzValue]="option.value">
                     </nz-option>
                 </nz-select>
 
@@ -52,7 +52,9 @@
             <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
                 <nz-cascader
                     formControlName = "addressTree"
-                    (nzLoad)="loadAddressTree($event)">
+                    (nzLoad)="loadAddressTree($event)"
+                    (nzSelect) = "selectAddressTree($event)">
+
                 </nz-cascader>
             </div>
         </div>
@@ -60,7 +62,7 @@
 
         <div nz-form-item nz-row>
             <div nz-form-label nz-col [nzSm]="4">
-                <label for="detailAddress" >
+                <label for="detailAddress" nz-form-item-required>
                         <span>
                             详细地址
                             <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
@@ -94,7 +96,7 @@
             <div nz-form-label nz-col [nzSm]="4">
                 <label for="remarks"> 备注</label>
             </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
+            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="remarks">
                 <nz-input formControlName="remarks" nzPlaceHolder="备注" ></nz-input>
             </div>
         </div>

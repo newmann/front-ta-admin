@@ -16,9 +16,9 @@ import {BylResultBody} from "../../service/model/result-body.model";
 export abstract class BylListComponentBase<T> implements OnInit {
 
     public businessService: BylBaseService<T>;
-    public businessCrudComponent: any;
+    // public businessCrudComponent: any;
 
-    public addUrl: string; //新增对象的url
+    public crudUrl: string; //新增对象的url
 
     public qData: any ={}; //查询条件中的数据
     public page:BylPageReq ={ //分页定义
@@ -76,37 +76,41 @@ export abstract class BylListComponentBase<T> implements OnInit {
      */
     add() {
         // this.router.navigate(['/account/role/crud',"new"]);
-        if (this.addUrl) {
-            this.router.navigateByUrl(this.addUrl);
+        if (this.crudUrl) {
+            this.router.navigate([this.crudUrl,"new"]);
+            // this.router.navigateByUrl(this.crudUrl);
         }
 
     }
-    showModifyForm(id:string) {
+    modifyEntity(id:string) {
+        if (this.crudUrl) {
+            this.router.navigate([this.crudUrl,id]);
+        }
 
-        this.modifyForm = this.modalService.open({
-            title: '修改',
-            content: this.businessCrudComponent,
-            // onOk() {
-            //
-            // },
-            // onCancel() {
-            //     console.log('Click cancel');
-            // },
-            footer: false,
-            componentParams: {
-                sourceId: id
-            },
-            maskClosable: false
-        });
+        // this.modifyForm = this.modalService.open({
+        //     title: '修改',
+        //     content: this.businessCrudComponent,
+        //     // onOk() {
+        //     //
+        //     // },
+        //     // onCancel() {
+        //     //     console.log('Click cancel');
+        //     // },
+        //     footer: false,
+        //     componentParams: {
+        //         sourceId: id
+        //     },
+        //     maskClosable: false
+        // });
+        // //
+        // this.modifyForm.subscribe(result => {
+        //     console.log(result);
+        //     if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
+        //         //更新对应的数据
+        //         this.updateListData(result.data);
         //
-        this.modifyForm.subscribe(result => {
-            console.log(result);
-            if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
-                //更新对应的数据
-                this.updateListData(result.data);
-
-            }
-        });
+        //     }
+        // });
     }
     /**
      * 查找

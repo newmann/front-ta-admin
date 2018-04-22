@@ -12,6 +12,6 @@ export class BylPersonContactInfo extends BylBaseItemModal {
     // personId: string;
     type: string;
 
-    contactMethod: BylEmbeddableContactMethod;
+    contactMethod: BylEmbeddableContactMethod = new BylEmbeddableContactMethod();
 
 }

@@ -24,7 +24,7 @@
                     <nz-option
                         *ngFor="let option of typeOptions"
                         [nzLabel]="option.label"
-                        [nzValue]="option">
+                        [nzValue]="option.value">
                     </nz-option>
                 </nz-select>
 
@@ -88,7 +88,7 @@
                         </span>
                 </label>
             </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="issueDate">
+            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="effectiveDate">
                 <nz-datepicker formControlName="effectiveDate" nzPlaceHolder="到效日期" [nzFormat]="'YYYY/MM/DD'"></nz-datepicker>
 
             </div>
@@ -105,15 +105,23 @@
                         </span>
                 </label>
             </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback >
+            <div nz-form-control nz-col [nzSm]="20" >
+                <!--formControlName="frontPhotoUrl"-->
+                <!--[nzAction]="uploadUrl"-->
+                <!--(nzChange)="handleChange($event, frontPhoto)"-->
+                <!--[nzShowUploadList]="false"-->
+                <!--[nzBeforeUpload]="beforeFrontPhotoUpload()"                -->
                 <nz-upload class="avatar-uploader"
-                           nzAction="uploadUrl"
-                           formControlName="frontPhotoUrl"
+                           [nzAction]="configService.UPLOAD_FILE_URL"
+                           [nzFileType] = "'image/png,image/jpeg,image/gif,image/bmp'"
                            [nzShowUploadList]="false"
-                           [nzBeforeUpload]="beforeUpload"
-                           (nzChange)="handleChange($event, frontPhoto)">
+                           (nzChange)="handleFrontPhotoChange($event)"
+                           >
                     <i *ngIf="!frontPhoto" class="anticon anticon-plus avatar-uploader-trigger"></i>
-                    <img *ngIf="frontPhoto" [src]="frontPhoto" class="avatar">
+                    <div *ngIf="frontPhoto" class="avatar">
+                        <img [src]="frontPhoto" class="avatar-img">
+                    </div>
+
                 </nz-upload>
 
             </div>
@@ -130,15 +138,22 @@
                         </span>
                 </label>
             </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback >
+            <div nz-form-control nz-col [nzSm]="20"  >
+                <!--formControlName="backPhotoUrl"-->
+                <!--[nzAction]="uploadUrl"-->
+                <!--(nzChange)="handleChange($event, backPhoto)"-->
+                <!--[nzBeforeUpload]="beforeBackPhotoUpload()"-->
                 <nz-upload class="avatar-uploader"
-                           nzAction="uploadUrl"
-                           formControlName="backPhotoUrl"
+                           [nzAction]="configService.UPLOAD_FILE_URL"
+                           [nzFileType] = "'image/png,image/jpeg,image/gif,image/bmp'"
                            [nzShowUploadList]="false"
-                           [nzBeforeUpload]="beforeUpload"
-                           (nzChange)="handleChange($event, backPhoto)">
+                           (nzChange)="handleBackPhotoChange($event)"
+                           >
                     <i *ngIf="!backPhoto" class="anticon anticon-plus avatar-uploader-trigger"></i>
-                    <img *ngIf="backPhoto" [src]="backPhoto" class="avatar">
+                    <div *ngIf="backPhoto" class="avatar">
+                        <img  [src]="backPhoto"  class="avatar-img">
+                    </div>
+
                 </nz-upload>
 
             </div>
@@ -148,7 +163,7 @@
             <div nz-form-label nz-col [nzSm]="4">
                 <label for="remarks"> 备注</label>
             </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
+            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="remarks">
                 <nz-input formControlName="remarks" nzPlaceHolder="备注" ></nz-input>
             </div>
         </div>

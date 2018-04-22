@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import {BylCrudComponentBase} from '../../../common/crud-component-base';
 import {BylPersonAddress} from '../../../../service/person/model/person-address.model';
@@ -13,6 +13,9 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {ReuseTabService} from '@delon/abc';
 import {BylCountryService} from '../../../../service/address/service/country.service';
 import {BylPersonCertificateService} from '../../../../service/person/service/person-certificate.service';
+import {BylResultBody} from "../../../../service/model/result-body.model";
+import {BylUploadFileNameMapModel} from "../../../../service/model/upload-file-name-map.model";
+import * as moment from 'moment';
 
 @Component({
   selector: 'byl-person-certificate-crud',
@@ -24,6 +27,11 @@ import {BylPersonCertificateService} from '../../../../service/person/service/pe
     width: 150px;
     height: 150px;
     display: block;
+  }
+
+  .avatar-img {
+      width: 150px;
+      max-height: 100%;
   }
 
   :host ::ng-deep .avatar-uploader {
@@ -44,6 +52,15 @@ import {BylPersonCertificateService} from '../../../../service/person/service/pe
 export class BylPersonCertificateCrudComponent extends BylCrudComponentBase<BylPersonCertificate> {
     frontPhoto: string;
     backPhoto: string;
+    // uploadUrl = "/api/file-manage/upload-file";
+    public typeOptions = [{value: '身份证', label: '身份证'}, {value: '军官证', label: '军官证'}, {
+        value: '驾驶证',
+        label: '驾驶证'
+    }];
+
+    @Input() sourceId: string;
+
+    @Input() masterId: string;
 
     newBusinessData(): BylPersonCertificate {
         return new BylPersonCertificate();
@@ -68,8 +85,8 @@ export class BylPersonCertificateCrudComponent extends BylCrudComponentBase<BylP
             code: [null, Validators.compose([Validators.required])],
             issueDate: [null],
             effectiveDate: [null, Validators.compose([Validators.required])],
-            frontPhotoUrl: [null],
-            backPhotoUrl: [null],
+            // frontPhotoUrl: [null],
+            // backPhotoUrl: [null],
             remarks: [null]
         });
 
@@ -103,41 +120,100 @@ export class BylPersonCertificateCrudComponent extends BylCrudComponentBase<BylP
         }
 
         console.log('log', this.form.value);
-        Object.assign(this.businessData, this.form.value);
+        this.businessData.type = this.type.value;
+        this.businessData.code = this.code.value;
 
-    }
+        if (this.issueDate.value)  this.businessData.issueDate = moment(this.issueDate.value).valueOf();
 
-    beforeUpload = (file: File) => {
-        const isJPG = file.type === 'image/jpeg';
-        if (!isJPG) {
-            this.msgService.error('You can only upload JPG file!');
+        this.businessData.effectiveDate = moment(this.effectiveDate.value).valueOf();
+
+        this.businessData.masterId = this.masterId;
+
+        if (this.remarks.value) {
+            this.businessData.remarks = this.remarks.value.toString();
         }
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isLt2M) {
-            this.msgService.error('Image must smaller than 2MB!');
+
+    }
+
+    handleFrontPhotoChange(info: { file: UploadFile,event: any }) {
+
+
+        if (info.file.status === 'uploading') {
+            console.log("In handleFrontPhotoChange uploading");
+            console.log("file:", JSON.stringify(info.file));
+            console.log("event:", JSON.stringify(info.event));
+
+            this.loading = true;
+            return;
         }
-        return isJPG && isLt2M;
+        if (info.file.status === 'done') {
+            console.log("In handleFrontPhotoChange uploading");
+            console.log("file:", JSON.stringify(info.file));
+            console.log("event:", JSON.stringify(info.event));
+            //获取返回的信息
+            const serverResp :BylResultBody<BylUploadFileNameMapModel> = info.file.response;
+            console.log("serverResp:", JSON.stringify(serverResp));
+            if (serverResp.code === BylResultBody.RESULT_CODE_SUCCESS){
+                // Get this url from response in real world.
+                this.businessData.frontPhotoUrl = serverResp.data.targetFileName;
+
+                this.loading = false;
+                this.frontPhoto = info.file.thumbUrl;
+
+                // this.getBase64(info.file.originFileObj, (img: any) => {
+                //     this.loading = false;
+                //     this.frontPhoto = img;
+                // });
+
+            }
+        }
     }
 
-    private getBase64(img: File, callback: (img: any) => void) {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => callback(reader.result));
-        reader.readAsDataURL(img);
-    }
+    handleBackPhotoChange(info: { file: UploadFile,event: any }) {
 
-    handleChange(info: { file: UploadFile }, photoUrl: string) {
+        console.log("In handleFrontPhotoChange ");
         if (info.file.status === 'uploading') {
             this.loading = true;
             return;
         }
         if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            this.getBase64(info.file.originFileObj, (img: any) => {
+            //获取返回的信息
+            const serverResp :BylResultBody<BylUploadFileNameMapModel> = info.file.response;
+            if (serverResp.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                this.businessData.backPhotoUrl = serverResp.data.targetFileName;
+
                 this.loading = false;
-                photoUrl = img;
-            });
+                this.backPhoto = info.file.thumbUrl;
+
+                // Get this url from response in real world.
+                // this.getBase64(info.file.originFileObj, (img: any) => {
+                //     this.loading = false;
+                //     this.frontPhoto = img;
+                // });
+            }
         }
     }
+
+
+    // private getBase64(img: File, callback: (img: any) => void) {
+    //     const reader = new FileReader();
+    //     reader.addEventListener('load', () => callback(reader.result));
+    //     reader.readAsDataURL(img);
+    // }
+
+    // handleChange(info: { file: UploadFile,event: any }, photoUrl: string) {
+    //     if (info.file.status === 'uploading') {
+    //         this.loading = true;
+    //         return;
+    //     }
+    //     if (info.file.status === 'done') {
+    //         // Get this url from response in real world.
+    //         this.getBase64(info.file.originFileObj, (img: any) => {
+    //             this.loading = false;
+    //             photoUrl = img;
+    //         });
+    //     }
+    // }
 
     //#region 获取界面控件对象
     get type() {

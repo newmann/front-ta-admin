@@ -29,7 +29,12 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
         value: '常用地址',
         label: '常用地址'
     }];
+
+    public addressTreevalue: any[] = [null,null,null];//初始化为空数组
+
     @Input() sourceId: string;
+
+    @Input() masterId: string;
 
     newBusinessData(): BylPersonAddress {
         return new BylPersonAddress();
@@ -75,18 +80,38 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
      */
 
     resetAddressForm(): void {
+        let country = {value: this.businessData.addr.countryCode, label: this.businessData.addr.countryName};
+        this.addressTreevalue[0] = country;
+
+        let province = {value: this.businessData.addr.provinceCode, label: this.businessData.addr.provinceName};
+        this.addressTreevalue[1] = province;
+
+        let city = {value: this.businessData.addr.cityCode, label: this.businessData.addr.cityName};
+        this.addressTreevalue[2] = city;
+
         this.form.reset({
             type: this.businessData.type,
-            addressTree: [{value: this.businessData.addr.countryCode, label: this.businessData.addr.countryName},
-                {value: this.businessData.addr.provinceCode, label: this.businessData.addr.provinceName},
-                {value: this.businessData.addr.cityCode, label: this.businessData.addr.cityName}],
+            addressTree: this.addressTreevalue,
+            // addressTree: [{value: this.businessData.addr.countryCode, label: this.businessData.addr.countryName},
+            //     {value: this.businessData.addr.provinceCode, label: this.businessData.addr.provinceName},
+            //     {value: this.businessData.addr.cityCode, label: this.businessData.addr.cityName}],
             detailAddress: this.businessData.addr.detailAddress,
             zipCode: this.businessData.addr.zipCode,
-
             remarks: this.businessData.remarks
         }, {onlySelf: true, emitEvent: false});
 
     }
+
+    selectAddressTree(e:{ option: any, index: number}){
+        console.log("selectAddressTree",e);
+        //保存option的value和label
+
+        let item = {label: e.option.label, value: e.option.value};
+
+        this.addressTreevalue[e.index] = item;
+        console.log("selectAddressTree",this.addressTreevalue);
+    }
+
 
     loadAddressTree(e: { option: any, index: number, resolve: Function, reject: Function }): void {
         console.log(e);
@@ -118,15 +143,17 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
 
         if (e.index === 0) {
             option.loading = true;
+
+
             this.provinceService.findByCountryId(option.value).subscribe(
                 data => {
                     option.loading = false;
                     if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                        console.log('provinceService findByCountryId:', data.data);
+                        // console.log('provinceService findByCountryId:', data.data);
                         let provinces = data.data.map(item => {
                             return {value: item.code, label: item.name};
                         });
-                        console.log('provinces:', provinces);
+                        // console.log('provinces:', provinces);
                         e.resolve(provinces);
                     } else {
                         this.errMsg = data.msg;
@@ -145,11 +172,11 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
                 data => {
                     option.loading = false;
                     if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                        console.log('cityService findByProvinceId:', data.data);
+                        // console.log('cityService findByProvinceId:', data.data);
                         let citys = data.data.map(item => {
                             return {value: item.code, label: item.name, isLeaf: true};
                         });
-                        console.log('citys:', citys);
+                        // console.log('citys:', citys);
                         e.resolve(citys);
                     } else {
                         this.errMsg = data.msg;
@@ -165,6 +192,7 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
             //     e.resolve(scenicspots[option.value]);
             // }, 1000);
         }
+
     }
 
     getFormData() {
@@ -172,50 +200,38 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
             this.form.controls[i].markAsDirty();
         }
 
-        console.log('log', this.form.value);
-        Object.assign(this.businessData, this.form.value);
+        this.businessData.type = this.type.value;
 
-        // this.businessData.idCard = this.idCard.value.toString();
-        // this.businessData.name = this.name.value.toString();
-        // if (this.gender.value) {
-        //     this.businessData.gender = this.gender.value;
-        // }
-        // if (this.birthYear.value) {
-        //     this.businessData.birthYear = this.birthYear.value;
-        // }
-        //
-        // if (this.birthMonth.value) {
-        //     this.businessData.birthMonth = this.birthMonth.value;
-        //
-        // }
-        // if (this.birthDay.value) {
-        //     this.businessData.birthDay = this.birthDay.value;
-        // }
-        // if (this.nation.value) {
-        //     this.businessData.anationCode = this.nation.value.toString();
-        //     this.businessData.nationName = this.getNationNameByCode(this.businessData.nationCode);
-        // }
-        // if (this.politicalStatus.value) {
-        //     this.businessData.politicalStatusCode = this.politicalStatus.value;
-        //     this.businessData.politicalStatusName = this.getPoliticalStatusNameByCode(this.businessData.politicalStatusCode);
-        // }
-        // if (this.nativePlace.value) {
-        //     this.businessData.nativePlace = this.nativePlace.value.toString();
-        // }
-        //
-        // if (this.remarks.value) {
-        //     this.businessData.remarks = this.remarks.value.toString();
-        // }
+        this.businessData.addr.countryId = this.addressTreevalue[0].value;
+        this.businessData.addr.countryCode = this.addressTreevalue[0].value;
+        this.businessData.addr.countryName = this.addressTreevalue[0].label;
+
+        this.businessData.addr.provinceId = this.addressTreevalue[1].value;
+        this.businessData.addr.provinceCode = this.addressTreevalue[1].value;
+        this.businessData.addr.provinceName = this.addressTreevalue[1].label;
+
+        this.businessData.addr.cityId = this.addressTreevalue[2].value;
+        this.businessData.addr.cityCode = this.addressTreevalue[2].value;
+        this.businessData.addr.cityName = this.addressTreevalue[2].label;
+
+        if ( this.detailAddress.value) {
+            this.businessData.addr.detailAddress = this.detailAddress.value;
+        }
+
+        if ( this.zipCode.value) this.businessData.addr.zipCode = this.zipCode.value;
+
+        this.businessData.masterId = this.masterId;
+
+        if (this.remarks.value) {
+            this.businessData.remarks = this.remarks.value.toString();
+        }
+
+        console.table(this.businessData);
+
 
     }
 
-    submitAddressForm() {
 
-    }
-
-    addressFormSelect($event): void {
-
-    }
 
 
     //#region 获取界面控件对象

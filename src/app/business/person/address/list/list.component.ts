@@ -8,6 +8,7 @@ import {BylPersonAddressService} from "../../../../service/person/service/person
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
 import {BylPersonAddressQuery} from "../../../../service/person/query/person-address-query.model";
 import {BylItemListComponentBase} from "../../../common/item-list-component-base";
+import {BylPersonAddressCrudComponent} from "../crud/crud.component";
 
 
 @Component({
@@ -29,37 +30,37 @@ export class BylPersonAddressListComponent extends BylItemListComponentBase<BylP
         super(message,configService,modalService,router);
 
         this.businessService = personAddressService;
-        this.addUrl = "/person/address/crud/new";
-        this.businessCrudComponent = BylPersonCrudComponent;
+        // this.crudUrl = "/person/address/crud/new";
+        this.businessCrudComponent = BylPersonAddressCrudComponent;
     }
 
     ngOnInit() {
     }
 
-    genListData(findResult: Array<BylPersonAddress>): Array<BylListFormData<BylPersonAddress>>{
-        return findResult.map(data => {
-            let item = new BylListFormData<BylPersonAddress>();
-            item.checked = false;
-            // item.disabled = (data.status === RoleStatus.DELETED_ROLE);
-            item.item = new BylPersonAddress();
-            Object.assign(item.item,data);
-            return item;
-        })
+    genListData(data: BylPersonAddress): BylListFormData<BylPersonAddress>{
+        // return findResult.map(data => {
+        let item = new BylListFormData<BylPersonAddress>();
+        item.checked = false;
+        // item.disabled = (data.status === RoleStatus.DELETED_ROLE);
+        item.item = new BylPersonAddress();
+        Object.assign(item.item,data);
+        return item;
+        // })
     }
 
-    genQueryModel( ):any{
-        let result = new BylPersonAddressQuery();
-        // if (q.name) result.name = q.name;
-        // if (q.modifyDateBegin) result.modifyDateBegin = moment(q.modifyDateBegin).valueOf();
-        // if (q.modifyDateEnd) result.modifyDateEnd = moment(q.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
-        // if (q.status) result.status = q.status;
-        return result;
-    }
 
     updateListData(newData:BylPersonAddress){
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
                 Object.assign(item.item,newData);
             })
+    }
+
+    /**
+     * 删除明细
+     * @param {string} id
+     */
+    delete(id:string){
+
     }
 }

@@ -9,7 +9,13 @@ import {Injectable} from "@angular/core";
 export class BylConfigService{
     private pageSize = 10;
 
+    private uploadFileUrl = "/api/file-manage/upload-file";
+    private uploadMultiFileUrl = "/api/file-manage/upload-multi-file";
+
+
     get PAGESIZE(){ return this.pageSize;}
 
+    get UPLOAD_FILE_URL(){ return this.uploadFileUrl;}
 
+    get UPLOAD_MULTI_FILE_URL(){ return this.uploadMultiFileUrl;}
 }

@@ -224,7 +224,13 @@
         <nz-tab [nzDisabled]="!sourceId">
             <ng-template #nzTabHeading>地址</ng-template>
             <span>
-                <byl-person-address-list [setMasterId]="sourceId"></byl-person-address-list>;
+                <byl-person-address-list [setMasterId]="sourceId"></byl-person-address-list>
+            </span>
+        </nz-tab>
+        <nz-tab [nzDisabled]="!sourceId">
+            <ng-template #nzTabHeading>证件</ng-template>
+            <span>
+                <byl-person-certificate-list [setMasterId]="sourceId"></byl-person-certificate-list>
             </span>
         </nz-tab>
 

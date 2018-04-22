@@ -124,14 +124,16 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     // 通知显示窗口保存正确
                     this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
-                    // this.msgService.success('保存正确！');
-                    // 如果是通过浏览界面进入，则自动退出
+                    this.savingReveal.destroy(); //退出提示界面
+
+                    this.afterSubmit();//成功保存后对界面的处理，根据不同状态是否退出
 
                 } else {
                     // 通知显示窗口保存错误，是否退出由显示界面控制
                     this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveError]);
                     // this._savingReveal.destroy();
                     this.errMsg = data.msg;
+                    this.savingReveal.destroy(); //退出提示界面，原界面不动
                 }
             },
             err => {
@@ -139,6 +141,7 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
                 this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveError]);
                 // this._loading = false;
                 this.errMsg = err.toString();
+                this.savingReveal.destroy(); //退出提示界面，原界面不动
             }
         );
     }
@@ -164,6 +167,27 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
         // this.logger.log('this.form.invalid' + this.form.invalid);
     }
 
+    afterSubmit(){
+        switch (this.processType) {
+            case 'new':
+                //新增界面
+                this.businessData = this.newBusinessData();
+                this.reset();
+                break;
+            case 'modify':
+                //修改界面
+                // this.businessData = this.newBusinessData();
+                this.reset();
+                break;
+            default:
+                // 从list界面进入修改
+                console.info('将修改后的数据传回list界面');
+                //将修改后的数据传回list界面
+                this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate], data: this.businessData});
+                this.modalSubject.destroy();
+        }
+    }
+
     showSavingReveal() {
         this.savingReveal = this.modalService.open({
             title: '提交',
@@ -183,37 +207,34 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
         });
         this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
         //
-        this.savingReveal.subscribe(result => {
-            console.info(result);
-            //判断是否退出界面
-            if (result === 'onDestroy') {
-                console.log('退出提示界面');
-                switch (this.processType) {
-                    case 'new':
-                        //新增界面
-                        this.businessData = this.newBusinessData();
-                        this.reset();
-                        break;
-                    case 'modify':
-                        break;
-                    default:
-                        // 从list界面进入修改
-                        console.info('将修改后的数据传回list界面');
-                        //将修改后的数据传回list界面
-                        this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate], data: this.businessData});
-                        this.modalSubject.destroy();
-
-                }
-
-            }
-            // if (result === BylCrudEvent[BylCrudEvent.bylAdd]) {
-            //     // 新增界面
-            //     this._role = new Role();
-            //     this.reset();
-            // }
-
-
-        });
+        // this.savingReveal.subscribe(result => {
+        //     console.info(result);
+        //     //判断是否退出界面
+        //     if (result === 'onDestroy') {
+        //         console.log('退出提示界面');
+        //         switch (this.processType) {
+        //             case 'new':
+        //                 //新增界面
+        //                 this.businessData = this.newBusinessData();
+        //                 this.reset();
+        //                 break;
+        //             case 'modify':
+        //                 //修改界面
+        //                 this.businessData = this.newBusinessData();
+        //                 this.reset();
+        //                 break;
+        //             default:
+        //                 // 从list界面进入修改
+        //                 console.info('将修改后的数据传回list界面');
+        //                 //将修改后的数据传回list界面
+        //                 this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate], data: this.businessData});
+        //                 this.modalSubject.destroy();
+        //
+        //         }
+        //
+        //     }
+        //
+        // });
     }
 
     destorySavingReveal() {

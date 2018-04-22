@@ -27,8 +27,8 @@ export class BylPersonListComponent extends BylListComponentBase<BylPerson>{
         super(message,configService,modalService,router);
 
         this.businessService = personService;
-        this.addUrl = "/person/person/crud/new";
-        this.businessCrudComponent = BylPersonCrudComponent;
+        this.crudUrl = "/person/person/crud";
+        // this.businessCrudComponent = BylPersonCrudComponent;
     }
 
 
@@ -63,7 +63,7 @@ export class BylPersonListComponent extends BylListComponentBase<BylPerson>{
             })
     }
 
-    modifyEntity(id:string){
-        this.router.navigateByUrl("/person/person/crud/" + id);
-    }
+    // modifyEntity(id:string){
+    //     this.router.navigateByUrl("/person/person/crud/" + id);
+    // }
 }

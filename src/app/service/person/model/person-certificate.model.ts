@@ -17,7 +17,7 @@ export class BylPersonCertificate extends BylBaseItemModal {
     effectiveDate: number = CERTIFICATE_EFFECTIVE_INFINITY; //到效日期,-1为永久有效
 
     frontPhotoUrl: string;
-    backPhotoUrl: string;
 
+    backPhotoUrl: string;
 
 }

@@ -1,4 +1,97 @@
-<div class="content__title">
-    <h1>Page Name</h1>
+<div >
+    <button nz-button (click)="add()" [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mb-sm">
+        <i class="anticon anticon-plus"></i><span>添加</span>
+    </button>
+    <button nz-button (click)="search()" [nzType]="'primary'" [nzSize]="'large'" class="ant-btn__block mb-sm">
+        <i class="anticon anticon-search"></i><span>查询</span>
+    </button>
+    <nz-table #nzTable [nzAjaxData]="listData"  [nzLoading]="loading"
+              [nzIsPagination] = "false">
+        <thead nz-thead>
+        <tr>
+            <!--<th nz-th [nzCheckbox]="true">-->
+            <!--<label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
+            <!--(ngModelChange)="checkAll($event)"></label>-->
+            <!--</th>-->
+            <th nz-th><span>类型</span></th>
+            <th nz-th><span>证件编号</span></th>
+            <th nz-th><span>发证日期</span></th>
+            <th nz-th><span>到效日期</span></th>
+            <th nz-th>
+                <span>备注</span>
+            </th>
+            <!--<th nz-th>-->
+            <!--<span>更新时间</span>-->
+            <!--</th>-->
+
+            <th nz-th><span>操作</span></th>
+        </tr>
+        </thead>
+        <tbody nz-tbody>
+        <tr nz-tbody-tr *ngFor="let i of nzTable.data">
+            <!--<td nz-td [nzCheckbox]="true">-->
+            <!--<label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
+            <!--(ngModelChange)="refreshStatus($event)">-->
+            <!--</label>-->
+            <!--</td>-->
+            <td nz-td>{{i.item.type}}</td>
+            <td nz-td>{{i.item.code}}</td>
+            <td nz-td>{{i.item.issueDate | _date}}</td>
+            <td nz-td>{{i.item.effectiveDate | _date}}</td>
+            <td nz-td>{{i.item.remarks}}</td>
+            <!--<td nz-td>{{i.item.modifyAction.modifyDateTime | _date}}</td>-->
+            <td nz-td>
+                <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
+                <span>
+                        <a (click)="modifyEntity(i.item.id)">修改</a>
+                    </span>
+                <span nz-table-divider></span>
+                <span>
+                        <a (click)="delete(i.item.item.id)">删除</a>
+                    </span>
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+
+    <!--<nz-list [nzDataSource]="listData" [nzLoading]="loading">-->
+        <!--<ng-template #item let-item>-->
+            <!--<nz-list-item [nzContent]="nzContent">-->
+                <!--<nz-list-item-action><a (click)="modifyEntity(item.item.id)">编辑</a></nz-list-item-action>-->
+                <!--<nz-list-item-action><a (click)="delete(item.item.id)">删除</a>-->
+                <!--</nz-list-item-action>-->
+                <!--<nz-list-item-meta-->
+                    <!--[nzTitle]="nzTitle"-->
+                    <!--[nzDescription]="item.item.remarks">-->
+                    <!--&lt;!&ndash;[nzAvatar]="nzAvatar">&ndash;&gt;-->
+                    <!--<ng-template #nzTitle>-->
+                        <!--<a href="">{{item.item.type}}</a>-->
+                    <!--</ng-template>-->
+                    <!--&lt;!&ndash;<ng-template #nzAvatar>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<nz-avatar [nzSrc]="item.logo" [nzSize]="'large'" [nzShape]="'square'"></nz-avatar>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</ng-template>&ndash;&gt;-->
+                <!--</nz-list-item-meta>-->
+                <!--<ng-template #nzContent>-->
+                    <!--<div class="width-md">-->
+                        <!--<div class="d-flex text-grey-dark">-->
+                            <!--<div class="flex-1">-->
+                                <!--证件编号-->
+                                <!--<p>{{item.item.code}}</p>-->
+                            <!--</div>-->
+                            <!--<div class="text-right">-->
+                                <!--发证日期-->
+                                <!--<p>{{item.item.issueDate | _date}}</p>-->
+                            <!--</div>-->
+                            <!--<div class="text-right">-->
+                                <!--到效日期-->
+                                <!--<p>{{item.item.effectiveDate | _date}}</p>-->
+                            <!--</div>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</ng-template>-->
+            <!--</nz-list-item>-->
+        <!--</ng-template>-->
+    <!--</nz-list>-->
+
 </div>
-<pro-header [title]="'Page Name'"></pro-header>

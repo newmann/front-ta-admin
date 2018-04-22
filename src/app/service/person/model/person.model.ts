@@ -10,7 +10,7 @@ export class BylPerson extends BylBaseModel {
     idCard: string;
     name: string;
 
-    address: BylEmbeddableAddress;
+    address: BylEmbeddableAddress = new BylEmbeddableAddress();
 
     countryCode:string;
     countryName:string;
