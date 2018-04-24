@@ -113,6 +113,39 @@
                 ]
             }]
         },{
+            "text": "项目管理",
+            "i18n": "project",
+            "icon": "icon-speedometer",
+            "children":[{
+                "text": "项目定义",
+                "i18n": "project-manage",
+                "icon": "icon-speedometer",
+                "children": [{
+                    "text": "项目管理",
+                    "link": "/project/project/list",
+                    "i18n": "project_list"
+                },{
+                    "text": "项目新增",
+                    "link": "/project/project/crud/new",
+                    "i18n": "project_new"
+                }
+                ]
+            },{
+                "text": "资源范围管理",
+                "i18n": "project-resource-pool",
+                "icon": "icon-speedometer",
+                "children": [{
+                    "text": "项目经理范围管理",
+                    "link": "/project/manager-pool/list",
+                    "i18n": "project_manager_pool_list"
+                },{
+                    "text": "可借款范围管理",
+                    "link": "/project/qualification-pool/list",
+                    "i18n": "project_qualification_pool_list"
+                }
+                ]
+            }]
+        }, {
             "text": "快捷菜单",
             "i18n": "shortcut",
             "icon": "icon-rocket",

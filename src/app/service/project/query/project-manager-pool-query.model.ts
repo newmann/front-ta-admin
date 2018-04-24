@@ -4,7 +4,7 @@
  * @Date: Created in 2018-03-25 9:03
  **/
 
-export class ProjectManagerPoolQuery {
+export class BylProjectManagerPoolQuery {
     code: string;
     name: string;
     modifyDateBegin: number;

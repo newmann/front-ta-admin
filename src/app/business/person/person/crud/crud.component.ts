@@ -9,18 +9,18 @@ import {BylPersonService} from '../../../../service/person/service/person.servic
 import {BylPerson} from '../../../../service/person/model/person.model';
 
 import {BylCrudComponentBase} from '../../../common/crud-component-base';
-import {BylConfigService} from "../../../../service/constant/config.service";
-import {BylNation} from "../../../../service/person/model/nation.model";
-import {BylPoliticalStatus} from "../../../../service/person/model/political-status.model";
-import {BylNationService} from "../../../../service/person/service/nation.service";
-import {BylPoliticalStatusService} from "../../../../service/person/service/political-status.service";
-import {BylResultBody} from "../../../../service/model/result-body.model";
-import {_Validators, ReuseTabService} from "@delon/abc";
-import {BylValidators} from "../../../../service/utils/validators";
-import {BylCountryService} from "../../../../service/address/service/country.service";
-import {BylProvinceService} from "../../../../service/address/service/province.service";
-import {BylCityService} from "../../../../service/address/service/city.service";
-import {BylPersonAddress} from "../../../../service/person/model/person-address.model";
+import {BylConfigService} from '../../../../service/constant/config.service';
+import {BylNation} from '../../../../service/person/model/nation.model';
+import {BylPoliticalStatus} from '../../../../service/person/model/political-status.model';
+import {BylNationService} from '../../../../service/person/service/nation.service';
+import {BylPoliticalStatusService} from '../../../../service/person/service/political-status.service';
+import {BylResultBody} from '../../../../service/model/result-body.model';
+import {_Validators, ReuseTabService} from '@delon/abc';
+import {BylValidators} from '../../../../service/utils/validators';
+import {BylCountryService} from '../../../../service/address/service/country.service';
+import {BylProvinceService} from '../../../../service/address/service/province.service';
+import {BylCityService} from '../../../../service/address/service/city.service';
+import {BylPersonAddress} from '../../../../service/person/model/person-address.model';
 
 
 @Component({
@@ -43,10 +43,10 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
     // private sourceId: string;
     @Input()
     set setSourceId(value: string) {
-
         this.sourceId = value;
-        console.info("set sourceId:",this.sourceId);
+
     }
+
     // private _savingReveal: any;
 
     // public processType = '';
@@ -62,9 +62,9 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
     defineForm(): void {
         // 绑定验证模式
         this.form = this.fb.group({
-            idCard: [null,Validators.compose([Validators.required, _Validators.idCard])],
+            idCard: [null, Validators.compose([Validators.required, _Validators.idCard])],
             name: [null, Validators.compose([Validators.required])],
-            gender:[null],
+            gender: [null],
             // birthYear: [null,Validators.compose([Validators.maxLength(4)])],
             // birthMonth: [null,Validators.compose([Validators.maxLength(2)])],
             // birthDay: [null,Validators.compose([Validators.maxLength(2)])],
@@ -126,10 +126,10 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
         );
 
         //在从list窗口调入的情况下，载入数据
-        console.info("sourceId",this.sourceId);
+        console.info('sourceId', this.sourceId);
         if (this.sourceId) {
-            this.loadData(this.sourceId)
-        }else{
+            this.loadData(this.sourceId);
+        } else {
             //界面显示
             this.reset();
         }
@@ -153,7 +153,7 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
         }
 
         console.table(this.form.value);
-        Object.assign(this.businessData,this.form.value);
+        Object.assign(this.businessData, this.form.value);
 
         // console.log(this.idCard.value.toString());
         // console.log(this.businessData);
@@ -193,6 +193,7 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
         // }
 
     }
+
     /**
      * 重置界面内容
      */
@@ -216,7 +217,7 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = "编辑-" + this.businessData.name;
+            this.reuseTabService.title = '编辑-' + this.businessData.name;
         }
 
 
@@ -228,7 +229,7 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
         // this.logger.log('this.form.invalid' + this.form.invalid);
     }
 
-    getNationNameByCode(code: string):string{
+    getNationNameByCode(code: string): string {
         let name: string = null;
         this.searchedNations.every(item => {
             if (item.code === code) {
@@ -240,9 +241,9 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
         return name;
     }
 
-    getPoliticalStatusNameByCode(code: string):string{
+    getPoliticalStatusNameByCode(code: string): string {
         let name: string = null;
-        this.searchedPoliticalStatus.every(item =>{
+        this.searchedPoliticalStatus.every(item => {
             if (item.code === code) {
                 name = item.name;
                 return false;
@@ -277,6 +278,7 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
     get nation() {
         return this.form.controls.nation;
     }
+
     get politicalStatus() {
         return this.form.controls.politicalStatus;
     }
@@ -284,11 +286,11 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
     get nativePlace() {
         return this.form.controls.nativePlace;
     }
+
     get remarks() {
         return this.form.controls.remarks;
     }
 
     //#endregion
 
-    //#endregion
 }

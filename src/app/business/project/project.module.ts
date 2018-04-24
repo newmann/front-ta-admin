@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
 import { ImageCropperModule } from 'ng2-img-cropper';
 import { SharedModule } from '@shared/shared.module';
-import {ProjectRoutingModule} from "./project-routing.module";
+import {BylProjectRoutingModule} from "./project-routing.module";
 // import {BylRoleListComponent} from "./role/list/role-list.component";
 // import { RoleOperComponent } from './role/oper/role-oper.component';
 // import { BylRoleCrudComponent } from './role/crud/crud.component';
 // import { BylDepartmentListComponent } from './department/list/list.component';
 // import { BylDepartmentCrudComponent } from './department/crud/crud.component';
 import {NzTreeModule} from "ng-tree-antd";
-import { ProjectCrudComponent } from './project/crud/crud.component';
-import { ListComponent } from './project/list/list.component';
+import { BylProjectCrudComponent } from './project/crud/crud.component';
+import { BylProjectListComponent } from './project/list/list.component';
 
 
 
@@ -18,7 +18,7 @@ import { ListComponent } from './project/list/list.component';
     imports: [
         SharedModule,
         NzTreeModule,
-        ProjectRoutingModule,
+        BylProjectRoutingModule,
         ColorPickerModule,
         ImageCropperModule
     ],
@@ -28,11 +28,11 @@ import { ListComponent } from './project/list/list.component';
         // BylRoleCrudComponent,
         // BylDepartmentListComponent,
         // BylDepartmentCrudComponent
-    ProjectCrudComponent,
-        ListComponent],
+    BylProjectCrudComponent,
+        BylProjectListComponent],
     entryComponents:[
         // BylRoleCrudComponent,
         // BylDepartmentCrudComponent
     ]
 })
-export class ProjectModule { }
+export class BylProjectModule { }

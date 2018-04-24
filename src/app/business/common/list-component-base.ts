@@ -1,12 +1,12 @@
-import {OnInit} from "@angular/core";
-import {BylPageReq} from "../../service/model/page-req.model";
-import {BylListFormData} from "../../service/model/list-form-data.model";
-import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
-import {Router} from "@angular/router";
-import {BylConfigService} from "../../service/constant/config.service";
-import {BylBaseService} from "../../service/service/base.service";
-import {BylCrudEvent} from "./waiting/crud-waiting.component";
-import {BylResultBody} from "../../service/model/result-body.model";
+import {OnInit} from '@angular/core';
+import {BylPageReq} from '../../service/model/page-req.model';
+import {BylListFormData} from '../../service/model/list-form-data.model';
+import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {Router} from '@angular/router';
+import {BylConfigService} from '../../service/constant/config.service';
+import {BylBaseService} from '../../service/service/base.service';
+import {BylCrudEvent} from './waiting/crud-waiting.component';
+import {BylResultBody} from '../../service/model/result-body.model';
 
 /**
  * @Description: list组件的抽象类
@@ -20,8 +20,8 @@ export abstract class BylListComponentBase<T> implements OnInit {
 
     public crudUrl: string; //新增对象的url
 
-    public qData: any ={}; //查询条件中的数据
-    public page:BylPageReq ={ //分页定义
+    public qData: any = {}; //查询条件中的数据
+    public page: BylPageReq = { //分页定义
         page: 1,// 缺省当前页
         pageSize: 10,// 缺省每页条数
         sortField: 'name',
@@ -30,7 +30,7 @@ export abstract class BylListComponentBase<T> implements OnInit {
     };
     public expandQuery = false; // 是否展开查询条件界面
     public total: number; // 总条数
-    public listData : Array<BylListFormData<T>> = []; // 显示内容
+    public listData: Array<BylListFormData<T>> = []; // 显示内容
 
     public selectedRows: Array<BylListFormData<T>> = []; //被选中的数据
     public indeterminate = false;
@@ -54,7 +54,9 @@ export abstract class BylListComponentBase<T> implements OnInit {
     }
 
     checkAll(value: boolean) {
-        this.listData.forEach(item =>{if (!item.disabled) item.checked = value;});
+        this.listData.forEach(item => {
+            if (!item.disabled) item.checked = value;
+        });
         this.refreshStatus();
     }
 
@@ -77,14 +79,15 @@ export abstract class BylListComponentBase<T> implements OnInit {
     add() {
         // this.router.navigate(['/account/role/crud',"new"]);
         if (this.crudUrl) {
-            this.router.navigate([this.crudUrl,"new"]);
+            this.router.navigate([this.crudUrl, 'new']);
             // this.router.navigateByUrl(this.crudUrl);
         }
 
     }
-    modifyEntity(id:string) {
+
+    modifyEntity(id: string) {
         if (this.crudUrl) {
-            this.router.navigate([this.crudUrl,id]);
+            this.router.navigate([this.crudUrl, id]);
         }
 
         // this.modifyForm = this.modalService.open({
@@ -112,6 +115,7 @@ export abstract class BylListComponentBase<T> implements OnInit {
         //     }
         // });
     }
+
     /**
      * 查找
      */
@@ -120,7 +124,7 @@ export abstract class BylListComponentBase<T> implements OnInit {
 
         this.clearGrid();
 
-        this.businessService.findPage(this.genQueryModel(),this.page).subscribe(
+        this.businessService.findPage(this.genQueryModel(), this.page).subscribe(
             data => {
                 this.loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -146,16 +150,16 @@ export abstract class BylListComponentBase<T> implements OnInit {
     /**
      * 重置Grid
      */
-    clearGrid(){
+    clearGrid() {
         this.listData = []; // 显示内容
         this.selectedRows = [];
         this.indeterminate = false;
         this.allChecked = false;
     }
 
-    pageSizeChange($event){
-        console.log("pageSize:" + this.page.pageSize);
-        console.log("$event:" + $event);
+    pageSizeChange($event) {
+        console.log('pageSize:' + this.page.pageSize);
+        console.log('$event:' + $event);
         this.page.pageSize = $event;
         this.search();
     }
@@ -171,12 +175,12 @@ export abstract class BylListComponentBase<T> implements OnInit {
      * 生成查询条件
      * @returns {any}
      */
-    abstract genQueryModel( ):any;
+    abstract genQueryModel(): any;
 
     /**
      * 更新展示界面中的内容
-      * @param {T} newData
+     * @param {T} newData
      */
-    abstract updateListData(newData:T);
+    abstract updateListData(newData: T);
 
 }

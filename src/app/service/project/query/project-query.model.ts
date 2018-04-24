@@ -4,7 +4,7 @@
  * @Date: Created in 2018-03-25 9:03
  **/
 
-export class ProjectQuery {
+export class BylProjectQuery {
     code: string;
     name: string;
     status: Array<number>;

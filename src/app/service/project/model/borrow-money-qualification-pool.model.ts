@@ -7,7 +7,7 @@ import { BylBaseModel } from '../../model/base.model';
 import {BylEmbeddableAddress} from "../../model/embeddable-address.model";
 import {BylEmbeddableContactMethod} from "../../model/embeddable-contact-method.model";
 
-export class BorrowMoneyQualificationPool extends BylBaseModel {
+export class BylBorrowMoneyQualificationPool extends BylBaseModel {
     type: number;
     poolId: string;
     poolCode: string;

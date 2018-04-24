@@ -7,11 +7,11 @@ import { BylBaseModel } from '../../model/base.model';
 import {BylEmbeddableAddress} from "../../model/embeddable-address.model";
 import {BylEmbeddableContactMethod} from "../../model/embeddable-contact-method.model";
 import {BylEmbeddableProject} from "../../model/embeddable-project.model";
-import {EmbeddableBorrowAction} from './embeddable-borrow-action.model';
+import {BylEmbeddableBorrowAction} from './embeddable-borrow-action.model';
 import {BylEmbeddableCheckAction} from '../../model/embeddable-check-action.model';
-import {EmbeddableReceiveAction} from './embeddable-receive-action.model';
+import {BylEmbeddableReceiveAction} from './embeddable-receive-action.model';
 
-export class BorrowMoneyTicket extends BylBaseModel {
+export class BylBorrowMoneyTicket extends BylBaseModel {
     billNo: string;
     name: string;
     project: BylEmbeddableProject;
@@ -21,9 +21,9 @@ export class BorrowMoneyTicket extends BylBaseModel {
     reason: string;
     amount: number;
 
-    borrowAction: EmbeddableBorrowAction;
+    borrowAction: BylEmbeddableBorrowAction;
     checkAction: BylEmbeddableCheckAction;
-    receiveAction: EmbeddableReceiveAction;
+    receiveAction: BylEmbeddableReceiveAction;
 
     settlementDateTime: number;
     settlementTicketId: string;

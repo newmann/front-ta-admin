@@ -5,7 +5,7 @@
  * @Date：
 
  */
-export class EmbeddableBorrowAction{
+export class BylEmbeddableBorrowAction{
 
     borrowType: number;
 

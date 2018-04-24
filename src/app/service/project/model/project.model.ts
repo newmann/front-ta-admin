@@ -3,11 +3,11 @@
  * @Author: newmann
  * @Date: Created in 21:05 2018-01-22
  */
-import { BylBaseModel } from '../../model/base.model';
-import {BylEmbeddableAddress} from "../../model/embeddable-address.model";
-import {BylEmbeddableContactMethod} from "../../model/embeddable-contact-method.model";
+import {BylBaseModel} from '../../model/base.model';
+import {BylEmbeddableAddress} from '../../model/embeddable-address.model';
+import {BylEmbeddableContactMethod} from '../../model/embeddable-contact-method.model';
 
-export class Project extends BylBaseModel {
+export class BylProject extends BylBaseModel {
     code: string;
     name: string;
 
@@ -22,4 +22,35 @@ export class Project extends BylBaseModel {
     planBeginDate: number;
     planEndDate: number;
 
+    get fullAddress(): string {
+
+        let result = '';
+
+        if (this.address) {
+            result = this.address.fullAddress;
+        }
+
+        return result;
+    }
+
+    get fullContactMethod(): string {
+
+        let result = '';
+
+        if (this.contactMethod) {
+            result = this.contactMethod.fullContactMethod;
+        }
+
+        return result;
+    }
+
+    get fullManager(): string {
+        let result = '';
+
+        if (this.managerCode) result = result + '/' + this.managerCode;
+        if (this.managerName) result = result + '/' + this.managerName;
+
+        return result;
+
+    }
 }

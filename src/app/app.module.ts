@@ -24,7 +24,7 @@ import { ALAIN_I18N_TOKEN } from '@delon/theme';
 import { I18NService } from '@core/i18n/i18n.service';
 import { JWTInterceptor} from '@delon/auth';
 import { BYL_API_URL_LOGIN } from 'app/service/constant/backend-url.constant';
-import {BusinessModule} from "./business/business.module";
+import {BylBusinessModule} from "./business/business.module";
 // third
 import { UEditorModule } from 'ngx-ueditor';
 import { NgxTinymceModule } from 'ngx-tinymce';
@@ -55,7 +55,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         ServiceModule, // 自定义服务模块
         SharedModule,
         LayoutModule,
-        BusinessModule,
+        BylBusinessModule,
         // i18n
         TranslateModule.forRoot({
             loader: {

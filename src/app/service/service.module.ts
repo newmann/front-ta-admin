@@ -20,15 +20,23 @@ import {BylPoliticalStatusService} from "./person/service/political-status.servi
 import {BylCountryService} from "./address/service/country.service";
 import {BylProvinceService} from "./address/service/province.service";
 import {BylCityService} from "./address/service/city.service";
+import {BylProjectService} from './project/service/project.service';
+import {BylProjectManagerPoolService} from './project/service/project-manager-pool.service';
+import {BylBorrowMoneyTicketService} from './project/service/borrow-money-ticket.service';
+import {BylBorrowMoneyQualificationPoolService} from './project/service/borrow-money-qualification-pool.service';
 
 
 @NgModule({
     providers: [
         BylConfigService,
+        //account module
         AuthService,
         AuthDataService,
         RoleService,
+
         DepartmentService,
+
+        //person module
         BylPersonService,
         BylPersonAddressService,
         BylPersonCertificateService,
@@ -38,6 +46,12 @@ import {BylCityService} from "./address/service/city.service";
         BylCountryService,
         BylProvinceService,
         BylCityService,
+        //project module
+        BylProjectService,
+        BylProjectManagerPoolService,
+        BylBorrowMoneyTicketService,
+        BylBorrowMoneyQualificationPoolService,
+
         ChatService,
         CustomStompRService,
         {

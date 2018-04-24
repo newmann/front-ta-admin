@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from '@shared/shared.module';
-import { BusinessRoutingModule } from 'app/business/business-routing.module';
+import { BylBusinessRoutingModule } from 'app/business/business-routing.module';
 import {UserRegisterResultComponent} from "./passport/register-result/register-result.component";
 import {UserRegisterComponent} from "./passport/register/register.component";
 import {UserLoginComponent} from "./passport/login/login.component";
@@ -23,7 +23,7 @@ import {NzTreeModule} from "ng-tree-antd";
 @NgModule({
     imports: [ SharedModule,
         NzTreeModule,
-        BusinessRoutingModule],
+        BylBusinessRoutingModule],
     declarations: [
         DashboardV1Component,
         DashboardAnalysisComponent,
@@ -49,4 +49,4 @@ import {NzTreeModule} from "ng-tree-antd";
     ]
 })
 
-export class BusinessModule {}
+export class BylBusinessModule {}

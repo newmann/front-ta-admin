@@ -5,7 +5,7 @@
  * @Date：
 
  */
-export class EmbeddableReceiveAction{
+export class BylEmbeddableReceiveAction{
 
 
     receiveId: string;

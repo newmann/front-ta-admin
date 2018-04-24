@@ -18,4 +18,14 @@ export class BylEmbeddableAddress{
     cityName: string;
     detailAddress: string;
     zipCode: string;
+
+    get fullAddress(): string{
+        let result = "";
+        if (this.countryName) result = result +this.countryName;
+        if ( this.provinceName) result = result + "/" + this.provinceName;
+        if (this.cityName) result = result +"/" + this.cityName;
+        if ( this.detailAddress ) result = result + "/" + this.detailAddress;
+        if ( this.zipCode ) result = result + "/" + this.zipCode;
+        return result;
+    }
 }

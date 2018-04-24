@@ -47,6 +47,7 @@ const routes: Routes = [
 
             { path: 'account', loadChildren: './account/account.module#AccountModule' },
             { path: 'person', loadChildren: './person/person.module#BylPersonModule' },
+            { path: 'project', loadChildren: './project/project.module#BylProjectModule' },
         ]
     },
     // 全屏布局
@@ -107,4 +108,4 @@ const routes: Routes = [
     imports: [RouterModule.forRoot(routes, { useHash: environment.useHash })],
     exports: [RouterModule]
   })
-export class BusinessRoutingModule { }
+export class BylBusinessRoutingModule { }

@@ -10,8 +10,9 @@ import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';
 
 import {BylQueryReqBody} from '../../model/query-req-body.model';
-import {BorrowMoneyTicket} from '../model/borrow-money-ticket.model';
-import {BorrowMoneyTicketQuery} from '../query/borrow-money-ticket-query.model';
+import {BylBorrowMoneyTicket} from '../model/borrow-money-ticket.model';
+import {BylBorrowMoneyTicketQuery} from '../query/borrow-money-ticket-query.model';
+import {BylBaseService} from '../../service/base.service';
 
 
 /**
@@ -20,50 +21,53 @@ import {BorrowMoneyTicketQuery} from '../query/borrow-money-ticket-query.model';
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BorrowMoneyTicketService {
-    private BASE_API_URL = 'api/project/borrow-money-ticket';
+export class BylBorrowMoneyTicketService  extends BylBaseService<BylBorrowMoneyTicket> {
 
-    constructor(private http: _HttpClient,
-                private configServer: BylConfigService,
-                private i18nService: I18NService) {
+    constructor(protected http: _HttpClient,
+                protected configServer: BylConfigService,
+                protected i18nService: I18NService) {
+
+        super(http, configServer, i18nService);
+
+        this.BASE_API_URL = 'api/project/borrow-money-ticket';
     }
 
 
-    // fetchAvailableDepartmentByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BorrowMoneyTicket> >> {
-    //     return this.http.get<BylResultBody<Array<BorrowMoneyTicket>>>(this.BASE_API_URL+"/fetch-available-BorrowMoneyTicket-by-code-or-name/" + searchstr);
+    // fetchAvailableDepartmentByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylBorrowMoneyTicket> >> {
+    //     return this.http.get<BylResultBody<Array<BylBorrowMoneyTicket>>>(this.BASE_API_URL+"/fetch-available-BylBorrowMoneyTicket-by-code-or-name/" + searchstr);
     // }
 
 
-    add(item: BorrowMoneyTicket): Observable<BylResultBody<BorrowMoneyTicket>> {
-        return this.http.post<BylResultBody<BorrowMoneyTicket>>(this.BASE_API_URL + '/add', item);
+    // add(item: BylBorrowMoneyTicket): Observable<BylResultBody<BylBorrowMoneyTicket>> {
+    //     return this.http.post<BylResultBody<BylBorrowMoneyTicket>>(this.BASE_API_URL + '/add', item);
+    // }
+    //
+    // update(updateItem: BylBorrowMoneyTicket): Observable<BylResultBody<BylBorrowMoneyTicket>> {
+    //     return this.http.post<BylResultBody<BylBorrowMoneyTicket>>(this.BASE_API_URL + '/update', updateItem);
+    // }
+    //
+    // checkCodeAvailable(code: string): Observable<BylResultBody<boolean>> {
+    //     return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/check-code-available', code);
+    //
+    // }
+    //
+    // findById(id: string): Observable<BylResultBody<BylBorrowMoneyTicket>> {
+    //     return this.http.get<BylResultBody<BylBorrowMoneyTicket>>(this.BASE_API_URL + '/find-by-id/' + id);
+    // }
+
+    findByBillNo(billNo: string): Observable<BylResultBody<BylBorrowMoneyTicket>> {
+        return this.http.get<BylResultBody<BylBorrowMoneyTicket>>(this.BASE_API_URL + '/find-by-billno/' + billNo);
     }
-
-    update(updateItem: BorrowMoneyTicket): Observable<BylResultBody<BorrowMoneyTicket>> {
-        return this.http.post<BylResultBody<BorrowMoneyTicket>>(this.BASE_API_URL + '/update', updateItem);
-    }
-
-    checkCodeAvailable(code: string): Observable<BylResultBody<boolean>> {
-        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/check-code-available', code);
-
-    }
-
-    findById(id: string): Observable<BylResultBody<BorrowMoneyTicket>> {
-        return this.http.get<BylResultBody<BorrowMoneyTicket>>(this.BASE_API_URL + '/find-by-id/' + id);
-    }
-
-    findByBillNo(billNo: string): Observable<BylResultBody<BorrowMoneyTicket>> {
-        return this.http.get<BylResultBody<BorrowMoneyTicket>>(this.BASE_API_URL + '/find-by-billno/' + billNo);
-    }
-
-    /**
-     * 按分页方式返回
-     * @returns {Observable<BylResultBody<>>}
-     */
-    findPage(query: BorrowMoneyTicketQuery, page: BylPageReq): Observable<BylResultBody<BylPageResp<BorrowMoneyTicket>>> {
-        let queryModel = new BylQueryReqBody<BorrowMoneyTicketQuery>();
-        queryModel.pageReq = page;
-        queryModel.queryReq = query;
-
-        return this.http.post<BylResultBody<BylPageResp<BorrowMoneyTicket>>>(this.BASE_API_URL + '/find-page', queryModel);
-    }
+    //
+    // /**
+    //  * 按分页方式返回
+    //  * @returns {Observable<BylResultBody<>>}
+    //  */
+    // findPage(query: BylBorrowMoneyTicketQuery, page: BylPageReq): Observable<BylResultBody<BylPageResp<BylBorrowMoneyTicket>>> {
+    //     let queryModel = new BylQueryReqBody<BylBorrowMoneyTicketQuery>();
+    //     queryModel.pageReq = page;
+    //     queryModel.queryReq = query;
+    //
+    //     return this.http.post<BylResultBody<BylPageResp<BylBorrowMoneyTicket>>>(this.BASE_API_URL + '/find-page', queryModel);
+    // }
 }

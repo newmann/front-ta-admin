@@ -4,7 +4,7 @@
  * @Date: Created in 2018-03-25 9:03
  **/
 
-export class BorrowMoneyTicketQuery {
+export class BylBorrowMoneyTicketQuery {
     billNo: string;
     projectId: string;
     reason: string;
