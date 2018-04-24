@@ -11,13 +11,13 @@ export class BylProject extends BylBaseModel {
     code: string;
     name: string;
 
-    address: BylEmbeddableAddress;
+    address: BylEmbeddableAddress;//项目所在地
 
     managerId: string;
     managerCode: string;
     managerName: string;
 
-    contactMethod: BylEmbeddableContactMethod;
+    // contactMethod: BylEmbeddableContactMethod;
 
     planBeginDate: number;
     planEndDate: number;
@@ -33,16 +33,16 @@ export class BylProject extends BylBaseModel {
         return result;
     }
 
-    get fullContactMethod(): string {
-
-        let result = '';
-
-        if (this.contactMethod) {
-            result = this.contactMethod.fullContactMethod;
-        }
-
-        return result;
-    }
+    // get fullContactMethod(): string {
+    //
+    //     let result = '';
+    //
+    //     if (this.contactMethod) {
+    //         result = this.contactMethod.fullContactMethod;
+    //     }
+    //
+    //     return result;
+    // }
 
     get fullManager(): string {
         let result = '';

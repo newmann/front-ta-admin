@@ -41,12 +41,9 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
             code: [null, Validators.compose([Validators.required])],
             name: [null, Validators.compose([Validators.required])],
             manager: [null],
-            contactor: [null],
-            contactAddress: [null],
-            contactDetailAddress: [null],
-            contactZipCode: [null],
-            contactPhone: [null],
-            contactEmail: [null],
+            address: [null],
+            // detailAddress: [null],
+            // contactZipCode: [null],
             planBeginDate: [null],
             planEndDate: [null],
             remarks: [null]
@@ -84,18 +81,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
         }
 
         console.table(this.form.value);
-        Object.assign(this.businessData, this.form.value);
 
-        if (this.nation.value) {
-            this.businessData.nationCode = this.nation.value;
-            this.businessData.nationName = this.getNationNameByCode(this.businessData.nationCode);
-        }
-
-        if (this.politicalStatus.value) {
-            this.businessData.politicalStatusCode = this.politicalStatus.value;
-            this.businessData.politicalStatusName = this.getPoliticalStatusNameByCode(this.businessData.politicalStatusCode);
-            console.log(this.businessData.politicalStatusName);
-        }
 
 
     }
@@ -104,15 +90,15 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
      */
     reset() {
         this.form.reset({
-            idCard: this.businessData.idCard,
+            code: this.businessData.code,
             name: this.businessData.name,
-            gender: this.businessData.gender,
+            address: this.businessData.address,
             // birthYear: this.businessData.birthYear,
             // birthMonth: this.businessData.birthMonth,
             // birthDay: this.businessData.birthDay,
-            nation: this.businessData.nationCode,
-            politicalStatus: this.businessData.politicalStatusCode,
-            nativePlace: this.businessData.nativePlace,
+            planBeginDate: this.businessData.planBeginDate,
+            planEndDate: this.businessData.planEndDate,
+
 
             remarks: this.businessData.remarks
         }, {onlySelf: true, emitEvent: false});
@@ -134,16 +120,16 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
         // this.logger.log('this.form.invalid' + this.form.invalid);
     }
     //#region get form fields
-    get idCard() {
-        return this.form.controls.idCard;
+    get code() {
+        return this.form.controls.code;
     }
 
     get name() {
         return this.form.controls.name;
     }
 
-    get gender() {
-        return this.form.controls.gender;
+    get address() {
+        return this.form.controls.address;
     }
 
     // get birthYear() {
@@ -155,16 +141,13 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
     // get birthDay() {
     //     return this.form.controls.birthDay;
     // }
-    get nation() {
-        return this.form.controls.nation;
+    get planBeginDate() {
+        return this.form.controls.planBeginDate;
     }
 
-    get politicalStatus() {
-        return this.form.controls.politicalStatus;
-    }
 
-    get nativePlace() {
-        return this.form.controls.nativePlace;
+    get planEndDate() {
+        return this.form.controls.planEndDate;
     }
 
     get remarks() {

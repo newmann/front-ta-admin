@@ -17,6 +17,7 @@ import {DashboardV1Component} from "../routes/dashboard/v1/v1.component";
 import {WaitingComponent} from "./common/waiting/waiting.component";
 import {BylCrudWaitingComponent} from "./common/waiting/crud-waiting.component";
 import {NzTreeModule} from "ng-tree-antd";
+import {BylEmbeddableAddressComponent} from "./common/embeddable-address/embeddable-address.component";
 
 
 
@@ -40,6 +41,7 @@ import {NzTreeModule} from "ng-tree-antd";
         Exception500Component,
         WaitingComponent,
         BylCrudWaitingComponent
+
 
 
     ],

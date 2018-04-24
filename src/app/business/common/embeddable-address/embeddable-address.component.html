@@ -1,0 +1,50 @@
+<div>
+
+    <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSm]="4">
+            <label for="addressTree" nz-form-item-required>
+                    <span>
+                        地址
+                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+                        <!--</nz-tooltip>-->
+                    </span>
+            </label>
+        </div>
+        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
+            <nz-cascader #addressTree
+                name = "addressTree"
+                (nzLoad)="loadAddressTree($event)"
+                (nzSelect) = "selectAddressTree($event)" >
+            </nz-cascader>
+        </div>
+    </div>
+
+
+    <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSm]="4">
+            <label for="detailAddress" nz-form-item-required>
+                    <span>
+                        详细地址
+                    </span>
+            </label>
+        </div>
+        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="detailAddress">
+            <nz-input name="detailAddress" nzPlaceHolder="详细地址" [ngModel] = "detailAddress"></nz-input>
+        </div>
+    </div>
+    <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSm]="4">
+            <label for="zipCode" >
+                    <span>
+                        邮政编码
+                    </span>
+            </label>
+        </div>
+        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="zipCode">
+            <nz-input name="zipCode" nzPlaceHolder="邮政编码" [ngModel]="zipCode"></nz-input>
+
+        </div>
+    </div>
+
+</div>

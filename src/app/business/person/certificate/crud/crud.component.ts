@@ -85,8 +85,8 @@ export class BylPersonCertificateCrudComponent extends BylCrudComponentBase<BylP
             code: [null, Validators.compose([Validators.required])],
             issueDate: [null],
             effectiveDate: [null, Validators.compose([Validators.required])],
-            // frontPhotoUrl: [null],
-            // backPhotoUrl: [null],
+            // frontPhotoFileName: [null],
+            // backPhotoFileName: [null],
             remarks: [null]
         });
 
@@ -109,8 +109,8 @@ export class BylPersonCertificateCrudComponent extends BylCrudComponentBase<BylP
             remarks: this.businessData.remarks
         }, {onlySelf: true, emitEvent: false});
 
-        this.frontPhoto = this.businessData.frontPhotoUrl;
-        this.backPhoto = this.businessData.backPhotoUrl;
+        this.frontPhoto = this.businessData.frontPhotoFileName;
+        this.backPhoto = this.businessData.backPhotoFileName;
 
     }
 
@@ -155,7 +155,7 @@ export class BylPersonCertificateCrudComponent extends BylCrudComponentBase<BylP
             console.log("serverResp:", JSON.stringify(serverResp));
             if (serverResp.code === BylResultBody.RESULT_CODE_SUCCESS){
                 // Get this url from response in real world.
-                this.businessData.frontPhotoUrl = serverResp.data.targetFileName;
+                this.businessData.frontPhotoFileName = serverResp.data.targetFileName;
 
                 this.loading = false;
                 this.frontPhoto = info.file.thumbUrl;
@@ -180,7 +180,7 @@ export class BylPersonCertificateCrudComponent extends BylCrudComponentBase<BylP
             //获取返回的信息
             const serverResp :BylResultBody<BylUploadFileNameMapModel> = info.file.response;
             if (serverResp.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                this.businessData.backPhotoUrl = serverResp.data.targetFileName;
+                this.businessData.backPhotoFileName = serverResp.data.targetFileName;
 
                 this.loading = false;
                 this.backPhoto = info.file.thumbUrl;

@@ -38,7 +38,8 @@ import {BylPersonCertificateListComponent} from './certificate/list/list.compone
         BylPersonAddressCrudComponent,
         BylPersonAddressListComponent,
         BylPersonCertificateCrudComponent,
-        BylPersonCertificateListComponent],
+        BylPersonCertificateListComponent
+    ],
     entryComponents:[
         BylPersonCrudComponent
     ]

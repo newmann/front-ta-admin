@@ -15,6 +15,7 @@ import { CountdownModule } from 'ngx-countdown';
 import { UEditorModule } from 'ngx-ueditor';
 import { NgxTinymceModule } from 'ngx-tinymce';
 import { NzSchemaFormModule } from 'nz-schema-form';
+import {BylEmbeddableAddressComponent} from "../business/common/embeddable-address/embeddable-address.component";
 const THIRDMODULES = [
     CountdownModule,
     UEditorModule,
@@ -24,7 +25,10 @@ const THIRDMODULES = [
 // endregion
 
 // region: your componets & directives
-const COMPONENTS = [];
+const COMPONENTS = [
+    BylEmbeddableAddressComponent
+];
+
 const DIRECTIVES = [];
 // endregion
 
