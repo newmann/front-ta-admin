@@ -8,7 +8,7 @@ import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylPersonService} from '../../../../service/person/service/person.service';
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
 import {Role, RoleStatus} from '../../../../service/account/model/role.model';
-import {RoleQueryModel} from '../../../../service/account/query/role-query.model';
+import {BylRoleQuery} from '../../../../service/account/query/role-query.model';
 import * as moment from 'moment';
 import {BylPersonQuery} from '../../../../service/person/query/person-query.model';
 import {BylPersonCrudComponent} from '../crud/crud.component';

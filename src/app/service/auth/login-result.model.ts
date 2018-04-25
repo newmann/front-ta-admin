@@ -1,4 +1,4 @@
-import {Account} from '../account/model/account.model';
+import {BylAccount} from '../account/model/account.model';
 /**
  *  @Author: xinsh
  * @Description: 登录成功后返回的信息
@@ -7,5 +7,5 @@ import {Account} from '../account/model/account.model';
 
 export class LoginResultModel {
   token: string;
-  account: Account;
+  account: BylAccount;
 }

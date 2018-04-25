@@ -9,6 +9,8 @@ import { BylRoleCrudComponent } from './role/crud/crud.component';
 import { BylDepartmentListComponent } from './department/list/list.component';
 import { BylDepartmentCrudComponent } from './department/crud/crud.component';
 import {NzTreeModule} from "ng-tree-antd";
+import { BylAccountListComponent } from './account/list/list.component';
+import { BylAccountCrudComponent } from './account/crud/crud.component';
 
 
 
@@ -25,7 +27,9 @@ import {NzTreeModule} from "ng-tree-antd";
         RoleOperComponent,
         BylRoleCrudComponent,
         BylDepartmentListComponent,
-        BylDepartmentCrudComponent
+        BylDepartmentCrudComponent,
+        BylAccountListComponent,
+        BylAccountCrudComponent
     ],
     entryComponents:[
         BylRoleCrudComponent,

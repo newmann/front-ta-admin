@@ -1,0 +1,173 @@
+<pro-header [title]="'账户信息维护'" *ngIf="processType.length > 0 "></pro-header>
+<nz-card [nzBordered]="false">
+    <nz-tabset>
+        <nz-tab>
+            <ng-template #nzTabHeading>基本信息
+            </ng-template>
+            <span>
+                <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" role="form">
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="username" nz-form-item-required>
+                                    <span>
+                                        代码
+                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+                                        <!--</nz-tooltip>-->
+                                    </span>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="username">
+                            <nz-input formControlName="username" nzPlaceHolder="代码" ></nz-input>
+
+                            <ng-container *ngIf="username.dirty && username.touched">
+                                <p nz-form-explain *ngIf="username.errors?.required">必须输入代码</p>
+                                <!--<p nz-form-explain *ngIf="username.errors?.idCard">输入身份证号码不正确</p>-->
+                                <p nz-form-explain *ngIf="username.errors?.duplicate">输入的代码已经被使用</p>
+                                <p nz-form-explain *ngIf="username.errors?.other">验证出现异常：{{username.errors?.msg}}</p>
+                                <!--<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>-->
+                                <p nz-form-explain *ngIf="username.pending">验证中...</p>
+                            </ng-container>
+
+                        </div>
+                    </div>
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="fullName" >
+                                    <span>
+                                        姓名
+                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+                                        <!--</nz-tooltip>-->
+                                    </span>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="fullName">
+                            <nz-input formControlName="fullName" nzPlaceHolder="姓名" ></nz-input>
+
+                            <ng-container *ngIf="fullName.dirty && fullName.touched">
+                                <p nz-form-explain *ngIf="fullName.errors?.required">必须输入姓名</p>
+                                <p nz-form-explain *ngIf="fullName.errors?.other">验证出现异常：{{name.errors?.msg}}</p>
+                                <p nz-form-explain *ngIf="fullName.pending">验证中...</p>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="nickname" >
+                                    <span>
+                                        昵称
+                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+                                        <!--</nz-tooltip>-->
+                                    </span>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="nickname">
+                            <nz-input formControlName="nickname" nzPlaceHolder="名称" ></nz-input>
+
+                            <ng-container *ngIf="nickname.dirty && nickname.touched">
+                                <p nz-form-explain *ngIf="nickname.errors?.required">必须输入昵称</p>
+                                <p nz-form-explain *ngIf="nickname.errors?.other">验证出现异常：{{nickname.errors?.msg}}</p>
+                                <p nz-form-explain *ngIf="nickname.pending">验证中...</p>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="password" nz-form-item-required>
+                                    <span>
+                                        初始化密码
+                                    </span>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="password">
+                            <nz-input formControlName="password" nzPlaceHolder="初始化密码"  ></nz-input>
+                            <ng-container *ngIf="password.dirty && password.touched">
+                                <p nz-form-explain *ngIf="password.errors?.required">必须设置初始化密码</p>
+                                <p nz-form-explain *ngIf="password.errors?.other">验证出现异常：{{password.errors?.msg}}</p>
+                                <p nz-form-explain *ngIf="password.pending">验证中...</p>
+                            </ng-container>
+
+                        </div>
+                    </div>
+
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="email" nz-form-item-required>
+                                    <span>
+                                        邮箱
+                                    </span>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="email">
+                            <nz-input formControlName="email" nzPlaceHolder="邮箱"  ></nz-input>
+                        </div>
+                    </div>
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="phone" >
+                                    <span>
+                                        手机号码
+                                    </span>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="phone">
+                            <nz-input formControlName="phone" nzPlaceHolder="手机号码" ></nz-input>
+
+                        </div>
+                    </div>
+
+
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="remarks"> 备注</label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
+                            <nz-input formControlName="remarks" nzPlaceHolder="备注" ></nz-input>
+                        </div>
+                    </div>
+
+                    <div nz-form-item nz-row class="mb0">
+
+                        <ng-container *ngIf="errMsg.length > 0">
+                            <p>{{errMsg}}</p>
+                        </ng-container>
+
+                        <div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
+                            <button nz-button [nzType]="'primary'" [nzSize]="'large'"
+                                    [disabled]="form.invalid || (!form.dirty)">保存</button>
+                            <button nz-button (click)="resetButtonClick($event)">重置</button>
+
+
+                        </div>
+
+                    </div>
+
+                </form>
+            </span>
+        </nz-tab>
+
+        <nz-tab>
+            <ng-template #nzTabHeading>日志</ng-template>
+            <span>
+                <nz-timeline>
+                  <nz-timeline-item [nzColor]="'green'">Create a services site 2015-09-01</nz-timeline-item>
+                  <nz-timeline-item [nzColor]="'green'">Solve initial network problems 2015-09-01</nz-timeline-item>
+                  <nz-timeline-item [nzColor]="'red'">Technical testing 2015-09-01</nz-timeline-item>
+                  <nz-timeline-item>Network problems being solved 2015-09-01</nz-timeline-item>
+                </nz-timeline>
+            </span>
+        </nz-tab>
+
+    </nz-tabset>
+    <!--<div nz-row >-->
+    <!--<div  nz-col [nzSpan]="20" [nzOffset]="4">-->
+    <!--<button nz-button [nzType]="'primary'" [nzSize]="'large'" (click) = "showButtonClick($event)">show</button>-->
+
+    <!--</div>-->
+
+    <!--</div>-->
+</nz-card>
+

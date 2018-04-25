@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Account } from '../account/model/account.model';
+import { BylAccount } from '../account/model/account.model';
 /**
  *  @Author: xinsh
  * @Description: 保存登录后的token和account信息
@@ -17,15 +17,15 @@ export class AuthDataService {
         this.Token$.next(t);
     }
     private token = ''; // 当前账户的token,初始值为空字符串
-    get Account(): Account{
+    get Account(): BylAccount{
         return this.account;
     }
-    set Account(newAccount: Account){
+    set Account(newAccount: BylAccount){
         this.account = newAccount;
         this.Account$.next(newAccount);
     }
-    private account: Account = null; // 当前登录的用户
-    public Account$: BehaviorSubject<Account> = new BehaviorSubject<Account>(null);
+    private account: BylAccount = null; // 当前登录的用户
+    public Account$: BehaviorSubject<BylAccount> = new BehaviorSubject<BylAccount>(null);
     public Token$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
     constructor() { }
@@ -53,8 +53,8 @@ export class AuthDataService {
         // return this.afAuth.currentAccount;
     }
 
-    // public changeAccount(newAccount: Account) {
+    // public changeAccount(newAccount: BylAccount) {
     //     this.account = newAccount;
-    //     this.Account$.next(newAccount);
+    //     this.BylAccount$.next(newAccount);
     // }
 }

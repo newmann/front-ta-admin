@@ -6,10 +6,10 @@ import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
 import {BylLoggerService} from "../../../../service/utils/logger";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BylConfigService} from "../../../../service/constant/config.service";
-import {RoleService} from "../../../../service/account/service/role.service";
-import {DepartmentService} from "../../../../service/account/service/department.service";
+import {BylRoleService} from "../../../../service/account/service/role.service";
+import {BylDepartmentService} from "../../../../service/account/service/department.service";
 import {Role, RoleStatus} from "../../../../service/account/model/role.model";
-import {Department, DepartmentStatus} from "../../../../service/account/model/department.model";
+import {BylDepartment, DepartmentStatus} from "../../../../service/account/model/department.model";
 import {debounceTime, distinctUntilChanged, first, flatMap, map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {Observable} from "rxjs/Observable";
@@ -23,8 +23,8 @@ import {Subject} from "rxjs/Subject";
   templateUrl: './crud.component.html',
 })
 export class BylDepartmentCrudComponent implements OnInit {
-    private _department = new Department;
-    private _firstLevelDepartment = new Department();//最顶级的部门，id = -
+    private _department = new BylDepartment;
+    private _firstLevelDepartment = new BylDepartment();//最顶级的部门，id = -
     public form: FormGroup;
     private _loading = false;
     public errMsg = '';  // 保存时错误信息
@@ -35,14 +35,14 @@ export class BylDepartmentCrudComponent implements OnInit {
 
     public processType: string = '';
 
-    public searchedDepartments: Array<Department> = [];
+    public searchedDepartments: Array<BylDepartment> = [];
 
     private _searchData$: Subject<string> = new Subject<string>();
 
 
     constructor(
         public msgService: NzMessageService,
-        public departmentService: DepartmentService,
+        public departmentService: BylDepartmentService,
         public configService: BylConfigService,
         public modalService: NzModalService,
         public modalSubject: NzModalSubject,
@@ -294,7 +294,7 @@ export class BylDepartmentCrudComponent implements OnInit {
                 switch(this.processType){
                     case "new":
                         //新增界面
-                        this._department = new Department();
+                        this._department = new BylDepartment();
                         this.reset();
                         break;
                     case "modify":

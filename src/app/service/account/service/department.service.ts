@@ -3,14 +3,14 @@ import {_HttpClient} from '@delon/theme';
 import {BylResultBody} from '../../model/result-body.model';
 import {LoginResultModel} from '../../auth/login-result.model';
 import {Observable} from 'rxjs/Observable';
-import {Department, DepartmentStatus} from '../model/department.model';
-import {Account} from '../model/account.model';
+import {BylDepartment, DepartmentStatus} from '../model/department.model';
+import {BylAccount} from '../model/account.model';
 import {BylPageResp} from '../../model/page-resp.model';
 import {BylPageReq} from '../../model/page-req.model';
 import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';
 import {BylIStatusItem} from '../../model/status.model';
-import {DepartmentQueryModel} from '../query/department-query.model';
+import {BylDepartmentQuery} from '../query/department-query.model';
 import {BylQueryReqBody} from '../../model/query-req-body.model';
 
 
@@ -20,7 +20,7 @@ import {BylQueryReqBody} from '../../model/query-req-body.model';
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class DepartmentService {
+export class BylDepartmentService {
     constructor(private http: _HttpClient,
                 private configServer: BylConfigService,
                 private i18nService: I18NService) {
@@ -61,67 +61,67 @@ export class DepartmentService {
      * 返回所有正常状态的部门
      * @returns {Observable<BylResultBody<LoginResultModel>>}
      */
-    // findAllNormal(): Observable < BylResultBody < Set<Department> >> {
-    //     return this.http.get< BylResultBody < Set<Department> >>("api/department/find-all-normal");
+    // findAllNormal(): Observable < BylResultBody < Set<BylDepartment> >> {
+    //     return this.http.get< BylResultBody < Set<BylDepartment> >>("api/department/find-all-normal");
     // }
 
     /**
      * 返回所有被锁定的department
-     * @returns {Observable<BylResultBody<Set<Department>>>}
+     * @returns {Observable<BylResultBody<Set<BylDepartment>>>}
      */
-    // findAllLocked(): Observable < BylResultBody < Set<Department> >> {
-    //     return this.http.get< BylResultBody < Set<Department> >>("api/department/find-all-locked");
+    // findAllLocked(): Observable < BylResultBody < Set<BylDepartment> >> {
+    //     return this.http.get< BylResultBody < Set<BylDepartment> >>("api/department/find-all-locked");
     // }
 
     /**
      * 按分页方式返回所有正常状态的部门
      * @returns {Observable<BylResultBody<LoginResultModel>>}
      */
-    // findPageNormal(pageNo: number): Observable < BylResultBody < BylPageResp<Department> >> {
+    // findPageNormal(pageNo: number): Observable < BylResultBody < BylPageResp<BylDepartment> >> {
     //     let page = new BylPageReq();
     //     page.page = pageNo;
     //     page.pageSize = this.configServer.PAGESIZE;
     //     page.sortField = 'name';
     //     page.sort = "desc";
     //
-    //     return this.http.post< BylResultBody < BylPageResp<Department> >>("api/department/find-page-normal",page);
+    //     return this.http.post< BylResultBody < BylPageResp<BylDepartment> >>("api/department/find-page-normal",page);
     // }
     /**
      * 返回指定parentId的部门
      * @returns {Observable<BylResultBody<LoginResultModel>>}
      */
-    findDepartmendByParentId(parentId: string): Observable<BylResultBody<Array<Department>>> {
-        return this.http.get<BylResultBody<Array<Department>>>('api/department/find-by-parentid/' + parentId);
+    findDepartmendByParentId(parentId: string): Observable<BylResultBody<Array<BylDepartment>>> {
+        return this.http.get<BylResultBody<Array<BylDepartment>>>('api/department/find-by-parentid/' + parentId);
     }
 
-    fetchAvailableDepartmentByCodeOrName(searchstr: string): Observable<BylResultBody<Array<Department>>> {
-        return this.http.get<BylResultBody<Array<Department>>>('api/department/fetch-available-department-by-code-or-name/' + searchstr);
+    fetchAvailableDepartmentByCodeOrName(searchstr: string): Observable<BylResultBody<Array<BylDepartment>>> {
+        return this.http.get<BylResultBody<Array<BylDepartment>>>('api/department/fetch-available-department-by-code-or-name/' + searchstr);
     }
 
     /**
      * 按分页方式返回不同状态的部门
      * @returns {Observable<BylResultBody<LoginResultModel>>}
      */
-    findPage(query: DepartmentQueryModel, page: BylPageReq): Observable<BylResultBody<BylPageResp<Department>>> {
-        let queryModel = new BylQueryReqBody<DepartmentQueryModel>();
+    findPage(query: BylDepartmentQuery, page: BylPageReq): Observable<BylResultBody<BylPageResp<BylDepartment>>> {
+        let queryModel = new BylQueryReqBody<BylDepartmentQuery>();
         queryModel.pageReq = page;
         queryModel.queryReq = query;
 
-        return this.http.post<BylResultBody<BylPageResp<Department>>>('api/department/find-page', queryModel);
+        return this.http.post<BylResultBody<BylPageResp<BylDepartment>>>('api/department/find-page', queryModel);
     }
 
-    // add(name: string): Observable< BylResultBody < Department >> {
-    //     let newItem = new Department();
+    // add(name: string): Observable< BylResultBody < BylDepartment >> {
+    //     let newItem = new BylDepartment();
     //     newItem.name = name;
-    //     return this.http.post<BylResultBody<Department>>("/api/department/add", newItem);
+    //     return this.http.post<BylResultBody<BylDepartment>>("/api/department/add", newItem);
     // }
 
-    add(item: Department): Observable<BylResultBody<Department>> {
-        return this.http.post<BylResultBody<Department>>('/api/department/add', item);
+    add(item: BylDepartment): Observable<BylResultBody<BylDepartment>> {
+        return this.http.post<BylResultBody<BylDepartment>>('/api/department/add', item);
     }
 
-    update(updateItem: Department): Observable<BylResultBody<Department>> {
-        return this.http.post<BylResultBody<Department>>('/api/department/update', updateItem);
+    update(updateItem: BylDepartment): Observable<BylResultBody<BylDepartment>> {
+        return this.http.post<BylResultBody<BylDepartment>>('/api/department/update', updateItem);
     }
 
     checkCodeAvailable(code: string): Observable<BylResultBody<boolean>> {
@@ -129,7 +129,7 @@ export class DepartmentService {
 
     }
 
-    findById(id: string): Observable<BylResultBody<Department>> {
-        return this.http.get<BylResultBody<Department>>('/api/department/find-by-id/' + id);
+    findById(id: string): Observable<BylResultBody<BylDepartment>> {
+        return this.http.get<BylResultBody<BylDepartment>>('/api/department/find-by-id/' + id);
     }
 }

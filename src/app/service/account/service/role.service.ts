@@ -4,13 +4,13 @@ import {BylResultBody} from "../../model/result-body.model";
 import {LoginResultModel} from "../../auth/login-result.model";
 import {Observable} from "rxjs/Observable";
 import {Role, RoleStatus} from "../model/role.model";
-import {Account} from "../model/account.model";
+import {BylAccount} from "../model/account.model";
 import {BylPageResp} from "../../model/page-resp.model";
 import {BylPageReq} from "../../model/page-req.model";
 import {BylConfigService} from "../../constant/config.service";
 import {I18NService} from "app/core/i18n/i18n.service";
 import {BylIStatusItem} from "../../model/status.model";
-import {RoleQueryModel} from "../query/role-query.model";
+import {BylRoleQuery} from "../query/role-query.model";
 import {BylQueryReqBody} from "../../model/query-req-body.model";
 
 /**
@@ -19,7 +19,7 @@ import {BylQueryReqBody} from "../../model/query-req-body.model";
  * @Date: Created in 2018-03-03 21:31
  **/
 @Injectable()
-export class RoleService{
+export class BylRoleService{
     constructor(private http: _HttpClient,
                 private configServer:BylConfigService,
                 private i18nService: I18NService){}
@@ -75,8 +75,8 @@ export class RoleService{
      * 按分页方式返回不同状态的角色
      * @returns {Observable<BylResultBody<LoginResultModel>>}
      */
-    findPage(query: RoleQueryModel,page: BylPageReq): Observable < BylResultBody < BylPageResp<Role> >> {
-        let queryModel = new BylQueryReqBody<RoleQueryModel>();
+    findPage(query: BylRoleQuery, page: BylPageReq): Observable < BylResultBody < BylPageResp<Role> >> {
+        let queryModel = new BylQueryReqBody<BylRoleQuery>();
         queryModel.pageReq = page;
         queryModel.queryReq = query;
 

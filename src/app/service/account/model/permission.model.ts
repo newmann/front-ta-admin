@@ -5,7 +5,7 @@
  */
 import { BylBaseModel } from '../../model/base.model';
 
-export class Permission extends BylBaseModel {
+export class BylPermission extends BylBaseModel {
 
     packageName: string;
     moduleName: string;

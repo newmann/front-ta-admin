@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
-import {RoleService} from '../../../../service/account/service/role.service';
+import {BylRoleService} from '../../../../service/account/service/role.service';
 import {catchError, debounceTime, distinctUntilChanged, first, flatMap, map} from 'rxjs/operators';
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import {Observable} from 'rxjs/Observable';
@@ -44,7 +44,7 @@ export class BylRoleCrudComponent implements OnInit {
     public processType: string;
 
     constructor(public msgService: NzMessageService,
-                public roleService: RoleService,
+                public roleService: BylRoleService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
                 public modalSubject: NzModalSubject,

@@ -5,7 +5,7 @@
  **/
 import {BylBaseModel} from "../../model/base.model";
 
-class Department extends  BylBaseModel{
+class BylDepartment extends  BylBaseModel{
     code: string;
     name: string;
     status: number;
@@ -21,4 +21,4 @@ const enum DepartmentStatus{
     DELETED_DEPARTMENT = -1
 }
 
-export {Department,DepartmentStatus}
+export {BylDepartment,DepartmentStatus}

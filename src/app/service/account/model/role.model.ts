@@ -4,14 +4,14 @@
  * @Date: Created in 2018-03-03 10:57
  **/
 import {BylBaseModel} from "../../model/base.model";
-import {Permission} from "./permission.model";
+import {BylPermission} from "./permission.model";
 import {BylDefineStatus, BylIStatusItem} from "../../model/status.model";
 import {Injectable} from "@angular/core";
 
 class Role extends BylBaseModel{
     name: string;
     status: number;
-    permissionList: Set<Permission>;
+    permissionList: Set<BylPermission>;
     accountList: Set<Account>;
 
 }

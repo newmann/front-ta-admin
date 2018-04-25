@@ -9,9 +9,9 @@ import {BylPageReq} from "../../../../service/model/page-req.model";
 import * as moment from "moment";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {BylCrudEvent} from "../../../common/waiting/crud-waiting.component";
-import {Department, DepartmentStatus} from "../../../../service/account/model/department.model";
-import {DepartmentService} from "../../../../service/account/service/department.service";
-import {DepartmentQueryModel} from "../../../../service/account/query/department-query.model";
+import {BylDepartment, DepartmentStatus} from "../../../../service/account/model/department.model";
+import {BylDepartmentService} from "../../../../service/account/service/department.service";
+import {BylDepartmentQuery} from "../../../../service/account/query/department-query.model";
 import {BylDepartmentCrudComponent} from "../crud/crud.component";
 import {NzTreeComponent} from "ng-tree-antd";
 import {BylLoggerService} from "../../../../service/utils/logger";
@@ -49,16 +49,16 @@ export class BylDepartmentListComponent implements OnInit {
     statusList: BylIStatusItem[]; //状态
 
 
-    listData : Array<BylListFormData<Department>> = []; // 显示内容
+    listData : Array<BylListFormData<BylDepartment>> = []; // 显示内容
     loading = false;
     // args: any = { };//查询条件
     sortMap: any = {};
 
-    selectedRows: Array<BylListFormData<Department>> = [];
+    selectedRows: Array<BylListFormData<BylDepartment>> = [];
     indeterminate = false;
     allChecked = false;
 
-    nodes: Array<BaseTree<Department>> = [];
+    nodes: Array<BaseTree<BylDepartment>> = [];
 
     options = {
         allowDrag: false
@@ -72,10 +72,10 @@ export class BylDepartmentListComponent implements OnInit {
         // }
     };
 
-    private _treeExpand$: Subject<BaseTree<Department>> = new Subject<BaseTree<Department>>();
+    private _treeExpand$: Subject<BaseTree<BylDepartment>> = new Subject<BaseTree<BylDepartment>>();
 
-    private _nodeObservable: Observable<BaseTree<Department>>;
-    private _departmentObservable: Observable<BylResultBody<Array<Department>>>;
+    private _nodeObservable: Observable<BaseTree<BylDepartment>>;
+    private _departmentObservable: Observable<BylResultBody<Array<BylDepartment>>>;
     private _expandObservable: any;
 
 
@@ -110,7 +110,7 @@ export class BylDepartmentListComponent implements OnInit {
         this._expandObservable = zip(
             this._nodeObservable,
             this._departmentObservable,
-            (node: BaseTree<Department>, data: BylResultBody<Array<Department>>) => ({node,data})
+            (node: BaseTree<BylDepartment>, data: BylResultBody<Array<BylDepartment>>) => ({node,data})
         );
         this._expandObservable.subscribe(
             ({node,data}) => {
@@ -141,20 +141,20 @@ export class BylDepartmentListComponent implements OnInit {
     private _modifyForm: NzModalSubject;//维护界面
     // 新增
     // modalVisible = false;
-    // newDepartment: Department;
+    // newDepartment: BylDepartment;
 
     constructor(private message: NzMessageService,
                 private logger: BylLoggerService,
-                private departmentService: DepartmentService,
+                private departmentService: BylDepartmentService,
                 private configService: BylConfigService,
                 public modalService: NzModalService,
                 public router: Router) {
         this.q.ps = configService.PAGESIZE;
-        this.statusList = DepartmentService.statusArray();
+        this.statusList = BylDepartmentService.statusArray();
 
         this.registerTreeToggleExpanded();
 
-        // this.newDepartment = new Department();
+        // this.newDepartment = new BylDepartment();
     }
 
     checkAll(value: boolean) {
@@ -186,7 +186,7 @@ export class BylDepartmentListComponent implements OnInit {
         this.router.navigateByUrl('/account/department/crud/new');
 
         // this.modalVisible = true;
-        // this.newDepartment = new Department();
+        // this.newDepartment = new BylDepartment();
     }
 
 
@@ -249,17 +249,17 @@ export class BylDepartmentListComponent implements OnInit {
         );
     }
 
-    updateNodeData(data: Array<BaseTree<Department>>, node: BaseTree<Department>): void{
+    updateNodeData(data: Array<BaseTree<BylDepartment>>, node: BaseTree<BylDepartment>): void{
         node.children = data;
     }
 
     /**
      * 根据查询的结果，生成界面显示的内容，重点是处理好checkec和disabled字段的值。
      */
-    genNodeData(findResult: Array<Department>):Array<BaseTree<Department>>{
+    genNodeData(findResult: Array<BylDepartment>):Array<BaseTree<BylDepartment>>{
         return findResult.map(data => {
-            let item = new BaseTree<Department>();
-            item.item = new Department();
+            let item = new BaseTree<BylDepartment>();
+            item.item = new BylDepartment();
             Object.assign(item.item,data);
             item.id = item.item.id;
             item.name = mixCodeName(item.item.name,item.item.code);
@@ -270,10 +270,10 @@ export class BylDepartmentListComponent implements OnInit {
         })
     }
 
-    // addNode(dept: Department): void {
+    // addNode(dept: BylDepartment): void {
     //     if (!(this.nodes)) this.nodes = [];
-    //     let node = new BaseTree<Department>();
-    //     node.item = new Department();
+    //     let node = new BaseTree<BylDepartment>();
+    //     node.item = new BylDepartment();
     //     Object.assign(node.item,dept);
     //     node.id = node.item.id;
     //     node.name = mixCodeName(node.item.name,node.item.code);
@@ -293,7 +293,7 @@ export class BylDepartmentListComponent implements OnInit {
     //         })
     // }
     //
-    // searchChildren(parentId:string) : Array<BaseTree<Department>>{
+    // searchChildren(parentId:string) : Array<BaseTree<BylDepartment>>{
     //     if (parentId === "-") {
     //         return this.nodes;
     //     }else{
@@ -303,10 +303,10 @@ export class BylDepartmentListComponent implements OnInit {
     /**
      *
      * @param q
-     * @returns {DepartmentQueryModel}
+     * @returns {BylDepartmentQuery}
      */
-    getDepartmentQueryModel(q:any):DepartmentQueryModel{
-        let result = new DepartmentQueryModel();
+    getDepartmentQueryModel(q:any):BylDepartmentQuery{
+        let result = new BylDepartmentQuery();
         if (q.name) result.name = q.name;
         if (q.modifyDateBegin) result.modifyDateBegin = moment(q.modifyDateBegin).valueOf();
         if (q.modifyDateEnd) result.modifyDateEnd = moment(q.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
@@ -349,7 +349,7 @@ export class BylDepartmentListComponent implements OnInit {
      * @param {string} id
      */
     lockDepartment(id: string) {
-        let lockItem = new Department();
+        let lockItem = new BylDepartment();
         this.listData.forEach(item =>{
             if (item.item.id === id) {
                 Object.assign(lockItem, item.item);
@@ -381,7 +381,7 @@ export class BylDepartmentListComponent implements OnInit {
         )
     }
 
-    updateListData(newData:Department){
+    updateListData(newData:BylDepartment){
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
                 Object.assign(item.item,newData);
@@ -389,7 +389,7 @@ export class BylDepartmentListComponent implements OnInit {
     }
 
     getStatusCaption(status: number): string {
-        return DepartmentService.getStatusCaption(status);
+        return BylDepartmentService.getStatusCaption(status);
     }
 
     /**

@@ -24,7 +24,7 @@ export abstract class BylListComponentBase<T> implements OnInit {
     public page: BylPageReq = { //分页定义
         page: 1,// 缺省当前页
         pageSize: 10,// 缺省每页条数
-        sortField: 'name',
+        sortField: '',
         sort: '',
         keyword: '',
     };

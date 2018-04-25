@@ -4,7 +4,7 @@
  * @Date: Created in 2018-03-25 9:03
  **/
 
-export class RoleQueryModel{
+export class BylRoleQuery{
     name:string;
     status: Array<number>;
     modifyDateBegin: number;

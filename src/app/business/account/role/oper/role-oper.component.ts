@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RoleService} from "../../../../service/account/service/role.service";
+import {BylRoleService} from "../../../../service/account/service/role.service";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
 import {Role} from "../../../../service/account/model/role.model";
@@ -45,7 +45,7 @@ export class RoleOperComponent implements OnInit {
     constructor(
         private http: HttpClient,
         private msgService: NzMessageService,
-        private roleService: RoleService,
+        private roleService: BylRoleService,
         private configService: BylConfigService,
         private modal: NzModalService,
         private subject: NzModalSubject,

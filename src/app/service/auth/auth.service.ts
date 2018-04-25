@@ -2,7 +2,7 @@ import { LoginResultModel } from './login-result.model';
 import { BylResultBody } from '../model/result-body.model';
 import { Inject, Injectable } from '@angular/core';
 import {AuthDataService} from './auth-data.service';
-import { Account } from '../account/model/account.model';
+import { BylAccount } from '../account/model/account.model';
 import { Observable } from 'rxjs/Observable';
 import { BYL_API_URL_LOGIN } from 'app/service/constant/backend-url.constant';
 import { _HttpClient } from '@delon/theme';
@@ -17,7 +17,7 @@ export class AuthService {
     }
 
     login(username: string, password: string): Observable < BylResultBody < LoginResultModel >> {
-        const loginAccount = new Account();
+        const loginAccount = new BylAccount();
         loginAccount.username = username;
         loginAccount.password = password;
         return this.http.post<BylResultBody<LoginResultModel>>(this.apiURLLogin, loginAccount);
@@ -40,15 +40,15 @@ export class AuthService {
     /**
      *  邮箱注册
      * */
-    emailRegister(email: string, password: string, mobile?: string) :Observable < BylResultBody < Account >> {
-        let registerAccount = new Account();
+    emailRegister(email: string, password: string, mobile?: string) :Observable < BylResultBody < BylAccount >> {
+        let registerAccount = new BylAccount();
         registerAccount.username = UUID.UUID();//给出一个uuid,以便保证后台的处理要求
         registerAccount.password = password;
         registerAccount.nickname = getEmailName(email);
         registerAccount.email = email;
         registerAccount.phone = mobile;
 
-        return this.http.post<BylResultBody<Account>>("/api/auth/register", registerAccount);
+        return this.http.post<BylResultBody<BylAccount>>("/api/auth/register", registerAccount);
     }
 
     // githubLogin() {

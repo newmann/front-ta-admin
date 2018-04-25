@@ -1,23 +1,29 @@
-<pro-header [title]="'项目经理资源池管理'" >
+<pro-header [title]="'账户管理'" >
     <ng-template #action>
-        <button nz-button (click)="addManagerPool()" [nzType]="'default'" [nzSize]="'large'">
-            <i class="anticon anticon-plus"></i><span>新增</span>
+        <button nz-button (click)="add()" [nzType]="'default'" [nzSize]="'large'">
+            <i class="anticon anticon-plus"></i><span>新建</span>
         </button>
         <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">
             <i class="anticon anticon-search"></i><span>查询</span>
         </button>
-        <!--<ng-container *ngIf="selectedRows.length > 0">-->
-        <!--<button nz-button [nzSize]="'large'" class="ml-sm">批量操作</button>-->
-        <!--<nz-dropdown [nzPlacement]="'bottomLeft'">-->
-        <!--<button nz-button nz-dropdown [nzSize]="'large'" class="ml-sm">-->
-        <!--更多操作 <i class="anticon anticon-down"></i>-->
-        <!--</button>-->
-        <!--<ul nz-menu>-->
-        <!--<li nz-menu-item (click)="batchDelete()">删除</li>-->
-        <!--<li nz-menu-item (click)="batchApproval()">批量审批</li>-->
-        <!--</ul>-->
-        <!--</nz-dropdown>-->
-        <!--</ng-container>-->
+        <ng-container *ngIf="selectedRows.length > 0">
+
+            <ng-container *ngIf="functionMode === 'select'">
+                <button nz-button [nzSize]="'large'" class="ml-sm" (click) = "batchSelect()" >添加</button>
+            </ng-container>
+
+            <button nz-button [nzSize]="'large'" class="ml-sm">批量操作</button>
+
+            <nz-dropdown [nzPlacement]="'bottomLeft'">
+                <button nz-button nz-dropdown [nzSize]="'large'" class="ml-sm">
+                更多操作 <i class="anticon anticon-down"></i>
+                </button>
+                <ul nz-menu>
+                    <li nz-menu-item (click)="batchDelete()">删除</li>
+                    <li nz-menu-item (click)="batchApproval()">批量审批</li>
+                </ul>
+            </nz-dropdown>
+        </ng-container>
 
     </ng-template>
 </pro-header>
@@ -28,8 +34,27 @@
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="qCode">代码类似于</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="qData.qCode" name="'qCode'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
-                                  nzId="'qCode'"></nz-input>
+                        <nz-input [(ngModel)]="qData.code" name="'qCode'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
+                                  nzId="'qCame'"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="qFullName">姓名类似于</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="qData.fullName" name="'qFullName'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
+                                  nzId="'qFullName'"></nz-input>
+                    </div>
+
+                </div>
+            </div>
+            <div nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="qNickname">昵称类似于</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="qData.nickname" name="'qNickname'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
+                                  nzId="'qNickname'"></nz-input>
                     </div>
 
                     <!--<div nz-form-control class="flex-1">-->
@@ -39,15 +64,6 @@
                     <!--[nzValue]="i.value"></nz-option>-->
                     <!--</nz-select>-->
                     <!--</div>-->
-                </div>
-            </div>
-            <div nz-col [nzSpan]="8" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="qName">姓名类似于</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="qData.name" name="'qName'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
-                                  nzId="'qName'"></nz-input>
-                    </div>
                 </div>
             </div>
 
@@ -85,21 +101,42 @@
     </form>
 </nz-card>
 <nz-card [nzBordered]="false">
+
     <nz-table #nzTable [nzAjaxData]="listData" [nzPageSize]="page.pageSize" [nzLoading]="loading"
               nzShowSizeChanger [nzTotal]="total" [(nzPageIndex)]="page.page" nzShowTotal="true"
               (nzPageIndexChange)="search()" (nzPageSizeChange)="pageSizeChange($event)">
         <thead nz-thead>
         <tr>
-            <!--<th nz-th [nzCheckbox]="true">-->
-            <!--<label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
-            <!--(ngModelChange)="checkAll($event)"></label>-->
-            <!--</th>-->
+            <th nz-th [nzCheckbox]="true">
+            <label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"
+                (ngModelChange)="checkAll($event)"></label>
+            </th>
             <th nz-th><span>代码</span></th>
             <th nz-th><span>姓名</span></th>
+            <th nz-th><span>昵称</span></th>
             <th nz-th>
-                <span>更新时间</span>
-                <!--<nz-table-sort [(nzValue)]="sortMap.updatedAt"-->
-                <!--(nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>-->
+                <span>邮箱</span>
+                <!--<nz-dropdown [nzTrigger]="'click'">-->
+                <!--<i class="anticon anticon-filter" nz-dropdown></i>-->
+                <!--<ul nz-menu>-->
+                <!--<li nz-menu-item *ngFor="let i of statusList">-->
+                <!--<label nz-checkbox [(ngModel)]="i.value"><span>{{i.caption}}</span></label>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--<div nz-table-filter>-->
+                <!--<span nz-table-filter-confirm (click)="search()">确定</span>-->
+                <!--<span nz-table-filter-clear>重置</span>-->
+                <!--</div>-->
+                <!--</nz-dropdown>-->
+            </th>
+            <th nz-th>
+                <span>手机</span>
+            </th>
+            <th nz-th>
+                <span>状态</span>
+            </th>
+            <th nz-th>
+                <span>备注</span>
             </th>
 
             <th nz-th><span>操作</span></th>
@@ -107,35 +144,21 @@
         </thead>
         <tbody nz-tbody>
         <tr nz-tbody-tr *ngFor="let i of nzTable.data">
-            <!--<td nz-td [nzCheckbox]="true">-->
-            <!--<label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
-            <!--(ngModelChange)="refreshStatus($event)">-->
-            <!--</label>-->
-            <!--</td>-->
-            <td nz-td>{{i.item.code}}</td>
-            <td nz-td>{{i.item.name}}</td>
-            <td nz-td>{{i.item.modifyAction.modifyDateTime | _date}}</td>
+            <td nz-td [nzCheckbox]="true">
+            <label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"
+                (ngModelChange)="refreshStatus($event)">
+            </label>
+            </td>
+            <td nz-td>{{i.item.username}}</td>
+            <td nz-td>{{i.item.fullName}}</td>
+            <td nz-td>{{i.item.nickname}}</td>
+            <td nz-td>{{i.item.email}}</td>
+            <td nz-td>{{i.item.phone}}</td>
+            <td nz-td>{{i.item.status}}</td>
+            <td nz-td>{{i.item.remarks }}</td>
             <td nz-td>
-                <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
                 <span>
                     <a (click)="modifyEntity(i.item.id)">修改</a>
-                    <!--<span nz-table-divider></span>-->
-                    <!--<nz-dropdown>-->
-                    <!--<a class="ant-dropdown-link" nz-dropdown>-->
-                    <!--更多 <i class="anticon anticon-down"></i>-->
-                    <!--</a>-->
-                    <!--<ul nz-menu>-->
-                    <!--<li nz-menu-item>-->
-                    <!--<a (click)="lockRole(i.item.id)">锁定</a>-->
-                    <!--</li>-->
-                    <!--&lt;!&ndash;<li nz-menu-item>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">2nd menu item</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<li nz-menu-item>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">3rd menu item</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                    <!--</ul>-->
-                    <!--</nz-dropdown>-->
                 </span>
             </td>
         </tr>

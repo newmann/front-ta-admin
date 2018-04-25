@@ -1,0 +1,52 @@
+import {Injectable} from '@angular/core';
+import {_HttpClient} from '@delon/theme';
+import {BylConfigService} from '../../constant/config.service';
+import {I18NService} from 'app/core/i18n/i18n.service';
+
+import {BylBaseService} from '../../service/base.service';
+import {BylAccount} from "../model/account.model";
+
+
+
+/**
+ * @Description: 账户管理service
+ * @Author: newmannhu@qq.com
+ * @Date: Created in 2018-03-31 21:31
+ **/
+@Injectable()
+export class BylAccountService  extends BylBaseService<BylAccount> {
+
+
+    constructor(protected http: _HttpClient,
+                protected configServer: BylConfigService,
+                protected i18nService: I18NService) {
+
+        super(http, configServer, i18nService);
+
+        this.BASE_API_URL = 'api/account';
+    }
+
+    // add(item: BylAccount): Observable<BylResultBody<BylAccount>> {
+    //     return this.http.post<BylResultBody<BylAccount>>(this.BASE_API_URL + '/add', item);
+    // }
+    //
+    // update(updateItem: BylAccount): Observable<BylResultBody<BylAccount>> {
+    //     return this.http.post<BylResultBody<BylAccount>>(this.BASE_API_URL + '/update', updateItem);
+    // }
+    //
+    //
+    // findById(id: string): Observable<BylResultBody<BylAccount>> {
+    //     return this.http.get<BylResultBody<BylAccount>>(this.BASE_API_URL + '/find-by-id/' + id);
+    // }
+    // /**
+    //  * 按分页方式返回
+    //  * @returns {Observable<BylResultBody<>>}
+    //  */
+    // findPage(query: BylProjectQuery, page: BylPageReq): Observable<BylResultBody<BylPageResp<BylAccount>>> {
+    //     let queryModel = new BylQueryReqBody<BylProjectQuery>();
+    //     queryModel.pageReq = page;
+    //     queryModel.queryReq = query;
+    //
+    //     return this.http.post<BylResultBody<BylPageResp<BylAccount>>>(this.BASE_API_URL + '/find-page', queryModel);
+    // }
+}

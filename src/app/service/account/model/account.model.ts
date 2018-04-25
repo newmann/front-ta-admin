@@ -4,10 +4,10 @@
  * @Date: Created in 21:05 2018-01-22
  */
 import { BylBaseModel } from '../../model/base.model';
-import { Permission } from 'app/service/account/model/permission.model';
+import { BylPermission } from 'app/service/account/model/permission.model';
 import {Role} from "./role.model";
 
-export class Account extends BylBaseModel {
+export class BylAccount extends BylBaseModel {
     username: string;
     fullName: string;
     email: string;
@@ -19,7 +19,7 @@ export class Account extends BylBaseModel {
     expiredDate: Date;
     status: number;
 
-    permissionList: Set<Permission>;
+    permissionList: Set<BylPermission>;
     roleList: Set<Role>;
 
 }

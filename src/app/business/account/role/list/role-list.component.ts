@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {_HttpClient, MenuService} from '@delon/theme';
 import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
-import {RoleService} from '../../../../service/account/service/role.service';
+import {BylRoleService} from '../../../../service/account/service/role.service';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import {Role, RoleStatus} from '../../../../service/account/model/role.model';
@@ -12,7 +12,7 @@ import {BylCrudEvent, BylCrudWaitingComponent} from "../../../common/waiting/cru
 import {BylRoleCrudComponent} from "../crud/crud.component";
 import * as moment from 'moment';
 import {BylPageReq} from "../../../../service/model/page-req.model";
-import {RoleQueryModel} from "../../../../service/account/query/role-query.model";
+import {BylRoleQuery} from "../../../../service/account/query/role-query.model";
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
 
 @Component({
@@ -57,12 +57,12 @@ export class BylRoleListComponent implements OnInit {
     // newRole: Role;
 
     constructor(private message: NzMessageService,
-                private roleService: RoleService,
+                private roleService: BylRoleService,
                 private configService: BylConfigService,
                 public modalService: NzModalService,
                 public router: Router) {
         this.q.ps = configService.PAGESIZE;
-        this.statusList = RoleService.statusArray();
+        this.statusList = BylRoleService.statusArray();
         // this.newRole = new Role();
     }
 
@@ -215,10 +215,10 @@ export class BylRoleListComponent implements OnInit {
     /**
      *
      * @param q
-     * @returns {RoleQueryModel}
+     * @returns {BylRoleQuery}
      */
-    getRoleQueryModel(q:any):RoleQueryModel{
-        let result = new RoleQueryModel();
+    getRoleQueryModel(q:any):BylRoleQuery{
+        let result = new BylRoleQuery();
         if (q.name) result.name = q.name;
         if (q.modifyDateBegin) result.modifyDateBegin = moment(q.modifyDateBegin).valueOf();
         if (q.modifyDateEnd) result.modifyDateEnd = moment(q.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
@@ -294,7 +294,7 @@ export class BylRoleListComponent implements OnInit {
     }
 
     getStatusCaption(status: number): string {
-        return RoleService.getStatusCaption(status);
+        return BylRoleService.getStatusCaption(status);
     }
 
     /**
