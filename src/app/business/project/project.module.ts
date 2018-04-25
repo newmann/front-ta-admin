@@ -12,6 +12,7 @@ import {NzTreeModule} from "ng-tree-antd";
 import { BylProjectCrudComponent } from './project/crud/crud.component';
 import { BylProjectListComponent } from './project/list/list.component';
 import {BylEmbeddableAddressComponent} from "../common/embeddable-address/embeddable-address.component";
+import { BylProjectManagerPoolListComponent } from './project-manager-pool/list/list.component';
 
 
 
@@ -31,7 +32,8 @@ import {BylEmbeddableAddressComponent} from "../common/embeddable-address/embedd
         // BylDepartmentCrudComponent
 
         BylProjectCrudComponent,
-        BylProjectListComponent
+        BylProjectListComponent,
+        BylProjectManagerPoolListComponent
 
     ],
     entryComponents:[

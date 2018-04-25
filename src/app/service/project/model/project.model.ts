@@ -11,7 +11,7 @@ export class BylProject extends BylBaseModel {
     code: string;
     name: string;
 
-    address: BylEmbeddableAddress;//项目所在地
+    address: BylEmbeddableAddress = new BylEmbeddableAddress(); // 项目所在地
 
     managerId: string;
     managerCode: string;

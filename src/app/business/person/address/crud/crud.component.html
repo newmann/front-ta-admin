@@ -53,6 +53,7 @@
                 <nz-cascader
                     formControlName = "addressTree"
                     (nzLoad)="loadAddressTree($event)"
+                    [nzEnableCache] = "false"
                     (nzSelect) = "selectAddressTree($event)">
 
                 </nz-cascader>

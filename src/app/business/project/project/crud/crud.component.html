@@ -10,7 +10,7 @@
                         <div nz-form-label nz-col [nzSm]="4">
                             <label for="code" nz-form-item-required>
                                     <span>
-                                        代码：
+                                        代码
                                         <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
                                         <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
                                         <!--</nz-tooltip>-->
@@ -52,8 +52,87 @@
                             </ng-container>
                         </div>
                     </div>
-                    <byl-embeddable-address formControlName="address"></byl-embeddable-address>
 
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="managerCode" nz-form-item-required>
+                                    <span>
+                                        项目经理
+                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+                                        <!--</nz-tooltip>-->
+                                    </span>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="managerCode">
+
+                            <nz-input-group [nzSize]="'large'" nzCompact>
+                                <input formControlName="managerId"  type="hidden">
+                                <input nz-input formControlName="managerCode" nzPlaceHolder="代码" style="width: 30%;" >
+                                <ng-container *ngIf="managerCode.dirty && managerCode.touched">
+                                    <p nz-form-explain *ngIf="managerCode.errors?.required">必须输入项目经理代码</p>
+                                    <p nz-form-explain *ngIf="managerCode.errors?.other">验证出现异常：{{managerCode.errors?.msg}}</p>
+                                    <p nz-form-explain *ngIf="managerCode.pending">验证中...</p>
+                                </ng-container>
+
+                                <input nz-input formControlName="managerName" style="width: 60%;" [nzDisabled]="true">
+
+                                <button nz-button [nzType]="'default'" [nzLoading]="loading"  (click)="searchManager($event)" style="width: 10%;" >
+                                    <i class="anticon anticon-search"></i>
+                                </button>
+                            </nz-input-group>
+
+                        </div>
+                    </div>
+
+                    <!--<byl-embeddable-address formControlName="address"></byl-embeddable-address>-->
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="addressTree" nz-form-item-required>
+                                    <span>
+                                        地址
+                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+                                        <!--</nz-tooltip>-->
+                                    </span>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="addressTree">
+                            <nz-cascader
+                                formControlName = "addressTree"
+                                (nzLoad)="loadAddressTree($event)"
+                                [nzEnableCache] = "false"
+                                (nzSelect) = "selectAddressTree($event)" >
+                            </nz-cascader>
+                        </div>
+                    </div>
+
+
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="detailAddress" nz-form-item-required>
+                                    <span>
+                                        详细地址
+                                    </span>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="detailAddress">
+                            <nz-input formControlName="detailAddress" nzPlaceHolder="详细地址"  ></nz-input>
+                        </div>
+                    </div>
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="zipCode" >
+                                    <span>
+                                        邮政编码
+                                    </span>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="zipCode">
+                            <nz-input formControlName="zipCode" nzPlaceHolder="邮政编码" ></nz-input>
+
+                        </div>
+                    </div>
 
                     <div nz-form-item nz-row>
                         <div nz-form-label nz-col [nzSm]="4">

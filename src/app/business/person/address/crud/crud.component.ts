@@ -30,7 +30,7 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
         label: '常用地址'
     }];
 
-    public addressTreevalue: any[] = [null,null,null];//初始化为空数组
+    public addressTreevalue: any[] = [null, null, null];//初始化为空数组
 
     @Input() sourceId: string;
 
@@ -102,14 +102,14 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
 
     }
 
-    selectAddressTree(e:{ option: any, index: number}){
-        console.log("selectAddressTree",e);
+    selectAddressTree(e: { option: any, index: number }) {
+        console.log('selectAddressTree', e);
         //保存option的value和label
 
         let item = {label: e.option.label, value: e.option.value};
 
         this.addressTreevalue[e.index] = item;
-        console.log("selectAddressTree",this.addressTreevalue);
+        console.log('selectAddressTree', this.addressTreevalue);
     }
 
 
@@ -214,11 +214,11 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
         this.businessData.addr.cityCode = this.addressTreevalue[2].value;
         this.businessData.addr.cityName = this.addressTreevalue[2].label;
 
-        if ( this.detailAddress.value) {
+        if (this.detailAddress.value) {
             this.businessData.addr.detailAddress = this.detailAddress.value;
         }
 
-        if ( this.zipCode.value) this.businessData.addr.zipCode = this.zipCode.value;
+        if (this.zipCode.value) this.businessData.addr.zipCode = this.zipCode.value;
 
         this.businessData.masterId = this.masterId;
 
@@ -230,8 +230,6 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
 
 
     }
-
-
 
 
     //#region 获取界面控件对象

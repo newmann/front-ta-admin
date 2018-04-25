@@ -1,4 +1,4 @@
-<div>
+<div [formGroup] = "addressFormGroup">
 
     <div nz-form-item nz-row>
         <div nz-form-label nz-col [nzSm]="4">
@@ -11,10 +11,11 @@
                     </span>
             </label>
         </div>
-        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
-            <nz-cascader #addressTree
-                name = "addressTree"
+        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="addressTree">
+            <nz-cascader
+                formControlName = "addressTree"
                 (nzLoad)="loadAddressTree($event)"
+                [nzEnableCache] = "false"
                 (nzSelect) = "selectAddressTree($event)" >
             </nz-cascader>
         </div>
@@ -30,7 +31,7 @@
             </label>
         </div>
         <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="detailAddress">
-            <nz-input name="detailAddress" nzPlaceHolder="详细地址" [ngModel] = "detailAddress"></nz-input>
+            <nz-input formControlName="detailAddress" nzPlaceHolder="详细地址"  ></nz-input>
         </div>
     </div>
     <div nz-form-item nz-row>
@@ -42,7 +43,7 @@
             </label>
         </div>
         <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="zipCode">
-            <nz-input name="zipCode" nzPlaceHolder="邮政编码" [ngModel]="zipCode"></nz-input>
+            <nz-input formControlName="zipCode" nzPlaceHolder="邮政编码" ></nz-input>
 
         </div>
     </div>
