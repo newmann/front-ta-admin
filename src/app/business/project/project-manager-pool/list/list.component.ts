@@ -12,6 +12,7 @@ import {BylProjectManagerPool} from '../../../../service/project/model/project-m
 import {BylCrudEvent, BylCrudWaitingComponent} from '../../../common/waiting/crud-waiting.component';
 import {BylAccountListComponent} from '../../../account/account/list/list.component';
 import {BylAccount} from '../../../../service/account/model/account.model';
+import {BylResultBody} from "../../../../service/model/result-body.model";
 
 @Component({
     selector: 'byl-project-manager-pool-list',
@@ -64,17 +65,35 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
             let pools: Array<BylProjectManagerPool> = [];
             if ((typeof result) === 'object') {
                 console.log('添加新增的项目经理数据');
-                for (let item in result) {
+                for (let item of result) {
                     pools.push(this.genManagerPoolItem(item));
                 }
             }
             if (pools.length > 0) {
                 //todo 提交到数据库中,成功后显示到界面
+                this.projectManagerPoolService.batchtAdd(pools).subscribe(
+                    data => {
+                        this.loading = false;
+                        if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                            // 正确获取数据后，直接添加到当前的数据列表中，不像search过程，会重新刷新total值
+                            this.listData.push(...this.genListData(Array.from(data.data)));
+
+                        } else {
+                            this.showMsg(data.msg);
+                        }
+                    },
+                    err => {
+                        this.loading = false;
+                        console.log(err);
+                        this.showMsg(err.toString());
+                    }
+                );
             }
         });
     }
 
     genManagerPoolItem(item: any): BylProjectManagerPool {
+        console.log("getManagerPoolItem",item);
         let result = new BylProjectManagerPool();
         result.poolId = item.item.id;
         result.poolName = item.item.fullName;

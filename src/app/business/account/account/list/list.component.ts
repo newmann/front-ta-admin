@@ -67,8 +67,9 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
     //     this.router.navigateByUrl("/person/person/crud/" + id);
     // }
 
-    batchSelect() {
+    batchSelect($event) {
         //将数据传出，并退出界面
+        $event.preventDefault();
         this.functionSubject$.next(this.selectedRows);
         this.functionSubject$.destroy('onCancel');
     }

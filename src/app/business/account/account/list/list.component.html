@@ -90,7 +90,7 @@
                 <!--</button>-->
                 <ng-container *ngIf="functionMode === 'select'">
                     <ng-container *ngIf="selectedRows.length > 0">
-                        <button nz-button [nzSize]="'large'" class="mx-sm" (click) = "batchSelect()"
+                        <button nz-button [nzSize]="'large'" class="mx-sm" (click) = "batchSelect($event)"
                                 [nzType]="'primary'" >
                         添加
                         </button>

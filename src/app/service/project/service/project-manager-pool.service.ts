@@ -35,6 +35,10 @@ export class BylProjectManagerPoolService extends BylBaseService<BylProjectManag
         this.BASE_API_URL = 'api/project/project-manager-pool';
     }
 
+    batchtAdd(pools: Array<BylProjectManagerPool>): Observable<BylResultBody<Array<BylProjectManagerPool>>> {
+        return this.http.post<BylResultBody<Array<BylProjectManagerPool>>>(this.BASE_API_URL + '/batch-add', pools);
+    }
+
 
     // fetchAvailableDepartmentByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylProjectManagerPool> >> {
     //     return this.http.get<BylResultBody<Array<BylProjectManagerPool>>>(this.BASE_API_URL+"/fetch-available-BylProjectManagerPool-by-code-or-name/" + searchstr);
@@ -58,9 +62,9 @@ export class BylProjectManagerPoolService extends BylBaseService<BylProjectManag
     //     return this.http.get<BylResultBody<BylProjectManagerPool>>(this.BASE_API_URL + '/find-by-id/' + id);
     // }
 
-    findByBillNo(billNo: string): Observable<BylResultBody<BylProjectManagerPool>> {
-        return this.http.get<BylResultBody<BylProjectManagerPool>>(this.BASE_API_URL + '/find-by-billno/' + billNo);
-    }
+    // findByBillNo(billNo: string): Observable<BylResultBody<BylProjectManagerPool>> {
+    //     return this.http.get<BylResultBody<BylProjectManagerPool>>(this.BASE_API_URL + '/find-by-billno/' + billNo);
+    // }
 
     // /**
     //  * 按分页方式返回
