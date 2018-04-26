@@ -1,4 +1,4 @@
-import { ServiceModule } from './service/service.module';
+import { BylServiceModule } from './service/service.module';
 import { NgModule, LOCALE_ID, APP_INITIALIZER, Injector } from '@angular/core';
 import { HttpClient, HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -30,6 +30,7 @@ import { UEditorModule } from 'ngx-ueditor';
 import { NgxTinymceModule } from 'ngx-tinymce';
 // JSON-Schema form
 import { JsonSchemaModule } from '@shared/json-schema/json-schema.module';
+import {BylBusinessSharedModule} from './business/business-shared.module';
 
 
 
@@ -52,10 +53,11 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         HttpClientModule,
         DelonModule.forRoot(),
         CoreModule,
-        ServiceModule, // 自定义服务模块
+        BylServiceModule, // 自定义服务模块
         SharedModule,
         LayoutModule,
         BylBusinessModule,
+        BylBusinessSharedModule,
         // i18n
         TranslateModule.forRoot({
             loader: {

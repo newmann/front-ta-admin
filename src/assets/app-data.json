@@ -150,11 +150,11 @@
                 "icon": "icon-speedometer",
                 "children": [{
                     "text": "项目经理范围管理",
-                    "link": "/project/manager-pool/list",
+                    "link": "/project/project-manager-pool/list",
                     "i18n": "project_manager_pool_list"
                 },{
                     "text": "可借款范围管理",
-                    "link": "/project/qualification-pool/list",
+                    "link": "/project/project-qualification-pool/list",
                     "i18n": "project_qualification_pool_list"
                 }
                 ]

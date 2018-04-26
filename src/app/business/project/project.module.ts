@@ -13,12 +13,14 @@ import { BylProjectCrudComponent } from './project/crud/crud.component';
 import { BylProjectListComponent } from './project/list/list.component';
 import {BylEmbeddableAddressComponent} from "../common/embeddable-address/embeddable-address.component";
 import { BylProjectManagerPoolListComponent } from './project-manager-pool/list/list.component';
+import {BylBusinessSharedModule} from '../business-shared.module';
 
 
 
 @NgModule({
     imports: [
         SharedModule,
+        BylBusinessSharedModule,
         NzTreeModule,
         BylProjectRoutingModule,
         ColorPickerModule,

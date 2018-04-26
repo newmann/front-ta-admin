@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {BylListComponentBase} from '../../../common/list-component-base';
 
@@ -9,13 +9,15 @@ import {BylProjectManagerPoolService} from '../../../../service/project/service/
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
 import {BylProjectManagerPoolQuery} from '../../../../service/project/query/project-manager-pool-query.model';
 import {BylProjectManagerPool} from '../../../../service/project/model/project-manager-pool.model';
-import {BylCrudEvent, BylCrudWaitingComponent} from "../../../common/waiting/crud-waiting.component";
+import {BylCrudEvent, BylCrudWaitingComponent} from '../../../common/waiting/crud-waiting.component';
+import {BylAccountListComponent} from '../../../account/account/list/list.component';
+import {BylAccount} from '../../../../service/account/model/account.model';
 
 @Component({
-  selector: 'byl-project-manager-pool-list',
-  templateUrl: './list.component.html',
+    selector: 'byl-project-manager-pool-list',
+    templateUrl: './list.component.html',
 })
-export class BylProjectManagerPoolListComponent extends BylListComponentBase<BylProjectManagerPool>{
+export class BylProjectManagerPoolListComponent extends BylListComponentBase<BylProjectManagerPool> {
     public accountReveal: any; // 账户筛选窗口
 
     constructor(public message: NzMessageService,
@@ -33,11 +35,12 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
     /**
      * 从账户池中查找待加入的项目经理
      */
-    addManagerPool(){
+    addManagerPool() {
         this.accountReveal = this.modalService.open({
             title: '查找项目经理资源',
             zIndex: 9999, //最外层
-            content: BylCrudWaitingComponent,
+            width: '90%',
+            content: BylAccountListComponent,
             // onOk() {
             //
             // },
@@ -46,41 +49,41 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
             // },
             footer: false,
             componentParams: {
-                // name: '测试渲染Component'
+                functionMode: 'select'
             },
             maskClosable: false
         });
         this.accountReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
-        //
-        // this.savingReveal.subscribe(result => {
-        //     console.info(result);
-        //     //判断是否退出界面
-        //     if (result === 'onDestroy') {
-        //         console.log('退出提示界面');
-        //         switch (this.processType) {
-        //             case 'new':
-        //                 //新增界面
-        //                 this.businessData = this.newBusinessData();
-        //                 this.reset();
-        //                 break;
-        //             case 'modify':
-        //                 //修改界面
-        //                 this.businessData = this.newBusinessData();
-        //                 this.reset();
-        //                 break;
-        //             default:
-        //                 // 从list界面进入修改
-        //                 console.info('将修改后的数据传回list界面');
-        //                 //将修改后的数据传回list界面
-        //                 this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate], data: this.businessData});
-        //                 this.modalSubject.destroy();
-        //
-        //         }
-        //
-        //     }
-        //
-        // });
+
+        this.accountReveal.subscribe(result => {
+            console.info(result);
+
+            console.info(typeof result);
+
+            //返回的是选中的账户数组
+            let pools: Array<BylProjectManagerPool> = [];
+            if ((typeof result) === 'object') {
+                console.log('添加新增的项目经理数据');
+                for (let item in result) {
+                    pools.push(this.genManagerPoolItem(item));
+                }
+            }
+            if (pools.length > 0) {
+                //todo 提交到数据库中,成功后显示到界面
+            }
+        });
     }
+
+    genManagerPoolItem(item: any): BylProjectManagerPool {
+        let result = new BylProjectManagerPool();
+        result.poolId = item.item.id;
+        result.poolName = item.item.fullName;
+        result.poolCode = item.item.username;
+        //todo 添加操作用户信息
+
+        return result;
+    }
+
     genListData(findResult: Array<BylProjectManagerPool>): Array<BylListFormData<BylProjectManagerPool>> {
         return findResult.map(data => {
             let item = new BylListFormData<BylProjectManagerPool>();

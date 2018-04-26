@@ -18,39 +18,21 @@ import {WaitingComponent} from "./common/waiting/waiting.component";
 import {BylCrudWaitingComponent} from "./common/waiting/crud-waiting.component";
 import {NzTreeModule} from "ng-tree-antd";
 import {BylEmbeddableAddressComponent} from "./common/embeddable-address/embeddable-address.component";
-import {BylBusinessSharedModule} from './business-shared.module';
+import {BylAccountListComponent} from './account/account/list/list.component';
 
 
 
 @NgModule({
-    imports: [ SharedModule,
-        NzTreeModule,
-        BylBusinessSharedModule,
-        BylBusinessRoutingModule],
+    imports: [
+        SharedModule
+    ],
     declarations: [
-        DashboardV1Component,
-        DashboardAnalysisComponent,
-        DashboardMonitorComponent,
-        DashboardWorkplaceComponent,
-        // passport pages
-        UserLoginComponent,
-        UserRegisterComponent,
-        UserRegisterResultComponent,
-        // single pages
-        CallbackComponent,
-        Exception403Component,
-        Exception404Component,
-        Exception500Component,
-        WaitingComponent,
-        BylCrudWaitingComponent
-
-
+        BylAccountListComponent
 
     ],
     entryComponents:[
-        WaitingComponent,
-        BylCrudWaitingComponent
+        BylAccountListComponent
     ]
 })
 
-export class BylBusinessModule {}
+export class BylBusinessSharedModule {}

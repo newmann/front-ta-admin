@@ -64,8 +64,8 @@ import {BylAccountService} from "./account/service/account.service";
         RouterGuardService
     ]
 })
-export class ServiceModule {
-    constructor(@Optional() @SkipSelf() parentModule: ServiceModule) {
-        throwIfAlreadyLoaded(parentModule, 'ServiceModule');
+export class BylServiceModule {
+    constructor(@Optional() @SkipSelf() parentModule: BylServiceModule) {
+        throwIfAlreadyLoaded(parentModule, 'BylServiceModule');
     }
 }

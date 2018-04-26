@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NzMessageService, NzModalService} from "ng-zorro-antd";
+import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {Router} from "@angular/router";
@@ -25,6 +25,7 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
+                public functionSubject$: NzModalSubject,
                 public router: Router,
                 public accountService: BylAccountService) {
         super(message, configService, modalService, router);
@@ -66,7 +67,10 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
     //     this.router.navigateByUrl("/person/person/crud/" + id);
     // }
 
-    batchSelect(){
-
+    batchSelect() {
+        //将数据传出，并退出界面
+        this.functionSubject$.next(this.selectedRows);
+        this.functionSubject$.destroy('onCancel');
     }
+
 }

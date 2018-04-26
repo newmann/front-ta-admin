@@ -26,7 +26,7 @@ const THIRDMODULES = [
 
 // region: your componets & directives
 const COMPONENTS = [
-    BylEmbeddableAddressComponent
+
 ];
 
 const DIRECTIVES = [];
