@@ -5,6 +5,12 @@ import {I18NService} from 'app/core/i18n/i18n.service';
 
 import {BylBaseService} from '../../service/base.service';
 import {BylAccount} from "../model/account.model";
+import {BylAccountQuery} from '../query/account-query.model';
+import {BylQueryReqBody} from '../../model/query-req-body.model';
+import {BylPageResp} from '../../model/page-resp.model';
+import {BylResultBody} from '../../model/result-body.model';
+import {Observable} from 'rxjs/Observable';
+import {BylPageReq} from '../../model/page-req.model';
 
 
 
@@ -38,15 +44,15 @@ export class BylAccountService  extends BylBaseService<BylAccount> {
     // findById(id: string): Observable<BylResultBody<BylAccount>> {
     //     return this.http.get<BylResultBody<BylAccount>>(this.BASE_API_URL + '/find-by-id/' + id);
     // }
-    // /**
-    //  * 按分页方式返回
-    //  * @returns {Observable<BylResultBody<>>}
-    //  */
-    // findPage(query: BylProjectQuery, page: BylPageReq): Observable<BylResultBody<BylPageResp<BylAccount>>> {
-    //     let queryModel = new BylQueryReqBody<BylProjectQuery>();
-    //     queryModel.pageReq = page;
-    //     queryModel.queryReq = query;
-    //
-    //     return this.http.post<BylResultBody<BylPageResp<BylAccount>>>(this.BASE_API_URL + '/find-page', queryModel);
-    // }
+    /**
+     * 按分页方式返回
+     * @returns {Observable<BylResultBody<>>}
+     */
+    findAvailableManagerPoolsPage(query: BylAccountQuery, page: BylPageReq): Observable<BylResultBody<BylPageResp<BylAccount>>> {
+        let queryModel = new BylQueryReqBody<BylAccountQuery>();
+        queryModel.pageReq = page;
+        queryModel.queryReq = query;
+
+        return this.http.post<BylResultBody<BylPageResp<BylAccount>>>(this.BASE_API_URL + '/find-available-manager-pools-page', queryModel);
+    }
 }

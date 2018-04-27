@@ -12,7 +12,7 @@ import {BylProjectManagerPool} from '../../../../service/project/model/project-m
 import {BylCrudEvent, BylCrudWaitingComponent} from '../../../common/waiting/crud-waiting.component';
 import {BylAccountListComponent} from '../../../account/account/list/list.component';
 import {BylAccount} from '../../../../service/account/model/account.model';
-import {BylResultBody} from "../../../../service/model/result-body.model";
+import {BylResultBody} from '../../../../service/model/result-body.model';
 
 @Component({
     selector: 'byl-project-manager-pool-list',
@@ -37,6 +37,8 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
      * 从账户池中查找待加入的项目经理
      */
     addManagerPool() {
+        console.log(this.projectManagerPoolService);
+
         this.accountReveal = this.modalService.open({
             title: '查找项目经理资源',
             zIndex: 9999, //最外层
@@ -50,7 +52,8 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
             // },
             footer: false,
             componentParams: {
-                functionMode: 'select'
+                functionMode: 'select',
+                findAvailablePoolsService: this.projectManagerPoolService
             },
             maskClosable: false
         });
@@ -93,7 +96,7 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
     }
 
     genManagerPoolItem(item: any): BylProjectManagerPool {
-        console.log("getManagerPoolItem",item);
+        console.log('getManagerPoolItem', item);
         let result = new BylProjectManagerPool();
         result.poolId = item.item.id;
         result.poolName = item.item.fullName;

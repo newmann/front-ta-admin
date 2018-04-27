@@ -8,6 +8,10 @@ import {BylPersonQuery} from "../../../../service/person/query/person-query.mode
 import {BylAccount} from "../../../../service/account/model/account.model";
 import {BylAccountService} from "../../../../service/account/service/account.service";
 import {BylAccountQuery} from "../../../../service/account/query/account-query.model";
+import {BylResultBody} from '../../../../service/model/result-body.model';
+import {BylPageResp} from '../../../../service/model/page-resp.model';
+import {Observable} from 'rxjs/Observable';
+import {BylAccountAvailablePoolsInterface} from '../../../../service/service/account-available-pool.interface';
 
 @Component({
   selector: 'byl-account-list',
@@ -21,6 +25,7 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
      */
 
     @Input() functionMode: string;
+    @Input() findAvailablePoolsService: BylAccountAvailablePoolsInterface; //调用方传入查询函数
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
@@ -74,4 +79,45 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
         this.functionSubject$.destroy('onCancel');
     }
 
+    /**
+     * 自定义查找，覆盖BylListComponentBase.search()
+     */
+    search() {
+        this.loading = true;
+
+        this.clearGrid();
+
+        let queryResult: Observable<BylResultBody<BylPageResp<BylAccount>>> ;
+        if (this.functionMode === "select") {
+
+            console.log(this.findAvailablePoolsService);
+
+            queryResult = this.findAvailablePoolsService.findAvailablePoolsPage(this.genQueryModel(), this.page);
+        } else {
+            queryResult = this.accountService.findPage(this.genQueryModel(), this.page);
+        }
+
+        queryResult.subscribe(
+                data => {
+                    this.loading = false;
+                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                        // 正确获取数据
+                        this.total = data.data.total;
+
+                        // this.listData = Array.from(data.data.rows);
+                        this.listData = this.genListData(Array.from(data.data.rows));
+
+                    } else {
+                        console.error(data.msg);
+                        super.showMsg(data.msg);
+                    }
+                },
+                err => {
+                    this.loading = false;
+                    console.error(err);
+                    super.showMsg(err.toString());
+                }
+            );
+
+    }
 }
