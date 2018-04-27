@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--input template-->
+<div nz-col [nzSpan]="8" class="mb-md">
+    <div nz-form-item class="d-flex">
+        <div nz-form-label><label for="qReason">借款原因</label></div>
+        <div nz-form-control class="flex-1">
+            <nz-input [(ngModel)]="qData.reason" name="'qReason'" [nzSize]="'large'" [nzPlaceHolder]="'请输入单号'"
+                      nzId="'qReason'"></nz-input>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

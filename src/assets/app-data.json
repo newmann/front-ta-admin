@@ -37,11 +37,11 @@
         }, {
             "text": "账户管理",
             "i18n": "account",
-            "icon": "icon-speedometer",
+            "icon": "icon-users",
             "children":[{
                 "text": "角色",
                 "i18n": "role",
-                "icon": "icon-speedometer",
+                "icon": "icon-graduation",
                 "children": [{
                     "text": "角色管理",
                     "link": "/account/role/list",
@@ -59,7 +59,7 @@
             },{
                 "text": "部门",
                 "i18n": "department",
-                "icon": "icon-speedometer",
+                "icon": "icon-folder",
                 "children": [{
                     "text": "部门管理",
                     "link": "/account/department/list",
@@ -73,7 +73,7 @@
             },{
                 "text": "账户",
                 "i18n": "account",
-                "icon": "icon-speedometer",
+                "icon": "icon-user-follow",
                 "children": [{
                     "text": "账户管理",
                     "link": "/account/account/list",
@@ -88,7 +88,7 @@
         }, {
             "text": "个人管理",
             "i18n": "person",
-            "icon": "anticon-user",
+            "icon": "icon-emoticon-smile",
             "children":[{
                 "text": "个人资料",
                 "i18n": "person",
@@ -111,6 +111,25 @@
                     "i18n": "person_certificate_new"
                 }
                 ]
+            }]
+        },{
+            "text": "组织管理",
+            "i18n": "organization",
+            "icon": "icon-book-open",
+            "children":[{
+                "text": "组织资料",
+                "i18n": "ogranization",
+                "icon": "icon-speedometer",
+                "children": [{
+                    "text": "组织资料管理",
+                    "link": "/organization/organization/list",
+                    "i18n": "organization_list"
+                },{
+                    "text": "组织资料新增",
+                    "link": "/organization/organization/crud/new",
+                    "i18n": "organization_new"
+                }
+                ]
             },{
                 "text": "部门",
                 "i18n": "department",
@@ -129,7 +148,7 @@
         },{
             "text": "项目管理",
             "i18n": "project",
-            "icon": "icon-speedometer",
+            "icon": "icon-layers",
             "children":[{
                 "text": "项目定义",
                 "i18n": "project-manage",

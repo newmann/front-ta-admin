@@ -47,7 +47,10 @@ const routes: Routes = [
 
             { path: 'account', loadChildren: './account/account.module#AccountModule' },
             { path: 'person', loadChildren: './person/person.module#BylPersonModule' },
+            { path: 'organization', loadChildren: './organization/organization.module#BylOrganizationModule' },
+
             { path: 'project', loadChildren: './project/project.module#BylProjectModule' },
+
         ]
     },
     // 全屏布局

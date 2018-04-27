@@ -14,6 +14,9 @@ import { BylProjectListComponent } from './project/list/list.component';
 import {BylEmbeddableAddressComponent} from "../common/embeddable-address/embeddable-address.component";
 import { BylProjectManagerPoolListComponent } from './project-manager-pool/list/list.component';
 import {BylBusinessSharedModule} from '../business-shared.module';
+import { BylBorrowMoneyQualificationPoolListComponent } from './borrow-money-qualification-pool/list/list.component';
+import { BylBorrowMoneyTicketListComponent } from './borrow-money-ticket/list/list.component';
+import { BylBorrowMoneyTicketListCrudComponent } from './borrow-money-ticket/crud/crud.component';
 
 
 
@@ -35,7 +38,10 @@ import {BylBusinessSharedModule} from '../business-shared.module';
 
         BylProjectCrudComponent,
         BylProjectListComponent,
-        BylProjectManagerPoolListComponent
+        BylProjectManagerPoolListComponent,
+        BylBorrowMoneyQualificationPoolListComponent,
+        BylBorrowMoneyTicketListComponent,
+        BylBorrowMoneyTicketListCrudComponent
 
     ],
     entryComponents:[

@@ -19,6 +19,8 @@ import {BylCrudWaitingComponent} from "./common/waiting/crud-waiting.component";
 import {NzTreeModule} from "ng-tree-antd";
 import {BylEmbeddableAddressComponent} from "./common/embeddable-address/embeddable-address.component";
 import {BylAccountListComponent} from './account/account/list/list.component';
+import {BylPersonListComponent} from "./person/person/list/list.component";
+import {BylOrganizationListComponent} from "./organization/organization/list/list.component";
 
 
 
@@ -27,11 +29,16 @@ import {BylAccountListComponent} from './account/account/list/list.component';
         SharedModule
     ],
     declarations: [
-        BylAccountListComponent
+        BylAccountListComponent,
+        BylPersonListComponent,
+        BylOrganizationListComponent
 
     ],
     entryComponents:[
-        BylAccountListComponent
+        BylAccountListComponent,
+        BylPersonListComponent,
+        BylOrganizationListComponent
+
     ]
 })
 

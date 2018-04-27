@@ -25,6 +25,7 @@ import {BylProjectManagerPoolService} from './project/service/project-manager-po
 import {BylBorrowMoneyTicketService} from './project/service/borrow-money-ticket.service';
 import {BylBorrowMoneyQualificationPoolService} from './project/service/borrow-money-qualification-pool.service';
 import {BylAccountService} from "./account/service/account.service";
+import {BylOrganizationService} from "./organization/service/organization.service";
 
 
 @NgModule({
@@ -47,6 +48,9 @@ import {BylAccountService} from "./account/service/account.service";
         BylCountryService,
         BylProvinceService,
         BylCityService,
+        //organization module
+        BylOrganizationService,
+
         //project module
         BylProjectService,
         BylProjectManagerPoolService,

@@ -45,12 +45,12 @@ export class BylProjectManagerPoolService extends BylBaseService<BylProjectManag
      * 按分页方式返回
      * @returns {Observable<BylResultBody<>>}
      */
-    findAvailablePoolsPage(query: BylAccountQuery, page: BylPageReq): Observable<BylResultBody<BylPageResp<BylAccount>>> {
+    findAvailableAccountPoolsPage(query: BylAccountQuery, page: BylPageReq): Observable<BylResultBody<BylPageResp<BylAccount>>> {
         let queryModel = new BylQueryReqBody<BylAccountQuery>();
         queryModel.pageReq = page;
         queryModel.queryReq = query;
 
-        return this.http.post<BylResultBody<BylPageResp<BylAccount>>>(this.BASE_API_URL + '/find-available-manager-pools-page', queryModel);
+        return this.http.post<BylResultBody<BylPageResp<BylAccount>>>(this.BASE_API_URL + '/find-available-account-pools-page', queryModel);
     }
 
     // fetchAvailableDepartmentByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylProjectManagerPool> >> {

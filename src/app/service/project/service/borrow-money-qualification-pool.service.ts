@@ -11,8 +11,13 @@ import {I18NService} from 'app/core/i18n/i18n.service';
 
 import {BylQueryReqBody} from '../../model/query-req-body.model';
 import {BylBorrowMoneyQualificationPool} from '../model/borrow-money-qualification-pool.model';
-import {BylBorrowMoneyQualificationPoolQuery} from '../query/borrow-money-qualification-pool-query.model';
 import {BylBaseService} from '../../service/base.service';
+import {BylPerson} from "../../person/model/person.model";
+import {BylPersonQuery} from "../../person/query/person-query.model";
+import {BylOrganization} from "../../organization/model/organization.model";
+import {BylOrganizationQuery} from "../../organization/query/organization-query.model";
+import {BylPersonAvailablePoolsInterface} from "../../person/service/person-available-pool.interface";
+import {BylOrganizationAvailablePoolsInterface} from "../../organization/service/organization-available-pool.interface";
 
 
 
@@ -22,7 +27,8 @@ import {BylBaseService} from '../../service/base.service';
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylBorrowMoneyQualificationPoolService  extends BylBaseService<BylBorrowMoneyQualificationPool> {
+export class BylBorrowMoneyQualificationPoolService  extends BylBaseService<BylBorrowMoneyQualificationPool>
+    implements BylPersonAvailablePoolsInterface,BylOrganizationAvailablePoolsInterface{
 
     constructor(protected http: _HttpClient,
                 protected configServer: BylConfigService,
@@ -32,7 +38,32 @@ export class BylBorrowMoneyQualificationPoolService  extends BylBaseService<BylB
 
         this.BASE_API_URL = 'api/project/borrow-money-qualification-pool';
     }
+    batchtAdd(pools: Array<BylBorrowMoneyQualificationPool>): Observable<BylResultBody<Array<BylBorrowMoneyQualificationPool>>> {
+        return this.http.post<BylResultBody<Array<BylBorrowMoneyQualificationPool>>>(this.BASE_API_URL + '/batch-add', pools);
+    }
+    /**
+     * 按分页方式返回可用的个体资源
+     * @returns {Observable<BylResultBody<>>}
+     */
+    findAvailablePersonPoolsPage(query: BylPersonQuery, page: BylPageReq): Observable<BylResultBody<BylPageResp<BylPerson>>> {
+        let queryModel = new BylQueryReqBody<BylPersonQuery>();
+        queryModel.pageReq = page;
+        queryModel.queryReq = query;
 
+        return this.http.post<BylResultBody<BylPageResp<BylPerson>>>(this.BASE_API_URL + '/find-available-person-pools-page', queryModel);
+    }
+
+    /**
+     * 按分页方式返回可用的组织资源
+     * @returns {Observable<BylResultBody<>>}
+     */
+    findAvailableOrganizationPoolsPage(query: BylOrganizationQuery, page: BylPageReq): Observable<BylResultBody<BylPageResp<BylOrganization>>> {
+        let queryModel = new BylQueryReqBody<BylOrganizationQuery>();
+        queryModel.pageReq = page;
+        queryModel.queryReq = query;
+
+        return this.http.post<BylResultBody<BylPageResp<BylOrganization>>>(this.BASE_API_URL + '/find-available-organization-pools-page', queryModel);
+    }
 
     // fetchAvailableDepartmentByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylBorrowMoneyQualificationPool> >> {
     //     return this.http.get<BylResultBody<Array<BylBorrowMoneyQualificationPool>>>(this.BASE_API_URL+"/fetch-available-BylBorrowMoneyQualificationPool-by-code-or-name/" + searchstr);

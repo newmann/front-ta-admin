@@ -92,7 +92,7 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
 
             console.log(this.findAvailablePoolsService);
 
-            queryResult = this.findAvailablePoolsService.findAvailablePoolsPage(this.genQueryModel(), this.page);
+            queryResult = this.findAvailablePoolsService.findAvailableAccountPoolsPage(this.genQueryModel(), this.page);
         } else {
             queryResult = this.accountService.findPage(this.genQueryModel(), this.page);
         }

@@ -15,6 +15,7 @@ import { BylPersonAddressCrudComponent } from './address/crud/crud.component';
 import { BylPersonAddressListComponent } from './address/list/list.component';
 import { BylPersonCertificateCrudComponent } from './certificate/crud/crud.component';
 import {BylPersonCertificateListComponent} from './certificate/list/list.component';
+import {BylBusinessSharedModule} from "../business-shared.module";
 
 
 
@@ -22,6 +23,7 @@ import {BylPersonCertificateListComponent} from './certificate/list/list.compone
 @NgModule({
     imports: [
         SharedModule,
+        BylBusinessSharedModule,
         NzTreeModule,
         BylPersonRoutingModule,
         ColorPickerModule,
@@ -34,7 +36,7 @@ import {BylPersonCertificateListComponent} from './certificate/list/list.compone
         // BylDepartmentListComponent,
         // BylDepartmentCrudComponent
         BylPersonCrudComponent,
-        BylPersonListComponent,
+        // BylPersonListComponent,
         BylPersonAddressCrudComponent,
         BylPersonAddressListComponent,
         BylPersonCertificateCrudComponent,
