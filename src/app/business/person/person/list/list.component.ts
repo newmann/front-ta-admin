@@ -7,7 +7,7 @@ import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylPersonService} from '../../../../service/person/service/person.service';
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
-import {Role, RoleStatus} from '../../../../service/account/model/role.model';
+import {BylRole, BylRoleStatus} from '../../../../service/account/model/role.model';
 import {BylRoleQuery} from '../../../../service/account/query/role-query.model';
 import * as moment from 'moment';
 import {BylPersonQuery} from '../../../../service/person/query/person-query.model';
@@ -36,7 +36,7 @@ export class BylPersonListComponent extends BylListComponentBase<BylPerson> {
         return findResult.map(data => {
             let item = new BylListFormData<BylPerson>();
             item.checked = false;
-            // item.disabled = (data.status === RoleStatus.DELETED_ROLE);
+            // item.disabled = (data.status === BylRoleStatus.DELETED);
             item.item = new BylPerson();
             Object.assign(item.item, data);
             return item;

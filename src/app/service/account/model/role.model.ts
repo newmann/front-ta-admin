@@ -8,7 +8,7 @@ import {BylPermission} from "./permission.model";
 import {BylDefineStatus, BylIStatusItem} from "../../model/status.model";
 import {Injectable} from "@angular/core";
 
-class Role extends BylBaseModel{
+export class BylRole extends BylBaseModel{
     name: string;
     status: number;
     permissionList: Set<BylPermission>;
@@ -17,12 +17,12 @@ class Role extends BylBaseModel{
 }
 
 
-//角色的状态定义
-const enum RoleStatus{
-    NORMAL_ROLE = 1 ,
-    LOCKED_ROLE = 0,
-    DELETED_ROLE = -1
-}
+// //角色的状态定义
+// const enum BylRoleStatus {
+//     NORMAL_ROLE = 1,
+//     LOCKED_ROLE = 0,
+//     DELETED_ROLE = -1
+// }
 
 
-export {Role,RoleStatus}
+// export {BylRole, BylRoleStatus};

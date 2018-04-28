@@ -5,7 +5,7 @@
  */
 import { BylBaseModel } from '../../model/base.model';
 import { BylPermission } from 'app/service/account/model/permission.model';
-import {Role} from "./role.model";
+import {BylRole} from "./role.model";
 
 export class BylAccount extends BylBaseModel {
     username: string;
@@ -20,6 +20,6 @@ export class BylAccount extends BylBaseModel {
     status: number;
 
     permissionList: Set<BylPermission>;
-    roleList: Set<Role>;
+    roleList: Set<BylRole>;
 
 }

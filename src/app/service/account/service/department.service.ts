@@ -3,7 +3,7 @@ import {_HttpClient} from '@delon/theme';
 import {BylResultBody} from '../../model/result-body.model';
 import {LoginResultModel} from '../../auth/login-result.model';
 import {Observable} from 'rxjs/Observable';
-import {BylDepartment, DepartmentStatus} from '../model/department.model';
+import {BylDepartment, BylDepartmentStatus} from '../model/department.model';
 import {BylAccount} from '../model/account.model';
 import {BylPageResp} from '../../model/page-resp.model';
 import {BylPageReq} from '../../model/page-req.model';
@@ -28,11 +28,11 @@ export class BylDepartmentService {
 
     static getStatusCaption(status: number): string {
         switch (status) {
-            case DepartmentStatus.NORMAL_DEPARTMENT:
+            case BylDepartmentStatus.NORMAL_DEPARTMENT:
                 return '正常';
-            case DepartmentStatus.LOCKED_DEPARTMENT:
+            case BylDepartmentStatus.LOCKED_DEPARTMENT:
                 return '锁定';
-            case DepartmentStatus.DELETED_DEPARTMENT:
+            case BylDepartmentStatus.DELETED_DEPARTMENT:
                 return '删除';
             default:
                 return 'unknown';
@@ -43,16 +43,16 @@ export class BylDepartmentService {
     static statusArray(): BylIStatusItem[] {
         return [
             {
-                value: DepartmentStatus.NORMAL_DEPARTMENT,
-                caption: this.getStatusCaption(DepartmentStatus.NORMAL_DEPARTMENT)
+                value: BylDepartmentStatus.NORMAL_DEPARTMENT,
+                caption: this.getStatusCaption(BylDepartmentStatus.NORMAL_DEPARTMENT)
             },
             {
-                value: DepartmentStatus.LOCKED_DEPARTMENT,
-                caption: this.getStatusCaption(DepartmentStatus.LOCKED_DEPARTMENT)
+                value: BylDepartmentStatus.LOCKED_DEPARTMENT,
+                caption: this.getStatusCaption(BylDepartmentStatus.LOCKED_DEPARTMENT)
             },
             {
-                value: DepartmentStatus.DELETED_DEPARTMENT,
-                caption: this.getStatusCaption(DepartmentStatus.DELETED_DEPARTMENT)
+                value: BylDepartmentStatus.DELETED_DEPARTMENT,
+                caption: this.getStatusCaption(BylDepartmentStatus.DELETED_DEPARTMENT)
             }
         ];
     }

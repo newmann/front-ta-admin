@@ -41,7 +41,7 @@ export class BylPersonAddressListComponent extends BylItemListComponentBase<BylP
         // return findResult.map(data => {
         let item = new BylListFormData<BylPersonAddress>();
         item.checked = false;
-        // item.disabled = (data.status === RoleStatus.DELETED_ROLE);
+        // item.disabled = (data.status === BylRoleStatus.DELETED);
         item.item = new BylPersonAddress();
         Object.assign(item.item,data);
         return item;

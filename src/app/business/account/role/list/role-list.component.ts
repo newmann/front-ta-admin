@@ -1,19 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {_HttpClient, MenuService} from '@delon/theme';
 import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
 import {BylRoleService} from '../../../../service/account/service/role.service';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylResultBody} from '../../../../service/model/result-body.model';
-import {Role, RoleStatus} from '../../../../service/account/model/role.model';
+import {BylRole} from '../../../../service/account/model/role.model';
 import {BylIStatusItem} from '../../../../service/model/status.model';
 import {Router} from '@angular/router';
-import {Observable} from "rxjs/Observable";
-import {BylCrudEvent, BylCrudWaitingComponent} from "../../../common/waiting/crud-waiting.component";
-import {BylRoleCrudComponent} from "../crud/crud.component";
+import {BylCrudEvent} from '../../../common/waiting/crud-waiting.component';
+import {BylRoleCrudComponent} from '../crud/crud.component';
 import * as moment from 'moment';
-import {BylPageReq} from "../../../../service/model/page-req.model";
-import {BylRoleQuery} from "../../../../service/account/query/role-query.model";
-import {BylListFormData} from "../../../../service/model/list-form-data.model";
+import {BylPageReq} from '../../../../service/model/page-req.model';
+import {BylRoleQuery} from '../../../../service/account/query/role-query.model';
+import {BylListFormData} from '../../../../service/model/list-form-data.model';
+import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from '../../../../service/model/master-data-status.enum';
 
 @Component({
     selector: 'byl-role-list',
@@ -22,14 +21,14 @@ import {BylListFormData} from "../../../../service/model/list-form-data.model";
 export class BylRoleListComponent implements OnInit {
     q: any = {
         name: '',
-        modifyDateBegin: moment().subtract(1,'week').format('l'),
+        modifyDateBegin: moment().subtract(1, 'week').format('l'),
         modifyDateEnd: moment().format('l'),
         status: [1]
     };
 
-    page:BylPageReq ={
-        page: 1,// 缺省当前页
-        pageSize: 10,// 缺省每页条数
+    page: BylPageReq = {
+        page: 1, // 缺省当前页
+        pageSize: 10, // 缺省每页条数
         sortField: 'name',
         sort: '',
         keyword: '',
@@ -42,19 +41,19 @@ export class BylRoleListComponent implements OnInit {
     // ps: number;//每页条数
     total: number; // 总条数
 
-    listData : Array<BylListFormData<Role>> = []; // 显示内容
+    listData: Array<BylListFormData<BylRole>> = []; // 显示内容
     loading = false;
     // args: any = { };//查询条件
     sortMap: any = {};
 
-    selectedRows: Array<BylListFormData<Role>> = [];
+    selectedRows: Array<BylListFormData<BylRole>> = [];
     indeterminate = false;
     allChecked = false;
 
-    private _modifyForm: NzModalSubject;//维护界面
+    private _modifyForm: NzModalSubject; // 维护界面
     // 新增
     // modalVisible = false;
-    // newRole: Role;
+    // newRole: BylRole;
 
     constructor(private message: NzMessageService,
                 private roleService: BylRoleService,
@@ -62,12 +61,14 @@ export class BylRoleListComponent implements OnInit {
                 public modalService: NzModalService,
                 public router: Router) {
         this.q.ps = configService.PAGESIZE;
-        this.statusList = BylRoleService.statusArray();
-        // this.newRole = new Role();
+        this.statusList = BylMasterDataStatusManager.getStatusArray();
+        // this.newRole = new BylRole();
     }
 
     checkAll(value: boolean) {
-        this.listData.forEach(item =>{if (!item.disabled) item.checked = value;});
+        this.listData.forEach(item => {
+            if (!item.disabled) item.checked = value;
+        });
         this.refreshStatus();
     }
 
@@ -79,6 +80,7 @@ export class BylRoleListComponent implements OnInit {
         this.selectedRows = this.listData.filter(value => value.checked);
         // this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
     }
+
     // refChecked() {
     //     this.selectedRows = this.listData.filter(w => w.checked);
     //     const checkedCount = this.selectedRows.length;
@@ -103,8 +105,9 @@ export class BylRoleListComponent implements OnInit {
         this.router.navigateByUrl('/account/role/crud/new');
 
         // this.modalVisible = true;
-        // this.newRole = new Role();
+        // this.newRole = new BylRole();
     }
+
     // modify(id: string) {
     //     this.router.navigate(['/account/role/crud', id]);
     // }
@@ -115,7 +118,7 @@ export class BylRoleListComponent implements OnInit {
     // saveNew() {
     //     // this.showMsg(JSON.stringify(this.newRole));
     //     //设置保存的对象状态
-    //     this.newRole.status = RoleStatus.NORMAL_ROLE;
+    //     this.newRole.status = BylRoleStatus.NORMAL;
     //     this.roleService.add(this.newRole).subscribe(
     //         data => {
     //             this.loading = false;
@@ -138,7 +141,7 @@ export class BylRoleListComponent implements OnInit {
     //     );
     // }
 
-    showModifyForm(id:string) {
+    showModifyForm(id: string) {
 
         this._modifyForm = this.modalService.open({
             title: '修改',
@@ -167,6 +170,7 @@ export class BylRoleListComponent implements OnInit {
 
         });
     }
+
     /**
      * 查找
      */
@@ -175,7 +179,7 @@ export class BylRoleListComponent implements OnInit {
 
         this.clearGrid();
 
-        this.roleService.findPage(this.getRoleQueryModel(this.q),this.page).subscribe(
+        this.roleService.findPage(this.getRoleQueryModel(this.q), this.page).subscribe(
             data => {
                 this.loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -199,29 +203,30 @@ export class BylRoleListComponent implements OnInit {
 
     /**
      * 根据查询的结果，生成界面显示的内容，重点是处理好checkec和disabled字段的值。
-     * @param {Array<Role>} findResult
-     * @returns {Array<BylListFormData<Role>>}
+     * @param {Array<BylRole>} findResult
+     * @returns {Array<BylListFormData<BylRole>>}
      */
-    genListData(findResult: Array<Role>):Array<BylListFormData<Role>>{
+    genListData(findResult: Array<BylRole>): Array<BylListFormData<BylRole>> {
         return findResult.map(data => {
-            let item = new BylListFormData<Role>();
+            let item = new BylListFormData<BylRole>();
             item.checked = false;
-            item.disabled = (data.status === RoleStatus.DELETED_ROLE);
-            item.item = new Role();
-            Object.assign(item.item,data);
+            item.disabled = (data.status === BylMasterDataStatusEnum.DELETED);
+            item.item = new BylRole();
+            Object.assign(item.item, data);
             return item;
-        })
+        });
     }
+
     /**
      *
      * @param q
      * @returns {BylRoleQuery}
      */
-    getRoleQueryModel(q:any):BylRoleQuery{
+    getRoleQueryModel(q: any): BylRoleQuery {
         let result = new BylRoleQuery();
         if (q.name) result.name = q.name;
         if (q.modifyDateBegin) result.modifyDateBegin = moment(q.modifyDateBegin).valueOf();
-        if (q.modifyDateEnd) result.modifyDateEnd = moment(q.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
+        if (q.modifyDateEnd) result.modifyDateEnd = moment(q.modifyDateEnd).add(1, 'days').valueOf(); // 第二天的零点
         if (q.status) result.status = q.status;
         return result;
     }
@@ -248,23 +253,22 @@ export class BylRoleListComponent implements OnInit {
     }
 
 
-
     /**
      * 将当前记录锁定
      * @param {string} id
      */
     lockRole(id: string) {
-        let lockItem = new Role();
-        this.listData.forEach(item =>{
+        let lockItem = new BylRole();
+        this.listData.forEach(item => {
             if (item.item.id === id) {
                 Object.assign(lockItem, item.item);
             }
         });
 
-        console.log("lockItem: " + lockItem);
+        console.log('lockItem: ' + lockItem);
         if (!lockItem) return;
 
-        lockItem.status = RoleStatus.LOCKED_ROLE.valueOf();
+        lockItem.status = BylMasterDataStatusEnum.LOCKED.valueOf();
 
         this.roleService.update(lockItem).subscribe(
             data => {
@@ -283,33 +287,33 @@ export class BylRoleListComponent implements OnInit {
                 console.log(err);
                 this.showMsg(err.toString());
             }
-        )
+        );
     }
 
-    updateListData(newData:Role){
+    updateListData(newData: BylRole) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
-                Object.assign(item.item,newData);
-            })
+                Object.assign(item.item, newData);
+            });
     }
 
     getStatusCaption(status: number): string {
-        return BylRoleService.getStatusCaption(status);
+        return BylMasterDataStatusManager.getStatusCaption(status);
     }
 
     /**
      * 重置Grid
      */
-    clearGrid(){
+    clearGrid() {
         this.listData = []; // 显示内容
         this.selectedRows = [];
         this.indeterminate = false;
         this.allChecked = false;
     }
 
-    pageSizeChange($event){
-        console.log("pageSize:" + this.page.pageSize);
-        console.log("$event:" + $event);
+    pageSizeChange($event) {
+        console.log('pageSize:' + this.page.pageSize);
+        console.log('$event:' + $event);
         this.page.pageSize = $event;
         this.search();
     }

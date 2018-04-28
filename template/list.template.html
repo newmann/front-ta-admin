@@ -7,7 +7,7 @@
 <body>
 
 <!--input template-->
-<div nz-col [nzSpan]="8" class="mb-md">
+<div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24" class="mb-md">
     <div nz-form-item class="d-flex">
         <div nz-form-label><label for="qReason">借款原因</label></div>
         <div nz-form-control class="flex-1">
@@ -17,6 +17,41 @@
     </div>
 </div>
 
+<!--select template-->
+<div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24" class="mb-md">
+    <div nz-form-item class="d-flex">
+        <div nz-form-label><label for="qStatus">角色状态</label></div>
+        <div nz-form-control class="flex-1">
+            <nz-select [(ngModel)]="q.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"
+                       [nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">
+                <nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"
+                           [nzValue]="i.value"></nz-option>
+            </nz-select>
+        </div>
+    </div>
+</div>
+
+<!--datepicker template-->
+<div *ngIf="expandQuery" nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24" class="mb-md">
+    <div nz-form-item class="d-flex">
+        <div nz-form-label><label for="qModifyDateBegin">最后修改起始日期</label></div>
+        <div nz-form-control class="flex-1">
+            <nz-datepicker [(ngModel)]="q.modifyDateBegin" name="'qModifyDateBegin" nzId="'qModifyDateBegin"
+                           [nzSize]="'large'" [nzPlaceHolder]="'起始日期'" class="d-block"></nz-datepicker>
+        </div>
+    </div>
+</div>
+
+
+
+<div nz-col [nzLg]="expandQuery ? 24 : 6"  [nzMd]="expandQuery ? 24 : 8"  [nzSm]="expandQuery ? 24 : 16"  [nzXs]="expandQuery ? 24 : 24" class="mb-md" [class.text-right]="true">
+
+    <button nz-button type="reset" (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
+    <a (click)="expandQuery =!expandQuery">
+        {{expandQuery ? '收起' : '展开'}}
+        <i class="anticon" [class.anticon-down]="!expandQuery" [class.anticon-up]="expandQuery"></i>
+    </a>
+</div>
 
 </body>
 </html>

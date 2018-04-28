@@ -110,7 +110,7 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
         return findResult.map(data => {
             let item = new BylListFormData<BylProjectManagerPool>();
             item.checked = false;
-            // item.disabled = (data.status === RoleStatus.DELETED_ROLE);
+            // item.disabled = (data.status === BylRoleStatus.DELETED);
             item.item = new BylProjectManagerPool();
             Object.assign(item.item, data);
             return item;

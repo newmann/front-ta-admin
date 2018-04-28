@@ -7,12 +7,15 @@ import {BylConfigService} from "../../../../service/constant/config.service";
 import {BylBorrowMoneyTicketService} from "../../../../service/project/service/borrow-money-ticket.service";
 import {BylBorrowMoneyTicket} from "../../../../service/project/model/borrow-money-ticket.model";
 import {BylBorrowMoneyTicketQuery} from "../../../../service/project/query/borrow-money-ticket-query.model";
+import {BylIStatusItem} from '../../../../service/model/status.model';
 
 @Component({
   selector: 'byl-borrow-money-ticket-list',
   templateUrl: './list.component.html',
 })
 export class BylBorrowMoneyTicketListComponent  extends BylListComponentBase<BylBorrowMoneyTicket> {
+
+    statusList: BylIStatusItem[]; //状态
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
@@ -31,7 +34,7 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBase<Byl
         return findResult.map(data => {
             let item = new BylListFormData<BylBorrowMoneyTicket>();
             item.checked = false;
-            // item.disabled = (data.status === RoleStatus.DELETED_ROLE);
+            // item.disabled = (data.status === BylRoleStatus.DELETED);
             item.item = new BylBorrowMoneyTicket();
             Object.assign(item.item, data);
             return item;

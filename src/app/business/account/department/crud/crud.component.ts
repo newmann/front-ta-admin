@@ -1,30 +1,31 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { _HttpClient } from '@delon/theme';
-import {ActivatedRoute} from "@angular/router";
-import {ReuseTabService} from "@delon/abc";
-import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
-import {BylLoggerService} from "../../../../service/utils/logger";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {BylConfigService} from "../../../../service/constant/config.service";
-import {BylRoleService} from "../../../../service/account/service/role.service";
-import {BylDepartmentService} from "../../../../service/account/service/department.service";
-import {Role, RoleStatus} from "../../../../service/account/model/role.model";
-import {BylDepartment, DepartmentStatus} from "../../../../service/account/model/department.model";
-import {debounceTime, distinctUntilChanged, first, flatMap, map} from "rxjs/operators";
-import {BylResultBody} from "../../../../service/model/result-body.model";
-import {Observable} from "rxjs/Observable";
+import {_HttpClient} from '@delon/theme';
+import {ActivatedRoute} from '@angular/router';
+import {ReuseTabService} from '@delon/abc';
+import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {BylLoggerService} from '../../../../service/utils/logger';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {BylConfigService} from '../../../../service/constant/config.service';
+import {BylRoleService} from '../../../../service/account/service/role.service';
+import {BylDepartmentService} from '../../../../service/account/service/department.service';
+import {BylRole} from '../../../../service/account/model/role.model';
+import {BylDepartment} from '../../../../service/account/model/department.model';
+import {debounceTime, distinctUntilChanged, first, flatMap, map} from 'rxjs/operators';
+import {BylResultBody} from '../../../../service/model/result-body.model';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
-import {BylCrudEvent, BylCrudWaitingComponent} from "../../../common/waiting/crud-waiting.component";
-import {Subject} from "rxjs/Subject";
+import {BylCrudEvent, BylCrudWaitingComponent} from '../../../common/waiting/crud-waiting.component';
+import {Subject} from 'rxjs/Subject';
+import {BylMasterDataStatusEnum} from '../../../../service/model/master-data-status.enum';
 
 
 @Component({
-  selector: 'byl-department-crud',
-  templateUrl: './crud.component.html',
+    selector: 'byl-department-crud',
+    templateUrl: './crud.component.html',
 })
 export class BylDepartmentCrudComponent implements OnInit {
     private _department = new BylDepartment;
-    private _firstLevelDepartment = new BylDepartment();//最顶级的部门，id = -
+    private _firstLevelDepartment = new BylDepartment(); // 最顶级的部门，id = -
     public form: FormGroup;
     private _loading = false;
     public errMsg = '';  // 保存时错误信息
@@ -33,7 +34,7 @@ export class BylDepartmentCrudComponent implements OnInit {
 
     @Input() sourceId: string;
 
-    public processType: string = '';
+    public processType = '';
 
     public searchedDepartments: Array<BylDepartment> = [];
 
@@ -52,7 +53,7 @@ export class BylDepartmentCrudComponent implements OnInit {
     ) {
         // 绑定验证模式
         this.form = this.fb.group({
-            parent:[null],
+            parent: [null],
             code: [null, Validators.compose([Validators.required, Validators.minLength(2)]), this.codeValidator],
             name: [null, Validators.compose([Validators.required, Validators.minLength(1)])],
             remarks: [null]
@@ -69,8 +70,8 @@ export class BylDepartmentCrudComponent implements OnInit {
         this.activatedRoute
             .paramMap
             .subscribe(params => {
-                this.logger.log("activedRoute", params);
-                this.logger.log("activedRoute", params.get('type'));
+                this.logger.log('activedRoute', params);
+                this.logger.log('activedRoute', params.get('type'));
                 this.processType = params.get('type') || '';
 
             });
@@ -78,10 +79,11 @@ export class BylDepartmentCrudComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.logger.info(" in ngOnInit");
+        this.logger.info(' in ngOnInit');
         //在从list窗口调入的情况下，载入数据
         if (this.sourceId) this.loadDepartment(this.sourceId);
     }
+
     /**
      * 验证部门代码是否重复
      * @param {FormControl} control
@@ -122,9 +124,9 @@ export class BylDepartmentCrudComponent implements OnInit {
 
             first()
         );
-    };
+    }
 
-    loadDepartment(id:String){
+    loadDepartment(id: String) {
 
         // this.showLoadingReveal();
         this._loading = true;
@@ -134,7 +136,7 @@ export class BylDepartmentCrudComponent implements OnInit {
                 this._loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     this.logger.info(data.data);
-                    Object.assign(this._department,data.data);
+                    Object.assign(this._department, data.data);
                     this.reset();
                 } else {
 
@@ -155,6 +157,7 @@ export class BylDepartmentCrudComponent implements OnInit {
             }
         );
     }
+
     /**
      * 保存
      */
@@ -192,39 +195,38 @@ export class BylDepartmentCrudComponent implements OnInit {
         );
     }
 
-    registerSearchData(){
+    registerSearchData() {
         this._searchData$.pipe(
-                debounceTime(1000),
-                distinctUntilChanged(),
-                flatMap(value =>{
-                    return this.departmentService.fetchAvailableDepartmentByCodeOrName(value);
-                    })
-            ).subscribe(
+            debounceTime(1000),
+            distinctUntilChanged(),
+            flatMap(value => {
+                return this.departmentService.fetchAvailableDepartmentByCodeOrName(value);
+            })
+        ).subscribe(
+            data => {
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
 
-                data => {
-                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                    // this.listData = Array.from(data.data.rows);
+                    this.logger.log(data.data);
+                    this.searchedDepartments = data.data;
+                    this.searchedDepartments.push(this._firstLevelDepartment);
 
-                        // this.listData = Array.from(data.data.rows);
-                        this.logger.log(data.data);
-                        this.searchedDepartments = data.data;
-                        this.searchedDepartments.push(this._firstLevelDepartment);
-
-                    } else {
-                        this.errMsg = data.msg;
-                    }
-                },
-                err => {
-                    console.log(err);
-                    this.errMsg = err.toString();
+                } else {
+                    this.errMsg = data.msg;
                 }
-            );
+            },
+            err => {
+                console.log(err);
+                this.errMsg = err.toString();
+            }
+        );
 
 
     }
 
-    searchDepartment($event){
-        this.logger.log("$event",$event);
-        if ($event)  this._searchData$.next($event);
+    searchDepartment($event) {
+        this.logger.log('$event', $event);
+        if ($event) this._searchData$.next($event);
     }
 
 
@@ -234,7 +236,7 @@ export class BylDepartmentCrudComponent implements OnInit {
 
     }
 
-    getFormData(){
+    getFormData() {
         for (const i in this.form.controls) {
             this.form.controls[i].markAsDirty();
         }
@@ -247,8 +249,9 @@ export class BylDepartmentCrudComponent implements OnInit {
             this._department.remarks = this.remarks.value.toString();
         }
         //todo 设置保存的对象状态
-        this._department.status = DepartmentStatus.NORMAL_DEPARTMENT;
+        this._department.status = BylMasterDataStatusEnum.NORMAL;
     }
+
     /**
      * 重置界面内容
      */
@@ -257,14 +260,14 @@ export class BylDepartmentCrudComponent implements OnInit {
             code: this._department.code,
             name: this._department.name,
             remarks: this._department.remarks
-        },{onlySelf:true,emitEvent:false});
+        }, {onlySelf: true, emitEvent: false});
 
         this.form.markAsPristine();
         // for (const key in this.form.controls) {
         //     this.form.controls[key].markAsPristine();
         // }
-        this.logger.log('this.form.dirty'+ this.form.dirty);
-        this.logger.log('this.form.invalid'+ this.form.invalid);
+        this.logger.log('this.form.dirty' + this.form.dirty);
+        this.logger.log('this.form.invalid' + this.form.invalid);
     }
 
     showSavingReveal() {
@@ -289,21 +292,21 @@ export class BylDepartmentCrudComponent implements OnInit {
         this._savingReveal.subscribe(result => {
             console.log(result);
             //判断是否退出界面
-            if(result === 'onDestroy'){
+            if (result === 'onDestroy') {
                 console.log('退出提示界面');
-                switch(this.processType){
-                    case "new":
+                switch (this.processType) {
+                    case 'new':
                         //新增界面
                         this._department = new BylDepartment();
                         this.reset();
                         break;
-                    case "modify":
+                    case 'modify':
                         break;
                     default:
                         // 从list界面进入修改
                         console.log('this.modalSubject.destroy();');
                         //将修改后的数据传回list界面
-                        this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate],data: this._department});
+                        this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate], data: this._department});
                         this.modalSubject.destroy();
 
                 }
@@ -311,15 +314,16 @@ export class BylDepartmentCrudComponent implements OnInit {
             }
             // if (result === BylCrudEvent[BylCrudEvent.bylAdd]) {
             //     // 新增界面
-            //     this._role = new Role();
+            //     this._role = new BylRole();
             //     this.reset();
             // }
 
 
         });
     }
-    destorySavingReveal(){
-        if (this._savingReveal)  this._savingReveal.destroy();
+
+    destorySavingReveal() {
+        if (this._savingReveal) this._savingReveal.destroy();
     }
 
     //#region get form fields
@@ -334,9 +338,11 @@ export class BylDepartmentCrudComponent implements OnInit {
     get name() {
         return this.form.controls.name;
     }
+
     get remarks() {
         return this.form.controls.remarks;
     }
+
     //#endregion
 }
 

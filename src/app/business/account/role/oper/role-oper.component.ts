@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {BylRoleService} from "../../../../service/account/service/role.service";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
-import {Role} from "../../../../service/account/model/role.model";
+import {BylRole} from "../../../../service/account/model/role.model";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs/Observable";
 import {map, delay, debounceTime, flatMap, distinctUntilChanged, first, catchError} from 'rxjs/operators';
@@ -18,7 +18,7 @@ import {of} from "rxjs/observable/of";
   templateUrl: './role-oper.component.html',
 })
 export class RoleOperComponent implements OnInit {
-    role:Role;
+    role:BylRole;
     form: FormGroup;
     loading = false;
     testResult = '';
@@ -40,7 +40,7 @@ export class RoleOperComponent implements OnInit {
         )
     }
 
-    @Input() sourceRole: Role;
+    @Input() sourceRole: BylRole;
 
     constructor(
         private http: HttpClient,
@@ -62,7 +62,7 @@ export class RoleOperComponent implements OnInit {
     ngOnInit() {
 
 
-        this.role = new Role();
+        this.role = new BylRole();
         //本界面即支持新增，又支持修改和浏览
         //在修改或浏览的时候，支持从list界面调用的时候直接传入被修改的记录
         //

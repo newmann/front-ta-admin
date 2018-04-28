@@ -45,7 +45,7 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
         return findResult.map(data => {
             let item = new BylListFormData<BylAccount>();
             item.checked = false;
-            // item.disabled = (data.status === RoleStatus.DELETED_ROLE);
+            // item.disabled = (data.status === BylRoleStatus.DELETED);
             item.item = new BylAccount();
             Object.assign(item.item, data);
             return item;

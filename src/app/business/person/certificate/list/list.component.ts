@@ -42,7 +42,7 @@ export class BylPersonCertificateListComponent extends BylItemListComponentBase<
     genListData(data: BylPersonCertificate): BylListFormData<BylPersonCertificate>{
             let item = new BylListFormData<BylPersonCertificate>();
             item.checked = false;
-            // item.disabled = (data.status === RoleStatus.DELETED_ROLE);
+            // item.disabled = (data.status === BylRoleStatus.DELETED);
             item.item = new BylPersonCertificate();
             Object.assign(item.item,data);
             return item;

@@ -6,7 +6,7 @@ import {BylResultBody} from '../../../../service/model/result-body.model';
 import {Observable} from 'rxjs/Observable';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {Role, RoleStatus} from '../../../../service/account/model/role.model';
+import {BylRole, BylRoleStatus} from '../../../../service/account/model/role.model';
 import {HttpClient} from '@angular/common/http';
 import {WaitingComponent} from '../../../common/waiting/waiting.component';
 import {BylCrudEvent, BylCrudWaitingComponent} from '../../../common/waiting/crud-waiting.component';
@@ -23,7 +23,7 @@ import {CheckClientBrowserType} from '../../../../service/utils/client-browser-t
 export class BylRoleCrudComponent implements OnInit {
     public clientBrowserType:any;
 
-    private _role = new Role;
+    private _role = new BylRole;
     public form: FormGroup;
     private _loading = false;
     public errMsg = '';  // 保存时错误信息
@@ -143,7 +143,7 @@ export class BylRoleCrudComponent implements OnInit {
         }
 
         // 设置保存的对象状态
-        this._role.status = RoleStatus.NORMAL_ROLE;
+        this._role.status = BylRoleStatus.NORMAL_ROLE;
 
         this.roleService.add(this._role).subscribe(
             data => {
@@ -272,7 +272,7 @@ export class BylRoleCrudComponent implements OnInit {
                 switch(this.processType){
                     case "new":
                         //新增界面
-                        this._role = new Role();
+                        this._role = new BylRole();
                         this.reset();
                         break;
                     case "modify":
@@ -289,7 +289,7 @@ export class BylRoleCrudComponent implements OnInit {
             }
             // if (result === BylCrudEvent[BylCrudEvent.bylAdd]) {
             //     // 新增界面
-            //     this._role = new Role();
+            //     this._role = new BylRole();
             //     this.reset();
             // }
 

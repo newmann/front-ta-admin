@@ -179,7 +179,7 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
         return findResult.map(data => {
             let item = new BylListFormData<BylBorrowMoneyQualificationPool>();
             item.checked = false;
-            // item.disabled = (data.status === RoleStatus.DELETED_ROLE);
+            // item.disabled = (data.status === BylRoleStatus.DELETED);
             item.item = new BylBorrowMoneyQualificationPool();
             Object.assign(item.item, data);
             return item;

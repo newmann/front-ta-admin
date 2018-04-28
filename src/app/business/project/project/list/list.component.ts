@@ -31,7 +31,7 @@ export class BylProjectListComponent extends BylListComponentBase<BylProject> {
         return findResult.map(data => {
             let item = new BylListFormData<BylProject>();
             item.checked = false;
-            // item.disabled = (data.status === RoleStatus.DELETED_ROLE);
+            // item.disabled = (data.status === BylRoleStatus.DELETED);
             item.item = new BylProject();
             Object.assign(item.item, data);
             return item;

@@ -9,7 +9,7 @@ import {BylPageReq} from "../../../../service/model/page-req.model";
 import * as moment from "moment";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {BylCrudEvent} from "../../../common/waiting/crud-waiting.component";
-import {BylDepartment, DepartmentStatus} from "../../../../service/account/model/department.model";
+import {BylDepartment, BylDepartmentStatus} from "../../../../service/account/model/department.model";
 import {BylDepartmentService} from "../../../../service/account/service/department.service";
 import {BylDepartmentQuery} from "../../../../service/account/query/department-query.model";
 import {BylDepartmentCrudComponent} from "../crud/crud.component";
@@ -264,7 +264,7 @@ export class BylDepartmentListComponent implements OnInit {
             item.id = item.item.id;
             item.name = mixCodeName(item.item.name,item.item.code);
             item.checked = false;
-            item.disableCheckbox = (data.status === DepartmentStatus.DELETED_DEPARTMENT);
+            item.disableCheckbox = (data.status === BylDepartmentStatus.DELETED_DEPARTMENT);
             item.hasChildren = true;
             return item;
         })
@@ -278,7 +278,7 @@ export class BylDepartmentListComponent implements OnInit {
     //     node.id = node.item.id;
     //     node.name = mixCodeName(node.item.name,node.item.code);
     //     node.checked = false;
-    //     node.disableCheckbox =(node.item.status === DepartmentStatus.DELETED_DEPARTMENT);
+    //     node.disableCheckbox =(node.item.status === BylDepartmentStatus.DELETED_DEPARTMENT);
     //     node.hasChildren = true;
     //     /**
     //      *定位策略：
@@ -359,7 +359,7 @@ export class BylDepartmentListComponent implements OnInit {
         console.log("lockItem: " + lockItem);
         if (!lockItem) return;
 
-        lockItem.status = DepartmentStatus.LOCKED_DEPARTMENT.valueOf();
+        lockItem.status = BylDepartmentStatus.LOCKED_DEPARTMENT.valueOf();
 
         this.departmentService.update(lockItem).subscribe(
             data => {
