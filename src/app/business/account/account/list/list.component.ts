@@ -54,10 +54,10 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
 
     genQueryModel(): any {
         let result = new BylAccountQuery();
-        // if (q.name) result.name = q.name;
-        // if (q.modifyDateBegin) result.modifyDateBegin = moment(q.modifyDateBegin).valueOf();
-        // if (q.modifyDateEnd) result.modifyDateEnd = moment(q.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
-        // if (q.status) result.status = q.status;
+        // if (qData.name) result.name = qData.name;
+        // if (qData.modifyDateBegin) result.modifyDateBegin = moment(qData.modifyDateBegin).valueOf();
+        // if (qData.modifyDateEnd) result.modifyDateEnd = moment(qData.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
+        // if (qData.status) result.status = qData.status;
         return result;
     }
 

@@ -1,5 +1,5 @@
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { OnInit} from '@angular/core';
+import {OnInit} from '@angular/core';
 import {BylLoggerService} from '../../service/utils/logger';
 import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
@@ -9,7 +9,7 @@ import {Subject} from 'rxjs/Subject';
 import {BylResultBody} from '../../service/model/result-body.model';
 import {BylBaseService} from '../../service/service/base.service';
 import {BylCrudEvent, BylCrudWaitingComponent} from './waiting/crud-waiting.component';
-import {ReuseTabService} from "@delon/abc";
+import {ReuseTabService} from '@delon/abc';
 
 
 /**
@@ -55,14 +55,14 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
                 // this.logger.log('activedRoute', params);
                 // this.logger.log('activedRoute', params.get('type'));
                 this.processType = params.get('type') || '';
-                if (this.processType.length>0) {
-                    if (this.processType != "new") {
+                if (this.processType.length > 0) {
+                    if (this.processType !== 'new') {
                         this.sourceId = this.processType;
                         // this.loadData(this.sourceId);
                     }
                 }
 
-                console.log('processType',this.processType);
+                console.log('processType', this.processType);
             });
 
 
@@ -126,7 +126,7 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
                     this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
                     this.savingReveal.destroy(); //退出提示界面
 
-                    this.afterSubmit();//成功保存后对界面的处理，根据不同状态是否退出
+                    this.afterSubmit(); //成功保存后对界面的处理，根据不同状态是否退出
 
                 } else {
                     // 通知显示窗口保存错误，是否退出由显示界面控制
@@ -167,7 +167,7 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
         // this.logger.log('this.form.invalid' + this.form.invalid);
     }
 
-    afterSubmit(){
+    afterSubmit() {
         switch (this.processType) {
             case 'new':
                 //新增界面

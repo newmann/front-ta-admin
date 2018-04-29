@@ -32,18 +32,6 @@ export class BylAccountService  extends BylBaseService<BylAccount> {
         this.BASE_API_URL = 'api/account';
     }
 
-    // add(item: BylAccount): Observable<BylResultBody<BylAccount>> {
-    //     return this.http.post<BylResultBody<BylAccount>>(this.BASE_API_URL + '/add', item);
-    // }
-    //
-    // update(updateItem: BylAccount): Observable<BylResultBody<BylAccount>> {
-    //     return this.http.post<BylResultBody<BylAccount>>(this.BASE_API_URL + '/update', updateItem);
-    // }
-    //
-    //
-    // findById(id: string): Observable<BylResultBody<BylAccount>> {
-    //     return this.http.get<BylResultBody<BylAccount>>(this.BASE_API_URL + '/find-by-id/' + id);
-    // }
     /**
      * 按分页方式返回
      * @returns {Observable<BylResultBody<>>}

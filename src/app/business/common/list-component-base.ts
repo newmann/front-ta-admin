@@ -21,9 +21,10 @@ export abstract class BylListComponentBase<T> implements OnInit {
     public crudUrl: string; //新增对象的url
 
     public qData: any = {}; //查询条件中的数据
+
     public page: BylPageReq = { //分页定义
-        page: 1,// 缺省当前页
-        pageSize: 10,// 缺省每页条数
+        page: 1, // 缺省当前页
+        pageSize: 10, // 缺省每页条数
         sortField: '',
         sort: '',
         keyword: '',
@@ -37,7 +38,7 @@ export abstract class BylListComponentBase<T> implements OnInit {
     public allChecked = false; //是否全部选中
 
 
-    public modifyForm: NzModalSubject;//维护界面
+    public modifyForm: NzModalSubject; // 维护界面
 
     public loading = false;
 

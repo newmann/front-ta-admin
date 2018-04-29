@@ -7,18 +7,19 @@ import {BylDepartmentListComponent} from "./department/list/list.component";
 import {BylDepartmentCrudComponent} from "./department/crud/crud.component";
 import {BylAccountListComponent} from "./account/list/list.component";
 import {BylAccountCrudComponent} from "./account/crud/crud.component";
+import {BylPermissionListComponent} from './permission/list/list.component';
 
 
 
 const routes: Routes = [
     { path: 'role/list', component: BylRoleListComponent },
-    { path: 'role/add', component: RoleOperComponent },
+    // { path: 'role/add', component: RoleOperComponent },
     { path: 'role/crud/:type', component: BylRoleCrudComponent },
     { path: 'department/list', component: BylDepartmentListComponent },
     { path: 'department/crud/:type', component: BylDepartmentCrudComponent },
     { path: 'account/list', component: BylAccountListComponent },
-    { path: 'account/crud/:type', component: BylAccountCrudComponent }
-
+    { path: 'account/crud/:type', component: BylAccountCrudComponent },
+    { path: 'permission/list', component: BylPermissionListComponent }
 ];
 
 @NgModule({

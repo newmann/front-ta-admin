@@ -117,11 +117,11 @@
             <!--<label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
             <!--(ngModelChange)="checkAll($event)"></label>-->
             <!--</th>-->
-            <th nz-th><span>代码</span></th>
-            <th nz-th><span>名称</span></th>
+            <th nz-th><span>单号</span></th>
+            <th nz-th><span>所属项目</span></th>
             <th nz-th><span>状态</span></th>
             <th nz-th>
-                <span>地址</span>
+                <span>借款原因</span>
                 <!--<nz-dropdown [nzTrigger]="'click'">-->
                 <!--<i class="anticon anticon-filter" nz-dropdown></i>-->
                 <!--<ul nz-menu>-->
@@ -136,19 +136,26 @@
                 <!--</nz-dropdown>-->
             </th>
             <th nz-th>
-                <span>项目经理</span>
+                <span>借款金额</span>
             </th>
             <th nz-th>
-                <span>联系方式</span>
+                <span>借款信息</span>
             </th>
             <th nz-th>
-                <span>计划开始日期</span>
+                <span>审核信息</span>
             </th>
             <th nz-th>
-                <span>计划截止日期</span>
+                <span>收款信息</span>
                 <!--<nz-table-sort [(nzValue)]="sortMap.updatedAt"-->
                 <!--(nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>-->
             </th>
+
+            <th nz-th>
+                <span>结算信息</span>
+                <!--<nz-table-sort [(nzValue)]="sortMap.updatedAt"-->
+                <!--(nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>-->
+            </th>
+
             <th nz-th>
                 <span>备注</span>
             </th>
@@ -163,14 +170,16 @@
             <!--(ngModelChange)="refreshStatus($event)">-->
             <!--</label>-->
             <!--</td>-->
-            <td nz-td>{{i.item.code}}</td>
-            <td nz-td>{{i.item.name}}</td>
+            <td nz-td>{{i.item.billNo}}</td>
+            <td nz-td>{{i.item.projectInfo}}</td>
             <td nz-td>{{i.item.status}}</td>
-            <td nz-td>{{i.item.fullAddress}}</td>
-            <td nz-td>{{i.item.fullManager}}</td>
-            <td nz-td>{{i.item.fullContactMethod}}</td>
-            <td nz-td>{{i.item.planBeginDate | _date }}</td>
-            <td nz-td>{{i.item.planEndDate | _date}}</td>
+            <td nz-td>{{i.item.reason}}</td>
+            <td nz-td>{{i.item.amount}}</td>
+            <td nz-td>{{i.item.borrorActionInfo}}</td>
+            <td nz-td>{{i.item.checkActionInfo }}</td>
+            <td nz-td>{{i.item.receiveActionInfo}}</td>
+            <td nz-td>{{i.item.settlementInfo}}</td>
+            <td nz-td>{{i.item.remarks}}</td>
             <td nz-td>
                 <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
                 <span>

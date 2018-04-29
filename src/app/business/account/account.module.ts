@@ -12,6 +12,7 @@ import {NzTreeModule} from 'ng-tree-antd';
 import {BylAccountListComponent} from './account/list/list.component';
 import {BylAccountCrudComponent} from './account/crud/crud.component';
 import {BylBusinessSharedModule} from '../business-shared.module';
+import { BylPermissionListComponent } from './permission/list/list.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {BylBusinessSharedModule} from '../business-shared.module';
         BylDepartmentListComponent,
         BylDepartmentCrudComponent,
         // BylAccountListComponent,//移到business-shared.module中
-        BylAccountCrudComponent
+        BylAccountCrudComponent,
+        BylPermissionListComponent
     ],
     entryComponents: [
         // BylAccountListComponent,
