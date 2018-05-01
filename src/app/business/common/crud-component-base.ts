@@ -34,7 +34,8 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
     public searchData$: Subject<string> = new Subject<string>();
 
     ngOnInit() {
-
+        //从list窗口调入修改单据时，载入数据
+        if(this.sourceId) this.loadData(this.sourceId);
     }
 
     constructor(public msgService: NzMessageService,

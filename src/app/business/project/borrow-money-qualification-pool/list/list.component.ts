@@ -11,6 +11,8 @@ import {BylConfigService} from "../../../../service/constant/config.service";
 import {BylBorrowMoneyQualificationPoolService} from "../../../../service/project/service/borrow-money-qualification-pool.service";
 import {BylPersonListComponent} from "../../../person/person/list/list.component";
 import {BylOrganizationListComponent} from "../../../organization/organization/list/list.component";
+import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
+import {BylBorrowMoneyQualificationPoolQuery} from "../../../../service/project/query/borrow-money-qualification-pool-query.model";
 
 @Component({
   selector: 'byl-borrow-money-qualification-pool-list',
@@ -206,5 +208,12 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
             });
     }
 
+    /**
+     * 设置查询缺省值
+     */
+    setQDataDefaultValue(){
+        let q = new BylBorrowMoneyQualificationPoolQuery();
 
+        Object.assign(this.qData,q);
+    }
 }

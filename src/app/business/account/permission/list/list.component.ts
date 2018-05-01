@@ -13,6 +13,7 @@ import {BylPermissionService} from '../../../../service/account/service/permissi
 import * as moment from 'moment';
 import {BylPermission} from '../../../../service/account/model/permission.model';
 import {BylPermissionQuery} from '../../../../service/account/query/permission-query.model';
+import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 
 @Component({
   selector: 'byl-permission-list',
@@ -76,7 +77,14 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
             });
     }
 
+    /**
+     * 设置查询缺省值
+     */
+    setQDataDefaultValue(){
+        let q = new BylPermissionQuery();
 
+        Object.assign(this.qData,q);
+    }
 
 
 }

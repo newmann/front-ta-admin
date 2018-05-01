@@ -8,6 +8,7 @@ import {BylPersonService} from '../../../../service/person/service/person.servic
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
 
 import {BylPersonQuery} from '../../../../service/person/query/person-query.model';
+import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 
 
 @Component({
@@ -59,4 +60,12 @@ export class BylPersonListComponent extends BylListComponentBase<BylPerson> {
     // modifyEntity(id:string){
     //     this.router.navigateByUrl("/person/person/crud/" + id);
     // }
+    /**
+     * 设置查询缺省值
+     */
+    setQDataDefaultValue(){
+        let q = new BylPersonQuery();
+
+        Object.assign(this.qData,q);
+    }
 }

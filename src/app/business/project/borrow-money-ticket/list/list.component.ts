@@ -8,6 +8,7 @@ import {BylBorrowMoneyTicketService} from "../../../../service/project/service/b
 import {BylBorrowMoneyTicket} from "../../../../service/project/model/borrow-money-ticket.model";
 import {BylBorrowMoneyTicketQuery} from "../../../../service/project/query/borrow-money-ticket-query.model";
 import {BylIStatusItem} from '../../../../service/model/status.model';
+import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 
 @Component({
   selector: 'byl-borrow-money-ticket-list',
@@ -55,5 +56,13 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBase<Byl
             .map(item => {
                 Object.assign(item.item, newData);
             });
+    }
+    /**
+     * 设置查询缺省值
+     */
+    setQDataDefaultValue(){
+        let q = new BylBorrowMoneyTicketQuery();
+
+        Object.assign(this.qData,q);
     }
 }

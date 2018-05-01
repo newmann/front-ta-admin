@@ -20,6 +20,7 @@ import {Observable} from 'rxjs/Observable';
 import {zip} from 'rxjs/observable/zip';
 import {BylListComponentBase} from '../../../common/list-component-base';
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from '../../../../service/model/master-data-status.enum';
+import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 
 @Component({
     selector: 'byl-department-list',
@@ -349,5 +350,13 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
             Object.assign(item.item, data);
             return item;
         });
+    }
+    /**
+     * 设置查询缺省值
+     */
+    setQDataDefaultValue(){
+        let q = new BylDepartmentQuery();
+
+        Object.assign(this.qData,q);
     }
 }

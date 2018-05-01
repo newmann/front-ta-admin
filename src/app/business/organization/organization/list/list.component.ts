@@ -7,6 +7,7 @@ import {BylConfigService} from "../../../../service/constant/config.service";
 import {BylOrganization} from "../../../../service/organization/model/organization.model";
 import {BylOrganizationService} from "../../../../service/organization/service/organization.service";
 import {BylOrganizationQuery} from "../../../../service/organization/query/organization-query.model";
+import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 
 @Component({
   selector: 'byl-organization-list',
@@ -57,4 +58,13 @@ export class BylOrganizationListComponent extends BylListComponentBase<BylOrgani
     // modifyEntity(id:string){
     //     this.router.navigateByUrl("/person/person/crud/" + id);
     // }
+    /**
+     * 设置查询缺省值
+     */
+    setQDataDefaultValue(){
+        let q = new BylOrganizationQuery();
+
+        Object.assign(this.qData,q);
+    }
+
 }

@@ -1,8 +1,9 @@
-<pro-header [title]="'项目经理资源池管理'" >
+<pro-header [title]="'项目经理资源池管理'" *ngIf="functionMode !== 'select'"  >
     <ng-template #action>
         <button nz-button (click)="addManagerPool()" [nzType]="'default'" [nzSize]="'large'">
             <i class="anticon anticon-plus"></i><span>新增</span>
         </button>
+
         <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">
             <i class="anticon anticon-search"></i><span>查询</span>
         </button>
@@ -22,7 +23,7 @@
     </ng-template>
 </pro-header>
 <nz-card [nzBordered]="false">
-    <form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
+    <form nz-form [nzLayout]="'inline'">
         <div nz-row [nzGutter]="24">
             <div nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
@@ -75,6 +76,13 @@
             <div nz-col [nzSpan]="expandQuery ? 24 : 8" class="mb-md" [class.text-right]="true">
                 <!--<button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询-->
                 <!--</button>-->
+                <ng-container *ngIf="functionMode === 'select'">
+                    <button nz-button  (click)="search()" [nzType]="'default'" [nzLoading]="loading" [nzSize]="'large'">
+                        <i class="anticon anticon-search"></i><span>查询</span>
+                    </button>
+
+                </ng-container>
+
                 <button nz-button type="reset" (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
                 <a (click)="expandQuery =!expandQuery">
                     {{expandQuery ? '收起' : '展开'}}
@@ -118,7 +126,7 @@
             <td nz-td>
                 <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
                 <span>
-                    <a (click)="modifyEntity(i.item.id)">修改</a>
+                    <a (click)="modifyEntity(i.item.id)">删除</a>
                     <!--<span nz-table-divider></span>-->
                     <!--<nz-dropdown>-->
                     <!--<a class="ant-dropdown-link" nz-dropdown>-->
@@ -137,6 +145,12 @@
                     <!--</ul>-->
                     <!--</nz-dropdown>-->
                 </span>
+                <ng-container *ngIf="functionMode === 'select'">
+                    <span nz-table-divider></span>
+                    <span>
+                        <a (click)="selectedEntity(i.item)">选中</a>
+                    </span>
+                </ng-container>
             </td>
         </tr>
         </tbody>

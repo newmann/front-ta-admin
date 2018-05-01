@@ -22,23 +22,23 @@
     </ng-template>
 </pro-header>
 <nz-card [nzBordered]="false">
-    <form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
+    <form nz-form [nzLayout]="'inline'" role="form">
         <div nz-row [nzGutter]="24">
-            <div nz-col [nzSpan]="8" class="mb-md">
+            <div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24"  class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="qCode">代码类似于</label></div>
+                    <div nz-form-label><label for="code">代码类似于</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="qData.code" name="'qCode'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
-                                  nzId="'qCame'"></nz-input>
+                        <nz-input [(ngModel)]="qData.code" name="code" nzId = "code" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
+                                  ></nz-input>
                     </div>
                 </div>
             </div>
-            <div nz-col [nzSpan]="8" class="mb-md">
+            <div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="qName">名称类似于</label></div>
+                    <div nz-form-label><label for="name">名称类似于</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="qData.name" name="'qName'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
-                                  nzId="'qName'"></nz-input>
+                        <nz-input [(ngModel)]="qData.name" name="name" nzId = "name" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
+                                  ></nz-input>
                     </div>
 
                     <!--<div nz-form-control class="flex-1">-->
@@ -50,31 +50,46 @@
                     <!--</div>-->
                 </div>
             </div>
-            <div *ngIf="expandQuery" nz-col [nzSpan]="8" class="mb-md">
+
+
+            <div *ngIf="expandQuery" nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24"  class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="qModifyDateBegin">最后修改起始日期</label></div>
+                    <div nz-form-label><label for="modifyDateBegin">最后修改起始日期</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-datepicker [(ngModel)]="qData.modifyDateBegin" name="'qModifyDateBegin" nzId="'qModifyDateBegin"
-                                       [nzSize]="'large'" [nzPlaceHolder]="'起始日期'" class="d-block"></nz-datepicker>
+                        <nz-datepicker [(ngModel)]="qData.modifyDateBegin" name="modifyDateBegin" nzId = "modifyDateBegin"
+                                       [nzSize]="'large'"  class="d-block"></nz-datepicker>
                     </div>
                 </div>
             </div>
 
-            <div *ngIf="expandQuery" nz-col [nzSpan]="8" class="mb-md">
+            <div *ngIf="expandQuery" nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24"  class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="qModifyDateEnd">最后修改截止日期</label></div>
+                    <div nz-form-label><label for="modifyDateEnd">最后修改截止日期</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-datepicker [(ngModel)]="qData.modifyDateEnd" name="qModifyDateEnd" nzId="qModifyDateEnd"
-                                       [nzSize]="'large'" [nzPlaceHolder]="'截止日期'" class="d-block"></nz-datepicker>
+                        <nz-datepicker [(ngModel)]="qData.modifyDateEnd" name="modifyDateEnd" nzId = "modifyDateEnd"
+                                       [nzSize]="'large'" class="d-block"></nz-datepicker>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="expandQuery" nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="status">项目状态</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select [(ngModel)]="qData.status" name="status" nzId = "status" [nzPlaceHolder]="'请选择'"
+                                   [nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">
+                            <nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"
+                                       [nzValue]="i.value"></nz-option>
+                        </nz-select>
                     </div>
                 </div>
             </div>
 
             <!--<div nz-col [nzSpan]="expandQuery ? 24 : 8" class="mb-md" [class.text-right]="expandQuery">-->
-            <div nz-col [nzSpan]="expandQuery ? 24 : 8" class="mb-md" [class.text-right]="true">
+            <div nz-col  [nzLg]="expandQuery ? 24 : 6"  [nzMd]="expandQuery ? 24 : 8"  [nzSm]="expandQuery ? 24 : 16"  [nzXs]="expandQuery ? 24 : 24"  class="mb-md" [class.text-right]="true">
                 <!--<button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询-->
                 <!--</button>-->
-                <button nz-button type="reset" (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
+                <button nz-button type="reset" (click)="resetQuery()" [nzSize]="'large'" class="mx-sm">重置</button>
                 <a (click)="expandQuery =!expandQuery">
                     {{expandQuery ? '收起' : '展开'}}
                     <i class="anticon" [class.anticon-down]="!expandQuery" [class.anticon-up]="expandQuery"></i>
@@ -122,7 +137,7 @@
                 <span>计划开始日期</span>
             </th>
             <th nz-th>
-                <span>计划截止日期</span>
+                <span>计划结束日期</span>
                 <!--<nz-table-sort [(nzValue)]="sortMap.updatedAt"-->
                 <!--(nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>-->
             </th>
@@ -146,8 +161,9 @@
             <td nz-td>{{i.item.fullAddress}}</td>
             <td nz-td>{{i.item.fullManager}}</td>
             <td nz-td>{{i.item.fullContactMethod}}</td>
-            <td nz-td>{{i.item.planBeginDate | _date }}</td>
-            <td nz-td>{{i.item.planEndDate | _date}}</td>
+            <td nz-td>{{i.item.planBeginDate | date:'fullDate' }}</td>
+            <td nz-td>{{i.item.planEndDate | date:'fullDate'}}</td>
+            <td nz-td>{{i.item.remarks}}</td>
             <td nz-td>
                 <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
                 <span>

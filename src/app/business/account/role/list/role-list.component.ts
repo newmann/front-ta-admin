@@ -11,6 +11,7 @@ import {BylRoleQuery} from '../../../../service/account/query/role-query.model';
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from '../../../../service/model/master-data-status.enum';
 import {BylListComponentBase} from '../../../common/list-component-base';
+import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 
 @Component({
     selector: 'byl-role-list',
@@ -21,6 +22,7 @@ export class BylRoleListComponent extends BylListComponentBase<BylRole> {
 
     statusList: BylIStatusItem[]; //状态
 
+    public normalRoleStatus: number = BylMasterDataStatusEnum.NORMAL;
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
@@ -89,11 +91,11 @@ export class BylRoleListComponent extends BylListComponentBase<BylRole> {
         return result;
     }
 
-    reset() {
-        this.qData.name = '';
-        this.qData.modifyDate = Date();
-
-    }
+    // reset() {
+    //     this.qData.name = '';
+    //     this.qData.modifyDate = Date();
+    //
+    // }
 
     batchDelete() {
 
@@ -152,7 +154,14 @@ export class BylRoleListComponent extends BylListComponentBase<BylRole> {
         return BylMasterDataStatusManager.getStatusCaption(status);
     }
 
+    /**
+     * 设置查询缺省值
+     */
+    setQDataDefaultValue(){
+        let q = new BylRoleQuery();
 
+        Object.assign(this.qData,q);
+    }
 
 
 }

@@ -51,7 +51,9 @@ export abstract class BylListComponentBase<T> implements OnInit {
     }
 
     ngOnInit() {
-
+        //设置查询条件的缺省值
+        this.setQDataDefaultValue();
+        console.log(this.qData);
     }
 
     checkAll(value: boolean) {
@@ -73,6 +75,15 @@ export abstract class BylListComponentBase<T> implements OnInit {
     showMsg(msg: string) {
         this.message.info(msg);
     }
+
+    /**
+     * 重置查询条件
+     */
+    resetQuery(){
+        this.setQDataDefaultValue();
+
+        console.log(this.qData);
+     }
 
     /**
      * 显示新增界面
@@ -183,5 +194,10 @@ export abstract class BylListComponentBase<T> implements OnInit {
      * @param {T} newData
      */
     abstract updateListData(newData: T);
+
+    /**
+     * 设置查询条件为缺省值
+     */
+    abstract setQDataDefaultValue();
 
 }

@@ -5,7 +5,6 @@ import {BylConfigService} from '../../../../service/constant/config.service';
 import {FormBuilder, Validators} from '@angular/forms';
 import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
 
-import {BylLoggerService} from '../../../../service/utils/logger';
 import {BylProjectService} from '../../../../service/project/service/project.service';
 import {BylCrudComponentBase} from '../../../common/crud-component-base';
 import {BylPerson} from '../../../../service/person/model/person.model';
@@ -21,6 +20,10 @@ import {BylPoliticalStatus} from '../../../../service/person/model/political-sta
 import {BylNation} from '../../../../service/person/model/nation.model';
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import * as moment from 'moment';
+import {BylProjectManagerPool} from "../../../../service/project/model/project-manager-pool.model";
+import {BylCrudEvent} from "../../../common/waiting/crud-waiting.component";
+import {BylAccountListComponent} from "../../../account/account/list/list.component";
+import {BylProjectManagerPoolListComponent} from "../../project-manager-pool/list/list.component";
 
 
 @Component({
@@ -28,6 +31,7 @@ import * as moment from 'moment';
     templateUrl: './crud.component.html',
 })
 export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
+    public managerPoolReveal: any; // 项目经理筛选窗口
 
     public addressTreevalue: any[] = [null, null, null]; // 初始化为空数组
 
@@ -90,6 +94,50 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
     searchManager($event: MouseEvent) {
         $event.preventDefault();
         console.log("search manager");
+        /**
+         * 从账户池中查找待加入的项目经理
+         */
+
+        this.managerPoolReveal = this.modalService.open({
+            title: '查找项目经理',
+            zIndex: 9999, //最外层
+            width: '90%',
+            content: BylProjectManagerPoolListComponent,
+            // onOk() {
+            //
+            // },
+            // onCancel() {
+            //     console.log('Click cancel');
+            // },
+            footer: false,
+            componentParams: {
+                functionMode: 'select'
+            },
+            maskClosable: false
+        });
+        this.managerPoolReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
+
+        this.managerPoolReveal.subscribe(result => {
+            console.info(result);
+
+            console.info(typeof result);
+
+            //返回的是选中的项目经理
+            let selectedItem: BylProjectManagerPool;
+            if ((typeof result) === 'object') {
+                console.log('添加新增的项目经理数据');
+                selectedItem = result;
+            }
+
+            //设置选中的项目经理
+            if (selectedItem) {
+                this.managerId.patchValue(selectedItem.poolId);
+                this.managerCode.patchValue(selectedItem.poolCode);
+                this.managerName.patchValue(selectedItem.poolName);
+            }
+
+        });
+
     }
 
     getFormData() {

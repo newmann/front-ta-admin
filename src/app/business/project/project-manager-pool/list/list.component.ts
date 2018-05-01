@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import {BylListComponentBase} from '../../../common/list-component-base';
 
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {NzMessageService, NzModalService} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {BylProjectManagerPoolService} from '../../../../service/project/service/project-manager-pool.service';
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
@@ -13,17 +13,28 @@ import {BylCrudEvent, BylCrudWaitingComponent} from '../../../common/waiting/cru
 import {BylAccountListComponent} from '../../../account/account/list/list.component';
 import {BylAccount} from '../../../../service/account/model/account.model';
 import {BylResultBody} from '../../../../service/model/result-body.model';
+import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 
 @Component({
     selector: 'byl-project-manager-pool-list',
     templateUrl: './list.component.html',
 })
 export class BylProjectManagerPoolListComponent extends BylListComponentBase<BylProjectManagerPool> {
+    /**
+     * 当前在什么状态，主要是为了兼容不同的功能，比如筛选用户的界面等等,暂先定义两个：
+     * list:正常的浏览界面
+     * select： 筛选界面，
+     */
+
+    @Input() functionMode: string;
+
+
     public accountReveal: any; // 账户筛选窗口
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
+                public functionSubject$: NzModalSubject,
                 public router: Router,
                 public projectManagerPoolService: BylProjectManagerPoolService) {
         super(message, configService, modalService, router);
@@ -135,6 +146,22 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
             .map(item => {
                 Object.assign(item.item, newData);
             });
+    }
+
+
+    //处理调用选择窗口问题
+    selectedEntity(item: BylProjectManagerPool){
+        this.functionSubject$.next(item);
+        this.functionSubject$.destroy('onCancel');
+    }
+
+    /**
+     * 设置查询缺省值
+     */
+    setQDataDefaultValue(){
+        let q = new BylProjectManagerPoolQuery();
+
+        Object.assign(this.qData,q);
     }
 
 }

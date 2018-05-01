@@ -12,6 +12,7 @@ import {BylResultBody} from '../../../../service/model/result-body.model';
 import {BylPageResp} from '../../../../service/model/page-resp.model';
 import {Observable} from 'rxjs/Observable';
 import {BylAccountAvailablePoolsInterface} from '../../../../service/service/account-available-pool.interface';
+import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 
 @Component({
   selector: 'byl-account-list',
@@ -119,5 +120,13 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
                 }
             );
 
+    }
+    /**
+     * 设置查询缺省值
+     */
+    setQDataDefaultValue(){
+        let q = new BylAccountQuery();
+
+        Object.assign(this.qData,q);
     }
 }
