@@ -17,6 +17,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {BylPersonAddressService} from '../../../../service/person/service/person-address.service';
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import {ReuseTabService} from '@delon/abc';
+import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
 
 @Component({
     selector: 'byl-person-address-crud',
@@ -50,8 +51,9 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
                 public modalSubject: NzModalSubject,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
+                public entityLogger: BylSimpleEntityLoggerService,
                 public fb: FormBuilder) {
-        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService, fb);
+        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService,entityLogger,fb);
 
         this.businessService = personAddressService;
 

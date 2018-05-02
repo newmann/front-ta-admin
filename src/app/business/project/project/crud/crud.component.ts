@@ -24,6 +24,7 @@ import {BylProjectManagerPool} from "../../../../service/project/model/project-m
 import {BylCrudEvent} from "../../../common/waiting/crud-waiting.component";
 import {BylAccountListComponent} from "../../../account/account/list/list.component";
 import {BylProjectManagerPoolListComponent} from "../../project-manager-pool/list/list.component";
+import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
 
 
 @Component({
@@ -75,16 +76,17 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
                 public modalSubject: NzModalSubject,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
+                public entityLogger: BylSimpleEntityLoggerService,
                 public fb: FormBuilder) {
-        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService, fb);
+        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService,entityLogger,fb);
 
         this.businessService = projectService;
 
     }
-
-    ngOnInit() {
-        super.ngOnInit();
-    }
+    //
+    // ngOnInit() {
+    //     super.ngOnInit();
+    // }
 
     resetButtonClick($event: MouseEvent) {
         $event.preventDefault();

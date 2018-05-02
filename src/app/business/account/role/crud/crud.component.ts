@@ -10,6 +10,8 @@ import {BylRole} from '../../../../service/account/model/role.model';
 import {_Validators, ReuseTabService} from '@delon/abc';
 import {ActivatedRoute} from '@angular/router';
 import {BylCrudComponentBase} from '../../../common/crud-component-base';
+import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
+import {BylSimpleEntityLogger} from "../../../../service/simple-entity-logger/model/simple-entity-logger.model";
 
 
 @Component({
@@ -19,10 +21,11 @@ import {BylCrudComponentBase} from '../../../common/crud-component-base';
 export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
     public clientBrowserType: any;
 
-    private _role = new BylRole;
-    public form: FormGroup;
-    private _loading = false;
-    public errMsg = '';  // 保存时错误信息
+
+    // private _role = new BylRole;
+    // public form: FormGroup;
+    // private _loading = false;
+    // public errMsg = '';  // 保存时错误信息
     /**
      * 保存时显示的界面，
      * 1、如果是新增界面，
@@ -60,8 +63,9 @@ export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
                 public modalSubject: NzModalSubject,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
+                public entityLogger: BylSimpleEntityLoggerService,
                 public fb: FormBuilder) {
-        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService, fb);
+        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService,entityLogger,fb);
 
         this.businessService = roleService;
 
@@ -94,19 +98,19 @@ export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
     //
     // }
 
-    ngOnInit() {
-        super.ngOnInit();
-
-        //在从list窗口调入的情况下，载入数据
-        //在从list窗口调入的情况下，载入数据
-        console.info('sourceId', this.sourceId);
-        if (this.sourceId) {
-            this.loadData(this.sourceId);
-        } else {
-            //界面显示
-            this.reset();
-        }
-    }
+    // ngOnInit() {
+    //     super.ngOnInit();
+    //
+    //     //在从list窗口调入的情况下，载入数据
+    //     //在从list窗口调入的情况下，载入数据
+    //     console.info('sourceId', this.sourceId);
+    //     if (this.sourceId) {
+    //         this.loadData(this.sourceId);
+    //     } else {
+    //         //界面显示
+    //         this.reset();
+    //     }
+    // }
 
 
     resetButtonClick($event: MouseEvent) {
@@ -120,16 +124,16 @@ export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
      */
     reset() {
         this.form.reset({
-            name: this._role.name,
-            remarks: this._role.remarks
+            name: this.businessData.name,
+            remarks: this.businessData.remarks
         }, {onlySelf: true, emitEvent: false});
 
         this.form.markAsPristine();
         // for (const key in this.form.controls) {
         //     this.form.controls[key].markAsPristine();
         // }
-        console.log('this.form.dirty' + this.form.dirty);
-        console.log('this.form.invalid' + this.form.invalid);
+        // console.log('this.form.dirty' + this.form.dirty);
+        // console.log('this.form.invalid' + this.form.invalid);
 
         super.reset();
 
@@ -189,6 +193,7 @@ export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
             first()
         );
     }
+
 
 
     //#region get form fields

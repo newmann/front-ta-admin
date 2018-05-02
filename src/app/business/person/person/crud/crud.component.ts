@@ -21,6 +21,7 @@ import {BylCountryService} from '../../../../service/address/service/country.ser
 import {BylProvinceService} from '../../../../service/address/service/province.service';
 import {BylCityService} from '../../../../service/address/service/city.service';
 import {BylPersonAddress} from '../../../../service/person/model/person-address.model';
+import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
 
 
 @Component({
@@ -89,8 +90,9 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
                 public modalSubject: NzModalSubject,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
+                public entityLogger: BylSimpleEntityLoggerService,
                 public fb: FormBuilder) {
-        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService, fb);
+        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService,entityLogger,fb);
 
         this.businessService = personService;
 
@@ -125,14 +127,14 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
             }
         );
 
-        //在从list窗口调入的情况下，载入数据
-        console.info('sourceId', this.sourceId);
-        if (this.sourceId) {
-            this.loadData(this.sourceId);
-        } else {
-            //界面显示
-            this.reset();
-        }
+        // //在从list窗口调入的情况下，载入数据
+        // console.info('sourceId', this.sourceId);
+        // if (this.sourceId) {
+        //     this.loadData(this.sourceId);
+        // } else {
+        //     //界面显示
+        //     this.reset();
+        // }
 
     }
 

@@ -10,6 +10,9 @@ import {BylResultBody} from '../../service/model/result-body.model';
 import {BylBaseService} from '../../service/service/base.service';
 import {BylCrudEvent, BylCrudWaitingComponent} from './waiting/crud-waiting.component';
 import {ReuseTabService} from '@delon/abc';
+import {Observable} from "rxjs/Observable";
+import {BylSimpleEntityLogger} from "../../service/simple-entity-logger/model/simple-entity-logger.model";
+import {BylSimpleEntityLoggerService} from "../../service/simple-entity-logger/service/simple-entity-logger.service";
 
 
 /**
@@ -33,9 +36,18 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
 
     public searchData$: Subject<string> = new Subject<string>();
 
+    public entityLogList: Array<BylSimpleEntityLogger> = []; // 实体操作日志
+    public entityLogErrorMsg: string;
+
+
     ngOnInit() {
         //从list窗口调入修改单据时，载入数据
-        if(this.sourceId) this.loadData(this.sourceId);
+        console.log("执行base init");
+        if (this.sourceId) {
+            this.loadData(this.sourceId)
+        }else{
+            this.reset();
+        }
     }
 
     constructor(public msgService: NzMessageService,
@@ -44,6 +56,7 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
                 public modalSubject: NzModalSubject,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
+                public entityLogger: BylSimpleEntityLoggerService,
                 public fb: FormBuilder) {
         this.defineForm();
 
@@ -118,8 +131,16 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
         // this._loading = true;
         this.errMsg = '';
         this.getFormData();
+        let saveResult$: Observable<BylResultBody<T>>;
+        if (this.sourceId){
+            //当前为修改界面
+            saveResult$ = this.businessService.update(this.businessData);
+        } else{
+            //当前为新增界面
+            saveResult$ = this.businessService.add(this.businessData);
+        }
 
-        this.businessService.add(this.businessData).subscribe(
+        saveResult$.subscribe(
             data => {
                 // this._loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -241,6 +262,42 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
     destorySavingReveal() {
         if (this.savingReveal) this.savingReveal.destroy();
     }
+    // entityLoggerClick(){
+    //
+    //     // console.dir($event);
+    //     // $event.stopPropagation();
+    //     if (this.entityLogList.length === 0){
+    //         this.fetchEntityLogList();
+    //     }
+    //
+    //
+    // }
+    //
+    // fetchEntityLogList(){
+    //
+    //     if (!(this.sourceId)) {return ;} //新增窗口无法刷新
+    //
+    //     this.entityLogList = []; //清空原来的数据
+    //
+    //     this.entityLogger.findByTargetId(this.sourceId).subscribe((data) => {
+    //             console.log(data);
+    //             if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+    //                 //显示日志到界面
+    //                 this.entityLogList.push(...data.data);
+    //
+    //             } else {
+    //                 //显示错误信息
+    //                 this.entityLogErrorMsg = data.msg;
+    //
+    //             }
+    //
+    //         },
+    //         (err) => {
+    //             this.entityLogErrorMsg = err.toString();
+    //         }
+    //     )
+    // }
+
 
     abstract newBusinessData(): T;
 

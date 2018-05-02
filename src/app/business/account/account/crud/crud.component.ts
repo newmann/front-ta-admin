@@ -9,6 +9,7 @@ import {BylConfigService} from "../../../../service/constant/config.service";
 import {FormBuilder, Validators} from "@angular/forms";
 import {BylAccount} from "../../../../service/account/model/account.model";
 import {BylAccountService} from "../../../../service/account/service/account.service";
+import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
 
 @Component({
   selector: 'byl-account-crud',
@@ -48,16 +49,18 @@ export class BylAccountCrudComponent extends BylCrudComponentBase<BylAccount> {
                 public modalSubject: NzModalSubject,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
+                public entityLogger: BylSimpleEntityLoggerService,
                 public fb: FormBuilder) {
-        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService, fb);
+        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService,entityLogger,fb);
 
         this.businessService = accountService;
 
     }
 
-    ngOnInit() {
-        super.ngOnInit();
-    }
+    // ngOnInit() {
+    //     console.log("执行crud init");
+    //     super.ngOnInit();
+    // }
 
     resetButtonClick($event: MouseEvent) {
         $event.preventDefault();
@@ -83,8 +86,7 @@ export class BylAccountCrudComponent extends BylCrudComponentBase<BylAccount> {
     reset() {
 
 
-        this.form.reset(this.businessData
-        , {onlySelf: true, emitEvent: false});
+        this.form.reset(this.businessData , {onlySelf: true, emitEvent: false});
 
         super.reset();
 

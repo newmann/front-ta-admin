@@ -7,6 +7,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ReuseTabService} from '@delon/abc';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylBorrowMoneyTicketService} from '../../../../service/project/service/borrow-money-ticket.service';
+import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
 
 
 @Component({
@@ -55,16 +56,17 @@ export class BylBorrowMoneyTicketListCrudComponent extends BylCrudComponentBase<
                 public modalSubject: NzModalSubject,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
+                public entityLogger: BylSimpleEntityLoggerService,
                 public fb: FormBuilder) {
-        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService, fb);
+        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService,entityLogger,fb);
 
         this.businessService = borrowMoneyTicketService;
 
     }
 
-    ngOnInit() {
-        super.ngOnInit();
-    }
+    // ngOnInit() {
+    //     super.ngOnInit();
+    // }
 
     resetButtonClick($event: MouseEvent) {
         $event.preventDefault();

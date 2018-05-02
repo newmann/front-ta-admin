@@ -26,11 +26,14 @@ import {BylBorrowMoneyTicketService} from './project/service/borrow-money-ticket
 import {BylBorrowMoneyQualificationPoolService} from './project/service/borrow-money-qualification-pool.service';
 import {BylAccountService} from "./account/service/account.service";
 import {BylOrganizationService} from "./organization/service/organization.service";
+import {BylSimpleEntityLoggerService} from "./simple-entity-logger/service/simple-entity-logger.service";
 
 
 @NgModule({
     providers: [
         BylConfigService,
+        BylSimpleEntityLoggerService,
+
         //account module
         AuthService,
         AuthDataService,

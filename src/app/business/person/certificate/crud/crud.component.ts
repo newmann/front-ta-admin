@@ -16,6 +16,7 @@ import {BylPersonCertificateService} from '../../../../service/person/service/pe
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {BylUploadFileNameMapModel} from "../../../../service/model/upload-file-name-map.model";
 import * as moment from 'moment';
+import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
 
 @Component({
   selector: 'byl-person-certificate-crud',
@@ -72,8 +73,9 @@ export class BylPersonCertificateCrudComponent extends BylCrudComponentBase<BylP
                 public modalSubject: NzModalSubject,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
+                public entityLogger: BylSimpleEntityLoggerService,
                 public fb: FormBuilder) {
-        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService, fb);
+        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService,entityLogger,fb);
 
         this.businessService = personCertificateService;
 

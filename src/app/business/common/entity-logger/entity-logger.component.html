@@ -1,0 +1,24 @@
+<nz-tab (nzClick)="entityLoggerClick()">
+    <ng-template #nzTabHeading>{{title}}</ng-template>
+    <div nz-row>
+                <span>
+                    <nz-timeline >
+                        <ng-template ngFor let-item [ngForOf]="entityLogList" let-i="index">
+                            <nz-timeline-item  [nzColor]="'green'">{{item.action}}-{{item.modifyAction.modifyDateTime | _date }}  </nz-timeline-item>
+                        </ng-template>
+
+                    </nz-timeline>
+                </span>
+    </div>
+    <div nz-row>
+        <ng-container *ngIf="entityLogErrorMsg && entityLogErrorMsg.length > 0">
+            <nz-alert [nzType]="'error'" nzCloseable [nzMessage]="'获取日志错误'"
+                      [nzDescription]="entityLogErrorMsg"
+            ></nz-alert>
+        </ng-container>
+
+    </div>
+    <div nz-row >
+        <button nz-button (click)="$event.stopPropagation(); fetchEntityLogList()">重新查询</button>
+    </div>
+</nz-tab>

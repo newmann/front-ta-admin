@@ -13,6 +13,7 @@ import {_Validators, ReuseTabService} from "@delon/abc";
 import {ActivatedRoute} from "@angular/router";
 import {BylOrganization} from "../../../../service/organization/model/organization.model";
 import {BylOrganizationService} from "../../../../service/organization/service/organization.service";
+import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
 
 @Component({
   selector: 'byl-organization-crud',
@@ -79,26 +80,27 @@ export class BylOrganizationCrudComponent extends BylCrudComponentBase<BylOrgani
                 public modalSubject: NzModalSubject,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
+                public entityLogger: BylSimpleEntityLoggerService,
                 public fb: FormBuilder) {
-        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService, fb);
+        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService,entityLogger,fb);
 
         this.businessService = organizationService;
 
     }
 
-    ngOnInit(): void {
-        super.ngOnInit();
-
-        //在从list窗口调入的情况下，载入数据
-        console.info('sourceId', this.sourceId);
-        if (this.sourceId) {
-            this.loadData(this.sourceId);
-        } else {
-            //界面显示
-            this.reset();
-        }
-
-    }
+    // ngOnInit(): void {
+    //     super.ngOnInit();
+    //
+    //     //在从list窗口调入的情况下，载入数据
+    //     console.info('sourceId', this.sourceId);
+    //     if (this.sourceId) {
+    //         this.loadData(this.sourceId);
+    //     } else {
+    //         //界面显示
+    //         this.reset();
+    //     }
+    //
+    // }
 
 //
     // searchPerson($event) {
