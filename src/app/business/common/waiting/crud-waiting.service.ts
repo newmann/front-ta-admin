@@ -8,7 +8,7 @@ import {ApplicationRef, ComponentFactoryResolver, Injectable} from "@angular/cor
 import {Subject} from "rxjs/Subject";
 
 @Injectable()
-export class CrudWaitingService {
+export class BylCrudWaitingService {
     showSaving: NzModalSubject;
 
     constructor(  private modalService: NzModalService

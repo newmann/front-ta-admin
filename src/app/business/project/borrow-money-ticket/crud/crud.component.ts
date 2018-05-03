@@ -56,9 +56,9 @@ export class BylBorrowMoneyTicketListCrudComponent extends BylCrudComponentBase<
                 public modalSubject: NzModalSubject,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
-                public entityLogger: BylSimpleEntityLoggerService,
                 public fb: FormBuilder) {
-        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService,entityLogger,fb);
+        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService, fb);
+
 
         this.businessService = borrowMoneyTicketService;
 

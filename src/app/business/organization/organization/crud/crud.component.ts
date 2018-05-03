@@ -80,9 +80,9 @@ export class BylOrganizationCrudComponent extends BylCrudComponentBase<BylOrgani
                 public modalSubject: NzModalSubject,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
-                public entityLogger: BylSimpleEntityLoggerService,
                 public fb: FormBuilder) {
-        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService,entityLogger,fb);
+        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService, fb);
+
 
         this.businessService = organizationService;
 
@@ -185,13 +185,13 @@ export class BylOrganizationCrudComponent extends BylCrudComponentBase<BylOrgani
     }
 
     get legalPersonId(){
-        return this.form.controls.legalPersonId;
+        return this.form.get("legalPerson.legalPersonId");
     }
     get legalPersonIdCard(){
-        return this.form.controls.legalPersonIdCard;
+        return this.form.get("legalPerson.legalPersonIdCard");
     }
     get legalPersonName(){
-        return this.form.controls.legalPersonName;
+        return this.form.get("legalPerson.legalPersonName");
     }
 
     get type() {

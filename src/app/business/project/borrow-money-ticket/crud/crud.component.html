@@ -213,17 +213,18 @@
             </span>
         </nz-tab>
 
-        <nz-tab>
-            <ng-template #nzTabHeading>日志</ng-template>
-            <span>
-                <nz-timeline>
-                  <nz-timeline-item [nzColor]="'green'">Create a services site 2015-09-01</nz-timeline-item>
-                  <nz-timeline-item [nzColor]="'green'">Solve initial network problems 2015-09-01</nz-timeline-item>
-                  <nz-timeline-item [nzColor]="'red'">Technical testing 2015-09-01</nz-timeline-item>
-                  <nz-timeline-item>Network problems being solved 2015-09-01</nz-timeline-item>
-                </nz-timeline>
-            </span>
-        </nz-tab>
+        <byl-entity-logger [title]="'日志'" [entityId]="sourceId"></byl-entity-logger>
+        <!--<nz-tab>-->
+            <!--<ng-template #nzTabHeading>日志</ng-template>-->
+            <!--<span>-->
+                <!--<nz-timeline>-->
+                  <!--<nz-timeline-item [nzColor]="'green'">Create a services site 2015-09-01</nz-timeline-item>-->
+                  <!--<nz-timeline-item [nzColor]="'green'">Solve initial network problems 2015-09-01</nz-timeline-item>-->
+                  <!--<nz-timeline-item [nzColor]="'red'">Technical testing 2015-09-01</nz-timeline-item>-->
+                  <!--<nz-timeline-item>Network problems being solved 2015-09-01</nz-timeline-item>-->
+                <!--</nz-timeline>-->
+            <!--</span>-->
+        <!--</nz-tab>-->
 
     </nz-tabset>
     <!--<div nz-row >-->

@@ -5,128 +5,125 @@
             <ng-template #nzTabHeading>基本信息
             </ng-template>
             <span>
-                <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" role="form">
-        <div nz-form-item nz-row>
-            <div nz-form-label nz-col [nzSm]="4">
-                <label for="parent" nz-form-item-required>
-                        <span>
-                            上级部门
-                            <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                            <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                            <!--</nz-tooltip>-->
-                        </span>
-                </label>
-            </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="parent">
-                    <!--(nzSearchChange)="searchDepartment($event)"-->
-                <nz-select
-                    nzAllowClear
-                    [formControlName] = "'parent'"
-                    [nzPlaceHolder]="'输入代码或名称'"
-                    [nzFilter]="false"
-                    (nzSearchChange)="searchDepartment($event)"
-                    [nzNotFoundContent]="'无法找到'"
-                    nzShowSearch>
-                  <nz-option
-                      *ngFor="let option of searchedDepartments"
-                      [nzLabel]="option.name +'(' + option.code +')'"
-                      [nzValue]="option.id">
-                  </nz-option>
-                </nz-select>
-            </div>
-        </div>
+                <form nz-form [formGroup]="form" role="form">
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="parent" nz-form-item-required>
+                                    <span>
+                                        上级部门
+                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+                                        <!--</nz-tooltip>-->
+                                    </span>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="parent">
+                                <!--(nzSearchChange)="searchDepartment($event)"-->
+                            <nz-select
+                                nzAllowClear
+                                [formControlName] = "'parent'"
+                                [nzPlaceHolder]="'输入代码或名称'"
+                                [nzFilter]="false"
+                                (nzSearchChange)="searchDepartment($event)"
+                                [nzNotFoundContent]="'无法找到'"
+                                nzShowSearch
+                                >
+                              <nz-option
+                                  *ngFor="let option of searchedDepartments"
+                                  [nzLabel]="option.name +'(' + option.code +')'"
+                                  [nzValue]="option.id">
+                              </nz-option>
+                            </nz-select>
+                        </div>
+                    </div>
 
 
-        <div nz-form-item nz-row>
-            <div nz-form-label nz-col [nzSm]="4">
-                <label for="code" nz-form-item-required>
-                        <span>
-                            代码
-                            <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                            <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                            <!--</nz-tooltip>-->
-                        </span>
-                </label>
-            </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="code">
-                <nz-input formControlName="code" nzPlaceHolder="最少为1个字符" [nzId]="'code'"></nz-input>
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="code" nz-form-item-required>
+                                    <span>
+                                        代码
+                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+                                        <!--</nz-tooltip>-->
+                                    </span>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="code">
+                            <nz-input formControlName="code" nzPlaceHolder="最少为1个字符" [nzId]="'code'"></nz-input>
 
-                <ng-container *ngIf="code.dirty && code.touched">
-                    <p nz-form-explain *ngIf="code.errors?.required">必须输入组织代码</p>
-                    <p nz-form-explain *ngIf="code.errors?.duplicate">输入的组织代码已经被使用</p>
-                    <p nz-form-explain *ngIf="code.errors?.other">验证出现异常：{{code.errors?.msg}}</p>
-                    <p nz-form-explain *ngIf="code.errors?.minlength">最少为一个字符</p>
-                    <p nz-form-explain *ngIf="code.pending">验证中...</p>
-                </ng-container>
-            </div>
-        </div>
-        <div nz-form-item nz-row>
-            <div nz-form-label nz-col [nzSm]="4">
-                <label for="name" nz-form-item-required>
-                        <span>
-                            名称
-                            <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                            <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                            <!--</nz-tooltip>-->
-                        </span>
-                </label>
-            </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="name">
-                <nz-input formControlName="name" nzPlaceHolder="最少为2个字符" [nzId]="'name'"></nz-input>
+                            <ng-container *ngIf="code.dirty && code.touched">
+                                <p nz-form-explain *ngIf="code.errors?.required">必须输入组织代码</p>
+                                <p nz-form-explain *ngIf="code.errors?.duplicate">输入的组织代码已经被使用</p>
+                                <p nz-form-explain *ngIf="code.errors?.other">验证出现异常：{{code.errors?.msg}}</p>
+                                <p nz-form-explain *ngIf="code.errors?.minlength">最少为一个字符</p>
+                                <p nz-form-explain *ngIf="code.pending">验证中...</p>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="name" nz-form-item-required>
+                                    <span>
+                                        名称
+                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+                                        <!--</nz-tooltip>-->
+                                    </span>
+                            </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="name">
+                            <nz-input formControlName="name" nzPlaceHolder="最少为2个字符" [nzId]="'name'"></nz-input>
 
-                <ng-container *ngIf="name.dirty && name.touched">
-                    <p nz-form-explain *ngIf="name.errors?.required">必须输入名称</p>
-                    <p nz-form-explain *ngIf="name.errors?.other">验证出现异常：{{name.errors?.msg}}</p>
-                    <p nz-form-explain *ngIf="name.errors?.minlength">最少为两个字符</p>
-                    <p nz-form-explain *ngIf="name.pending">验证中...</p>
-                </ng-container>
-            </div>
-        </div>
-        <div nz-form-item nz-row>
-            <div nz-form-label nz-col [nzSm]="4">
-                <label for="remarks"> 备注      </label>
-            </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
-                <nz-input formControlName="remarks" nzPlaceHolder="备注" [nzId]="'remarks'"></nz-input>
-            </div>
-        </div>
+                            <ng-container *ngIf="name.dirty && name.touched">
+                                <p nz-form-explain *ngIf="name.errors?.required">必须输入名称</p>
+                                <p nz-form-explain *ngIf="name.errors?.other">验证出现异常：{{name.errors?.msg}}</p>
+                                <p nz-form-explain *ngIf="name.errors?.minlength">最少为两个字符</p>
+                                <p nz-form-explain *ngIf="name.pending">验证中...</p>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div nz-form-item nz-row>
+                        <div nz-form-label nz-col [nzSm]="4">
+                            <label for="remarks"> 备注      </label>
+                        </div>
+                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
+                            <nz-input formControlName="remarks" nzPlaceHolder="备注" [nzId]="'remarks'"></nz-input>
+                        </div>
+                    </div>
 
-        <div nz-form-item nz-row class="mb0">
-            <ng-container>
-                <p>form.invalid:{{form.invalid}}</p>
-                <p>form.dirty:{{form.dirty}}</p>
-                <p>form.touched:{{form.touched}}</p>
-                <p>disabled: {{form.invalid || (!form.dirty)}}</p>
-            </ng-container>
+                    <div nz-form-item nz-row class="mb0">
 
-            <ng-container *ngIf="errMsg.length > 0">
-                <p>{{errMsg}}</p>
-            </ng-container>
+                        <ng-container *ngIf="errMsg.length > 0">
+                            <p>{{errMsg}}</p>
+                        </ng-container>
 
-            <div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
-                <button nz-button [nzType]="'primary'" [nzSize]="'large'"
-                        [disabled]="form.invalid || (!form.dirty)">保存</button>
-                <button nz-button (click)="resetButtonClick($event)">重置</button>
+                        <div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
+                            <button nz-button [nzType]="'primary'" [nzSize]="'large'"
+                                    [disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>
+                            <button nz-button (click)="resetButtonClick($event)">重置</button>
 
 
-            </div>
+                        </div>
 
-        </div>
+                    </div>
 
-    </form>
+                </form>
             </span>
         </nz-tab>
-        <nz-tab>
-            <ng-template #nzTabHeading>日志</ng-template>
-            <span>
-                <nz-timeline>
-                  <nz-timeline-item [nzColor]="'green'">Create a services site 2015-09-01</nz-timeline-item>
-                  <nz-timeline-item [nzColor]="'green'">Solve initial network problems 2015-09-01</nz-timeline-item>
-                  <nz-timeline-item [nzColor]="'red'">Technical testing 2015-09-01</nz-timeline-item>
-                  <nz-timeline-item>Network problems being solved 2015-09-01</nz-timeline-item>
-                </nz-timeline>
-            </span>
-        </nz-tab>
+
+        <byl-entity-logger [title]="'日志'" [entityId]="sourceId"></byl-entity-logger>
+        <!--<nz-tab>-->
+            <!--<ng-template #nzTabHeading>日志</ng-template>-->
+            <!--<span>-->
+                <!--<nz-timeline>-->
+                  <!--<nz-timeline-item [nzColor]="'green'">Create a services site 2015-09-01</nz-timeline-item>-->
+                  <!--<nz-timeline-item [nzColor]="'green'">Solve initial network problems 2015-09-01</nz-timeline-item>-->
+                  <!--<nz-timeline-item [nzColor]="'red'">Technical testing 2015-09-01</nz-timeline-item>-->
+                  <!--<nz-timeline-item>Network problems being solved 2015-09-01</nz-timeline-item>-->
+                <!--</nz-timeline>-->
+            <!--</span>-->
+        <!--</nz-tab>-->
 
     </nz-tabset>
     <!--<div nz-row >-->

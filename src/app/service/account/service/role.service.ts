@@ -33,7 +33,7 @@ export class BylRoleService extends BylBaseService<BylRole> {
      * @returns {Observable<BylResultBody<LoginResultModel>>}
      */
     findAllNormal(): Observable<BylResultBody<Set<BylRole>>> {
-        return this.http.get<BylResultBody<Set<BylRole>>>('api/role/find-all-normal');
+        return this.http.get<BylResultBody<Set<BylRole>>>(this.BASE_API_URL + '/find-all-normal');
     }
 
     /**
@@ -41,7 +41,7 @@ export class BylRoleService extends BylBaseService<BylRole> {
      * @returns {Observable<BylResultBody<Set<BylRole>>>}
      */
     findAllLocked(): Observable<BylResultBody<Set<BylRole>>> {
-        return this.http.get<BylResultBody<Set<BylRole>>>('api/role/find-all-locked');
+        return this.http.get<BylResultBody<Set<BylRole>>>(this.BASE_API_URL + '/find-all-locked');
     }
 
     /**
@@ -55,12 +55,12 @@ export class BylRoleService extends BylBaseService<BylRole> {
         page.sortField = 'name';
         page.sort = 'desc';
 
-        return this.http.post<BylResultBody<BylPageResp<BylRole>>>('api/role/find-page-normal', page);
+        return this.http.post<BylResultBody<BylPageResp<BylRole>>>(this.BASE_API_URL + '/find-page-normal', page);
     }
 
 
     checkNameAvailable(name: string): Observable<BylResultBody<boolean>> {
-        return this.http.post<BylResultBody<boolean>>('/api/role/check-name-available', name);
+        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/check-name-available', name);
 
     }
 

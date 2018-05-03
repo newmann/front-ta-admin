@@ -64,15 +64,15 @@ export class BylDepartmentService  extends BylBaseService<BylDepartment> {
      * @returns {Observable<BylResultBody<LoginResultModel>>}
      */
     findDepartmendByParentId(parentId: string): Observable<BylResultBody<Array<BylDepartment>>> {
-        return this.http.get<BylResultBody<Array<BylDepartment>>>('api/department/find-by-parentid/' + parentId);
+        return this.http.get<BylResultBody<Array<BylDepartment>>>(this.BASE_API_URL + '/find-by-parentid/' + parentId);
     }
 
     fetchAvailableDepartmentByCodeOrName(searchstr: string): Observable<BylResultBody<Array<BylDepartment>>> {
-        return this.http.get<BylResultBody<Array<BylDepartment>>>('api/department/fetch-available-department-by-code-or-name/' + searchstr);
+        return this.http.get<BylResultBody<Array<BylDepartment>>>(this.BASE_API_URL + '/fetch-available-department-by-code-or-name/' + searchstr);
     }
 
     checkCodeAvailable(code: string): Observable<BylResultBody<boolean>> {
-        return this.http.post<BylResultBody<boolean>>('/api/department/check-code-available', code);
+        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/check-code-available', code);
 
     }
 

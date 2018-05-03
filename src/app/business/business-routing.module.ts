@@ -45,7 +45,7 @@ const routes: Routes = [
             { path: 'extras', loadChildren: '../routes/extras/extras.module#ExtrasModule' },
             { path: 'pro', loadChildren: '../routes/pro/pro.module#ProModule' },
 
-            { path: 'account', loadChildren: './account/account.module#AccountModule' },
+            { path: 'account', loadChildren: './account/account.module#BylAccountModule' },
             { path: 'person', loadChildren: './person/person.module#BylPersonModule' },
             { path: 'organization', loadChildren: './organization/organization.module#BylOrganizationModule' },
 
@@ -96,7 +96,7 @@ const routes: Routes = [
             { path: 'extras', loadChildren: '../routes/extras/extras.module#ExtrasModule' },
             { path: 'pro', loadChildren: '../routes/pro/pro.module#ProModule' },
 
-            { path: 'account', loadChildren: './account/account.module#AccountModule' },
+            { path: 'account', loadChildren: './account/account.module#BylAccountModule' },
         ]
     },
     // 单页不包裹Layout

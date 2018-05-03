@@ -14,7 +14,7 @@ import {DashboardMonitorComponent} from "../routes/dashboard/monitor/monitor.com
 import {Exception403Component} from "../routes/exception/403.component";
 import {Exception404Component} from "../routes/exception/404.component";
 import {DashboardV1Component} from "../routes/dashboard/v1/v1.component";
-import {WaitingComponent} from "./common/waiting/waiting.component";
+import {BylWaitingComponent} from "./common/waiting/waiting.component";
 import {BylCrudWaitingComponent} from "./common/waiting/crud-waiting.component";
 import {NzTreeModule} from "ng-tree-antd";
 import {BylEmbeddableAddressComponent} from "./common/embeddable-address/embeddable-address.component";
@@ -40,16 +40,12 @@ import {BylBusinessSharedModule} from './business-shared.module';
         CallbackComponent,
         Exception403Component,
         Exception404Component,
-        Exception500Component,
-        WaitingComponent,
-        BylCrudWaitingComponent
-
+        Exception500Component
 
 
     ],
     entryComponents:[
-        WaitingComponent,
-        BylCrudWaitingComponent
+
     ]
 })
 

@@ -1,56 +1,43 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {_HttpClient} from '@delon/theme';
 import {ActivatedRoute} from '@angular/router';
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
-import {BylLoggerService} from '../../../../service/utils/logger';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {BylRoleService} from '../../../../service/account/service/role.service';
 import {BylDepartmentService} from '../../../../service/account/service/department.service';
-import {BylRole} from '../../../../service/account/model/role.model';
 import {BylDepartment} from '../../../../service/account/model/department.model';
 import {debounceTime, distinctUntilChanged, first, flatMap, map} from 'rxjs/operators';
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
-import {BylCrudEvent, BylCrudWaitingComponent} from '../../../common/waiting/crud-waiting.component';
 import {Subject} from 'rxjs/Subject';
 import {BylMasterDataStatusEnum} from '../../../../service/model/master-data-status.enum';
+import {BylCrudComponentBase} from "../../../common/crud-component-base";
 
 
 @Component({
     selector: 'byl-department-crud',
     templateUrl: './crud.component.html',
 })
-export class BylDepartmentCrudComponent implements OnInit {
-    private _department = new BylDepartment;
+export class BylDepartmentCrudComponent extends BylCrudComponentBase<BylDepartment> {
+
     private _firstLevelDepartment = new BylDepartment(); // 最顶级的部门，id = -
-    public form: FormGroup;
-    private _loading = false;
-    public errMsg = '';  // 保存时错误信息
 
-    private _savingReveal: any;
+    @Input()
+    set setSourceId(value: string) {
+        this.sourceId = value;
+    }
 
-    @Input() sourceId: string;
-
-    public processType = '';
 
     public searchedDepartments: Array<BylDepartment> = [];
 
     private _searchData$: Subject<string> = new Subject<string>();
 
+    newBusinessData(): BylDepartment {
+        return new BylDepartment();
+    }
 
-    constructor(
-        public msgService: NzMessageService,
-        public departmentService: BylDepartmentService,
-        public configService: BylConfigService,
-        public modalService: NzModalService,
-        public modalSubject: NzModalSubject,
-        public activatedRoute: ActivatedRoute,
-        public logger: BylLoggerService,
-        public fb: FormBuilder
-    ) {
+    defineForm(): void {
         // 绑定验证模式
         this.form = this.fb.group({
             parent: [null],
@@ -63,26 +50,27 @@ export class BylDepartmentCrudComponent implements OnInit {
 
         //设置第一级部门的上级部门
         this._firstLevelDepartment.id = '-';
-        this._firstLevelDepartment.name = '未知';
+        this._firstLevelDepartment.name = '第0级';
         this._firstLevelDepartment.code = '-';
         this.searchedDepartments.push(this._firstLevelDepartment);
 
-        this.activatedRoute
-            .paramMap
-            .subscribe(params => {
-                this.logger.log('activedRoute', params);
-                this.logger.log('activedRoute', params.get('type'));
-                this.processType = params.get('type') || '';
-
-            });
 
     }
 
-    ngOnInit() {
-        this.logger.info(' in ngOnInit');
-        //在从list窗口调入的情况下，载入数据
-        if (this.sourceId) this.loadDepartment(this.sourceId);
+    constructor(public msgService: NzMessageService,
+                public departmentService: BylDepartmentService,
+                public configService: BylConfigService,
+                public modalService: NzModalService,
+                public modalSubject: NzModalSubject,
+                public activatedRoute: ActivatedRoute,
+                public reuseTabService: ReuseTabService,
+                public fb: FormBuilder) {
+        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService,fb);
+
+        this.businessService = departmentService;
+
     }
+
 
     /**
      * 验证部门代码是否重复
@@ -126,74 +114,7 @@ export class BylDepartmentCrudComponent implements OnInit {
         );
     }
 
-    loadDepartment(id: String) {
 
-        // this.showLoadingReveal();
-        this._loading = true;
-        this.errMsg = '';
-        this.departmentService.findById(this.sourceId).subscribe(
-            data => {
-                this._loading = false;
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                    this.logger.info(data.data);
-                    Object.assign(this._department, data.data);
-                    this.reset();
-                } else {
-
-                    this.errMsg = data.msg;
-                }
-                // 退出显示窗口
-                this._loading = false;
-                // this.destorySavingReveal();
-
-            },
-            err => {
-                this.errMsg = err.toString();
-
-                // 退出显示窗口
-                this._loading = false;
-                // this.destorySavingReveal();
-
-            }
-        );
-    }
-
-    /**
-     * 保存
-     */
-    submitForm() {
-        this.showSavingReveal();
-        this._loading = true;
-        this.errMsg = '';
-        // tslint:disable-next-line:forin
-        this.getFormData();
-
-        this.departmentService.add(this._department).subscribe(
-            data => {
-                this._loading = false;
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                    // 通知显示窗口保存正确
-                    this._savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
-                    // this.msgService.success('保存正确！');
-                    // 如果是通过浏览界面进入，则自动退出
-
-                } else {
-                    // 通知显示窗口保存错误，是否退出由显示界面控制
-                    this._savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveError]);
-                    // this._savingReveal.destroy();
-                    this.errMsg = data.msg;
-                }
-            },
-            err => {
-                // 通知显示窗口保存错误，是否退出由显示界面控制
-                this._savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveError]);
-
-                this._loading = false;
-                this.errMsg = err.toString();
-
-            }
-        );
-    }
 
     registerSearchData() {
         this._searchData$.pipe(
@@ -207,7 +128,8 @@ export class BylDepartmentCrudComponent implements OnInit {
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
 
                     // this.listData = Array.from(data.data.rows);
-                    this.logger.log(data.data);
+                    // this.logger.log(data.data);
+                    console.dir(data.data);
                     this.searchedDepartments = data.data;
                     this.searchedDepartments.push(this._firstLevelDepartment);
 
@@ -225,7 +147,7 @@ export class BylDepartmentCrudComponent implements OnInit {
     }
 
     searchDepartment($event) {
-        this.logger.log('$event', $event);
+        // this.logger.log('$event', $event);
         if ($event) this._searchData$.next($event);
     }
 
@@ -240,16 +162,16 @@ export class BylDepartmentCrudComponent implements OnInit {
         for (const i in this.form.controls) {
             this.form.controls[i].markAsDirty();
         }
-        this.logger.log('log', this.form.value);
-        this._department.parentId = this.parent.value.toString();
-        this._department.code = this.code.value.toString();
-        this._department.name = this.name.value.toString();
+        // this.logger.log('log', this.form.value);
+        this.businessData.parentId = this.parent.value.toString();
+        this.businessData.code = this.code.value.toString();
+        this.businessData.name = this.name.value.toString();
 
         if (this.remarks.value) {
-            this._department.remarks = this.remarks.value.toString();
+            this.businessData.remarks = this.remarks.value.toString();
         }
         //todo 设置保存的对象状态
-        this._department.status = BylMasterDataStatusEnum.NORMAL;
+        this.businessData.status = BylMasterDataStatusEnum.NORMAL;
     }
 
     /**
@@ -257,73 +179,22 @@ export class BylDepartmentCrudComponent implements OnInit {
      */
     reset() {
         this.form.reset({
-            code: this._department.code,
-            name: this._department.name,
-            remarks: this._department.remarks
+            code: this.businessData.code,
+            name: this.businessData.name,
+            remarks: this.businessData.remarks
         }, {onlySelf: true, emitEvent: false});
 
-        this.form.markAsPristine();
+        super.reset();
+
+        //设置可复用标签的名字：
+        if (this.sourceId) {
+            //说明是修改
+            this.reuseTabService.title = '编辑-' + this.businessData.name;
+        }
+
         // for (const key in this.form.controls) {
         //     this.form.controls[key].markAsPristine();
         // }
-        this.logger.log('this.form.dirty' + this.form.dirty);
-        this.logger.log('this.form.invalid' + this.form.invalid);
-    }
-
-    showSavingReveal() {
-        this._savingReveal = this.modalService.open({
-            title: '提交',
-            zIndex: 9999, //最外层
-            content: BylCrudWaitingComponent,
-            // onOk() {
-            //
-            // },
-            // onCancel() {
-            //     console.log('Click cancel');
-            // },
-            footer: false,
-            componentParams: {
-                // name: '测试渲染Component'
-            },
-            maskClosable: false
-        });
-        this._savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
-        //
-        this._savingReveal.subscribe(result => {
-            console.log(result);
-            //判断是否退出界面
-            if (result === 'onDestroy') {
-                console.log('退出提示界面');
-                switch (this.processType) {
-                    case 'new':
-                        //新增界面
-                        this._department = new BylDepartment();
-                        this.reset();
-                        break;
-                    case 'modify':
-                        break;
-                    default:
-                        // 从list界面进入修改
-                        console.log('this.modalSubject.destroy();');
-                        //将修改后的数据传回list界面
-                        this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate], data: this._department});
-                        this.modalSubject.destroy();
-
-                }
-
-            }
-            // if (result === BylCrudEvent[BylCrudEvent.bylAdd]) {
-            //     // 新增界面
-            //     this._role = new BylRole();
-            //     this.reset();
-            // }
-
-
-        });
-    }
-
-    destorySavingReveal() {
-        if (this._savingReveal) this._savingReveal.destroy();
     }
 
     //#region get form fields

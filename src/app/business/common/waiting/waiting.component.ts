@@ -31,7 +31,7 @@ import {NzModalSubject} from "ng-zorro-antd";
     `
     ]
 })
-export class WaitingComponent implements OnInit {
+export class BylWaitingComponent implements OnInit {
 
     _name: string;
 

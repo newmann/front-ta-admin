@@ -20,7 +20,6 @@ import {Observable} from 'rxjs/Observable';
 import {zip} from 'rxjs/observable/zip';
 import {BylListComponentBase} from '../../../common/list-component-base';
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from '../../../../service/model/master-data-status.enum';
-import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 
 @Component({
     selector: 'byl-department-list',
@@ -30,6 +29,7 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
 
     statusList: BylIStatusItem[]; //状态
 
+    filterData: string;
 
     nodes: Array<BaseTree<BylDepartment>> = [];
 
@@ -55,8 +55,8 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
     @ViewChild(NzTreeComponent) tree: NzTreeComponent;
 
     filterNodes() {
-        this.tree.treeModel.filterNodes(this.qData);
-        if (!this.qData) {
+        this.tree.treeModel.filterNodes(this.filterData);
+        if (!this.filterData) {
             this.tree.treeModel.collapseAll();
         }
     }
@@ -136,9 +136,9 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
     //     this.indeterminate = this.allChecked ? false : checkedCount > 0;
     // }
 
-    ngOnInit() {
-        super.ngOnInit();
-    }
+    // ngOnInit() {
+    //     super.ngOnInit();
+    // }
 
 
     // showModifyForm(id:string) {

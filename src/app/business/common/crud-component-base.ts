@@ -36,8 +36,6 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
 
     public searchData$: Subject<string> = new Subject<string>();
 
-    public entityLogList: Array<BylSimpleEntityLogger> = []; // 实体操作日志
-    public entityLogErrorMsg: string;
 
 
     ngOnInit() {
@@ -56,7 +54,6 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
                 public modalSubject: NzModalSubject,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
-                public entityLogger: BylSimpleEntityLoggerService,
                 public fb: FormBuilder) {
         this.defineForm();
 
@@ -262,41 +259,7 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
     destorySavingReveal() {
         if (this.savingReveal) this.savingReveal.destroy();
     }
-    // entityLoggerClick(){
-    //
-    //     // console.dir($event);
-    //     // $event.stopPropagation();
-    //     if (this.entityLogList.length === 0){
-    //         this.fetchEntityLogList();
-    //     }
-    //
-    //
-    // }
-    //
-    // fetchEntityLogList(){
-    //
-    //     if (!(this.sourceId)) {return ;} //新增窗口无法刷新
-    //
-    //     this.entityLogList = []; //清空原来的数据
-    //
-    //     this.entityLogger.findByTargetId(this.sourceId).subscribe((data) => {
-    //             console.log(data);
-    //             if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-    //                 //显示日志到界面
-    //                 this.entityLogList.push(...data.data);
-    //
-    //             } else {
-    //                 //显示错误信息
-    //                 this.entityLogErrorMsg = data.msg;
-    //
-    //             }
-    //
-    //         },
-    //         (err) => {
-    //             this.entityLogErrorMsg = err.toString();
-    //         }
-    //     )
-    // }
+
 
 
     abstract newBusinessData(): T;
