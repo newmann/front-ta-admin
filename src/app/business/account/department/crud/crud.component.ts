@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ReuseTabService} from '@delon/abc';
-import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylDepartmentService} from '../../../../service/account/service/department.service';
@@ -61,7 +61,7 @@ export class BylDepartmentCrudComponent extends BylCrudComponentBase<BylDepartme
                 public departmentService: BylDepartmentService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public modalSubject: NzModalSubject,
+                public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {

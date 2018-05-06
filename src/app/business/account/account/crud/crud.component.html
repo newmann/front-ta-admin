@@ -1,4 +1,4 @@
-<pro-header [title]="'账户信息维护'" *ngIf="processType.length > 0 "></pro-header>
+<page-header [title]="'账户信息维护'" *ngIf="processType.length > 0 "></page-header>
 <nz-card [nzBordered]="false">
     <nz-tabset>
         <nz-tab>
@@ -18,7 +18,7 @@
                             </label>
                         </div>
                         <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="username">
-                            <nz-input formControlName="username" nzPlaceHolder="代码" ></nz-input>
+                            <input nz-input formControlName="username" placeholder="代码" >
 
                             <ng-container *ngIf="username.dirty && username.touched">
                                 <p nz-form-explain *ngIf="username.errors?.required">必须输入代码</p>
@@ -33,7 +33,7 @@
                     </div>
                     <div nz-form-item nz-row>
                         <div nz-form-label nz-col [nzSm]="4">
-                            <label for="fullName" >
+                            <label for="fullName" nz-form-item-required>
                                     <span>
                                         姓名
                                         <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
@@ -43,11 +43,11 @@
                             </label>
                         </div>
                         <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="fullName">
-                            <nz-input formControlName="fullName" nzPlaceHolder="姓名" ></nz-input>
+                            <input nz-input formControlName="fullName" placeholder="姓名" >
 
                             <ng-container *ngIf="fullName.dirty && fullName.touched">
                                 <p nz-form-explain *ngIf="fullName.errors?.required">必须输入姓名</p>
-                                <p nz-form-explain *ngIf="fullName.errors?.other">验证出现异常：{{name.errors?.msg}}</p>
+                                <p nz-form-explain *ngIf="fullName.errors?.other">验证出现异常：{{fullName.errors?.msg}}</p>
                                 <p nz-form-explain *ngIf="fullName.pending">验证中...</p>
                             </ng-container>
                         </div>
@@ -67,14 +67,14 @@
                         <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="nickname">
                             <nz-input formControlName="nickname" nzPlaceHolder="名称" ></nz-input>
 
-                            <ng-container *ngIf="nickname.dirty && nickname.touched">
-                                <p nz-form-explain *ngIf="nickname.errors?.required">必须输入昵称</p>
-                                <p nz-form-explain *ngIf="nickname.errors?.other">验证出现异常：{{nickname.errors?.msg}}</p>
-                                <p nz-form-explain *ngIf="nickname.pending">验证中...</p>
-                            </ng-container>
+                            <!--<ng-container *ngIf="nickname.dirty && nickname.touched">-->
+                                <!--<p nz-form-explain *ngIf="nickname.errors?.required">必须输入昵称</p>-->
+                                <!--<p nz-form-explain *ngIf="nickname.errors?.other">验证出现异常：{{nickname.errors?.msg}}</p>-->
+                                <!--<p nz-form-explain *ngIf="nickname.pending">验证中...</p>-->
+                            <!--</ng-container>-->
                         </div>
                     </div>
-                    <div nz-form-item nz-row>
+                    <div nz-form-item nz-row *ngIf = " (sourceId || '') ==='' ">
                         <div nz-form-label nz-col [nzSm]="4">
                             <label for="password" nz-form-item-required>
                                     <span>
@@ -95,7 +95,7 @@
 
                     <div nz-form-item nz-row>
                         <div nz-form-label nz-col [nzSm]="4">
-                            <label for="email" nz-form-item-required>
+                            <label for="email">
                                     <span>
                                         邮箱
                                     </span>
@@ -131,8 +131,12 @@
 
                     <div nz-form-item nz-row class="mb0">
 
-                        <ng-container *ngIf="errMsg.length > 0">
-                            <p>{{errMsg}}</p>
+                       <ng-container *ngIf="errMsg && errMsg.length > 0">
+                            <div class="mb-md">
+                                <nz-alert [nzType]="'error'" nzCloseable [nzMessage]="'保存数据错误'"
+                                          [nzDescription]="errMsg"
+                                ></nz-alert>
+                            </div>
                         </ng-container>
 
                         <div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
@@ -147,6 +151,16 @@
 
                 </form>
             </span>
+        </nz-tab>
+
+        <nz-tab [nzDisabled]="!sourceId">
+            <ng-template #nzTabHeading>权限</ng-template>
+            <byl-permission-item-list [masterId]="sourceId"
+                                      [findAvailablePoolsService]="accountService"
+                                      [savePermissionRelationService]="accountService"
+                                      [findEntityPermissionService] = "accountService"  >
+
+            </byl-permission-item-list>
         </nz-tab>
 
         <byl-entity-logger [title]="'日志'" [entityId]="sourceId"></byl-entity-logger>

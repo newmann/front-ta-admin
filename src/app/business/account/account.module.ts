@@ -7,18 +7,18 @@ import {BylRoleListComponent} from './role/list/role-list.component';
 import {BylRoleCrudComponent} from './role/crud/crud.component';
 import {BylDepartmentListComponent} from './department/list/list.component';
 import {BylDepartmentCrudComponent} from './department/crud/crud.component';
-import {NzTreeModule} from 'ng-tree-antd';
 
 import {BylAccountCrudComponent} from './account/crud/crud.component';
 import {BylBusinessSharedModule} from '../business-shared.module';
 import { BylPermissionListComponent } from './permission/list/list.component';
+import { BylPermissionItemListComponent } from './permission/item-list/item-list.component';
+import { BylAccountItemListComponent } from './account/item-list/item-list.component';
 
 
 @NgModule({
     imports: [
         SharedModule,
         BylBusinessSharedModule,
-        NzTreeModule,
         BylAccountRoutingModule,
         ColorPickerModule,
         ImageCropperModule
@@ -29,8 +29,12 @@ import { BylPermissionListComponent } from './permission/list/list.component';
         BylDepartmentListComponent,
         BylDepartmentCrudComponent,
         // BylAccountListComponent,//移到business-shared.module中
+        BylAccountItemListComponent,
         BylAccountCrudComponent,
-        BylPermissionListComponent
+
+        BylPermissionListComponent,
+        BylPermissionItemListComponent
+
     ],
     entryComponents: [
         // BylAccountListComponent,

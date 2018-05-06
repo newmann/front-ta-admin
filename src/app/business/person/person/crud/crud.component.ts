@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BylLoggerService} from '../../../../service/utils/logger';
 
-import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
 import {Form, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
@@ -87,7 +87,7 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
                 public politicalStatusService: BylPoliticalStatusService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public modalSubject: NzModalSubject,
+                public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {

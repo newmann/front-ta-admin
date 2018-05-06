@@ -10,5 +10,5 @@ export class BylEmbeddableCreateAction{
     createId: string;
     createCode: string;
     createName: string;
-    createDateTime: Date;
+    createDateTime: number;
 }

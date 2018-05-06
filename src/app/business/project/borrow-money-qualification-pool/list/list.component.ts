@@ -39,27 +39,26 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
     addPersonPool() {
 
 
-        this.addPoolReveal = this.modalService.open({
-            title: '查找个体资源',
-            zIndex: 9999, //最外层
-            width: '90%',
-            content: BylPersonListComponent,
+        this.addPoolReveal = this.modalService.create({
+            nzTitle: '查找个体资源',
+            nzZIndex: 9999, //最外层
+            nzWidth: '90%',
+            nzContent: BylPersonListComponent,
             // onOk() {
             //
             // },
             // onCancel() {
             //     console.log('Click cancel');
             // },
-            footer: false,
-            componentParams: {
+            nzComponentParams: {
                 functionMode: 'select',
                 findAvailablePoolsService: this.borrowMoneyQualificationPoolService
             },
-            maskClosable: false
+            nzMaskClosable: false
         });
-        this.addPoolReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
+        // this.addPoolReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
 
-        this.addPoolReveal.subscribe(result => {
+        this.addPoolReveal.destroy(result => {
             console.info(result);
 
             console.info(typeof result);
@@ -100,27 +99,26 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
     addOrganizationPool() {
 
 
-        this.addPoolReveal = this.modalService.open({
-            title: '查找个体资源',
-            zIndex: 9999, //最外层
-            width: '90%',
-            content: BylOrganizationListComponent,
+        this.addPoolReveal = this.modalService.create({
+            nzTitle: '查找个体资源',
+            nzZIndex: 9999, //最外层
+            nzWidth: '90%',
+            nzContent: BylOrganizationListComponent,
             // onOk() {
             //
             // },
             // onCancel() {
             //     console.log('Click cancel');
             // },
-            footer: false,
-            componentParams: {
+            nzComponentParams: {
                 functionMode: 'select',
                 findAvailablePoolsService: this.borrowMoneyQualificationPoolService
             },
-            maskClosable: false
+            nzMaskClosable: false
         });
-        this.addPoolReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
+        // this.addPoolReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
 
-        this.addPoolReveal.subscribe(result => {
+        this.addPoolReveal.destroy(result => {
             console.info(result);
 
             console.info(typeof result);

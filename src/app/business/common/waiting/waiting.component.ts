@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import {NzModalSubject} from "ng-zorro-antd";
+import {NzModalRef} from "ng-zorro-antd";
 
 @Component({
   selector: 'byl-waiting',
@@ -41,17 +41,17 @@ export class BylWaitingComponent implements OnInit {
     }
 
     emitDataOutside() {
-        this.subject.next('传出数据');
+        // this.subject.next('传出数据');
     }
 
     handleCancel(e) {
         this.subject.destroy('onCancel');
     }
 
-    constructor(private subject: NzModalSubject) {
-        this.subject.on('onDestory', () => {
-            console.log('destroy');
-        });
+    constructor(private subject: NzModalRef) {
+        // this.subject.on('onDestory', () => {
+        //     console.log('destroy');
+        // });
     }
 
     ngOnInit() {

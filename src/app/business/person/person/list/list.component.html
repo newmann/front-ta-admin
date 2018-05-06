@@ -1,4 +1,4 @@
-<pro-header [title]="'个体管理'" >
+<page-header [title]="'个体管理'" >
     <ng-template #action>
         <button nz-button (click)="add()" [nzType]="'default'" [nzSize]="'large'">
             <i class="anticon anticon-plus"></i><span>新建</span>
@@ -20,7 +20,7 @@
         <!--</ng-container>-->
 
     </ng-template>
-</pro-header>
+</page-header>
 <nz-card [nzBordered]="false">
     <form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
         <div nz-row [nzGutter]="24">

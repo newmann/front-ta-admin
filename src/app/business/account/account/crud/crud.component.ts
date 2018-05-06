@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 import {ReuseTabService} from "@delon/abc";
-import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
+import {NzMessageService, NzModalService, NzModalRef} from "ng-zorro-antd";
 import {ActivatedRoute} from "@angular/router";
 import * as moment from "moment";
 import {BylCrudComponentBase} from "../../../common/crud-component-base";
@@ -9,7 +9,7 @@ import {BylConfigService} from "../../../../service/constant/config.service";
 import {FormBuilder, Validators} from "@angular/forms";
 import {BylAccount} from "../../../../service/account/model/account.model";
 import {BylAccountService} from "../../../../service/account/service/account.service";
-import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
+// import {PermissionEntityTypeEnum} from "../../permission/item-list/item-list.component";
 
 @Component({
   selector: 'byl-account-crud',
@@ -17,6 +17,7 @@ import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-lo
 })
 export class BylAccountCrudComponent extends BylCrudComponentBase<BylAccount> {
 
+    // permissionEntityType: PermissionEntityTypeEnum = PermissionEntityTypeEnum.ACCOUNT;
 
     @Input()
     set setSourceId(value: string) {
@@ -31,22 +32,20 @@ export class BylAccountCrudComponent extends BylCrudComponentBase<BylAccount> {
         // 绑定验证模式
         this.form = this.fb.group({
             username: [null, Validators.compose([Validators.required])],
-            fullName: [null],
+            fullName: [null, Validators.compose([Validators.required])],
             nickname: [null],
             password: [null, Validators.compose([Validators.required])],
             email: [null],
             phone: [null],
             remarks: [null]
         });
-
-
     }
 
     constructor(public msgService: NzMessageService,
                 public accountService: BylAccountService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public modalSubject: NzModalSubject,
+                public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {
@@ -83,17 +82,19 @@ export class BylAccountCrudComponent extends BylCrudComponentBase<BylAccount> {
      * 重置界面内容
      */
     reset() {
+        //设置可复用标签的名字：
+        if (this.sourceId) {
+            //说明是修改
+            this.reuseTabService.title = '编辑-' + this.businessData.username;
+            this.businessData.password = "***";//在修改模式下，初始化密码随便设置一般，以便应对validtor。
+        }
 
+        console.log("reset form",this.businessData);
 
         this.form.reset(this.businessData , {onlySelf: true, emitEvent: false});
 
         super.reset();
 
-        //设置可复用标签的名字：
-        if (this.sourceId) {
-            //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.username;
-        }
 
     }
 

@@ -1,11 +1,7 @@
+import { Component } from '@angular/core';
+import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import { NzMessageService } from 'ng-zorro-antd';
-import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { ArrayObservable } from 'rxjs/observable/ArrayObservable';
-import { map, groupBy, concatMap, mergeMap, flatMap, delay, tap, toArray } from 'rxjs/operators';
-import * as moment from 'moment';
-import { NoticeItem } from '@delon/abc';
-import { SettingsService } from '@delon/theme';
+import { NoticeItem, NoticeIconList } from '@delon/abc';
 
 /**
  * 菜单通知
@@ -19,55 +15,47 @@ import { SettingsService } from '@delon/theme';
         [loading]="loading"
         (select)="select($event)"
         (clear)="clear($event)"
-        (popoverVisibleChange)="loadData($event)"></notice-icon>
+        (popoverVisibleChange)="loadData()"></notice-icon>
     `
 })
-export class HeaderNotifyComponent implements OnInit {
+export class HeaderNotifyComponent {
 
     data: NoticeItem[] = [
-        { title: '通知', list: [], emptyText: '你已查看所有通知', emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg' },
-        { title: '消息', list: [], emptyText: '您已读完所有消息', emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg' },
-        { title: '待办', list: [], emptyText: '你已完成所有待办', emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg' }
+        { title: '通知', list: [], emptyText: '你已查看所有通知', emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg', clearText: '清空通知' },
+        { title: '消息', list: [], emptyText: '您已读完所有消息', emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg', clearText: '清空消息' },
+        { title: '待办', list: [], emptyText: '你已完成所有待办', emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg', clearText: '清空待办' }
     ];
-    count = 0;
+    count = 5;
     loading = false;
 
-    constructor(private msg: NzMessageService, private settings: SettingsService) {}
+    constructor(private msg: NzMessageService) {}
 
-    ngOnInit() {
-        // mock data
-        this.count = this.settings.user.notifyCount || 12;
-    }
+    updateNoticeData(notices: NoticeIconList[]): NoticeItem[] {
+        const data = this.data.slice();
+        data.forEach(i => i.list = []);
 
-    private parseGroup(data: Observable<any[]>) {
-        data.pipe(
-                concatMap((i: any) => i),
-                map((i: any) => {
-                    if (i.datetime) i.datetime = moment(i.datetime).fromNow();
-                    // change to color
-                    if (i.status) {
-                        i.color = ({
-                            todo: '',
+        notices.forEach(item => {
+            const newItem = { ...item };
+            if (newItem.datetime)
+                newItem.datetime = distanceInWordsToNow(item.datetime, { locale: (window as any).__locale__ });
+            if (newItem.extra && newItem.status) {
+                newItem.color = ({
+                    todo: undefined,
                             processing: 'blue',
                             urgent: 'red',
                             doing: 'gold',
-                        })[i.status];
+                })[newItem.status];
                     }
-                    return i;
-                }),
-                groupBy((x: any) => x.type),
-                mergeMap(g => g.pipe(toArray())),
-                tap((ls: any) => {
-                    this.data.find(w => w.title === ls[0].type).list = ls;
-                })
-            ).subscribe(res => this.loading = false);
+            data.find(w => w.title === newItem.type).list.push(newItem);
+        });
+        return data;
     }
 
-    loadData(res) {
-        if (!res || this.loading) return;
+    loadData() {
+        if (this.loading) return;
         this.loading = true;
-        // region: mock http request
-        this.parseGroup(ArrayObservable.of([{
+        setTimeout(() => {
+            this.data = this.updateNoticeData([{
             id: '000000001',
             avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
             title: '你收到了 14 份新周报',
@@ -147,9 +135,10 @@ export class HeaderNotifyComponent implements OnInit {
             extra: '进行中',
             status: 'processing',
             type: '待办',
-          }
-        ]).pipe(delay(1000)));
-        // endregion
+            }]);
+
+            this.loading = false;
+        }, 1000);
     }
 
     clear(type: string) {

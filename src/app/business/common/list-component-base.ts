@@ -1,12 +1,13 @@
 import {OnInit} from '@angular/core';
 import {BylPageReq} from '../../service/model/page-req.model';
 import {BylListFormData} from '../../service/model/list-form-data.model';
-import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {BylConfigService} from '../../service/constant/config.service';
 import {BylBaseService} from '../../service/service/base.service';
 import {BylCrudEvent} from './waiting/crud-waiting.component';
 import {BylResultBody} from '../../service/model/result-body.model';
+import {BylListFormFunctionModeEnum} from "../../service/model/list-form-function-mode.enum";
 
 /**
  * @Description: list组件的抽象类
@@ -14,6 +15,10 @@ import {BylResultBody} from '../../service/model/result-body.model';
  * @Date: Created in 2018-04-15 9:22
  **/
 export abstract class BylListComponentBase<T> implements OnInit {
+
+    LIST_MODE:BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
+    SELECT_MODE:BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.SELECT;
+
 
     public businessService: BylBaseService<T>;
     // public businessCrudComponent: any;
@@ -37,8 +42,6 @@ export abstract class BylListComponentBase<T> implements OnInit {
     public indeterminate = false;
     public allChecked = false; //是否全部选中
 
-
-    public modifyForm: NzModalSubject; // 维护界面
 
     public loading = false;
 

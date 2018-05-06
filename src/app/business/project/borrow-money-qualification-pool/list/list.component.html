@@ -1,4 +1,4 @@
-<pro-header [title]="'可借款资源池管理'" >
+<page-header [title]="'可借款资源池管理'" >
     <ng-template #action>
         <button nz-button (click)="addPersonPool()" [nzType]="'default'" [nzSize]="'large'">
             <i class="anticon anticon-plus"></i><span>新增个人</span>
@@ -25,7 +25,7 @@
         <!--</ng-container>-->
 
     </ng-template>
-</pro-header>
+</page-header>
 <nz-card [nzBordered]="false">
     <form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
         <div nz-row [nzGutter]="24">

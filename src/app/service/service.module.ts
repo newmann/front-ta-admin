@@ -27,6 +27,7 @@ import {BylBorrowMoneyQualificationPoolService} from './project/service/borrow-m
 import {BylAccountService} from "./account/service/account.service";
 import {BylOrganizationService} from "./organization/service/organization.service";
 import {BylSimpleEntityLoggerService} from "./simple-entity-logger/service/simple-entity-logger.service";
+import {BylPermissionService} from "./account/service/permission.service";
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import {BylSimpleEntityLoggerService} from "./simple-entity-logger/service/simpl
         BylRoleService,
         BylAccountService,
         BylDepartmentService,
+        BylPermissionService,
 
         //person module
         BylPersonService,

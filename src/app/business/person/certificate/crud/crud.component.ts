@@ -7,7 +7,7 @@ import {BylProvinceService} from '../../../../service/address/service/province.s
 import {BylCityService} from '../../../../service/address/service/city.service';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylPersonAddressService} from '../../../../service/person/service/person-address.service';
-import {NzMessageService, NzModalService, NzModalSubject, UploadFile} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzModalRef, UploadFile} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ReuseTabService} from '@delon/abc';
@@ -70,7 +70,7 @@ export class BylPersonCertificateCrudComponent extends BylCrudComponentBase<BylP
                 public personCertificateService: BylPersonCertificateService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public modalSubject: NzModalSubject,
+                public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {

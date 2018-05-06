@@ -15,8 +15,8 @@ export class BylAccount extends BylBaseModel {
     phone: string;
     nickname: string;
     passwordResetDuration: number;
-    passwordResetDate: Date;
-    expiredDate: Date;
+    passwordResetDate: number;
+    expiredDate: number;
     status: number;
 
     permissionList: Set<BylPermission>;

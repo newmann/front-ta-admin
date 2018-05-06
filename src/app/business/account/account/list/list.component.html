@@ -1,4 +1,4 @@
-<pro-header [title]="'账户管理'" *ngIf="functionMode !== 'select'" >
+<page-header [title]="'账户管理'" *ngIf="functionMode === LIST_MODE" >
     <ng-template #action>
         <button nz-button (click)="add()" [nzType]="'default'" [nzSize]="'large'">
             <i class="anticon anticon-plus"></i><span>新建</span>
@@ -23,7 +23,7 @@
         </ng-container>
 
     </ng-template>
-</pro-header>
+</page-header>
 <nz-card [nzBordered]="false">
     <!--(ngSubmit)="search()"-->
     <form nz-form [nzLayout]="'inline'">
@@ -89,7 +89,7 @@
             <div nz-col [nzLg]="expandQuery ? 24 : 6"  [nzMd]="expandQuery ? 24 : 8"  [nzSm]="expandQuery ? 24 : 16"  [nzXs]="expandQuery ? 24 : 24" class="mb-md" [class.text-right]="true">
                 <!--<button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询-->
                 <!--</button>-->
-                <ng-container *ngIf="functionMode === 'select'">
+                <ng-container *ngIf="functionMode === SELECT_MODE">
                     <ng-container *ngIf="selectedRows.length > 0">
                         <button nz-button [nzSize]="'large'" class="mx-sm" (click) = "batchSelect($event)"
                                 [nzType]="'primary'" >
@@ -102,7 +102,7 @@
 
                 </ng-container>
 
-                <button nz-button type="reset" (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
+                <button nz-button type="reset" (click)="resetQuery()" [nzSize]="'large'" class="mx-sm">重置</button>
                 <a (click)="expandQuery =!expandQuery">
                     {{expandQuery ? '收起' : '展开'}}
                     <i class="anticon" [class.anticon-down]="!expandQuery" [class.anticon-up]="expandQuery"></i>
@@ -150,7 +150,7 @@
                 <span>备注</span>
             </th>
 
-            <th nz-th><span>操作</span></th>
+            <th nz-th *ngIf="functionMode === LIST_MODE" ><span>操作</span></th>
         </tr>
         </thead>
         <tbody nz-tbody>
@@ -167,7 +167,7 @@
             <td nz-td>{{i.item.phone}}</td>
             <td nz-td>{{i.item.status}}</td>
             <td nz-td>{{i.item.remarks }}</td>
-            <td nz-td>
+            <td nz-td *ngIf="functionMode === LIST_MODE" >
                 <span>
                     <a (click)="modifyEntity(i.item.id)">修改</a>
                 </span>

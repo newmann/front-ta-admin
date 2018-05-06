@@ -3,7 +3,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {BylListComponentBase} from '../../../common/list-component-base';
 
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {BylProjectManagerPoolService} from '../../../../service/project/service/project-manager-pool.service';
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
@@ -34,7 +34,7 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public functionSubject$: NzModalSubject,
+                public functionSubject$: NzModalRef,
                 public router: Router,
                 public projectManagerPoolService: BylProjectManagerPoolService) {
         super(message, configService, modalService, router);
@@ -50,27 +50,26 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
     addManagerPool() {
         console.log(this.projectManagerPoolService);
 
-        this.accountReveal = this.modalService.open({
-            title: '查找项目经理资源',
-            zIndex: 9999, //最外层
-            width: '90%',
-            content: BylAccountListComponent,
+        this.accountReveal = this.modalService.create({
+            nzTitle: '查找项目经理资源',
+            nzZIndex: 9999, //最外层
+            nzWidth: '90%',
+            nzContent: BylAccountListComponent,
             // onOk() {
             //
             // },
             // onCancel() {
             //     console.log('Click cancel');
             // },
-            footer: false,
-            componentParams: {
+            nzComponentParams: {
                 functionMode: 'select',
                 findAvailablePoolsService: this.projectManagerPoolService
             },
-            maskClosable: false
+            nzMaskClosable: false
         });
-        this.accountReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
+        // this.accountReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
 
-        this.accountReveal.subscribe(result => {
+        this.accountReveal.destroy(result => {
             console.info(result);
 
             console.info(typeof result);
@@ -151,8 +150,8 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
 
     //处理调用选择窗口问题
     selectedEntity(item: BylProjectManagerPool){
-        this.functionSubject$.next(item);
-        this.functionSubject$.destroy('onCancel');
+        // this.functionSubject$.next(item);
+        this.functionSubject$.destroy(item);
     }
 
     /**

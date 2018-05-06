@@ -5,7 +5,7 @@ import {BylNationService} from "../../../../service/person/service/nation.servic
 import {FormBuilder, Validators} from "@angular/forms";
 import {BylCrudComponentBase} from "../../../common/crud-component-base";
 import {BylCountryService} from "../../../../service/address/service/country.service";
-import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
+import {NzMessageService, NzModalService, NzModalRef} from "ng-zorro-antd";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {BylNation} from "../../../../service/person/model/nation.model";
 import {BylProvinceService} from "../../../../service/address/service/province.service";
@@ -77,7 +77,7 @@ export class BylOrganizationCrudComponent extends BylCrudComponentBase<BylOrgani
                 public cityService: BylCityService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public modalSubject: NzModalSubject,
+                public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {

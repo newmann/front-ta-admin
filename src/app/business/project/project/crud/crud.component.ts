@@ -3,7 +3,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {FormBuilder, Validators} from '@angular/forms';
-import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 
 import {BylProjectService} from '../../../../service/project/service/project.service';
 import {BylCrudComponentBase} from '../../../common/crud-component-base';
@@ -73,7 +73,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
                 public cityService: BylCityService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public modalSubject: NzModalSubject,
+                public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {
@@ -100,26 +100,25 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
          * 从账户池中查找待加入的项目经理
          */
 
-        this.managerPoolReveal = this.modalService.open({
-            title: '查找项目经理',
-            zIndex: 9999, //最外层
-            width: '90%',
-            content: BylProjectManagerPoolListComponent,
+        this.managerPoolReveal = this.modalService.create({
+            nzTitle: '查找项目经理',
+            nzZIndex: 9999, //最外层
+            nzWidth: '90%',
+            nzContent: BylProjectManagerPoolListComponent,
             // onOk() {
             //
             // },
             // onCancel() {
             //     console.log('Click cancel');
             // },
-            footer: false,
-            componentParams: {
+            nzComponentParams: {
                 functionMode: 'select'
             },
-            maskClosable: false
+            nzMaskClosable: false
         });
-        this.managerPoolReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
+        // this.managerPoolReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
 
-        this.managerPoolReveal.subscribe(result => {
+        this.managerPoolReveal.destroy(result => {
             console.info(result);
 
             console.info(typeof result);

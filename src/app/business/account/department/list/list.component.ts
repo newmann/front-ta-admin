@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzModalRef, NzTreeComponent} from 'ng-zorro-antd';
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
 import {Router} from '@angular/router';
 import {BylIStatusItem} from '../../../../service/model/status.model';
@@ -9,7 +9,6 @@ import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylDepartment } from '../../../../service/account/model/department.model';
 import {BylDepartmentService} from '../../../../service/account/service/department.service';
 import {BylDepartmentQuery} from '../../../../service/account/query/department-query.model';
-import {NzTreeComponent} from 'ng-tree-antd';
 import {BaseTree} from '../../../../service/model/base-tree.model';
 import {mixCodeName} from '../../../../service/utils/string.utils';
 import {Subject} from 'rxjs/Subject';
@@ -54,12 +53,12 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
 
     @ViewChild(NzTreeComponent) tree: NzTreeComponent;
 
-    filterNodes() {
-        this.tree.treeModel.filterNodes(this.filterData);
-        if (!this.filterData) {
-            this.tree.treeModel.collapseAll();
-        }
-    }
+    // filterNodes() {
+    //     this.tree.ngModelNodes.filterNodes(this.filterData);
+    //     if (!this.filterData) {
+    //         this.tree.ngModelNodes.collapseAll();
+    //     }
+    // }
 
     onToggleExpanded(ev: any) {
         //只有在展开节点的时候重新从后台数据库刷新数据
@@ -92,7 +91,7 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
 
                     // this.listData = Array.from(data.data.rows);
                     node.data.children = this.genNodeData(data.data);
-                    this.tree.treeModel.update();
+                    // this.tree.treeModel.update();
 
                 } else {
                     this.showMsg(data.msg);
@@ -114,7 +113,7 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public functionSubject$: NzModalSubject,
+                public functionSubject$: NzModalRef,
                 public router: Router,
                 public departmentService: BylDepartmentService) {
         super(message, configService, modalService, router);

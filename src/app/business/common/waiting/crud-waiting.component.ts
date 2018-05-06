@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {_HttpClient} from '@delon/theme';
-import {NzModalSubject} from 'ng-zorro-antd';
+import {NzModalRef} from 'ng-zorro-antd';
 
 /**
  *  crud界面调用本界面之间的消息传递
@@ -62,7 +62,7 @@ export class BylCrudWaitingComponent implements OnInit {
     protected tipMsg= "...";
 
     emitDataOutside() {
-        this.subject.next(BylCrudEvent[BylCrudEvent.bylAdd]); // 通知调用新增
+        // this.subject.next(BylCrudEvent[BylCrudEvent.bylAdd]); // 通知调用新增
         this.subject.destroy(); // 退出界面
     }
 
@@ -70,33 +70,33 @@ export class BylCrudWaitingComponent implements OnInit {
         this.subject.destroy();
     }
 
-    constructor(private subject: NzModalSubject) {
+    constructor(private subject: NzModalRef) {
 
         // this.subject.on('onDestory', () => {
         //     console.log('destroy');
         // });
 
-        this.subject.on(BylCrudEvent[BylCrudEvent.bylSaveCorrect], () => {
-            // this.showSaveCorrectMsg = true;
-            this.tipMsg = "保存成功！";
-            // this.subject.destroy();//退出显示界面
-            // console.log(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
-        });
-
-        this.subject.on(BylCrudEvent[BylCrudEvent.bylSaveError], () => {
-            // this.showSaveCorrectMsg = true;
-            this.tipMsg = "保存失败...";
-            // this.subject.destroy();//退出显示界面
-            // console.log(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
-        });
-
-        this.subject.on(BylCrudEvent[BylCrudEvent.bylLoading], () => {
-            this.tipMsg = "正在装载...";
-        });
-
-        this.subject.on(BylCrudEvent[BylCrudEvent.bylSaving], () => {
-            this.tipMsg = "正在提交...";
-        });
+        // this.subject.on(BylCrudEvent[BylCrudEvent.bylSaveCorrect], () => {
+        //     // this.showSaveCorrectMsg = true;
+        //     this.tipMsg = "保存成功！";
+        //     // this.subject.destroy();//退出显示界面
+        //     // console.log(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
+        // });
+        //
+        // this.subject.on(BylCrudEvent[BylCrudEvent.bylSaveError], () => {
+        //     // this.showSaveCorrectMsg = true;
+        //     this.tipMsg = "保存失败...";
+        //     // this.subject.destroy();//退出显示界面
+        //     // console.log(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
+        // });
+        //
+        // this.subject.on(BylCrudEvent[BylCrudEvent.bylLoading], () => {
+        //     this.tipMsg = "正在装载...";
+        // });
+        //
+        // this.subject.on(BylCrudEvent[BylCrudEvent.bylSaving], () => {
+        //     this.tipMsg = "正在提交...";
+        // });
 
     }
 

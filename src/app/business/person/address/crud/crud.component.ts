@@ -1,23 +1,16 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {_HttpClient} from '@delon/theme';
 import {BylCrudComponentBase} from '../../../common/crud-component-base';
-import {BylPerson} from '../../../../service/person/model/person.model';
 import {BylPersonAddress} from '../../../../service/person/model/person-address.model';
-import {BylLoggerService} from '../../../../service/utils/logger';
-import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylCountryService} from '../../../../service/address/service/country.service';
-import {BylPersonService} from '../../../../service/person/service/person.service';
 import {BylProvinceService} from '../../../../service/address/service/province.service';
-import {BylPoliticalStatusService} from '../../../../service/person/service/political-status.service';
 import {ActivatedRoute} from '@angular/router';
-import {BylNationService} from '../../../../service/person/service/nation.service';
 import {BylCityService} from '../../../../service/address/service/city.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {BylPersonAddressService} from '../../../../service/person/service/person-address.service';
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import {ReuseTabService} from '@delon/abc';
-import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
 
 @Component({
     selector: 'byl-person-address-crud',
@@ -48,7 +41,7 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
                 public cityService: BylCityService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public modalSubject: NzModalSubject,
+                public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {

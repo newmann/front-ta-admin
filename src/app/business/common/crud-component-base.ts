@@ -1,7 +1,6 @@
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {OnInit} from '@angular/core';
-import {BylLoggerService} from '../../service/utils/logger';
-import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
 
 import {BylConfigService} from '../../service/constant/config.service';
@@ -11,8 +10,6 @@ import {BylBaseService} from '../../service/service/base.service';
 import {BylCrudEvent, BylCrudWaitingComponent} from './waiting/crud-waiting.component';
 import {ReuseTabService} from '@delon/abc';
 import {Observable} from "rxjs/Observable";
-import {BylSimpleEntityLogger} from "../../service/simple-entity-logger/model/simple-entity-logger.model";
-import {BylSimpleEntityLoggerService} from "../../service/simple-entity-logger/service/simple-entity-logger.service";
 
 
 /**
@@ -51,7 +48,7 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
     constructor(public msgService: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public modalSubject: NzModalSubject,
+                public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {
@@ -124,11 +121,15 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
      * 保存
      */
     submitForm() {
-        this.showSavingReveal();
+        const msgId = this.msgService.loading('正在保存..', { nzDuration: 0 }).messageId;
+        // this.showSavingReveal();
         // this._loading = true;
         this.errMsg = '';
         this.getFormData();
         let saveResult$: Observable<BylResultBody<T>>;
+
+        console.log("submit form", this.businessData);
+
         if (this.sourceId){
             //当前为修改界面
             saveResult$ = this.businessService.update(this.businessData);
@@ -142,25 +143,30 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
                 // this._loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     // 通知显示窗口保存正确
-                    this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
-                    this.savingReveal.destroy(); //退出提示界面
+                    // this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
+                    // this.savingReveal.destroy(); //退出提示界面
 
                     this.afterSubmit(); //成功保存后对界面的处理，根据不同状态是否退出
 
                 } else {
                     // 通知显示窗口保存错误，是否退出由显示界面控制
-                    this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveError]);
+                    // this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveError]);
                     // this._savingReveal.destroy();
                     this.errMsg = data.msg;
-                    this.savingReveal.destroy(); //退出提示界面，原界面不动
+                    // this.savingReveal.destroy(); //退出提示界面，原界面不动
                 }
+
+                this.msgService.remove(msgId);
+
             },
             err => {
                 // 通知显示窗口保存错误，是否退出由显示界面控制
-                this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveError]);
+                // this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveError]);
                 // this._loading = false;
                 this.errMsg = err.toString();
-                this.savingReveal.destroy(); //退出提示界面，原界面不动
+
+                this.msgService.remove(msgId);
+                // this.savingReveal.destroy(); //退出提示界面，原界面不动
             }
         );
     }
@@ -202,63 +208,62 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
                 // 从list界面进入修改
                 console.info('将修改后的数据传回list界面');
                 //将修改后的数据传回list界面
-                this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate], data: this.businessData});
+                // this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate], data: this.businessData});
                 this.modalSubject.destroy();
         }
     }
 
-    showSavingReveal() {
-        this.savingReveal = this.modalService.open({
-            title: '提交',
-            zIndex: 9999, //最外层
-            content: BylCrudWaitingComponent,
-            // onOk() {
-            //
-            // },
-            // onCancel() {
-            //     console.log('Click cancel');
-            // },
-            footer: false,
-            componentParams: {
-                // name: '测试渲染Component'
-            },
-            maskClosable: false
-        });
-        this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
-        //
-        // this.savingReveal.subscribe(result => {
-        //     console.info(result);
-        //     //判断是否退出界面
-        //     if (result === 'onDestroy') {
-        //         console.log('退出提示界面');
-        //         switch (this.processType) {
-        //             case 'new':
-        //                 //新增界面
-        //                 this.businessData = this.newBusinessData();
-        //                 this.reset();
-        //                 break;
-        //             case 'modify':
-        //                 //修改界面
-        //                 this.businessData = this.newBusinessData();
-        //                 this.reset();
-        //                 break;
-        //             default:
-        //                 // 从list界面进入修改
-        //                 console.info('将修改后的数据传回list界面');
-        //                 //将修改后的数据传回list界面
-        //                 this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate], data: this.businessData});
-        //                 this.modalSubject.destroy();
-        //
-        //         }
-        //
-        //     }
-        //
-        // });
-    }
-
-    destorySavingReveal() {
-        if (this.savingReveal) this.savingReveal.destroy();
-    }
+    // showSavingReveal() {
+    //     this.savingReveal = this.modalService.create({
+    //         nzTitle: '提交',
+    //         nzZIndex: 9999, //最外层
+    //         nzContent: BylCrudWaitingComponent,
+    //         // onOk() {
+    //         //
+    //         // },
+    //         // onCancel() {
+    //         //     console.log('Click cancel');
+    //         // },
+    //         nzComponentParams: {
+    //             // name: '测试渲染Component'
+    //         },
+    //         nzMaskClosable: false
+    //     });
+    //     // this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
+    //     //
+    //     // this.savingReveal.subscribe(result => {
+    //     //     console.info(result);
+    //     //     //判断是否退出界面
+    //     //     if (result === 'onDestroy') {
+    //     //         console.log('退出提示界面');
+    //     //         switch (this.processType) {
+    //     //             case 'new':
+    //     //                 //新增界面
+    //     //                 this.businessData = this.newBusinessData();
+    //     //                 this.reset();
+    //     //                 break;
+    //     //             case 'modify':
+    //     //                 //修改界面
+    //     //                 this.businessData = this.newBusinessData();
+    //     //                 this.reset();
+    //     //                 break;
+    //     //             default:
+    //     //                 // 从list界面进入修改
+    //     //                 console.info('将修改后的数据传回list界面');
+    //     //                 //将修改后的数据传回list界面
+    //     //                 this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate], data: this.businessData});
+    //     //                 this.modalSubject.destroy();
+    //     //
+    //     //         }
+    //     //
+    //     //     }
+    //     //
+    //     // });
+    // }
+    //
+    // destorySavingReveal() {
+    //     if (this.savingReveal) this.savingReveal.destroy();
+    // }
 
 
 

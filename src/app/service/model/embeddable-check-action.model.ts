@@ -10,5 +10,5 @@ export class BylEmbeddableCheckAction{
     checkId: string;
     checkCode: string;
     checkName: string;
-    checkDateTime: Date;
+    checkDateTime: number;
 }

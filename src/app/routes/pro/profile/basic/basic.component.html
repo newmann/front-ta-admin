@@ -1,6 +1,5 @@
-<pro-header [title]="'基础详情页'"></pro-header>
-<nz-card [nzNoHovering]="true" [nzBordered]="false">
-    <ng-template #body>
+<page-header [title]="'基础详情页'"></page-header>
+<nz-card [nzHoverable]="true" [nzBordered]="false">
         <desc-list size="large" title="退款申请" class="mb-lg">
             <desc-list-item term="取货单号">1000000000</desc-list-item>
             <desc-list-item term="状态">已取货</desc-list-item>
@@ -36,5 +35,4 @@
                 <nz-badge *ngIf="i.status !== 'success'" [nzStatus]="'processing'" [nzText]="'进行中'"></nz-badge>
             </ng-template>
         </simple-table>
-    </ng-template>
 </nz-card>

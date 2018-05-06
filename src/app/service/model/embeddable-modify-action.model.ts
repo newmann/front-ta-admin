@@ -9,5 +9,5 @@ export class BylEmbeddableModifyAction{
     modifyId: string;
     modifyCode: string;
     modifyName: string;
-    modifyDateTime: Date;
+    modifyDateTime: number;
 }

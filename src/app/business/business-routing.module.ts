@@ -18,6 +18,7 @@ import {LayoutFullScreenComponent} from "../layout/fullscreen/fullscreen.compone
 import {DashboardV1Component} from "../routes/dashboard/v1/v1.component";
 import {LayoutMobileComponent} from '../layout/mobile/mobile.component';
 import {RouterGuardService} from '../service/router/router-guard.service';
+import {UserLockComponent} from "../routes/passport/lock/lock.component";
 
 
 const routes: Routes = [
@@ -28,22 +29,28 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
             { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
-            { path: 'dashboard/v1', component: DashboardV1Component, data: { translate: 'dashboard_v1' } },
-            { path: 'dashboard/analysis', component: DashboardAnalysisComponent, data: { translate: 'dashboard_analysis' } },
-            { path: 'dashboard/monitor', component: DashboardMonitorComponent, data: { translate: 'dashboard_monitor' } },
-            { path: 'dashboard/workplace', component: DashboardWorkplaceComponent, data: { translate: 'dashboard_workplace' } },
+            { path: 'dashboard/v1', component: DashboardV1Component },
+            { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
+            { path: 'dashboard/monitor', component: DashboardMonitorComponent },
+            { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },
             { path: 'widgets', loadChildren: '../routes/widgets/widgets.module#WidgetsModule' },
-            { path: 'elements', loadChildren: '../routes/elements/elements.module#ElementsModule' },
-            { path: 'other', loadChildren: '../routes/other/other.module#OtherModule' },
-            { path: 'forms', loadChildren: '../routes/forms/forms.module#FormsModule' },
-            { path: 'editor', loadChildren: '../routes/editor/editor.module#EditorModule' },
-            { path: 'charts', loadChildren: '../routes/charts/charts.module#ChartsModule' },
-            { path: 'tables', loadChildren: '../routes/tables/tables.module#TablesModule' },
-            { path: 'maps', loadChildren: '../routes/maps/maps.module#MapsModule' },
-            { path: 'pages', loadChildren: '../routes/pages/pages.module#PagesModule' },
-            { path: 'logics', loadChildren: '../routes/logics/logics.module#LogicsModule' },
+            { path: 'style', loadChildren: '../routes/style/style.module#StyleModule' },
+            { path: 'delon', loadChildren: '../routes/delon/delon.module#DelonModule' },
             { path: 'extras', loadChildren: '../routes/extras/extras.module#ExtrasModule' },
             { path: 'pro', loadChildren: '../routes/pro/pro.module#ProModule' },
+
+
+            // { path: 'elements', loadChildren: '../routes/elements/elements.module#ElementsModule' },
+            // { path: 'other', loadChildren: '../routes/other/other.module#OtherModule' },
+            // { path: 'forms', loadChildren: '../routes/forms/forms.module#FormsModule' },
+            // { path: 'editor', loadChildren: '../routes/editor/editor.module#EditorModule' },
+            // { path: 'charts', loadChildren: '../routes/charts/charts.module#ChartsModule' },
+            // { path: 'tables', loadChildren: '../routes/tables/tables.module#TablesModule' },
+            // { path: 'maps', loadChildren: '../routes/maps/maps.module#MapsModule' },
+            // { path: 'pages', loadChildren: '../routes/pages/pages.module#PagesModule' },
+            // { path: 'logics', loadChildren: '../routes/logics/logics.module#LogicsModule' },
+            // { path: 'extras', loadChildren: '../routes/extras/extras.module#ExtrasModule' },
+            // { path: 'pro', loadChildren: '../routes/pro/pro.module#ProModule' },
 
             { path: 'account', loadChildren: './account/account.module#BylAccountModule' },
             { path: 'person', loadChildren: './person/person.module#BylPersonModule' },
@@ -61,14 +68,24 @@ const routes: Routes = [
             { path: '', loadChildren: '../routes/data-v/data-v.module#DataVModule' }
         ]
     },
+    // // passport
+    // {
+    //     path: 'passport',
+    //     component: LayoutPassportComponent,
+    //     children: [
+    //         { path: 'login', component: UserLoginComponent },
+    //         { path: 'register', component: UserRegisterComponent },
+    //         { path: 'register-result', component: UserRegisterResultComponent }
+    //     ]
+    // },
     // passport
     {
         path: 'passport',
         component: LayoutPassportComponent,
         children: [
-            { path: 'login', component: UserLoginComponent },
-            { path: 'register', component: UserRegisterComponent },
-            { path: 'register-result', component: UserRegisterResultComponent }
+            { path: 'login', component: UserLoginComponent, data: { title: '登录', titleI18n: 'pro-login' } },
+            { path: 'register', component: UserRegisterComponent, data: { title: '注册', titleI18n: 'pro-register' } },
+            { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果', titleI18n: 'pro-register-result' } }
         ]
     },
     // 移动布局
@@ -79,28 +96,34 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
             { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
-            { path: 'dashboard/v1', component: DashboardV1Component, data: { translate: 'dashboard_v1' } },
-            { path: 'dashboard/analysis', component: DashboardAnalysisComponent, data: { translate: 'dashboard_analysis' } },
-            { path: 'dashboard/monitor', component: DashboardMonitorComponent, data: { translate: 'dashboard_monitor' } },
-            { path: 'dashboard/workplace', component: DashboardWorkplaceComponent, data: { translate: 'dashboard_workplace' } },
+            { path: 'dashboard/v1', component: DashboardV1Component },
+            { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
+            { path: 'dashboard/monitor', component: DashboardMonitorComponent },
+            { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },
             { path: 'widgets', loadChildren: '../routes/widgets/widgets.module#WidgetsModule' },
-            { path: 'elements', loadChildren: '../routes/elements/elements.module#ElementsModule' },
-            { path: 'other', loadChildren: '../routes/other/other.module#OtherModule' },
-            { path: 'forms', loadChildren: '../routes/forms/forms.module#FormsModule' },
-            { path: 'editor', loadChildren: '../routes/editor/editor.module#EditorModule' },
-            { path: 'charts', loadChildren: '../routes/charts/charts.module#ChartsModule' },
-            { path: 'tables', loadChildren: '../routes/tables/tables.module#TablesModule' },
-            { path: 'maps', loadChildren: '../routes/maps/maps.module#MapsModule' },
-            { path: 'pages', loadChildren: '../routes/pages/pages.module#PagesModule' },
-            { path: 'logics', loadChildren: '../routes/logics/logics.module#LogicsModule' },
+            { path: 'style', loadChildren: '../routes/style/style.module#StyleModule' },
+            { path: 'delon', loadChildren: '../routes/delon/delon.module#DelonModule' },
             { path: 'extras', loadChildren: '../routes/extras/extras.module#ExtrasModule' },
             { path: 'pro', loadChildren: '../routes/pro/pro.module#ProModule' },
+            // { path: 'widgets', loadChildren: '../routes/widgets/widgets.module#WidgetsModule' },
+            // { path: 'elements', loadChildren: '../routes/elements/elements.module#ElementsModule' },
+            // { path: 'other', loadChildren: '../routes/other/other.module#OtherModule' },
+            // { path: 'forms', loadChildren: '../routes/forms/forms.module#FormsModule' },
+            // { path: 'editor', loadChildren: '../routes/editor/editor.module#EditorModule' },
+            // { path: 'charts', loadChildren: '../routes/charts/charts.module#ChartsModule' },
+            // { path: 'tables', loadChildren: '../routes/tables/tables.module#TablesModule' },
+            // { path: 'maps', loadChildren: '../routes/maps/maps.module#MapsModule' },
+            // { path: 'pages', loadChildren: '../routes/pages/pages.module#PagesModule' },
+            // { path: 'logics', loadChildren: '../routes/logics/logics.module#LogicsModule' },
+            // { path: 'extras', loadChildren: '../routes/extras/extras.module#ExtrasModule' },
+            // { path: 'pro', loadChildren: '../routes/pro/pro.module#ProModule' },
 
             { path: 'account', loadChildren: './account/account.module#BylAccountModule' },
         ]
     },
     // 单页不包裹Layout
     { path: 'callback/:type', component: CallbackComponent },
+    { path: 'lock', component: UserLockComponent, data: { title: '锁屏', titleI18n: 'lock' } },
     { path: '403', component: Exception403Component },
     { path: '404', component: Exception404Component },
     { path: '500', component: Exception500Component },

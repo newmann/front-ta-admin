@@ -3,32 +3,29 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 // delon
-import { NgZorroAntdExtraModule } from 'ng-zorro-antd-extra';
 import { AlainThemeModule } from '@delon/theme';
-import { AlainACLModule } from '@delon/acl';
-import { ZORROMODULES, ABCMODULES } from '../delon.module';
+import { DelonABCModule } from '@delon/abc';
+import { DelonACLModule } from '@delon/acl';
+import { DelonFormModule } from '@delon/form';
 // i18n
 import { TranslateModule } from '@ngx-translate/core';
 
 // region: third libs
+import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
 import { UEditorModule } from 'ngx-ueditor';
 import { NgxTinymceModule } from 'ngx-tinymce';
-import { NzSchemaFormModule } from 'nz-schema-form';
-import {BylEmbeddableAddressComponent} from "../business/common/embeddable-address/embeddable-address.component";
+
 const THIRDMODULES = [
+    NgZorroAntdModule,
     CountdownModule,
     UEditorModule,
-    NgxTinymceModule,
-    NzSchemaFormModule
+    NgxTinymceModule
 ];
 // endregion
 
 // region: your componets & directives
-const COMPONENTS = [
-
-];
-
+const COMPONENTS = [];
 const DIRECTIVES = [];
 // endregion
 
@@ -38,11 +35,10 @@ const DIRECTIVES = [];
         FormsModule,
         RouterModule,
         ReactiveFormsModule,
-        ...ZORROMODULES,
-        NgZorroAntdExtraModule,
         AlainThemeModule.forChild(),
-        ...ABCMODULES,
-        AlainACLModule,
+        DelonABCModule,
+        DelonACLModule,
+        DelonFormModule,
         // third libs
         ...THIRDMODULES
     ],
@@ -56,11 +52,10 @@ const DIRECTIVES = [];
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-        ...ZORROMODULES,
-        NgZorroAntdExtraModule,
         AlainThemeModule,
-        ...ABCMODULES,
-        AlainACLModule,
+        DelonABCModule,
+        DelonACLModule,
+        DelonFormModule,
         // i18n
         TranslateModule,
         // third libs

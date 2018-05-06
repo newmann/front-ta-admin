@@ -1,4 +1,4 @@
-<pro-header [title]="'项目经理资源池管理'" *ngIf="functionMode !== 'select'"  >
+<page-header [title]="'项目经理资源池管理'" *ngIf="functionMode !== 'select'"  >
     <ng-template #action>
         <button nz-button (click)="addManagerPool()" [nzType]="'default'" [nzSize]="'large'">
             <i class="anticon anticon-plus"></i><span>新增</span>
@@ -21,7 +21,7 @@
         <!--</ng-container>-->
 
     </ng-template>
-</pro-header>
+</page-header>
 <nz-card [nzBordered]="false">
     <form nz-form [nzLayout]="'inline'">
         <div nz-row [nzGutter]="24">

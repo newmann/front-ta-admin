@@ -1,14 +1,11 @@
 import {OnInit} from "@angular/core";
-import {BylPageReq} from "../../service/model/page-req.model";
 import {BylListFormData} from "../../service/model/list-form-data.model";
-import {NzMessageService, NzModalService, NzModalSubject} from "ng-zorro-antd";
+import {NzMessageService, NzModalService, NzModalRef} from "ng-zorro-antd";
 import {Router} from "@angular/router";
 import {BylConfigService} from "../../service/constant/config.service";
-import {BylBaseService} from "../../service/service/base.service";
 import {BylCrudEvent} from "./waiting/crud-waiting.component";
 import {BylResultBody} from "../../service/model/result-body.model";
 import {BylItemBaseService} from "../../service/service/item-base.service";
-import {BylPersonAddress} from "../../service/person/model/person-address.model";
 
 /**
  * @Description: Master-detail模型中detail list组件的抽象类
@@ -31,7 +28,7 @@ export abstract class BylItemListComponentBase<T> implements OnInit {
     public allChecked = false; //是否全部选中
 
 
-    public modifyForm: NzModalSubject;//维护界面
+    public modifyForm: NzModalRef;//维护界面
 
     public loading = false;
 
@@ -71,24 +68,23 @@ export abstract class BylItemListComponentBase<T> implements OnInit {
     add() {
         // this.router.navigate(['/account/role/crud',"new"]);
         // if (this.crudUrl) {
-            this.modifyForm = this.modalService.open({
-                title: '新增',
-                content: this.businessCrudComponent,
+            this.modifyForm = this.modalService.create({
+                nzTitle: '新增',
+                nzContent: this.businessCrudComponent,
                 // onOk() {
                 //
                 // },
                 // onCancel() {
                 //     console.log('Click cancel');
                 // },
-                footer: false,
-                componentParams: {
+                nzComponentParams: {
                     sourceId: null,
                     masterId: this.masterId,
                 },
-                maskClosable: false
+                nzMaskClosable: false
             });
             //
-            this.modifyForm.subscribe(result => {
+            this.modifyForm.destroy(result => {
                 console.log(result);
                 if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
                     //更新对应的数据
@@ -101,24 +97,23 @@ export abstract class BylItemListComponentBase<T> implements OnInit {
 
     modifyEntity(id:string) {
 
-        this.modifyForm = this.modalService.open({
-            title: '修改',
-            content: this.businessCrudComponent,
+        this.modifyForm = this.modalService.create({
+            nzTitle: '修改',
+            nzContent: this.businessCrudComponent,
             // onOk() {
             //
             // },
             // onCancel() {
             //     console.log('Click cancel');
             // },
-            footer: false,
-            componentParams: {
+            nzComponentParams: {
                 sourceId: id,
                 masterId: this.masterId,
             },
-            maskClosable: false
+            nzMaskClosable: false
         });
         //
-        this.modifyForm.subscribe(result => {
+        this.modifyForm.destroy(result => {
             console.log(result);
             if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
                 //更新对应的数据

@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {BylCrudComponentBase} from '../../../common/crud-component-base';
 import {BylBorrowMoneyTicket} from '../../../../service/project/model/borrow-money-ticket.model';
 import {FormBuilder, Validators} from '@angular/forms';
-import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
 import {ReuseTabService} from '@delon/abc';
 import {BylConfigService} from '../../../../service/constant/config.service';
@@ -53,7 +53,7 @@ export class BylBorrowMoneyTicketListCrudComponent extends BylCrudComponentBase<
                 public borrowMoneyTicketService: BylBorrowMoneyTicketService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public modalSubject: NzModalSubject,
+                public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {

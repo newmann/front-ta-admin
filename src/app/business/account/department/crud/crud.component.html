@@ -1,4 +1,4 @@
-<pro-header [title]="'部门维护'" *ngIf="processType.length > 0 "></pro-header>
+<page-header [title]="'部门维护'" *ngIf="processType.length > 0 "></page-header>
 <nz-card [nzBordered]="false">
     <nz-tabset>
         <nz-tab>
@@ -111,7 +111,15 @@
                 </form>
             </span>
         </nz-tab>
-
+        <nz-tab [nzDisabled]="!sourceId">
+            <ng-template #nzTabHeading>用户
+            </ng-template>
+            <byl-account-item-list [masterId]="sourceId"
+                                   [findAvailablePoolsService]="departmentService"
+                                   [findEntityAccountService]="departmentService"
+                                   [saveAccountRelationService]="departmentService">
+            </byl-account-item-list>
+        </nz-tab>
         <byl-entity-logger [title]="'日志'" [entityId]="sourceId"></byl-entity-logger>
         <!--<nz-tab>-->
             <!--<ng-template #nzTabHeading>日志</ng-template>-->

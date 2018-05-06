@@ -11,6 +11,14 @@ import {BylPageResp} from '../../model/page-resp.model';
 import {BylResultBody} from '../../model/result-body.model';
 import {Observable} from 'rxjs/Observable';
 import {BylPageReq} from '../../model/page-req.model';
+import {BylAccountPermission} from "../model/account-permission.model";
+import {
+    BylFindEntityPermissionInterface, BylPermissionAvailablePoolsInterface,
+    BylSavePermissionRelationInterface
+} from "./permission-related.interface";
+import {BylPermission} from "../model/permission.model";
+import {BylEntityRelationAvailablePoolsQueryReqBody} from "../model/entity-relation-available-pools-query-req-body.model";
+import {BylEntityRelations} from "../model/entity-relations.model";
 
 
 
@@ -20,7 +28,10 @@ import {BylPageReq} from '../../model/page-req.model';
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylAccountService  extends BylBaseService<BylAccount> {
+export class BylAccountService  extends BylBaseService<BylAccount>
+implements  BylPermissionAvailablePoolsInterface
+            , BylSavePermissionRelationInterface
+            , BylFindEntityPermissionInterface{
 
 
     constructor(protected http: _HttpClient,
@@ -43,4 +54,37 @@ export class BylAccountService  extends BylBaseService<BylAccount> {
 
         return this.http.post<BylResultBody<BylPageResp<BylAccount>>>(this.BASE_API_URL + '/find-available-manager-pools-page', queryModel);
     }
+
+    fetchPermissionsByAccountId(accountId: string): Observable<BylResultBody<Array<BylPermission>>> {
+        return this.http.get<BylResultBody<Array<BylPermission>>>(this.BASE_API_URL + '/fetch-permissions-by-accountid/' + accountId);
+    }
+
+    batchAddPermission(items: Array<BylAccountPermission>): Observable<BylResultBody<Array<BylAccountPermission>>> {
+        return this.http.post<BylResultBody<Array<BylAccountPermission>>>(this.BASE_API_URL + '/batch-add-permission', items);
+    }
+
+
+    findAvailablePermissionPoolsPage(query: any, page: BylPageReq, masterId?: string): Observable<BylResultBody<BylPageResp<BylPermission>>> {
+        let queryModel = new BylEntityRelationAvailablePoolsQueryReqBody<any>();
+        queryModel.masterId = masterId;
+        queryModel.pageReq = page;
+        queryModel.queryReq = query;
+
+        return this.http.post<BylResultBody<BylPageResp<BylPermission>>>(this.BASE_API_URL + '/find-available-permission-pools', queryModel);
+
+    }
+
+    savePermissionRelation(permissionArray: Array<string>, masterId: string): Observable<BylResultBody<Boolean>> {
+        let item = new BylEntityRelations();
+        item.masterId = masterId;
+        item.relationIds = permissionArray;
+
+        return this.http.post<BylResultBody<Boolean>>(this.BASE_API_URL + '/batch-add-permission-relation-by-ids', item);
+
+    }
+
+    findEntityPermission(masterId: string): Observable<BylResultBody<Array<BylPermission>>> {
+        return this.fetchPermissionsByAccountId(masterId);
+    }
+
 }

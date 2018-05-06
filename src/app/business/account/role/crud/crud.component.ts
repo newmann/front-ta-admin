@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {BylRoleService} from '../../../../service/account/service/role.service';
 import {catchError, debounceTime, distinctUntilChanged, first, flatMap, map} from 'rxjs/operators';
 import {BylResultBody} from '../../../../service/model/result-body.model';
@@ -10,8 +10,6 @@ import {BylRole} from '../../../../service/account/model/role.model';
 import {_Validators, ReuseTabService} from '@delon/abc';
 import {ActivatedRoute} from '@angular/router';
 import {BylCrudComponentBase} from '../../../common/crud-component-base';
-import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
-import {BylSimpleEntityLogger} from "../../../../service/simple-entity-logger/model/simple-entity-logger.model";
 
 
 @Component({
@@ -19,7 +17,10 @@ import {BylSimpleEntityLogger} from "../../../../service/simple-entity-logger/mo
     templateUrl: './crud.component.html',
 })
 export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
-    public clientBrowserType: any;
+    // public clientBrowserType: any;
+
+    //调用BylPermissionItemListComponet时传入的参数
+    // public permissionEntityType: PermissionEntityTypeEnum = PermissionEntityTypeEnum.ROLE;
 
 
     // private _role = new BylRole;
@@ -36,7 +37,7 @@ export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
      *      如果保存出错，界面小时，但本界面不退出
      *
      */
-    private _savingReveal: any;
+    // private _savingReveal: any;
 
     @Input()
     set setSourceId(value: string) {
@@ -60,7 +61,7 @@ export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
                 public roleService: BylRoleService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public modalSubject: NzModalSubject,
+                public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {

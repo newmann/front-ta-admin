@@ -16,15 +16,14 @@ import {Exception404Component} from "../routes/exception/404.component";
 import {DashboardV1Component} from "../routes/dashboard/v1/v1.component";
 import {BylWaitingComponent} from "./common/waiting/waiting.component";
 import {BylCrudWaitingComponent} from "./common/waiting/crud-waiting.component";
-import {NzTreeModule} from "ng-tree-antd";
 import {BylEmbeddableAddressComponent} from "./common/embeddable-address/embeddable-address.component";
 import {BylBusinessSharedModule} from './business-shared.module';
+import {UserLockComponent} from "../routes/passport/lock/lock.component";
 
 
 
 @NgModule({
     imports: [ SharedModule,
-        NzTreeModule,
         BylBusinessSharedModule,
         BylBusinessRoutingModule],
     declarations: [
@@ -33,10 +32,12 @@ import {BylBusinessSharedModule} from './business-shared.module';
         DashboardMonitorComponent,
         DashboardWorkplaceComponent,
         // passport pages
+
         UserLoginComponent,
         UserRegisterComponent,
         UserRegisterResultComponent,
         // single pages
+        UserLockComponent,
         CallbackComponent,
         Exception403Component,
         Exception404Component,

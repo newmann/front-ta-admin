@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NzMessageService, NzModalService, NzModalSubject} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {Router} from "@angular/router";
@@ -11,27 +11,33 @@ import {BylAccountQuery} from "../../../../service/account/query/account-query.m
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import {BylPageResp} from '../../../../service/model/page-resp.model';
 import {Observable} from 'rxjs/Observable';
-import {BylAccountAvailablePoolsInterface} from '../../../../service/service/account-available-pool.interface';
+import {BylAccountAvailablePoolsInterface} from '../../../../service/account/service/account-related.interface';
 import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
+import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
+
 
 @Component({
   selector: 'byl-account-list',
   templateUrl: './list.component.html',
 })
 export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
+    // LIST_MODE:BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
+
+    @Input() masterId: string;//用户查询对应关系的界面，比如角色包含的用户等
+
     /**
      * 当前在什么状态，主要是为了兼容不同的功能，比如筛选用户的界面等等,暂先定义两个：
      * list:正常的浏览界面
      * select： 筛选界面，
      */
 
-    @Input() functionMode: string;
+    @Input() functionMode: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
     @Input() findAvailablePoolsService: BylAccountAvailablePoolsInterface; //调用方传入查询函数
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public functionSubject$: NzModalSubject,
+                public functionSubject$: NzModalRef,
                 public router: Router,
                 public accountService: BylAccountService) {
         super(message, configService, modalService, router);
@@ -76,8 +82,8 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
     batchSelect($event) {
         //将数据传出，并退出界面
         $event.preventDefault();
-        this.functionSubject$.next(this.selectedRows);
-        this.functionSubject$.destroy('onCancel');
+        // this.functionSubject$.next(this.selectedRows);
+        this.functionSubject$.destroy(this.selectedRows);
     }
 
     /**
@@ -89,11 +95,11 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
         this.clearGrid();
 
         let queryResult: Observable<BylResultBody<BylPageResp<BylAccount>>> ;
-        if (this.functionMode === "select") {
+        if (this.functionMode === BylListFormFunctionModeEnum.SELECT) {
 
             console.log(this.findAvailablePoolsService);
 
-            queryResult = this.findAvailablePoolsService.findAvailableAccountPoolsPage(this.genQueryModel(), this.page);
+            queryResult = this.findAvailablePoolsService.findAvailableAccountPoolsPage(this.genQueryModel(), this.page, this.masterId);
         } else {
             queryResult = this.accountService.findPage(this.genQueryModel(), this.page);
         }

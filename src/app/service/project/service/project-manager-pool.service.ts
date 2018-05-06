@@ -16,7 +16,7 @@ import {BylProjectManagerPool} from '../model/project-manager-pool.model';
 import {BylBaseService} from '../../service/base.service';
 import {BylAccountQuery} from '../../account/query/account-query.model';
 import {BylAccount} from '../../account/model/account.model';
-import {BylAccountAvailablePoolsInterface} from '../../service/account-available-pool.interface';
+import {BylAccountAvailablePoolsInterface} from '../../account/service/account-related.interface';
 
 
 

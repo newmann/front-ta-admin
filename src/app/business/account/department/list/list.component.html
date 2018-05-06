@@ -1,4 +1,4 @@
-<pro-header [title]="'部门管理'">
+<page-header [title]="'部门管理'">
     <ng-template #action>
         <button nz-button (click)="add()" [nzType]="'default'" [nzSize]="'large'">
             <i class="anticon anticon-plus"></i><span>新建</span>
@@ -23,7 +23,7 @@
         </ng-container>
 
     </ng-template>
-</pro-header>
+</page-header>
 <nz-card [nzBordered]="false">
     <form nz-form [nzLayout]="'inline'">
         <div nz-row [nzGutter]="24">
@@ -63,11 +63,13 @@
             </span>
         </nz-alert>
     </div>
-    <nz-input [nzType]="'search'" [nzPlaceHolder]="'input search text'" [(ngModel)]="filterData" (ngModelChange)="filterNodes()"></nz-input>
+    <nz-input-group nzSuffixIcon="anticon anticon-search">
+      <input type="text" nz-input placeholder="input search text" [(ngModel)]="filterData">
+    </nz-input-group>
 
-    <nz-tree #tree [nzNodes]="nodes"
-             [nzOptions]="options"
+    <nz-tree #tree [(ngModel)]="nodes"
              [nzCheckable]="true"
+             [nzSearchValue]="filterData"
              [nzShowLine]="true"
              (nzToggleExpanded)="onToggleExpanded($event)"
              >

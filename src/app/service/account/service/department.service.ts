@@ -7,6 +7,17 @@ import {BylDepartment} from '../model/department.model';
 import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';
 import {BylBaseService} from '../../service/base.service';
+import {BylRoleAccount} from "../model/role-account.model";
+import {BylDepartmentAccount} from "../model/department-account.model";
+import {BylAccount} from "../model/account.model";
+import {
+    BylAccountAvailablePoolsInterface, BylFindEntityAccountInterface,
+    BylSaveAccountRelationInterface
+} from "./account-related.interface";
+import {BylEntityRelations} from "../model/entity-relations.model";
+import {BylPageResp} from "../../model/page-resp.model";
+import {BylPageReq} from "../../model/page-req.model";
+import {BylEntityRelationAvailablePoolsQueryReqBody} from "../model/entity-relation-available-pools-query-req-body.model";
 
 
 /**
@@ -15,7 +26,10 @@ import {BylBaseService} from '../../service/base.service';
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylDepartmentService  extends BylBaseService<BylDepartment> {
+export class BylDepartmentService  extends BylBaseService<BylDepartment>
+    implements BylFindEntityAccountInterface
+    ,BylSaveAccountRelationInterface
+    ,BylAccountAvailablePoolsInterface{
     constructor(protected http: _HttpClient,
                 protected configServer: BylConfigService,
                 protected i18nService: I18NService) {
@@ -24,40 +38,6 @@ export class BylDepartmentService  extends BylBaseService<BylDepartment> {
 
         this.BASE_API_URL = 'api/account/department';
     }
-
-
-    // static getStatusCaption(status: number): string {
-    //     switch (status) {
-    //         case BylDepartmentStatus.NORMAL_DEPARTMENT:
-    //             return '正常';
-    //         case BylDepartmentStatus.LOCKED_DEPARTMENT:
-    //             return '锁定';
-    //         case BylDepartmentStatus.DELETED_DEPARTMENT:
-    //             return '删除';
-    //         default:
-    //             return 'unknown';
-    //
-    //     }
-    // }
-    //
-    // static statusArray(): BylIStatusItem[] {
-    //     return [
-    //         {
-    //             value: BylDepartmentStatus.NORMAL_DEPARTMENT,
-    //             caption: this.getStatusCaption(BylDepartmentStatus.NORMAL_DEPARTMENT)
-    //         },
-    //         {
-    //             value: BylDepartmentStatus.LOCKED_DEPARTMENT,
-    //             caption: this.getStatusCaption(BylDepartmentStatus.LOCKED_DEPARTMENT)
-    //         },
-    //         {
-    //             value: BylDepartmentStatus.DELETED_DEPARTMENT,
-    //             caption: this.getStatusCaption(BylDepartmentStatus.DELETED_DEPARTMENT)
-    //         }
-    //     ];
-    // }
-
-
 
     /**
      * 返回指定parentId的部门
@@ -76,4 +56,35 @@ export class BylDepartmentService  extends BylBaseService<BylDepartment> {
 
     }
 
+    batchAddAccount(items: Array<BylDepartmentAccount>): Observable<BylResultBody<Array<BylDepartmentAccount>>> {
+        return this.http.post<BylResultBody<Array<BylDepartmentAccount>>>(this.BASE_API_URL + '/batch-add-account', items);
+    }
+
+    fetchAccountsByDepartmentId(departmentId: string): Observable<BylResultBody<Array<BylAccount>>> {
+        return this.http.get<BylResultBody<Array<BylAccount>>>(this.BASE_API_URL + '/fetch-accounts-by-departmentid/' + departmentId);
+    }
+
+
+    findEntityAccount(masterId: string): Observable<BylResultBody<Array<BylAccount>>> {
+        return this.fetchAccountsByDepartmentId(masterId);
+    }
+
+    saveAccountRelation(accountArray: Array<string>, masterId: string): Observable<BylResultBody<Boolean>> {
+        let item = new BylEntityRelations();
+        item.masterId = masterId;
+        item.relationIds = accountArray;
+
+        return this.http.post<BylResultBody<Boolean>>(this.BASE_API_URL + '/batch-add-account-relation-by-ids', item);
+
+    }
+
+    findAvailableAccountPoolsPage(query: any, page: BylPageReq, masterId?: string): Observable<BylResultBody<BylPageResp<BylAccount>>> {
+        let queryModel = new BylEntityRelationAvailablePoolsQueryReqBody<any>();
+        queryModel.masterId = masterId;
+        queryModel.pageReq = page;
+        queryModel.queryReq = query;
+
+        return this.http.post<BylResultBody<BylPageResp<BylAccount>>>(this.BASE_API_URL + '/find-available-account-pools', queryModel);
+
+    }
 }
