@@ -8,6 +8,7 @@ import {BylEntityLoggerComponent} from "./common/entity-logger/entity-logger.com
 import {BylEmbeddableAddressComponent} from "./common/embeddable-address/embeddable-address.component";
 import {BylCrudWaitingComponent} from "./common/waiting/crud-waiting.component";
 import {BylWaitingComponent} from "./common/waiting/waiting.component";
+import {BylInputWidget} from "./common/input-widget/input.widget";
 
 
 
@@ -22,7 +23,9 @@ import {BylWaitingComponent} from "./common/waiting/waiting.component";
         BylEntityLoggerComponent,
         BylEmbeddableAddressComponent,
         BylCrudWaitingComponent,
-        BylWaitingComponent
+        BylWaitingComponent,
+        // widget
+        BylInputWidget
 
 
     ],
@@ -33,7 +36,9 @@ import {BylWaitingComponent} from "./common/waiting/waiting.component";
         BylEntityLoggerComponent,
         BylEmbeddableAddressComponent,
         BylCrudWaitingComponent,
-        BylWaitingComponent
+        BylWaitingComponent,
+        // widget
+        BylInputWidget
 
     ],
     entryComponents:[

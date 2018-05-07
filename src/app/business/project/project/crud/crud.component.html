@@ -1,222 +1,222 @@
-<page-header [title]="'项目信息维护'" *ngIf="processType.length > 0 "></page-header>
-<nz-card [nzBordered]="false">
-    <nz-tabset>
-        <nz-tab>
-            <ng-template #nzTabHeading>基本信息
-            </ng-template>
-            <span>
-                <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" role="form">
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="code" nz-form-item-required>
-                                    <span>
-                                        代码
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="code">
-                            <nz-input formControlName="code" nzPlaceHolder="项目代码" ></nz-input>
-
-                            <ng-container *ngIf="code.dirty && code.touched">
-                                <p nz-form-explain *ngIf="code.errors?.required">必须输入身份证号码</p>
-                                <!--<p nz-form-explain *ngIf="code.errors?.idCard">输入身份证号码不正确</p>-->
-                                <p nz-form-explain *ngIf="code.errors?.duplicate">输入的身份证已经被使用</p>
-                                <p nz-form-explain *ngIf="code.errors?.other">验证出现异常：{{idCard.errors?.msg}}</p>
-                                <!--<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>-->
-                                <p nz-form-explain *ngIf="code.pending">验证中...</p>
-                            </ng-container>
-
-                        </div>
-                    </div>
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="name" nz-form-item-required>
-                                    <span>
-                                        名称
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="name">
-                            <nz-input formControlName="name" nzPlaceHolder="名称" ></nz-input>
-
-                            <ng-container *ngIf="name.dirty && name.touched">
-                                <p nz-form-explain *ngIf="name.errors?.required">必须输入姓名</p>
-                                <p nz-form-explain *ngIf="name.errors?.other">验证出现异常：{{name.errors?.msg}}</p>
-                                <p nz-form-explain *ngIf="name.pending">验证中...</p>
-                            </ng-container>
-                        </div>
-                    </div>
-
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="managerCode" nz-form-item-required>
-                                    <span>
-                                        项目经理
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="managerCode">
-
-                            <nz-input-group [nzSize]="'large'" nzCompact>
-                                <input formControlName="managerId"  type="hidden">
-                                <input nz-input formControlName="managerCode" nzPlaceHolder="代码" style="width: 30%;" >
-                                <ng-container *ngIf="managerCode.dirty && managerCode.touched">
-                                    <p nz-form-explain *ngIf="managerCode.errors?.required">必须输入项目经理代码</p>
-                                    <p nz-form-explain *ngIf="managerCode.errors?.other">验证出现异常：{{managerCode.errors?.msg}}</p>
-                                    <p nz-form-explain *ngIf="managerCode.pending">验证中...</p>
-                                </ng-container>
-
-                                <input nz-input formControlName="managerName" style="width: 60%;" [nzDisabled]="true">
-
-                                <button nz-button [nzType]="'default'" [nzLoading]="loading"  (click)="searchManager($event)" style="width: 10%;" >
-                                    <i class="anticon anticon-search"></i>
-                                </button>
-                            </nz-input-group>
-
-                        </div>
-                    </div>
-
-                    <!--<byl-embeddable-address formControlName="address"></byl-embeddable-address>-->
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="addressTree" nz-form-item-required>
-                                    <span>
-                                        地址
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="addressTree">
-                            <nz-cascader
-                                formControlName = "addressTree"
-                                (nzLoad)="loadAddressTree($event)"
-                                [nzEnableCache] = "false"
-                                (nzSelect) = "selectAddressTree($event)" >
-                            </nz-cascader>
-                        </div>
-                    </div>
-
-
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="detailAddress" nz-form-item-required>
-                                    <span>
-                                        详细地址
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="detailAddress">
-                            <nz-input formControlName="detailAddress" nzPlaceHolder="详细地址"  ></nz-input>
-                        </div>
-                    </div>
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="zipCode" >
-                                    <span>
-                                        邮政编码
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="zipCode">
-                            <nz-input formControlName="zipCode" nzPlaceHolder="邮政编码" ></nz-input>
-
-                        </div>
-                    </div>
-
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="planBeginDate" >
-                                    <span>
-                                        计划开始日期
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="planBeginDate">
-                            <nz-datepicker formControlName="planBeginDate" nzPlaceHolder="计划开始日期" [nzFormat]="'YYYY/MM/DD'"></nz-datepicker>
-
-                        </div>
-                    </div>
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="planEndDate" >
-                                    <span>
-                                        计划结束日期
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="planEndDate">
-                            <nz-datepicker formControlName="planEndDate" nzPlaceHolder="计划结束日期" [nzFormat]="'YYYY/MM/DD'"></nz-datepicker>
-
-                        </div>
-                    </div>
-
-
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="remarks"> 备注</label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
-                            <nz-input formControlName="remarks" nzPlaceHolder="备注" ></nz-input>
-                        </div>
-                    </div>
-
-                    <div nz-form-item nz-row class="mb0">
-
-                        <ng-container *ngIf="errMsg.length > 0">
-                            <p>{{errMsg}}</p>
-                        </ng-container>
-
-                        <div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
-                            <button nz-button [nzType]="'primary'" [nzSize]="'large'"
-                                    [disabled]="form.invalid || (!form.dirty)">保存</button>
-                            <button nz-button (click)="resetButtonClick($event)">重置</button>
-
-
-                        </div>
-
-                    </div>
-
-                </form>
-            </span>
-        </nz-tab>
-
-        <byl-entity-logger [title]="'日志'" [entityId]="sourceId"></byl-entity-logger>
+<!--<page-header [title]="'项目信息维护'" *ngIf="processType.length > 0 "></page-header>-->
+<!--<nz-card [nzBordered]="false">-->
+    <!--<nz-tabset>-->
         <!--<nz-tab>-->
-            <!--<ng-template #nzTabHeading>日志</ng-template>-->
+            <!--<ng-template #nzTabHeading>基本信息-->
+            <!--</ng-template>-->
             <!--<span>-->
-                <!--<nz-timeline>-->
-                  <!--<nz-timeline-item [nzColor]="'green'">Create a services site 2015-09-01</nz-timeline-item>-->
-                  <!--<nz-timeline-item [nzColor]="'green'">Solve initial network problems 2015-09-01</nz-timeline-item>-->
-                  <!--<nz-timeline-item [nzColor]="'red'">Technical testing 2015-09-01</nz-timeline-item>-->
-                  <!--<nz-timeline-item>Network problems being solved 2015-09-01</nz-timeline-item>-->
-                <!--</nz-timeline>-->
+                <!--<form nz-form [formGroup]="form" (ngSubmit)="submitForm()" role="form">-->
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="code" nz-form-item-required>-->
+                                    <!--<span>-->
+                                        <!--代码-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="code">-->
+                            <!--<nz-input formControlName="code" nzPlaceHolder="项目代码" ></nz-input>-->
+
+                            <!--<ng-container *ngIf="code.dirty && code.touched">-->
+                                <!--<p nz-form-explain *ngIf="code.errors?.required">必须输入身份证号码</p>-->
+                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="code.errors?.idCard">输入身份证号码不正确</p>&ndash;&gt;-->
+                                <!--<p nz-form-explain *ngIf="code.errors?.duplicate">输入的身份证已经被使用</p>-->
+                                <!--<p nz-form-explain *ngIf="code.errors?.other">验证出现异常：{{idCard.errors?.msg}}</p>-->
+                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>&ndash;&gt;-->
+                                <!--<p nz-form-explain *ngIf="code.pending">验证中...</p>-->
+                            <!--</ng-container>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="name" nz-form-item-required>-->
+                                    <!--<span>-->
+                                        <!--名称-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="name">-->
+                            <!--<nz-input formControlName="name" nzPlaceHolder="名称" ></nz-input>-->
+
+                            <!--<ng-container *ngIf="name.dirty && name.touched">-->
+                                <!--<p nz-form-explain *ngIf="name.errors?.required">必须输入姓名</p>-->
+                                <!--<p nz-form-explain *ngIf="name.errors?.other">验证出现异常：{{name.errors?.msg}}</p>-->
+                                <!--<p nz-form-explain *ngIf="name.pending">验证中...</p>-->
+                            <!--</ng-container>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="managerCode" nz-form-item-required>-->
+                                    <!--<span>-->
+                                        <!--项目经理-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="managerCode">-->
+
+                            <!--<nz-input-group [nzSize]="'large'" nzCompact>-->
+                                <!--<input formControlName="managerId"  type="hidden">-->
+                                <!--<input nz-input formControlName="managerCode" nzPlaceHolder="代码" style="width: 30%;" >-->
+                                <!--<ng-container *ngIf="managerCode.dirty && managerCode.touched">-->
+                                    <!--<p nz-form-explain *ngIf="managerCode.errors?.required">必须输入项目经理代码</p>-->
+                                    <!--<p nz-form-explain *ngIf="managerCode.errors?.other">验证出现异常：{{managerCode.errors?.msg}}</p>-->
+                                    <!--<p nz-form-explain *ngIf="managerCode.pending">验证中...</p>-->
+                                <!--</ng-container>-->
+
+                                <!--<input nz-input formControlName="managerName" style="width: 60%;" [nzDisabled]="true">-->
+
+                                <!--<button nz-button [nzType]="'default'" [nzLoading]="loading"  (click)="searchManager($event)" style="width: 10%;" >-->
+                                    <!--<i class="anticon anticon-search"></i>-->
+                                <!--</button>-->
+                            <!--</nz-input-group>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash;<byl-embeddable-address formControlName="address"></byl-embeddable-address>&ndash;&gt;-->
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="addressTree" nz-form-item-required>-->
+                                    <!--<span>-->
+                                        <!--地址-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="addressTree">-->
+                            <!--<nz-cascader-->
+                                <!--formControlName = "addressTree"-->
+                                <!--(nzLoad)="loadAddressTree($event)"-->
+                                <!--[nzEnableCache] = "false"-->
+                                <!--(nzSelect) = "selectAddressTree($event)" >-->
+                            <!--</nz-cascader>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="detailAddress" nz-form-item-required>-->
+                                    <!--<span>-->
+                                        <!--详细地址-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="detailAddress">-->
+                            <!--<nz-input formControlName="detailAddress" nzPlaceHolder="详细地址"  ></nz-input>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="zipCode" >-->
+                                    <!--<span>-->
+                                        <!--邮政编码-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="zipCode">-->
+                            <!--<nz-input formControlName="zipCode" nzPlaceHolder="邮政编码" ></nz-input>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="planBeginDate" >-->
+                                    <!--<span>-->
+                                        <!--计划开始日期-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="planBeginDate">-->
+                            <!--<nz-datepicker formControlName="planBeginDate" nzPlaceHolder="计划开始日期" [nzFormat]="'YYYY/MM/DD'"></nz-datepicker>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="planEndDate" >-->
+                                    <!--<span>-->
+                                        <!--计划结束日期-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="planEndDate">-->
+                            <!--<nz-datepicker formControlName="planEndDate" nzPlaceHolder="计划结束日期" [nzFormat]="'YYYY/MM/DD'"></nz-datepicker>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="remarks"> 备注</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback>-->
+                            <!--<nz-input formControlName="remarks" nzPlaceHolder="备注" ></nz-input>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div nz-form-item nz-row class="mb0">-->
+
+                        <!--<ng-container *ngIf="errMsg.length > 0">-->
+                            <!--<p>{{errMsg}}</p>-->
+                        <!--</ng-container>-->
+
+                        <!--<div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">-->
+                            <!--<button nz-button [nzType]="'primary'" [nzSize]="'large'"-->
+                                    <!--[disabled]="form.invalid || (!form.dirty)">保存</button>-->
+                            <!--<button nz-button (click)="resetButtonClick($event)">重置</button>-->
+
+
+                        <!--</div>-->
+
+                    <!--</div>-->
+
+                <!--</form>-->
             <!--</span>-->
         <!--</nz-tab>-->
 
-    </nz-tabset>
-    <!--<div nz-row >-->
-    <!--<div  nz-col [nzSpan]="20" [nzOffset]="4">-->
-    <!--<button nz-button [nzType]="'primary'" [nzSize]="'large'" (click) = "showButtonClick($event)">show</button>-->
+        <!--<byl-entity-logger [title]="'日志'" [entityId]="sourceId"></byl-entity-logger>-->
+        <!--&lt;!&ndash;<nz-tab>&ndash;&gt;-->
+            <!--&lt;!&ndash;<ng-template #nzTabHeading>日志</ng-template>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span>&ndash;&gt;-->
+                <!--&lt;!&ndash;<nz-timeline>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<nz-timeline-item [nzColor]="'green'">Create a services site 2015-09-01</nz-timeline-item>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<nz-timeline-item [nzColor]="'green'">Solve initial network problems 2015-09-01</nz-timeline-item>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<nz-timeline-item [nzColor]="'red'">Technical testing 2015-09-01</nz-timeline-item>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<nz-timeline-item>Network problems being solved 2015-09-01</nz-timeline-item>&ndash;&gt;-->
+                <!--&lt;!&ndash;</nz-timeline>&ndash;&gt;-->
+            <!--&lt;!&ndash;</span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</nz-tab>&ndash;&gt;-->
 
-    <!--</div>-->
+    <!--</nz-tabset>-->
+    <!--&lt;!&ndash;<div nz-row >&ndash;&gt;-->
+    <!--&lt;!&ndash;<div  nz-col [nzSpan]="20" [nzOffset]="4">&ndash;&gt;-->
+    <!--&lt;!&ndash;<button nz-button [nzType]="'primary'" [nzSize]="'large'" (click) = "showButtonClick($event)">show</button>&ndash;&gt;-->
 
-    <!--</div>-->
-</nz-card>
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--</nz-card>-->
 

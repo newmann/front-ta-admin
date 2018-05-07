@@ -1,259 +1,259 @@
-<page-header [title]="'个体信息维护'" *ngIf="processType.length > 0 "></page-header>
-<nz-card [nzBordered]="false">
-    <nz-tabset>
-        <nz-tab>
-            <ng-template #nzTabHeading>基本信息
-            </ng-template>
-            <span>
-                <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" role="form">
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="idCard" nz-form-item-required>
-                                    <span>
-                                        身份证号码：
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="idCard">
-                            <nz-input formControlName="idCard" nzPlaceHolder="身份证号码" ></nz-input>
-
-                            <ng-container *ngIf="idCard.dirty && idCard.touched">
-                                <p nz-form-explain *ngIf="idCard.errors?.required">必须输入身份证号码</p>
-                                <p nz-form-explain *ngIf="idCard.errors?.idCard">输入身份证号码不正确</p>
-                                <p nz-form-explain *ngIf="idCard.errors?.duplicate">输入的身份证已经被使用</p>
-                                <p nz-form-explain *ngIf="idCard.errors?.other">验证出现异常：{{idCard.errors?.msg}}</p>
-                                <!--<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>-->
-                                <p nz-form-explain *ngIf="idCard.pending">验证中...</p>
-                            </ng-container>
-
-                        </div>
-                    </div>
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="name" nz-form-item-required>
-                                    <span>
-                                        姓名
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="name">
-                            <nz-input formControlName="name" nzPlaceHolder="姓名" ></nz-input>
-
-                            <ng-container *ngIf="name.dirty && name.touched">
-                                <p nz-form-explain *ngIf="name.errors?.required">必须输入姓名</p>
-                                <p nz-form-explain *ngIf="name.errors?.other">验证出现异常：{{name.errors?.msg}}</p>
-                                <p nz-form-explain *ngIf="name.pending">验证中...</p>
-                            </ng-container>
-                        </div>
-                    </div>
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="gender" nz-form-item-required>
-                                    <span>
-                                        性别
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="gender">
-
-                            <nz-radio-group formControlName="gender" >
-                              <label nz-radio-button [nzValue]="1"><span>男</span></label>
-                              <label nz-radio-button [nzValue]="-1"><span>女</span></label>
-                              <label nz-radio-button [nzValue]="0"><span>未知</span></label>
-                            </nz-radio-group>
-                            <ng-container *ngIf="gender.dirty && gender.touched">
-                                <p nz-form-explain *ngIf="gender.errors?.required">必须选择性别</p>
-                            </ng-container>
-                        </div>
-                    </div>
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="birthYear" >-->
-                                    <!--<span>-->
-                                        <!--出生年份-->
-                                    <!--</span>-->
-                            <!--</label>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="birthYear">-->
-                            <!--<nz-input formControlName="birthYear" nzPlaceHolder="出生年份" ></nz-input>-->
-
-                            <!--<ng-container *ngIf="birthYear.dirty && birthYear.touched">-->
-                                <!--<p nz-form-explain *ngIf="birthYear.errors?.maxLength">最大为4位整数</p>-->
-                                <!--<p nz-form-explain *ngIf="birthYear.pending">验证中...</p>-->
-                            <!--</ng-container>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="birthMonth" >-->
-                                    <!--<span>-->
-                                        <!--出生月份-->
-                                    <!--</span>-->
-                            <!--</label>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="birthMonth">-->
-                            <!--<nz-input formControlName="birthMonth" nzPlaceHolder="出生月份" ></nz-input>-->
-
-                            <!--<ng-container *ngIf="birthMonth.dirty && birthMonth.touched">-->
-                                <!--<p nz-form-explain *ngIf="birthMonth.errors?.maxLength">最大为2位整数</p>-->
-                                <!--<p nz-form-explain *ngIf="birthMonth.pending">验证中...</p>-->
-                            <!--</ng-container>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="birthDay" >-->
-                                    <!--<span>-->
-                                        <!--出生日-->
-                                    <!--</span>-->
-                            <!--</label>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="birthDay">-->
-                            <!--<nz-input formControlName="birthDay" nzPlaceHolder="出生日" ></nz-input>-->
-
-                            <!--<ng-container *ngIf="birthDay.dirty && birthDay.touched">-->
-                                <!--<p nz-form-explain *ngIf="birthDay.errors?.maxLength">最大为2位整数</p>-->
-                                <!--<p nz-form-explain *ngIf="birthDay.pending">验证中...</p>-->
-                            <!--</ng-container>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="nation" >
-                                    <span>
-                                        民族
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
-                            <nz-select formControlName="nation" [nzPlaceHolder]="'请选择所属民族'" nzAllowClear>
-                                所属民族
-
-                                <nz-option *ngFor="let option of searchedNations"
-                                           [nzValue]="option.code"
-                                           [nzLabel]="option.name"
-                                ></nz-option>
-
-
-                            </nz-select>
-
-                        </div>
-                    </div>
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="politicalStatus" >
-                                    <span>
-                                        政治面貌
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback >
-                            <nz-select  formControlName="politicalStatus" nzAllowClear [nzPlaceHolder]="'选择政治面貌'">
-                              <nz-option
-                                  *ngFor="let option of searchedPoliticalStatus"
-                                  [nzLabel]="option.name"
-                                  [nzValue]="option.code"
-                              ></nz-option>
-                            </nz-select>
-
-                        </div>
-                    </div>
-
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="nativePlace" >
-                                    <span>
-                                        籍贯
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="nativePlace">
-                            <nz-input formControlName="nativePlace" nzPlaceHolder="籍贯" ></nz-input>
-
-                        </div>
-                    </div>
-
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="remarks"> 备注</label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
-                            <nz-input formControlName="remarks" nzPlaceHolder="备注" ></nz-input>
-                        </div>
-                    </div>
-
-                    <div nz-form-item nz-row class="mb0">
-
-                        <ng-container *ngIf="errMsg.length > 0">
-                            <p>{{errMsg}}</p>
-                        </ng-container>
-
-                        <div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
-                            <button nz-button [nzType]="'primary'" [nzSize]="'large'"
-                                    [disabled]="form.invalid || (!form.dirty)">保存</button>
-                            <button nz-button (click)="resetButtonClick($event)">重置</button>
-
-
-                        </div>
-
-                    </div>
-
-                </form>
-            </span>
-        </nz-tab>
-
-        <nz-tab [nzDisabled]="!sourceId">
-            <ng-template #nzTabHeading>地址</ng-template>
-            <span>
-                <byl-person-address-list [setMasterId]="sourceId"></byl-person-address-list>
-            </span>
-        </nz-tab>
-        <nz-tab [nzDisabled]="!sourceId">
-            <ng-template #nzTabHeading>证件</ng-template>
-            <span>
-                <byl-person-certificate-list [setMasterId]="sourceId"></byl-person-certificate-list>
-            </span>
-        </nz-tab>
-
-        <byl-entity-logger [title]="'日志'" [entityId]="sourceId"></byl-entity-logger>
+<!--<page-header [title]="'个体信息维护'" *ngIf="processType.length > 0 "></page-header>-->
+<!--<nz-card [nzBordered]="false">-->
+    <!--<nz-tabset>-->
         <!--<nz-tab>-->
-            <!--<ng-template #nzTabHeading>日志</ng-template>-->
+            <!--<ng-template #nzTabHeading>基本信息-->
+            <!--</ng-template>-->
             <!--<span>-->
-                <!--<nz-timeline>-->
-                  <!--<nz-timeline-item [nzColor]="'green'">Create a services site 2015-09-01</nz-timeline-item>-->
-                  <!--<nz-timeline-item [nzColor]="'green'">Solve initial network problems 2015-09-01</nz-timeline-item>-->
-                  <!--<nz-timeline-item [nzColor]="'red'">Technical testing 2015-09-01</nz-timeline-item>-->
-                  <!--<nz-timeline-item>Network problems being solved 2015-09-01</nz-timeline-item>-->
-                <!--</nz-timeline>-->
+                <!--<form nz-form [formGroup]="form" (ngSubmit)="submitForm()" role="form">-->
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="idCard" nz-form-item-required>-->
+                                    <!--<span>-->
+                                        <!--身份证号码：-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="idCard">-->
+                            <!--<nz-input formControlName="idCard" nzPlaceHolder="身份证号码" ></nz-input>-->
+
+                            <!--<ng-container *ngIf="idCard.dirty && idCard.touched">-->
+                                <!--<p nz-form-explain *ngIf="idCard.errors?.required">必须输入身份证号码</p>-->
+                                <!--<p nz-form-explain *ngIf="idCard.errors?.idCard">输入身份证号码不正确</p>-->
+                                <!--<p nz-form-explain *ngIf="idCard.errors?.duplicate">输入的身份证已经被使用</p>-->
+                                <!--<p nz-form-explain *ngIf="idCard.errors?.other">验证出现异常：{{idCard.errors?.msg}}</p>-->
+                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>&ndash;&gt;-->
+                                <!--<p nz-form-explain *ngIf="idCard.pending">验证中...</p>-->
+                            <!--</ng-container>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="name" nz-form-item-required>-->
+                                    <!--<span>-->
+                                        <!--姓名-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="name">-->
+                            <!--<nz-input formControlName="name" nzPlaceHolder="姓名" ></nz-input>-->
+
+                            <!--<ng-container *ngIf="name.dirty && name.touched">-->
+                                <!--<p nz-form-explain *ngIf="name.errors?.required">必须输入姓名</p>-->
+                                <!--<p nz-form-explain *ngIf="name.errors?.other">验证出现异常：{{name.errors?.msg}}</p>-->
+                                <!--<p nz-form-explain *ngIf="name.pending">验证中...</p>-->
+                            <!--</ng-container>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="gender" nz-form-item-required>-->
+                                    <!--<span>-->
+                                        <!--性别-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="gender">-->
+
+                            <!--<nz-radio-group formControlName="gender" >-->
+                              <!--<label nz-radio-button [nzValue]="1"><span>男</span></label>-->
+                              <!--<label nz-radio-button [nzValue]="-1"><span>女</span></label>-->
+                              <!--<label nz-radio-button [nzValue]="0"><span>未知</span></label>-->
+                            <!--</nz-radio-group>-->
+                            <!--<ng-container *ngIf="gender.dirty && gender.touched">-->
+                                <!--<p nz-form-explain *ngIf="gender.errors?.required">必须选择性别</p>-->
+                            <!--</ng-container>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<div nz-form-item nz-row>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div nz-form-label nz-col [nzSm]="4">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<label for="birthYear" >&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<span>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;出生年份&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</label>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="birthYear">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<nz-input formControlName="birthYear" nzPlaceHolder="出生年份" ></nz-input>&ndash;&gt;-->
+
+                            <!--&lt;!&ndash;<ng-container *ngIf="birthYear.dirty && birthYear.touched">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="birthYear.errors?.maxLength">最大为4位整数</p>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="birthYear.pending">验证中...</p>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div nz-form-item nz-row>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div nz-form-label nz-col [nzSm]="4">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<label for="birthMonth" >&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<span>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;出生月份&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</label>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="birthMonth">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<nz-input formControlName="birthMonth" nzPlaceHolder="出生月份" ></nz-input>&ndash;&gt;-->
+
+                            <!--&lt;!&ndash;<ng-container *ngIf="birthMonth.dirty && birthMonth.touched">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="birthMonth.errors?.maxLength">最大为2位整数</p>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="birthMonth.pending">验证中...</p>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div nz-form-item nz-row>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div nz-form-label nz-col [nzSm]="4">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<label for="birthDay" >&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<span>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;出生日&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</label>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="birthDay">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<nz-input formControlName="birthDay" nzPlaceHolder="出生日" ></nz-input>&ndash;&gt;-->
+
+                            <!--&lt;!&ndash;<ng-container *ngIf="birthDay.dirty && birthDay.touched">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="birthDay.errors?.maxLength">最大为2位整数</p>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="birthDay.pending">验证中...</p>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="nation" >-->
+                                    <!--<span>-->
+                                        <!--民族-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback>-->
+                            <!--<nz-select formControlName="nation" [nzPlaceHolder]="'请选择所属民族'" nzAllowClear>-->
+                                <!--所属民族-->
+
+                                <!--<nz-option *ngFor="let option of searchedNations"-->
+                                           <!--[nzValue]="option.code"-->
+                                           <!--[nzLabel]="option.name"-->
+                                <!--&gt;</nz-option>-->
+
+
+                            <!--</nz-select>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="politicalStatus" >-->
+                                    <!--<span>-->
+                                        <!--政治面貌-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback >-->
+                            <!--<nz-select  formControlName="politicalStatus" nzAllowClear [nzPlaceHolder]="'选择政治面貌'">-->
+                              <!--<nz-option-->
+                                  <!--*ngFor="let option of searchedPoliticalStatus"-->
+                                  <!--[nzLabel]="option.name"-->
+                                  <!--[nzValue]="option.code"-->
+                              <!--&gt;</nz-option>-->
+                            <!--</nz-select>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="nativePlace" >-->
+                                    <!--<span>-->
+                                        <!--籍贯-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="nativePlace">-->
+                            <!--<nz-input formControlName="nativePlace" nzPlaceHolder="籍贯" ></nz-input>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="remarks"> 备注</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback>-->
+                            <!--<nz-input formControlName="remarks" nzPlaceHolder="备注" ></nz-input>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div nz-form-item nz-row class="mb0">-->
+
+                        <!--<ng-container *ngIf="errMsg.length > 0">-->
+                            <!--<p>{{errMsg}}</p>-->
+                        <!--</ng-container>-->
+
+                        <!--<div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">-->
+                            <!--<button nz-button [nzType]="'primary'" [nzSize]="'large'"-->
+                                    <!--[disabled]="form.invalid || (!form.dirty)">保存</button>-->
+                            <!--<button nz-button (click)="resetButtonClick($event)">重置</button>-->
+
+
+                        <!--</div>-->
+
+                    <!--</div>-->
+
+                <!--</form>-->
             <!--</span>-->
         <!--</nz-tab>-->
 
-    </nz-tabset>
-    <!--<div nz-row >-->
-    <!--<div  nz-col [nzSpan]="20" [nzOffset]="4">-->
-    <!--<button nz-button [nzType]="'primary'" [nzSize]="'large'" (click) = "showButtonClick($event)">show</button>-->
+        <!--<nz-tab [nzDisabled]="!sourceId">-->
+            <!--<ng-template #nzTabHeading>地址</ng-template>-->
+            <!--<span>-->
+                <!--<byl-person-address-list [setMasterId]="sourceId"></byl-person-address-list>-->
+            <!--</span>-->
+        <!--</nz-tab>-->
+        <!--<nz-tab [nzDisabled]="!sourceId">-->
+            <!--<ng-template #nzTabHeading>证件</ng-template>-->
+            <!--<span>-->
+                <!--<byl-person-certificate-list [setMasterId]="sourceId"></byl-person-certificate-list>-->
+            <!--</span>-->
+        <!--</nz-tab>-->
 
-    <!--</div>-->
+        <!--<byl-entity-logger [title]="'日志'" [entityId]="sourceId"></byl-entity-logger>-->
+        <!--&lt;!&ndash;<nz-tab>&ndash;&gt;-->
+            <!--&lt;!&ndash;<ng-template #nzTabHeading>日志</ng-template>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span>&ndash;&gt;-->
+                <!--&lt;!&ndash;<nz-timeline>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<nz-timeline-item [nzColor]="'green'">Create a services site 2015-09-01</nz-timeline-item>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<nz-timeline-item [nzColor]="'green'">Solve initial network problems 2015-09-01</nz-timeline-item>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<nz-timeline-item [nzColor]="'red'">Technical testing 2015-09-01</nz-timeline-item>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<nz-timeline-item>Network problems being solved 2015-09-01</nz-timeline-item>&ndash;&gt;-->
+                <!--&lt;!&ndash;</nz-timeline>&ndash;&gt;-->
+            <!--&lt;!&ndash;</span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</nz-tab>&ndash;&gt;-->
 
-    <!--</div>-->
-</nz-card>
+    <!--</nz-tabset>-->
+    <!--&lt;!&ndash;<div nz-row >&ndash;&gt;-->
+    <!--&lt;!&ndash;<div  nz-col [nzSpan]="20" [nzOffset]="4">&ndash;&gt;-->
+    <!--&lt;!&ndash;<button nz-button [nzType]="'primary'" [nzSize]="'large'" (click) = "showButtonClick($event)">show</button>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--</nz-card>-->
 

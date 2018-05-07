@@ -36,49 +36,50 @@
 <nz-card [nzBordered]="false">
     <form nz-form [nzLayout]="'inline'">
         <div nz-row [nzGutter]="24">
-            <div nz-col [nzSpan]="8" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="qName">角色名称</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="qData.name" name="'qName'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
-                                  nzId="'qName'"></nz-input>
-                    </div>
-                </div>
+            <div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24" class="mb-md">
+              <nz-form-item [nzFlex]>
+                <nz-form-label [nzFor]="'qName'">角色名称</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="qData.name" name="qName" [nzSize]="'large'"
+                               placeHolder="请输入" id="qName">
+                    </nz-form-control>
+              </nz-form-item>
             </div>
-            <div nz-col [nzSpan]="8" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="qStatus">角色状态</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-select [(ngModel)]="qData.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"
-                                   [nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">
-                            <nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"
-                                       [nzValue]="i.value"></nz-option>
-                        </nz-select>
-                    </div>
-                </div>
+            <div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24" class="mb-md">
+              <nz-form-item [nzFlex]>
+                <nz-form-label [nzFor]="'qStatus'">角色状态</nz-form-label>
+                <nz-form-control>
+                    <nz-select [(ngModel)]="qData.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"
+                               [nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">
+                        <nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"
+                                   [nzValue]="i.value"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+              </nz-form-item>
             </div>
-            <div *ngIf="expandQuery" nz-col [nzSpan]="8" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="qModifyDateBegin">最后修改起始日期</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-datepicker [(ngModel)]="qData.modifyDateBegin" name="'qModifyDateBegin" nzId="'qModifyDateBegin"
-                                       [nzSize]="'large'" [nzPlaceHolder]="'起始日期'" class="d-block"></nz-datepicker>
-                    </div>
-                </div>
-            </div>
+          <div *ngIf="expandQuery" nz-col [nzLg]="6"  [nzMd]="8" [nzSm]="12"  [nzXs]="24"  class="mb-md">
+            <nz-form-item [nzFlex]>
+              <nz-form-label [nzFor]="'qModifyDateBegin'">最后修改起始日期</nz-form-label>
+              <nz-form-control>
+                <nz-calendar [nzCard]  [(ngModel)]="qData.modifyDateBegin" name="qModifyDateBegin" id="qModifyDateBegin"
+                ></nz-calendar>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
 
-            <div *ngIf="expandQuery" nz-col [nzSpan]="8" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="qModifyDateEnd">最后修改截止日期</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-datepicker [(ngModel)]="qData.modifyDateEnd" name="qModifyDateEnd" nzId="qModifyDateEnd"
-                                       [nzSize]="'large'" [nzPlaceHolder]="'截止日期'" class="d-block"></nz-datepicker>
-                    </div>
-                </div>
-            </div>
+          <div *ngIf="expandQuery" nz-col [nzLg]="6" [nzMd]="8" [nzSm]="12"  [nzXs]="24"   class="mb-md">
+            <nz-form-item [nzFlex]>
+              <nz-form-label [nzFor]="'qModifyDateEnd'">最后修改截止日期</nz-form-label>
+              <nz-form-control >
+                <nz-calendar [nzDateFullCell] [(ngModel)]="qData.modifyDateEnd"
+                             name="qModifyDateEnd" id="qModifyDateEnd"></nz-calendar>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
 
             <!--<div nz-col [nzSpan]="expandQuery ? 24 : 8" class="mb-md" [class.text-right]="expandQuery">-->
-            <div nz-col [nzSpan]="expandQuery ? 24 : 8" class="mb-md" [class.text-right]="true">
+          <div nz-col [nzLg]="expandQuery ? 24 : 6"  [nzMd]="expandQuery ? 24 : 8"  [nzSm]="expandQuery ? 24 : 12"  [nzXs]="expandQuery ? 24 : 24" class="mb-md" [class.text-right]="true">
                 <!--<button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询-->
                 <!--</button>-->
                 <button nz-button type="reset" (click)="resetQuery()" [nzSize]="'large'" class="mx-sm">重置</button>
@@ -101,18 +102,18 @@
     <!--<nz-table #nzTable [nzDataSource]="listData" [nzPageSize]="page.pageSize" [nzLoading]="loading" >-->
     <!--(nzDataChange)="dataChange($event)"-->
     <!--(nzPageIndexChange)="pageChange($event)">-->
-    <nz-table #nzTable [nzAjaxData]="listData" [nzPageSize]="page.pageSize" [nzLoading]="loading"
-              nzShowSizeChanger [nzTotal]="total" [(nzPageIndex)]="page.page" nzShowTotal="true"
+
+
+    <nz-table #nzTable [nzData]="listData" [(nzPageSize)]="page.pageSize" [(nzPageIndex)]="page.page" [nzLoading]="loading"
+              nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total"
               (nzPageIndexChange)="search()" (nzPageSizeChange)="pageSizeChange($event)">
-        <thead nz-thead>
+        <thead >
         <tr>
-            <th nz-th [nzCheckbox]="true">
-                <label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"
-                       (ngModelChange)="checkAll($event)"></label>
-            </th>
-            <th nz-th><span>名称</span></th>
-            <th nz-th><span>描述</span></th>
-            <th nz-th>
+          <th  nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
+               (nzCheckedChange)="checkAll($event)"></th>
+            <th ><span>名称</span></th>
+            <th ><span>描述</span></th>
+            <th >
                 <span>状态</span>
                 <nz-dropdown [nzTrigger]="'click'">
                     <i class="anticon anticon-filter" nz-dropdown></i>
@@ -127,26 +128,23 @@
                     </div>
                 </nz-dropdown>
             </th>
-            <th nz-th>
+            <th >
                 <span>最后修改时间</span>
                 <!--<nz-table-sort [(nzValue)]="sortMap.updatedAt"-->
                                <!--(nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>-->
             </th>
-            <th nz-th><span>操作</span></th>
+            <th ><span>操作</span></th>
         </tr>
         </thead>
-        <tbody nz-tbody>
-        <tr nz-tbody-tr *ngFor="let i of nzTable.data">
-            <td nz-td [nzCheckbox]="true">
-                <label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"
-                       (ngModelChange)="refreshStatus($event)">
-                </label>
-            </td>
-            <td nz-td>{{i.item.name}}</td>
-            <td nz-td>{{i.item.remarks}}</td>
-            <td nz-td>{{getStatusCaption(i.item.status)}}</td>
-            <td nz-td>{{i.item.modifyAction.modifyDateTime | _date}}</td>
-            <td nz-td>
+        <tbody >
+        <tr  *ngFor="let i of nzTable.data">
+          <td  nzShowCheckbox [(nzChecked)]="i.checked" [nzDisabled]="i.disabled"
+               (nzCheckedChange)="refreshStatus($event)"></td>
+            <td >{{i.item.name}}</td>
+            <td >{{i.item.remarks}}</td>
+            <td >{{getStatusCaption(i.item.status)}}</td>
+            <td >{{i.item.modifyAction.modifyDateTime | _date}}</td>
+            <td >
                 <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
                 <span>
                     <a (click)="modifyEntity(i.item.id)">修改</a>

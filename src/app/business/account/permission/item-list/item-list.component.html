@@ -17,36 +17,31 @@
 
         </nz-alert>
     </div>
-    <nz-table #nzTable [nzAjaxData]="listData"  [nzLoading]="loading"
-              [nzIsPagination] = "false">
-        <thead nz-thead>
+    <nz-table #nzTable [nzData]="listData"  [nzLoading]="loading"
+              [nzShowPagination]= "false">
+        <thead >
         <tr>
-            <th nz-th [nzCheckbox]="true">
-                <label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"
-                    (ngModelChange)="checkAll($event)"></label>
-            </th>
-            <th nz-th><span>包</span></th>
-            <th nz-th><span>模块</span></th>
-            <th nz-th><span>功能</span></th>
-            <th nz-th>
+          <th  nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
+               (nzCheckedChange)="checkAll($event)"></th>
+            <th ><span>包</span></th>
+            <th ><span>模块</span></th>
+            <th ><span>功能</span></th>
+            <th >
                 <span>备注</span>
             </th>
 
-            <th nz-th><span>操作</span></th>
+            <th ><span>操作</span></th>
         </tr>
         </thead>
-        <tbody nz-tbody>
-        <tr nz-tbody-tr *ngFor="let i of nzTable.data">
-            <td nz-td [nzCheckbox]="true">
-                <label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"
-                    (ngModelChange)="refreshStatus($event)">
-                </label>
-            </td>
-            <td nz-td>{{i.item.packageName}}</td>
-            <td nz-td>{{i.item.moduleName}}</td>
-            <td nz-td>{{i.item.action}}</td>
-            <td nz-td>{{i.item.remarks }}</td>
-            <td nz-td>
+        <tbody >
+        <tr  *ngFor="let i of nzTable.data">
+          <td  nzShowCheckbox [(nzChecked)]="i.checked" [nzDisabled]="i.disabled"
+               (nzCheckedChange)="refreshStatus($event)"></td>
+            <td >{{i.item.packageName}}</td>
+            <td >{{i.item.moduleName}}</td>
+            <td >{{i.item.action}}</td>
+            <td >{{i.item.remarks }}</td>
+            <td >
                 <span>
                 <a (click)="delete(i.item.id)">删除</a>
                 </span>

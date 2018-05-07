@@ -36,14 +36,14 @@
                     </nz-form-item>
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nickname" >昵称</nz-form-label>
-                        <nz-form-control nzHasFeedback>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
                           <input nz-input formControlName="nickname" nzSize="large" placeholder="昵称" id="nickname" >
 
                         </nz-form-control>
                     </nz-form-item>
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="password" >初始化密码</nz-form-label>
-                        <nz-form-control nzHasFeedback>
+                        <nz-form-control [nzSm]="14" [nzXs]="24"  nzHasFeedback>
                           <input nz-input formControlName="password" nzSize="large" placeholder="初始化密码" id="password" >
                             <nz-form-explain *ngIf="password.dirty && password.errors">
                               <ng-container *ngIf="password.hasError('required')">必须设置初始化密码</ng-container>
@@ -54,21 +54,21 @@
                     </nz-form-item>
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email" >邮箱</nz-form-label>
-                        <nz-form-control nzHasFeedback>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
                           <input nz-input formControlName="email" nzSize="large" placeholder="邮箱" id="email" >
 
                         </nz-form-control>
                     </nz-form-item>
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phone" >手机号码</nz-form-label>
-                        <nz-form-control nzHasFeedback>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
                           <input nz-input formControlName="phone" nzSize="large" placeholder="手机号码" id="phone" >
 
                         </nz-form-control>
                     </nz-form-item>
                     <nz-form-item>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="remarks" >备注</nz-form-label>
-                        <nz-form-control nzHasFeedback>
+                        <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
                           <input nz-input formControlName="remarks" nzSize="large" placeholder="备注" id="remarks" >
 
                         </nz-form-control>

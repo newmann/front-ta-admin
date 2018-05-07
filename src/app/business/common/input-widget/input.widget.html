@@ -1,0 +1,16 @@
+<nz-form-item >
+  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="username" >{{labelCaption}}</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
+    <input nz-input formControlName="'controlName'" nzSize="large" placeholder="placeHolder" id="username" >
+
+    <nz-form-explain *ngIf="username.dirty && username.errors">
+      <ng-container *ngIf="username.hasError('required')">必须输入代码</ng-container>
+      <!--<p nz-form-explain *ngIf="username.errors?.idCard">输入身份证号码不正确</p>-->
+      <ng-container *ngIf="username.hasError('duplicate')">输入的代码已经被使用</ng-container>
+      <ng-container *ngIf="username.hasError('other')">验证出现异常：{{username.hasError("other")}}</ng-container>
+      <!--<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>-->
+      <ng-container *ngIf="username.pending">验证中...</ng-container>
+    </nz-form-explain>
+
+  </nz-form-control>
+</nz-form-item>

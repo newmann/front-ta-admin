@@ -1,188 +1,188 @@
-<page-header [title]="'个体的证件信息维护'" *ngIf="processType.length > 0 "></page-header>
-<nz-card [nzBordered]="false">
+<!--<page-header [title]="'个体的证件信息维护'" *ngIf="processType.length > 0 "></page-header>-->
+<!--<nz-card [nzBordered]="false">-->
 
-    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" role="form">
-        <div nz-form-item nz-row>
-            <div nz-form-label nz-col [nzSm]="4">
-                <label for="type" nz-form-item-required>
-                        <span>
-                            证件类型
-                            <nz-tooltip [nzTitle]="'比如身份证、驾驶证、护照等'">
-                            <i nz-tooltip class="anticon anticon-question-circle-o"></i>
-                            </nz-tooltip>
-                        </span>
-                </label>
-            </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="type" >
-                <!--<nz-input formControlName="type" nzPlaceHolder="地址类型" ></nz-input>-->
-                <!--nzTags-->
-                <nz-select
-                    formControlName="type"
-                    [nzPlaceHolder]="'请选择或输入证件类型'"
-                    [nzNotFoundContent]="'无法找到'"
-                    nzShowSearch [nzMultiple]="false" [id]="type">
-                    <nz-option
-                        *ngFor="let option of typeOptions"
-                        [nzLabel]="option.label"
-                        [nzValue]="option.value">
-                    </nz-option>
-                </nz-select>
-
-                <ng-container *ngIf="type.dirty && type.touched">
-                    <p nz-form-explain *ngIf="type.errors?.required">必须输入证件类型</p>
-                    <p nz-form-explain *ngIf="type.errors?.other">验证出现异常：{{type.errors?.msg}}</p>
-                    <!--<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>-->
-                    <p nz-form-explain *ngIf="type.pending">验证中...</p>
-                </ng-container>
-
-            </div>
-        </div>
-
-        <div nz-form-item nz-row>
-            <div nz-form-label nz-col [nzSm]="4">
-                <label for="code" nz-form-item-required>
-                        <span>
-                            代码
-                            <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
+    <!--<form nz-form [formGroup]="form" role="form">-->
+        <!--<div nz-form-item nz-row>-->
+            <!--<div nz-form-label nz-col [nzSm]="4">-->
+                <!--<label for="type" nz-form-item-required>-->
+                        <!--<span>-->
+                            <!--证件类型-->
+                            <!--<nz-tooltip [nzTitle]="'比如身份证、驾驶证、护照等'">-->
                             <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
                             <!--</nz-tooltip>-->
-                        </span>
-                </label>
-            </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
-                <nz-input formControlName="code" nzPlaceHolder="证件号码" id = "code"></nz-input>
-                <ng-container *ngIf="code.dirty && code.touched">
-                    <p nz-form-explain *ngIf="code.errors?.required">必须输入证件号码</p>
-                    <p nz-form-explain *ngIf="code.errors?.other">验证出现异常：{{type.errors?.msg}}</p>
-                    <!--<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>-->
-                    <p nz-form-explain *ngIf="code.pending">验证中...</p>
-                </ng-container>
-            </div>
-        </div>
+                        <!--</span>-->
+                <!--</label>-->
+            <!--</div>-->
+            <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="type" >-->
+                <!--&lt;!&ndash;<nz-input formControlName="type" nzPlaceHolder="地址类型" ></nz-input>&ndash;&gt;-->
+                <!--&lt;!&ndash;nzTags&ndash;&gt;-->
+                <!--<nz-select-->
+                    <!--formControlName="type"-->
+                    <!--[nzPlaceHolder]="'请选择或输入证件类型'"-->
+                    <!--[nzNotFoundContent]="'无法找到'"-->
+                    <!--nzShowSearch [nzMultiple]="false" [id]="type">-->
+                    <!--<nz-option-->
+                        <!--*ngFor="let option of typeOptions"-->
+                        <!--[nzLabel]="option.label"-->
+                        <!--[nzValue]="option.value">-->
+                    <!--</nz-option>-->
+                <!--</nz-select>-->
+
+                <!--<ng-container *ngIf="type.dirty && type.touched">-->
+                    <!--<p nz-form-explain *ngIf="type.errors?.required">必须输入证件类型</p>-->
+                    <!--<p nz-form-explain *ngIf="type.errors?.other">验证出现异常：{{type.errors?.msg}}</p>-->
+                    <!--&lt;!&ndash;<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>&ndash;&gt;-->
+                    <!--<p nz-form-explain *ngIf="type.pending">验证中...</p>-->
+                <!--</ng-container>-->
+
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div nz-form-item nz-row>-->
+            <!--<div nz-form-label nz-col [nzSm]="4">-->
+                <!--<label for="code" nz-form-item-required>-->
+                        <!--<span>-->
+                            <!--代码-->
+                            <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                        <!--</span>-->
+                <!--</label>-->
+            <!--</div>-->
+            <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback>-->
+                <!--<nz-input formControlName="code" nzPlaceHolder="证件号码" id = "code"></nz-input>-->
+                <!--<ng-container *ngIf="code.dirty && code.touched">-->
+                    <!--<p nz-form-explain *ngIf="code.errors?.required">必须输入证件号码</p>-->
+                    <!--<p nz-form-explain *ngIf="code.errors?.other">验证出现异常：{{type.errors?.msg}}</p>-->
+                    <!--&lt;!&ndash;<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>&ndash;&gt;-->
+                    <!--<p nz-form-explain *ngIf="code.pending">验证中...</p>-->
+                <!--</ng-container>-->
+            <!--</div>-->
+        <!--</div>-->
 
 
-        <div nz-form-item nz-row>
-            <div nz-form-label nz-col [nzSm]="4">
-                <label for="issueDate" >
-                        <span>
-                            发证日期
-                            <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                            <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                            <!--</nz-tooltip>-->
-                        </span>
-                </label>
-            </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="issueDate">
-                <nz-datepicker formControlName="issueDate" nzPlaceHolder="发证日期" [nzFormat]="'YYYY/MM/DD'"></nz-datepicker>
+        <!--<div nz-form-item nz-row>-->
+            <!--<div nz-form-label nz-col [nzSm]="4">-->
+                <!--<label for="issueDate" >-->
+                        <!--<span>-->
+                            <!--发证日期-->
+                            <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                        <!--</span>-->
+                <!--</label>-->
+            <!--</div>-->
+            <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="issueDate">-->
+                <!--<nz-datepicker formControlName="issueDate" nzPlaceHolder="发证日期" [nzFormat]="'YYYY/MM/DD'"></nz-datepicker>-->
 
-            </div>
-        </div>
-        <div nz-form-item nz-row>
-            <div nz-form-label nz-col [nzSm]="4">
-                <label for="effectiveDate" nz-form-item-required >
-                        <span>
-                            到效日期
-                            <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                            <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                            <!--</nz-tooltip>-->
-                        </span>
-                </label>
-            </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="effectiveDate">
-                <nz-datepicker formControlName="effectiveDate" nzPlaceHolder="到效日期" [nzFormat]="'YYYY/MM/DD'"></nz-datepicker>
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div nz-form-item nz-row>-->
+            <!--<div nz-form-label nz-col [nzSm]="4">-->
+                <!--<label for="effectiveDate" nz-form-item-required >-->
+                        <!--<span>-->
+                            <!--到效日期-->
+                            <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                        <!--</span>-->
+                <!--</label>-->
+            <!--</div>-->
+            <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="effectiveDate">-->
+                <!--<nz-datepicker formControlName="effectiveDate" nzPlaceHolder="到效日期" [nzFormat]="'YYYY/MM/DD'"></nz-datepicker>-->
 
-            </div>
-        </div>
+            <!--</div>-->
+        <!--</div>-->
 
-        <div nz-form-item nz-row>
-            <div nz-form-label nz-col [nzSm]="4">
-                <label for="frontPhotoUrl" >
-                        <span>
-                            正面照
-                            <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                            <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                            <!--</nz-tooltip>-->
-                        </span>
-                </label>
-            </div>
-            <div nz-form-control nz-col [nzSm]="20" >
-                <!--formControlName="frontPhotoFileName"-->
-                <!--[nzAction]="uploadUrl"-->
-                <!--(nzChange)="handleChange($event, frontPhoto)"-->
-                <!--[nzShowUploadList]="false"-->
-                <!--[nzBeforeUpload]="beforeFrontPhotoUpload()"                -->
-                <nz-upload class="avatar-uploader"
-                           [nzAction]="configService.UPLOAD_FILE_URL"
-                           [nzFileType] = "'image/png,image/jpeg,image/gif,image/bmp'"
-                           [nzShowUploadList]="false"
-                           (nzChange)="handleFrontPhotoChange($event)"
-                           >
-                    <i *ngIf="!frontPhoto" class="anticon anticon-plus avatar-uploader-trigger"></i>
-                    <div *ngIf="frontPhoto" class="avatar">
-                        <img [src]="frontPhoto" class="avatar-img">
-                    </div>
+        <!--<div nz-form-item nz-row>-->
+            <!--<div nz-form-label nz-col [nzSm]="4">-->
+                <!--<label for="frontPhotoUrl" >-->
+                        <!--<span>-->
+                            <!--正面照-->
+                            <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                        <!--</span>-->
+                <!--</label>-->
+            <!--</div>-->
+            <!--<div nz-form-control nz-col [nzSm]="20" >-->
+                <!--&lt;!&ndash;formControlName="frontPhotoFileName"&ndash;&gt;-->
+                <!--&lt;!&ndash;[nzAction]="uploadUrl"&ndash;&gt;-->
+                <!--&lt;!&ndash;(nzChange)="handleChange($event, frontPhoto)"&ndash;&gt;-->
+                <!--&lt;!&ndash;[nzShowUploadList]="false"&ndash;&gt;-->
+                <!--&lt;!&ndash;[nzBeforeUpload]="beforeFrontPhotoUpload()"                &ndash;&gt;-->
+                <!--<nz-upload class="avatar-uploader"-->
+                           <!--[nzAction]="configService.UPLOAD_FILE_URL"-->
+                           <!--[nzFileType] = "'image/png,image/jpeg,image/gif,image/bmp'"-->
+                           <!--[nzShowUploadList]="false"-->
+                           <!--(nzChange)="handleFrontPhotoChange($event)"-->
+                           <!--&gt;-->
+                    <!--<i *ngIf="!frontPhoto" class="anticon anticon-plus avatar-uploader-trigger"></i>-->
+                    <!--<div *ngIf="frontPhoto" class="avatar">-->
+                        <!--<img [src]="frontPhoto" class="avatar-img">-->
+                    <!--</div>-->
 
-                </nz-upload>
+                <!--</nz-upload>-->
 
-            </div>
-        </div>
+            <!--</div>-->
+        <!--</div>-->
 
-        <div nz-form-item nz-row>
-            <div nz-form-label nz-col [nzSm]="4">
-                <label for="backPhotoUrl" >
-                        <span>
-                            背面照
-                            <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                            <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                            <!--</nz-tooltip>-->
-                        </span>
-                </label>
-            </div>
-            <div nz-form-control nz-col [nzSm]="20"  >
-                <!--formControlName="backPhotoFileName"-->
-                <!--[nzAction]="uploadUrl"-->
-                <!--(nzChange)="handleChange($event, backPhoto)"-->
-                <!--[nzBeforeUpload]="beforeBackPhotoUpload()"-->
-                <nz-upload class="avatar-uploader"
-                           [nzAction]="configService.UPLOAD_FILE_URL"
-                           [nzFileType] = "'image/png,image/jpeg,image/gif,image/bmp'"
-                           [nzShowUploadList]="false"
-                           (nzChange)="handleBackPhotoChange($event)"
-                           >
-                    <i *ngIf="!backPhoto" class="anticon anticon-plus avatar-uploader-trigger"></i>
-                    <div *ngIf="backPhoto" class="avatar">
-                        <img  [src]="backPhoto"  class="avatar-img">
-                    </div>
+        <!--<div nz-form-item nz-row>-->
+            <!--<div nz-form-label nz-col [nzSm]="4">-->
+                <!--<label for="backPhotoUrl" >-->
+                        <!--<span>-->
+                            <!--背面照-->
+                            <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                        <!--</span>-->
+                <!--</label>-->
+            <!--</div>-->
+            <!--<div nz-form-control nz-col [nzSm]="20"  >-->
+                <!--&lt;!&ndash;formControlName="backPhotoFileName"&ndash;&gt;-->
+                <!--&lt;!&ndash;[nzAction]="uploadUrl"&ndash;&gt;-->
+                <!--&lt;!&ndash;(nzChange)="handleChange($event, backPhoto)"&ndash;&gt;-->
+                <!--&lt;!&ndash;[nzBeforeUpload]="beforeBackPhotoUpload()"&ndash;&gt;-->
+                <!--<nz-upload class="avatar-uploader"-->
+                           <!--[nzAction]="configService.UPLOAD_FILE_URL"-->
+                           <!--[nzFileType] = "'image/png,image/jpeg,image/gif,image/bmp'"-->
+                           <!--[nzShowUploadList]="false"-->
+                           <!--(nzChange)="handleBackPhotoChange($event)"-->
+                           <!--&gt;-->
+                    <!--<i *ngIf="!backPhoto" class="anticon anticon-plus avatar-uploader-trigger"></i>-->
+                    <!--<div *ngIf="backPhoto" class="avatar">-->
+                        <!--<img  [src]="backPhoto"  class="avatar-img">-->
+                    <!--</div>-->
 
-                </nz-upload>
+                <!--</nz-upload>-->
 
-            </div>
-        </div>
+            <!--</div>-->
+        <!--</div>-->
 
-        <div nz-form-item nz-row>
-            <div nz-form-label nz-col [nzSm]="4">
-                <label for="remarks"> 备注</label>
-            </div>
-            <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="remarks">
-                <nz-input formControlName="remarks" nzPlaceHolder="备注" ></nz-input>
-            </div>
-        </div>
+        <!--<div nz-form-item nz-row>-->
+            <!--<div nz-form-label nz-col [nzSm]="4">-->
+                <!--<label for="remarks"> 备注</label>-->
+            <!--</div>-->
+            <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="remarks">-->
+                <!--<nz-input formControlName="remarks" nzPlaceHolder="备注" ></nz-input>-->
+            <!--</div>-->
+        <!--</div>-->
 
-        <div nz-form-item nz-row class="mb0">
-            <ng-container *ngIf="errMsg.length > 0">
-                <p>{{errMsg}}</p>
-            </ng-container>
+        <!--<div nz-form-item nz-row class="mb0">-->
+            <!--<ng-container *ngIf="errMsg.length > 0">-->
+                <!--<p>{{errMsg}}</p>-->
+            <!--</ng-container>-->
 
-            <div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
-                <button nz-button [nzType]="'primary'" [nzSize]="'large'"
-                        [disabled]="form.invalid || (!form.dirty)">保存</button>
-                <button nz-button (click)="formResetButtonClick($event)">重置</button>
+            <!--<div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">-->
+                <!--<button nz-button [nzType]="'primary'" [nzSize]="'large'"-->
+                        <!--[disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>-->
+                <!--<button nz-button (click)="formResetButtonClick($event)">重置</button>-->
 
 
-            </div>
+            <!--</div>-->
 
-        </div>
+        <!--</div>-->
 
-    </form>
+    <!--</form>-->
 
-</nz-card>
+<!--</nz-card>-->

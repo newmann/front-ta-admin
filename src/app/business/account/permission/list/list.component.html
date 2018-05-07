@@ -28,32 +28,32 @@
     <!--(ngSubmit)="search()"-->
     <form nz-form [nzLayout]="'inline'">
         <div nz-row [nzGutter]="24">
-            <div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="qPackageName">包名类似于</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="qData.packageName" name="'qPackageName'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
-                                  nzId="'qPackageName'"></nz-input>
-                    </div>
-                </div>
+            <div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24" class="mb-md">
+                <nz-form-item [nzFlex]>
+                  <nz-form-label [nzFor]="'qPackageName'">包名类似于</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="qData.packageName" name="qPackageName" [nzSize]="'large'" placeHolder="请输入"
+                                  id="qPackageName">
+                    </nz-form-control>
+                </nz-form-item>
             </div>
-            <div nz-col [nzLg]="6" [nzMd]="8"  [nzSm]="16"  [nzXs]="24"  class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="qModuleName">模块类似于</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="qData.moduleName" name="'qModuleName'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
-                                  nzId="'qModuleName'"></nz-input>
-                    </div>
+            <div nz-col [nzLg]="6" [nzMd]="8"  [nzSm]="12"  [nzXs]="24"  class="mb-md">
+                <nz-form-item [nzFlex]>
+                  <nz-form-label [nzFor]="'qModuleName'">模块类似于</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="qData.moduleName" name="qModuleName" [nzSize]="'large'" placeHolder="请输入"
+                                  id="qModuleName">
+                    </nz-form-control>
 
-                </div>
+                </nz-form-item>
             </div>
-            <div nz-col [nzLg]="6"  [nzMd]="8" [nzSm]="16"  [nzXs]="24"   class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="qAction">功能类似于</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="qData.action" name="'qAction'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"
-                                  nzId="'qAction'"></nz-input>
-                    </div>
+            <div nz-col [nzLg]="6"  [nzMd]="8" [nzSm]="12"  [nzXs]="24"   class="mb-md">
+                <nz-form-item [nzFlex]>
+                  <nz-form-label [nzFor]="'qAction'">功能类似于</nz-form-label>
+                    <nz-form-control >
+                        <input nz-input [(ngModel)]="qData.action" name="qAction" [nzSize]="'large'" placeHolder="请输入"
+                                  id="qAction">
+                    </nz-form-control>
 
                     <!--<div nz-form-control class="flex-1">-->
                     <!--<nz-select [(ngModel)]="qData.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"-->
@@ -62,10 +62,10 @@
                     <!--[nzValue]="i.value"></nz-option>-->
                     <!--</nz-select>-->
                     <!--</div>-->
-                </div>
+                </nz-form-item>
             </div>
 
-            <!--<div *ngIf="expandQuery" nz-col [nzLg]="6"  [nzMd]="8" [nzSm]="16"  [nzXs]="24"  class="mb-md">-->
+            <!--<div *ngIf="expandQuery" nz-col [nzLg]="6"  [nzMd]="8" [nzSm]="12"  [nzXs]="24"  class="mb-md">-->
                 <!--<div nz-form-item class="d-flex">-->
                     <!--<div nz-form-label><label for="qModifyDateBegin">最后修改起始日期</label></div>-->
                     <!--<div nz-form-control class="flex-1">-->
@@ -75,7 +75,7 @@
                 <!--</div>-->
             <!--</div>-->
 
-            <!--<div *ngIf="expandQuery" nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16"  [nzXs]="24"   class="mb-md">-->
+            <!--<div *ngIf="expandQuery" nz-col [nzLg]="6" [nzMd]="8" [nzSm]="12"  [nzXs]="24"   class="mb-md">-->
                 <!--<div nz-form-item class="d-flex">-->
                     <!--<div nz-form-label><label for="qModifyDateEnd">最后修改截止日期</label></div>-->
                     <!--<div nz-form-control class="flex-1">-->
@@ -86,7 +86,7 @@
             <!--</div>-->
 
             <!--<div nz-col [nzSpan]="expandQuery ? 24 : 8" class="mb-md" [class.text-right]="expandQuery">-->
-            <div nz-col [nzLg]="expandQuery ? 24 : 6"  [nzMd]="expandQuery ? 24 : 8"  [nzSm]="expandQuery ? 24 : 16"  [nzXs]="expandQuery ? 24 : 24" class="mb-md" [class.text-right]="true">
+            <div nz-col [nzLg]="expandQuery ? 24 : 6"  [nzMd]="expandQuery ? 24 : 8"  [nzSm]="expandQuery ? 24 : 12"  [nzXs]="expandQuery ? 24 : 24" class="mb-md" [class.text-right]="true">
                 <!--<button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询-->
                 <!--</button>-->
                 <ng-container *ngIf="functionMode === SELECT_MODE">
@@ -113,37 +113,33 @@
 </nz-card>
 <nz-card [nzBordered]="false">
 
-    <nz-table #nzTable [nzAjaxData]="listData" [nzPageSize]="page.pageSize" [nzLoading]="loading"
+    <nz-table #nzTable [nzData]="listData" [nzPageSize]="page.pageSize" [nzLoading]="loading"
               nzShowSizeChanger [nzTotal]="total" [(nzPageIndex)]="page.page" nzShowTotal="true"
               (nzPageIndexChange)="search()" (nzPageSizeChange)="pageSizeChange($event)">
         <thead nz-thead>
         <tr>
-            <th nz-th [nzCheckbox]="true" *ngIf="functionMode === SELECT_MODE">
-                <label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"
-                       (ngModelChange)="checkAll($event)"></label>
-            </th>
-            <th nz-th><span>包</span></th>
-            <th nz-th><span>模块</span></th>
-            <th nz-th><span>功能</span></th>
-            <th nz-th>
+          <th  nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
+               (nzCheckedChange)="checkAll($event)"></th>
+            <th ><span>包</span></th>
+            <th ><span>模块</span></th>
+            <th ><span>功能</span></th>
+            <th >
                 <span>备注</span>
             </th>
 
-            <!--<th nz-th><span>操作</span></th>-->
+            <!--<th ><span>操作</span></th>-->
         </tr>
         </thead>
-        <tbody nz-tbody>
-        <tr nz-tbody-tr *ngFor="let i of nzTable.data">
-            <td nz-td [nzCheckbox]="true" *ngIf="functionMode === SELECT_MODE">
-                <label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"
-                       (ngModelChange)="refreshStatus($event)">
-                </label>
-            </td>
-            <td nz-td>{{i.item.packageName}}</td>
-            <td nz-td>{{i.item.moduleName}}</td>
-            <td nz-td>{{i.item.action}}</td>
-            <td nz-td>{{i.item.remarks }}</td>
-            <!--<td nz-td>-->
+        <tbody >
+        <tr  *ngFor="let i of nzTable.data">
+        <tr  *ngFor="let i of nzTable.data">
+          <td  nzShowCheckbox [(nzChecked)]="i.checked" [nzDisabled]="i.disabled"
+               (nzCheckedChange)="refreshStatus($event)"></td>
+            <td >{{i.item.packageName}}</td>
+            <td >{{i.item.moduleName}}</td>
+            <td >{{i.item.action}}</td>
+            <td >{{i.item.remarks }}</td>
+            <!--<td >-->
                 <!--<span>-->
                     <!--<a (click)="modifyEntity(i.item.id)">修改</a>-->
                 <!--</span>-->

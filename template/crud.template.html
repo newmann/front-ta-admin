@@ -5,8 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-<div nz-form-item nz-row>
-    <div nz-form-label nz-col [nzSm]="4">
+<nz-form-item nz-row>
+    <nz-form-label nz-col [nzSm]="4">
         <label for="billNo" nz-form-item-required>
                                     <span>
                                         单号
@@ -15,7 +15,7 @@
                                         <!--</nz-tooltip>-->
                                     </span>
         </label>
-    </div>
+    </nz-form-label>
     <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="billNo">
         <nz-input formControlName="billNo" nzPlaceHolder="单号" ></nz-input>
 
@@ -29,7 +29,7 @@
         </ng-container>
 
     </div>
-</div>
+</nz-form-item>
 
 
 <div nz-form-item nz-row>

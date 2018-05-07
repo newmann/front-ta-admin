@@ -5,42 +5,42 @@
     <button nz-button (click)="search()" [nzType]="'primary'" [nzSize]="'large'" class="ant-btn__block mb-sm">
         <i class="anticon anticon-search"></i><span>查询</span>
     </button>
-    <nz-table #nzTable [nzAjaxData]="listData"  [nzLoading]="loading"
-              [nzIsPagination] = "false">
-        <thead nz-thead>
+    <nz-table #nzTable [nzData]="listData"  [nzLoading]="loading"
+              [nzShowPagination]="false">
+        <thead >
         <tr>
-            <!--<th nz-th [nzCheckbox]="true">-->
+            <!--<th  [nzCheckbox]="true">-->
             <!--<label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
             <!--(ngModelChange)="checkAll($event)"></label>-->
             <!--</th>-->
-            <th nz-th><span>类型</span></th>
-            <th nz-th><span>证件编号</span></th>
-            <th nz-th><span>发证日期</span></th>
-            <th nz-th><span>到效日期</span></th>
-            <th nz-th>
+            <th ><span>类型</span></th>
+            <th ><span>证件编号</span></th>
+            <th ><span>发证日期</span></th>
+            <th ><span>到效日期</span></th>
+            <th >
                 <span>备注</span>
             </th>
-            <!--<th nz-th>-->
+            <!--<th >-->
             <!--<span>更新时间</span>-->
             <!--</th>-->
 
-            <th nz-th><span>操作</span></th>
+            <th ><span>操作</span></th>
         </tr>
         </thead>
-        <tbody nz-tbody>
-        <tr nz-tbody-tr *ngFor="let i of nzTable.data">
-            <!--<td nz-td [nzCheckbox]="true">-->
+        <tbody >
+        <tr  *ngFor="let i of nzTable.data">
+            <!--<td  [nzCheckbox]="true">-->
             <!--<label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
             <!--(ngModelChange)="refreshStatus($event)">-->
             <!--</label>-->
             <!--</td>-->
-            <td nz-td>{{i.item.type}}</td>
-            <td nz-td>{{i.item.code}}</td>
-            <td nz-td>{{i.item.issueDate | _date}}</td>
-            <td nz-td>{{i.item.effectiveDate | _date}}</td>
-            <td nz-td>{{i.item.remarks}}</td>
-            <!--<td nz-td>{{i.item.modifyAction.modifyDateTime | _date}}</td>-->
-            <td nz-td>
+            <td >{{i.item.type}}</td>
+            <td >{{i.item.code}}</td>
+            <td >{{i.item.issueDate | _date}}</td>
+            <td >{{i.item.effectiveDate | _date}}</td>
+            <td >{{i.item.remarks}}</td>
+            <!--<td >{{i.item.modifyAction.modifyDateTime | _date}}</td>-->
+            <td >
                 <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
                 <span>
                         <a (click)="modifyEntity(i.item.id)">修改</a>
