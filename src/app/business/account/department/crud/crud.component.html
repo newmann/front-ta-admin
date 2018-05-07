@@ -6,107 +6,96 @@
             </ng-template>
             <span>
                 <form nz-form [formGroup]="form" role="form">
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="parent" nz-form-item-required>
-                                    <span>
-                                        上级部门
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="parent">
+                    <nz-form-item nz-row>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="parent" >上级部门</nz-form-label>
+
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzHasFeedback [nzValidateStatus]="parent">
                                 <!--(nzSearchChange)="searchDepartment($event)"-->
                             <nz-select
                                 nzAllowClear
                                 [formControlName] = "'parent'"
                                 [nzPlaceHolder]="'输入代码或名称'"
-                                [nzFilter]="false"
                                 (nzSearchChange)="searchDepartment($event)"
                                 [nzNotFoundContent]="'无法找到'"
                                 nzShowSearch
                                 >
-                              <nz-option
-                                  *ngFor="let option of searchedDepartments"
+                              <ng-container *ngFor="let option of searchedDepartments">
+                                <nz-option *ngIf="!isLoading"
                                   [nzLabel]="option.name +'(' + option.code +')'"
                                   [nzValue]="option.id">
+                                  </nz-option>
+                              </ng-container>
+                              <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+                                <i class="anticon anticon-loading anticon-spin loading-icon"></i> 查询中...
                               </nz-option>
+                              <!--<nz-option-->
+                                  <!--*ngFor="let option of searchedDepartments"-->
+                                  <!--[nzLabel]="option.name +'(' + option.code +')'"-->
+                                  <!--[nzValue]="option.id">-->
+                              <!--</nz-option>-->
                             </nz-select>
-                        </div>
-                    </div>
+                        </nz-form-control>
+                    </nz-form-item>
 
 
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="code" nz-form-item-required>
-                                    <span>
-                                        代码
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="code">
-                            <nz-input formControlName="code" nzPlaceHolder="最少为1个字符" [nzId]="'code'"></nz-input>
+                    <nz-form-item nz-row>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="code" >代码</nz-form-label>
 
-                            <ng-container *ngIf="code.dirty && code.touched">
-                                <p nz-form-explain *ngIf="code.errors?.required">必须输入组织代码</p>
-                                <p nz-form-explain *ngIf="code.errors?.duplicate">输入的组织代码已经被使用</p>
-                                <p nz-form-explain *ngIf="code.errors?.other">验证出现异常：{{code.errors?.msg}}</p>
-                                <p nz-form-explain *ngIf="code.errors?.minlength">最少为一个字符</p>
-                                <p nz-form-explain *ngIf="code.pending">验证中...</p>
-                            </ng-container>
-                        </div>
-                    </div>
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="name" nz-form-item-required>
-                                    <span>
-                                        名称
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="name">
-                            <nz-input formControlName="name" nzPlaceHolder="最少为2个字符" [nzId]="'name'"></nz-input>
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzHasFeedback [nzValidateStatus]="code">
+                            <input nz-input formControlName="code" nzPlaceHolder="最少为1个字符" nzId="'code'">
 
-                            <ng-container *ngIf="name.dirty && name.touched">
-                                <p nz-form-explain *ngIf="name.errors?.required">必须输入名称</p>
-                                <p nz-form-explain *ngIf="name.errors?.other">验证出现异常：{{name.errors?.msg}}</p>
-                                <p nz-form-explain *ngIf="name.errors?.minlength">最少为两个字符</p>
-                                <p nz-form-explain *ngIf="name.pending">验证中...</p>
-                            </ng-container>
-                        </div>
-                    </div>
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="remarks"> 备注      </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
-                            <nz-input formControlName="remarks" nzPlaceHolder="备注" [nzId]="'remarks'"></nz-input>
-                        </div>
-                    </div>
+                            <nz-form-explain *ngIf="code.dirty && code.errors">
+                              <ng-container *ngIf="code.hasError('required')">必须输入组织代码</ng-container>
+                              <ng-container *ngIf="code.hasError('duplicate')">输入的组织代码已经被使用</ng-container>
+                              <ng-container *ngIf="code.hasError('other')">验证出现异常：{{code.hasError('other')}}</ng-container>
+                              <ng-container *ngIf="code.hasError('minlength')">最少为一个字符</ng-container>
+                              <ng-container *ngIf="code.pending">验证中...</ng-container>
+                            </nz-form-explain>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item nz-row>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name" >名称</nz-form-label>
 
-                    <div nz-form-item nz-row class="mb0">
+                        <nz-form-control [nzSm]="6" [nzXs]="24" nzHasFeedback [nzValidateStatus]="name">
+                            <input nz-input formControlName="name" nzPlaceHolder="最少为2个字符" nzId="'name'">
 
-                        <ng-container *ngIf="errMsg.length > 0">
-                            <p>{{errMsg}}</p>
+                            <nz-form-explain *ngIf="name.dirty && name.errors">
+                              <ng-container *ngIf="name.hasError('required')">必须输入名称</ng-container>
+                              <ng-container *ngIf="name.hasError('other')">验证出现异常：{{name.hasError('other')}}</ng-container>
+                              <ng-container *ngIf="name.hasError('minlength')">最少为两个字符</ng-container>
+                              <ng-container *ngIf="name.pending">验证中...</ng-container>
+                            </nz-form-explain>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="remarks" >备注</nz-form-label>
+                        <nz-form-control nzHasFeedback>
+                          <input nz-input formControlName="remarks" nzSize="large" placeholder="备注" id="remarks" >
+
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item nz-row>
+                       <ng-container *ngIf="errMsg && errMsg.length > 0">
+                            <nz-alert [nzType]="'error'" nzCloseable [nzMessage]="'保存数据错误'"
+                                      [nzDescription]="errMsg"
+                            ></nz-alert>
                         </ng-container>
+                    </nz-form-item>
 
-                        <div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
+                    <nz-form-item nz-row class="mb0">
+
+                        <nz-form-control [nzSpan]="14" [nzOffset]="6">
                             <button nz-button [nzType]="'primary'" [nzSize]="'large'"
                                     [disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>
+
                             <button nz-button (click)="resetButtonClick($event)">重置</button>
 
+                        </nz-form-control>
 
-                        </div>
+                    </nz-form-item>
 
-                    </div>
 
                 </form>
             </span>

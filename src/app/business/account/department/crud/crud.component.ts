@@ -32,6 +32,7 @@ export class BylDepartmentCrudComponent extends BylCrudComponentBase<BylDepartme
     public searchedDepartments: Array<BylDepartment> = [];
 
     private _searchData$: Subject<string> = new Subject<string>();
+    isLoading = false;
 
     newBusinessData(): BylDepartment {
         return new BylDepartment();
@@ -136,9 +137,13 @@ export class BylDepartmentCrudComponent extends BylCrudComponentBase<BylDepartme
                 } else {
                     this.errMsg = data.msg;
                 }
+
+                this.isLoading = false;
+
             },
             err => {
                 console.log(err);
+                this.isLoading = false;
                 this.errMsg = err.toString();
             }
         );
@@ -148,6 +153,8 @@ export class BylDepartmentCrudComponent extends BylCrudComponentBase<BylDepartme
 
     searchDepartment($event) {
         // this.logger.log('$event', $event);
+        this.isLoading = true;
+
         if ($event) this._searchData$.next($event);
     }
 
