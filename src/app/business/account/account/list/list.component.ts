@@ -16,6 +16,7 @@ import {BylProjectQuery} from '../../../../service/project/query/project-query.m
 import {BylListFormFunctionModeEnum} from '../../../../service/model/list-form-function-mode.enum';
 import {SFSchema, SFUISchema} from '@delon/form';
 import {BylListQueryFormComponent} from '../../../common/list-query-form/list-query.form';
+import * as moment from "moment";
 
 
 @Component({
@@ -139,44 +140,58 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
         Object.assign(this.qData, q);
     }
 
-    queryDefaultData: any = { };
+    queryDefaultData: any = {
+        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
     queryUiSchema: SFUISchema = {};
     querySchema: SFSchema = {
         properties: {
-            code: { type: 'string' },
-            fullName: { type: 'string' },
-            nickname: { type: 'string' },
-            modifyDateBegin: { type: 'string', format: 'date' },
-            modifyDateEnd: { type: 'string', format: 'date' }
+            code: { type: 'string',
+                title: '代码类似于'
+                },
+            fullName: { type: 'string',
+                title: '姓名类似于'
+                },
+            nickname: { type: 'string',
+                title: '昵称类似于'
+                },
+            modifyDateBegin: { type: 'string',
+                title: '最后修改日期大于等于',
+                ui: { widget: 'date' }
+                },
+            modifyDateEnd: { type: 'string',
+                title: '最后修改日期小于等于',
+                ui: { widget: 'date' }
+                }
         },
         required: []
     };
 
-    queryForm: NzModalRef;
-
-    showQueryForm() {
-        this.queryForm = this.modalService.create({
-            nzTitle: '输入查询条件',
-            nzZIndex: 9999, //最外层
-            nzWidth: '80%',
-            nzContent: BylListQueryFormComponent,
-            nzFooter: null,
-            // onOk() {
-            //
-            // },
-            // onCancel() {
-            //     console.log('Click cancel');
-            // },
-            nzComponentParams: {
-                defaultData: this.queryDefaultData,
-                uiSchema: this.queryUiSchema,
-                schema: this.querySchema
-            },
-            nzMaskClosable: false
-        });
-
-        this.queryForm.afterClose.subscribe((value: any) => {
-            console.log(value);
-        });
-    }
+    // queryForm: NzModalRef;
+    //
+    // showQueryForm() {
+    //     this.queryForm = this.modalService.create({
+    //         nzTitle: '输入查询条件',
+    //         nzZIndex: 9999, //最外层
+    //         nzWidth: '80%',
+    //         nzContent: BylListQueryFormComponent,
+    //         nzFooter: null,
+    //         // onOk() {
+    //         //
+    //         // },
+    //         // onCancel() {
+    //         //     console.log('Click cancel');
+    //         // },
+    //         nzComponentParams: {
+    //             defaultData: this.queryDefaultData,
+    //             uiSchema: this.queryUiSchema,
+    //             schema: this.querySchema
+    //         },
+    //         nzMaskClosable: false
+    //     });
+    //
+    //     this.queryForm.afterClose.subscribe((value: any) => {
+    //         console.log(value);
+    //     });
+    // }
 }

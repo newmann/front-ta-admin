@@ -1,0 +1,7 @@
+<nz-card [nzBordered]="false" nzTitle="查询条件" [nzExtra]="action">
+  <nz-alert nzType="info" [nzMessage]="queryMessage"></nz-alert>
+</nz-card>
+
+<ng-template #action>
+  <a (click)="showQueryForm()">重新设置查询条件</a>
+</ng-template>

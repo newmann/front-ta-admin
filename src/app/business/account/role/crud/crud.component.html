@@ -26,21 +26,9 @@
                             <!--</nz-form-explain>-->
                         <!--</nz-form-control>-->
                     <!--</nz-form-item>-->
-                    <!--<nz-form-item>-->
-                        <!--<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="remarks" >备注</nz-form-label>-->
-                        <!--<nz-form-control nzHasFeedback>-->
-                          <!--<input nz-input formControlName="remarks" nzSize="large" placeholder="备注" id="remarks" >-->
 
-                        <!--</nz-form-control>-->
-                    <!--</nz-form-item>-->
                     <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
-                    <!--<nz-form-item nz-row>-->
-                       <!--<ng-container *ngIf="errMsg && errMsg.length > 0">-->
-                            <!--<nz-alert [nzType]="'error'" nzCloseable [nzMessage]="'保存数据错误'"-->
-                                      <!--[nzDescription]="errMsg"-->
-                            <!--&gt;</nz-alert>-->
-                        <!--</ng-container>-->
-                    <!--</nz-form-item>-->
+
 
                     <div nz-form-item nz-row class="mb0">
 
@@ -75,37 +63,8 @@
         </nz-tab>
 
         <byl-entity-logger [title]="'日志'" [entityId]="sourceId"></byl-entity-logger>
-        <!--<nz-tab (nzClick)="entityLoggerClick()">-->
-            <!--<ng-template #nzTabHeading>日志</ng-template>-->
-            <!--<div nz-row>-->
-                <!--<span>-->
-                    <!--<nz-timeline >-->
-                        <!--<ng-template ngFor let-item [ngForOf]="entityLogList" let-i="index">-->
-                            <!--<nz-timeline-item  [nzColor]="'green'">{{item.action}}-{{item.modifyAction.modifyDateTime | _date }}  </nz-timeline-item>-->
-                        <!--</ng-template>-->
 
-                    <!--</nz-timeline>-->
-                <!--</span>-->
-            <!--</div>-->
-            <!--<div nz-row>-->
-                <!--<ng-container *ngIf="entityLogErrorMsg && entityLogErrorMsg.length > 0">-->
-                    <!--<nz-alert [nzType]="'error'" nzCloseable [nzMessage]="'获取日志错误'"-->
-                              <!--[nzDescription]="entityLogErrorMsg"-->
-                    <!--&gt;</nz-alert>-->
-                <!--</ng-container>-->
-
-            <!--</div>-->
-            <!--<div nz-row >-->
-                <!--<button nz-button (click)="$event.stopPropagation(); fetchEntityLogList()">重新查询</button>-->
-            <!--</div>-->
-        <!--</nz-tab>-->
 
     </nz-tabset>
-    <!--<div nz-row >-->
-        <!--<div  nz-col [nzSpan]="20" [nzOffset]="4">-->
-            <!--<button nz-button [nzType]="'primary'" [nzSize]="'large'" (click) = "showButtonClick($event)">show</button>-->
 
-        <!--</div>-->
-
-    <!--</div>-->
 </nz-card>

@@ -1,10 +1,19 @@
-<nz-card nzTitle="输入查询条件">
-  <sf
+<nz-card [nzBordered]="false">
+  <sf  #sf [button]="null"
     [schema]="schema"
     [ui]="uiSchema"
     [formData]="defaultData"
-    (formSubmit)="submit($event)"
-    (formChange)="change($event)"
-    (formError)="error($event)">
+    (formSubmit)="submit($event)">
+    <!--(formChange)="change($event)"-->
+    <!--(formError)="error($event)">-->
+    <button type="submit" nz-button [disabled]="!sf.valid">提交</button>
+    <button (click)="sf.reset()"  type="button" nz-button>重置</button>
+    <button (click)="quit()" type="button" nz-button>退出</button>
   </sf>
+  <div nz-row>
+    defaultData: {{getDefaultDataStr()}}
+  </div>
+  <div nz-row>
+    current Data: {{sf.value}}
+  </div>
 </nz-card>

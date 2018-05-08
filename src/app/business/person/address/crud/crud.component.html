@@ -58,33 +58,44 @@
 
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item nz-row>
-      <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="zipCode" >
-              邮政编码
-              <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-              <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-              <!--</nz-tooltip>-->
-      </nz-form-label>
-      <nz-form-control [nzSm]="6" [nzXs]="24"  nzHasFeedback [nzValidateStatus]="zipCode">
-        <input nz-input formControlName="zipCode" placeholder="邮政编码" id="zipCode">
 
-      </nz-form-control>
-    </nz-form-item>
+    <byl-input-formitem [controlName]="'zipCode'" [labelCaption]="'邮政编码'"
+                        [hostForm]="form" [controlPath]="'zipCode'" [isRequired]="'false'"
+                        [placeHolder]="'请输入邮政编码'"></byl-input-formitem>
 
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="remarks" >备注</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
-        <input nz-input formControlName="remarks" nzSize="large" placeholder="备注" id="remarks" >
+    <!--<nz-form-item nz-row>-->
+      <!--<nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="zipCode" >-->
+              <!--邮政编码-->
+              <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+              <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+              <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+      <!--</nz-form-label>-->
+      <!--<nz-form-control [nzSm]="6" [nzXs]="24"  nzHasFeedback [nzValidateStatus]="zipCode">-->
+        <!--<input nz-input formControlName="zipCode" placeholder="邮政编码" id="zipCode">-->
 
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item nz-row>
-      <ng-container *ngIf="errMsg && errMsg.length > 0">
-        <nz-alert [nzType]="'error'" nzCloseable [nzMessage]="'保存数据错误'"
-                  [nzDescription]="errMsg"
-        ></nz-alert>
-      </ng-container>
-    </nz-form-item>
+      <!--</nz-form-control>-->
+    <!--</nz-form-item>-->
+
+    <byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"
+                        [hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"
+                        [placeHolder]="'请输入备注'"></byl-input-formitem>
+
+    <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
+
+    <!--<nz-form-item>-->
+      <!--<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="remarks" >备注</nz-form-label>-->
+      <!--<nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>-->
+        <!--<input nz-input formControlName="remarks" nzSize="large" placeholder="备注" id="remarks" >-->
+
+      <!--</nz-form-control>-->
+    <!--</nz-form-item>-->
+    <!--<nz-form-item nz-row>-->
+      <!--<ng-container *ngIf="errMsg && errMsg.length > 0">-->
+        <!--<nz-alert [nzType]="'error'" nzCloseable [nzMessage]="'保存数据错误'"-->
+                  <!--[nzDescription]="errMsg"-->
+        <!--&gt;</nz-alert>-->
+      <!--</ng-container>-->
+    <!--</nz-form-item>-->
 
     <div nz-form-item nz-row class="mb0">
 

@@ -15,18 +15,21 @@ export class BylListQueryFormComponent {
     }
 
     submit(value: any) {
-        this.destroyModal();
+        this.modal.destroy(value);
     }
 
-    change(value: any) {
-        // console.log('change', value);
+    quit(){
+        this.modal.destroy(null);
     }
 
-    error(value: any) {
-        // console.log('error', value);
+    getDefaultDataStr(){
+        return JSON.stringify(this.defaultData);
     }
-
-    destroyModal(): void {
-        this.modal.destroy({ data: 'this the result data' });
-    }
+    // change(value: any) {
+    //     // console.log('change', value);
+    // }
+    //
+    // error(value: any) {
+    //     // console.log('error', value);
+    // }
 }

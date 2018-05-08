@@ -12,6 +12,7 @@ import {BylInputWidgetComponent} from "./common/input-form-item/input.formitem";
 import {BylShowErrorFormItemComponent} from './common/show-error-form-item/show-error.formitem';
 import {BylSelectInfoFormItemComponent} from './common/select-info-form-item/select-info.formitem';
 import {BylListQueryFormComponent} from './common/list-query-form/list-query.form';
+import {BylListQueryWidgetComponent} from "./common/list-query-widget/list-query.widget";
 
 
 
@@ -31,7 +32,8 @@ import {BylListQueryFormComponent} from './common/list-query-form/list-query.for
         BylInputWidgetComponent,
         BylShowErrorFormItemComponent,
         BylSelectInfoFormItemComponent,
-        BylListQueryFormComponent
+        BylListQueryFormComponent,
+        BylListQueryWidgetComponent
 
 
     ],
@@ -47,7 +49,8 @@ import {BylListQueryFormComponent} from './common/list-query-form/list-query.for
         BylInputWidgetComponent,
         BylShowErrorFormItemComponent,
         BylSelectInfoFormItemComponent,
-        BylListQueryFormComponent
+        BylListQueryFormComponent,
+        BylListQueryWidgetComponent
 
     ],
     entryComponents:[
