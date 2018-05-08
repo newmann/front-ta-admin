@@ -1,5 +1,4 @@
-<nz-tab (nzClick)="entityLoggerClick()">
-    <ng-template #nzTabHeading>{{title}}</ng-template>
+<!--<nz-tab [nzTitle] = "title" (nzClick)="entityLoggerClick()">-->
     <div nz-row>
                 <span>
                     <nz-timeline >
@@ -10,15 +9,16 @@
                     </nz-timeline>
                 </span>
     </div>
-    <div nz-row>
-        <ng-container *ngIf="entityLogErrorMsg && entityLogErrorMsg.length > 0">
-            <nz-alert [nzType]="'error'" nzCloseable [nzMessage]="'获取日志错误'"
-                      [nzDescription]="entityLogErrorMsg"
-            ></nz-alert>
-        </ng-container>
+    <byl-show-error-formitem [errorMessage]="entityLogErrorMsg" [msgTitle]="'获取日志错误'"></byl-show-error-formitem>
+    <!--<div nz-row>-->
+        <!--<ng-container *ngIf="entityLogErrorMsg && entityLogErrorMsg.length > 0">-->
+            <!--<nz-alert [nzType]="'error'" nzCloseable [nzMessage]="'获取日志错误'"-->
+                      <!--[nzDescription]="entityLogErrorMsg"-->
+            <!--&gt;</nz-alert>-->
+        <!--</ng-container>-->
 
-    </div>
+    <!--</div>-->
     <div nz-row >
         <button nz-button (click)="$event.stopPropagation(); fetchEntityLogList()">重新查询</button>
     </div>
-</nz-tab>
+<!--</nz-tab>-->

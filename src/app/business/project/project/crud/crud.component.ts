@@ -73,11 +73,11 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
                 public cityService: BylCityService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public modalSubject: NzModalRef,
+                // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {
-        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService, fb);
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, fb);
 
 
         this.businessService = projectService;

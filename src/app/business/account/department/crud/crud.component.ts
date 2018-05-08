@@ -61,12 +61,12 @@ export class BylDepartmentCrudComponent extends BylCrudComponentBase<BylDepartme
     constructor(public msgService: NzMessageService,
                 public departmentService: BylDepartmentService,
                 public configService: BylConfigService,
-                public modalService: NzModalService,
-                public modalSubject: NzModalRef,
+                // public modalService: NzModalService,
+                // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {
-        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService,fb);
+        super(msgService, configService, /*modalService, modalSubject,*/ activatedRoute, reuseTabService,fb);
 
         this.businessService = departmentService;
 

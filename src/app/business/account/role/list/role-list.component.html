@@ -90,15 +90,17 @@
             </div>
         </div>
     </form>
-    <div class="mb-md">
-        <nz-alert [nzType]="'info'" [nzShowIcon]="true">
-            <span alert-body>
-                已选择 <strong class="text-primary">{{selectedRows.length}}</strong> 项&nbsp;&nbsp;
-                <!--服务调用总计 <strong>{{totalCallNo}}</strong> 万-->
-                <!--<a *ngIf="totalCallNo > 0" (click)="clear()" class="ml-lg">清空</a>-->
-            </span>
-        </nz-alert>
-    </div>
+    <byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>
+    <!--<div class="mb-md">-->
+        <!--<nz-alert [nzType]="'info'" [nzMessage]="selectMsg" [nzShowIcon]="true">-->
+            <!--<ng-template #selectMsg >-->
+                <!--已选择 <strong class="text-primary">{{selectedRows.length}}</strong> 项&nbsp;&nbsp;-->
+                <!--&lt;!&ndash;服务调用总计 <strong>{{totalCallNo}}</strong> 万&ndash;&gt;-->
+                <!--&lt;!&ndash;<a *ngIf="totalCallNo > 0" (click)="clear()" class="ml-lg">清空</a>&ndash;&gt;-->
+            <!--</ng-template>-->
+        <!--</nz-alert>-->
+    <!--</div>-->
+
     <!--<nz-table #nzTable [nzDataSource]="listData" [nzPageSize]="page.pageSize" [nzLoading]="loading" >-->
     <!--(nzDataChange)="dataChange($event)"-->
     <!--(nzPageIndexChange)="pageChange($event)">-->

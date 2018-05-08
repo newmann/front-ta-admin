@@ -1,0 +1,10 @@
+<nz-card nzTitle="输入查询条件">
+  <sf
+    [schema]="schema"
+    [ui]="uiSchema"
+    [formData]="defaultData"
+    (formSubmit)="submit($event)"
+    (formChange)="change($event)"
+    (formError)="error($event)">
+  </sf>
+</nz-card>

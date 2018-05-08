@@ -1,19 +1,20 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {ReuseTabService} from "@delon/abc";
-import {NzMessageService, NzModalService, NzModalRef} from "ng-zorro-antd";
-import {ActivatedRoute} from "@angular/router";
-import * as moment from "moment";
-import {BylCrudComponentBase} from "../../../common/crud-component-base";
-import {BylConfigService} from "../../../../service/constant/config.service";
-import {FormBuilder, Validators} from "@angular/forms";
-import {BylAccount} from "../../../../service/account/model/account.model";
-import {BylAccountService} from "../../../../service/account/service/account.service";
+import {ReuseTabService} from '@delon/abc';
+import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
+import {ActivatedRoute} from '@angular/router';
+import * as moment from 'moment';
+import {BylCrudComponentBase} from '../../../common/crud-component-base';
+import {BylConfigService} from '../../../../service/constant/config.service';
+import {FormBuilder, Validators} from '@angular/forms';
+import {BylAccount} from '../../../../service/account/model/account.model';
+import {BylAccountService} from '../../../../service/account/service/account.service';
+
 // import {PermissionEntityTypeEnum} from "../../permission/item-list/item-list.component";
 
 @Component({
-  selector: 'byl-account-crud',
-  templateUrl: './crud.component.html',
+    selector: 'byl-account-crud',
+    templateUrl: './crud.component.html',
 })
 export class BylAccountCrudComponent extends BylCrudComponentBase<BylAccount> {
 
@@ -44,12 +45,12 @@ export class BylAccountCrudComponent extends BylCrudComponentBase<BylAccount> {
     constructor(public msgService: NzMessageService,
                 public accountService: BylAccountService,
                 public configService: BylConfigService,
-                public modalService: NzModalService,
-                public modalSubject: NzModalRef,
+                // public modalService: NzModalService,
+                // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {
-        super(msgService, configService, modalService, modalSubject, activatedRoute, reuseTabService,fb);
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, fb);
 
         this.businessService = accountService;
 
@@ -66,13 +67,12 @@ export class BylAccountCrudComponent extends BylCrudComponentBase<BylAccount> {
     }
 
 
-
     getFormData() {
         for (const i in this.form.controls) {
             this.form.controls[i].markAsDirty();
         }
 
-        Object.assign(this.businessData,this.form.value);
+        Object.assign(this.businessData, this.form.value);
 
         console.table(this.businessData);
 
@@ -86,18 +86,17 @@ export class BylAccountCrudComponent extends BylCrudComponentBase<BylAccount> {
         if (this.sourceId) {
             //说明是修改
             this.reuseTabService.title = '编辑-' + this.businessData.username;
-            this.businessData.password = "***";//在修改模式下，初始化密码随便设置一般，以便应对validtor。
+            this.businessData.password = '***'; // 在修改模式下，初始化密码随便设置一般，以便应对validtor。
         }
 
-        console.log("reset form",this.businessData);
+        console.log('reset form', this.businessData);
 
-        this.form.reset(this.businessData , {onlySelf: true, emitEvent: false});
+        this.form.reset(this.businessData, {onlySelf: true, emitEvent: false});
 
         super.reset();
 
 
     }
-
 
 
     //#region get form fields
@@ -108,12 +107,15 @@ export class BylAccountCrudComponent extends BylCrudComponentBase<BylAccount> {
     get fullName() {
         return this.form.controls.fullName;
     }
+
     get nickname() {
         return this.form.controls.nickname;
     }
+
     get password() {
         return this.form.controls.password;
     }
+
     get email() {
         return this.form.controls.email;
     }
@@ -121,6 +123,7 @@ export class BylAccountCrudComponent extends BylCrudComponentBase<BylAccount> {
     get phone() {
         return this.form.controls.phone;
     }
+
     get remarks() {
         return this.form.controls.remarks;
     }

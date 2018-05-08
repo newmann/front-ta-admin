@@ -24,7 +24,7 @@ import {BylEmbeddableAddressComponent} from "../embeddable-address/embeddable-ad
   encapsulation: ViewEncapsulation.None
 })
 export class BylEntityLoggerComponent /*implements ControlValueAccessor */ {
-    @Input() public title: string;
+    // @Input() public title: string;
     @Input() public entityId: string;
 
     // private _value: any;

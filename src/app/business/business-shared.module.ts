@@ -8,7 +8,10 @@ import {BylEntityLoggerComponent} from "./common/entity-logger/entity-logger.com
 import {BylEmbeddableAddressComponent} from "./common/embeddable-address/embeddable-address.component";
 import {BylCrudWaitingComponent} from "./common/waiting/crud-waiting.component";
 import {BylWaitingComponent} from "./common/waiting/waiting.component";
-import {BylInputWidget} from "./common/input-widget/input.widget";
+import {BylInputWidgetComponent} from "./common/input-form-item/input.formitem";
+import {BylShowErrorFormItemComponent} from './common/show-error-form-item/show-error.formitem';
+import {BylSelectInfoFormItemComponent} from './common/select-info-form-item/select-info.formitem';
+import {BylListQueryFormComponent} from './common/list-query-form/list-query.form';
 
 
 
@@ -25,7 +28,10 @@ import {BylInputWidget} from "./common/input-widget/input.widget";
         BylCrudWaitingComponent,
         BylWaitingComponent,
         // widget
-        BylInputWidget
+        BylInputWidgetComponent,
+        BylShowErrorFormItemComponent,
+        BylSelectInfoFormItemComponent,
+        BylListQueryFormComponent
 
 
     ],
@@ -38,7 +44,10 @@ import {BylInputWidget} from "./common/input-widget/input.widget";
         BylCrudWaitingComponent,
         BylWaitingComponent,
         // widget
-        BylInputWidget
+        BylInputWidgetComponent,
+        BylShowErrorFormItemComponent,
+        BylSelectInfoFormItemComponent,
+        BylListQueryFormComponent
 
     ],
     entryComponents:[
@@ -46,7 +55,8 @@ import {BylInputWidget} from "./common/input-widget/input.widget";
         BylPersonListComponent,
         BylOrganizationListComponent,
         BylCrudWaitingComponent,
-        BylWaitingComponent
+        BylWaitingComponent,
+        BylListQueryFormComponent
 
     ]
     // ,

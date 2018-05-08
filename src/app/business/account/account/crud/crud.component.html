@@ -1,91 +1,119 @@
 <page-header [title]="'账户信息维护'" *ngIf="processType.length > 0 "></page-header>
 <nz-card [nzBordered]="false">
     <nz-tabset>
-        <nz-tab>
-            <ng-template #nzTabHeading>基本信息
-            </ng-template>
+        <nz-tab [nzTitle]="'基本信息'">
+            <!--<ng-template #nzTabHeading>基本信息-->
+            <!--</ng-template>-->
             <span>
                 <form nz-form [formGroup]="form"  role="form">
-                    <nz-form-item >
-                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="username" >代码</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
-                          <input nz-input formControlName="username" nzSize="large" placeholder="代码" id="username" >
+                    <byl-input-formitem [controlName]="'username'" [labelCaption]="'代码'"
+                                        [hostForm]="form" [controlPath]="'username'" [isRequired]="'true'"
+                                        [placeHolder]="'请输入代码'"></byl-input-formitem>
 
-                          <nz-form-explain *ngIf="username.dirty && username.errors">
-                            <ng-container *ngIf="username.hasError('required')">必须输入代码</ng-container>
-                            <!--<p nz-form-explain *ngIf="username.errors?.idCard">输入身份证号码不正确</p>-->
-                            <ng-container *ngIf="username.hasError('duplicate')">输入的代码已经被使用</ng-container>
-                            <ng-container *ngIf="username.hasError('other')">验证出现异常：{{username.hasError("other")}}</ng-container>
-                            <!--<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>-->
-                            <ng-container *ngIf="username.pending">验证中...</ng-container>
-                          </nz-form-explain>
+                    <!--<nz-form-item >-->
+                        <!--<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="username" >代码</nz-form-label>-->
+                        <!--<nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>-->
+                          <!--<input nz-input formControlName="username" nzSize="large" placeholder="代码" id="username" >-->
 
-                        </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="fullName" >姓名</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
-                          <input nz-input formControlName="fullName" nzSize="large" placeholder="姓名" id="fullName" >
-                          <nz-form-explain *ngIf="fullName.dirty && fullName.touched">
-                            <ng-container *ngIf="fullName.hasError('required')">必须输入姓名</ng-container>
-                            <ng-container *ngIf="fullName.hasError('other')">验证出现异常：{{fullName.hasError('other')}}</ng-container>
-                            <ng-container *ngIf="fullName.pending">验证中...</ng-container>
-                          </nz-form-explain>
+                          <!--<nz-form-explain *ngIf="username.dirty && username.errors">-->
+                            <!--<ng-container *ngIf="username.hasError('required')">必须输入代码</ng-container>-->
+                            <!--&lt;!&ndash;<p nz-form-explain *ngIf="username.errors?.idCard">输入身份证号码不正确</p>&ndash;&gt;-->
+                            <!--<ng-container *ngIf="username.hasError('duplicate')">输入的代码已经被使用</ng-container>-->
+                            <!--<ng-container *ngIf="username.hasError('other')">验证出现异常：{{username.hasError("other")}}</ng-container>-->
+                            <!--&lt;!&ndash;<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>&ndash;&gt;-->
+                            <!--<ng-container *ngIf="username.pending">验证中...</ng-container>-->
+                          <!--</nz-form-explain>-->
 
-                        </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nickname" >昵称</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
-                          <input nz-input formControlName="nickname" nzSize="large" placeholder="昵称" id="nickname" >
+                        <!--</nz-form-control>-->
+                    <!--</nz-form-item>-->
+                    <byl-input-formitem [controlName]="'fullName'" [labelCaption]="'姓名'"
+                                        [hostForm]="form" [controlPath]="'fullName'" [isRequired]="'true'"
+                                        [placeHolder]="'请输入姓名'"></byl-input-formitem>
 
-                        </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="password" >初始化密码</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24"  nzHasFeedback>
-                          <input nz-input formControlName="password" nzSize="large" placeholder="初始化密码" id="password" >
-                            <nz-form-explain *ngIf="password.dirty && password.errors">
-                              <ng-container *ngIf="password.hasError('required')">必须设置初始化密码</ng-container>
-                              <ng-container *ngIf="password.hasError('other')">验证出现异常：{{password.hasError('other')}}</ng-container>
-                              <ng-container *ngIf="password.pending">验证中...</ng-container>
-                            </nz-form-explain>
-                        </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email" >邮箱</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
-                          <input nz-input formControlName="email" nzSize="large" placeholder="邮箱" id="email" >
+                    <!--<nz-form-item>-->
+                        <!--<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="fullName" >姓名</nz-form-label>-->
+                        <!--<nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>-->
+                          <!--<input nz-input formControlName="fullName" nzSize="large" placeholder="姓名" id="fullName" >-->
+                          <!--<nz-form-explain *ngIf="fullName.dirty && fullName.touched">-->
+                            <!--<ng-container *ngIf="fullName.hasError('required')">必须输入姓名</ng-container>-->
+                            <!--<ng-container *ngIf="fullName.hasError('other')">验证出现异常：{{fullName.hasError('other')}}</ng-container>-->
+                            <!--<ng-container *ngIf="fullName.pending">验证中...</ng-container>-->
+                          <!--</nz-form-explain>-->
 
-                        </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phone" >手机号码</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
-                          <input nz-input formControlName="phone" nzSize="large" placeholder="手机号码" id="phone" >
+                        <!--</nz-form-control>-->
+                    <!--</nz-form-item>-->
+                    <byl-input-formitem [controlName]="'nickname'" [labelCaption]="'昵称'"
+                                        [hostForm]="form" [controlPath]="'nickname'" [isRequired]="'false'"
+                                        [placeHolder]="'请输入昵称'"></byl-input-formitem>
+                    <!--<nz-form-item>-->
+                        <!--<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nickname" >昵称</nz-form-label>-->
+                        <!--<nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>-->
+                          <!--<input nz-input formControlName="nickname" nzSize="large" placeholder="昵称" id="nickname" >-->
 
-                        </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="remarks" >备注</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
-                          <input nz-input formControlName="remarks" nzSize="large" placeholder="备注" id="remarks" >
+                        <!--</nz-form-control>-->
+                    <!--</nz-form-item>-->
+                    <byl-input-formitem [controlName]="'password'" [labelCaption]="'初始化密码'"
+                                        [hostForm]="form" [controlPath]="'password'" [isRequired]="'true'"
+                                        [placeHolder]="'请输入初始化密码'"></byl-input-formitem>
 
-                        </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item nz-row>
-                       <ng-container *ngIf="errMsg && errMsg.length > 0">
-                            <nz-alert [nzType]="'error'" nzCloseable [nzMessage]="'保存数据错误'"
-                                      [nzDescription]="errMsg"
-                            ></nz-alert>
-                        </ng-container>
-                    </nz-form-item>
+                    <!--<nz-form-item>-->
+                        <!--<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="password" >初始化密码</nz-form-label>-->
+                        <!--<nz-form-control [nzSm]="14" [nzXs]="24"  nzHasFeedback>-->
+                          <!--<input nz-input formControlName="password" nzSize="large" placeholder="初始化密码" id="password" >-->
+                            <!--<nz-form-explain *ngIf="password.dirty && password.errors">-->
+                              <!--<ng-container *ngIf="password.hasError('required')">必须设置初始化密码</ng-container>-->
+                              <!--<ng-container *ngIf="password.hasError('other')">验证出现异常：{{password.hasError('other')}}</ng-container>-->
+                              <!--<ng-container *ngIf="password.pending">验证中...</ng-container>-->
+                            <!--</nz-form-explain>-->
+                        <!--</nz-form-control>-->
+                    <!--</nz-form-item>-->
+                    <byl-input-formitem [controlName]="'email'" [labelCaption]="'邮箱'"
+                                        [hostForm]="form" [controlPath]="'email'" [isRequired]="'false'"
+                                        [placeHolder]="'请输入邮箱'"></byl-input-formitem>
+
+                    <!--<nz-form-item>-->
+                        <!--<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email" >邮箱</nz-form-label>-->
+                        <!--<nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>-->
+                          <!--<input nz-input formControlName="email" nzSize="large" placeholder="邮箱" id="email" >-->
+
+                        <!--</nz-form-control>-->
+                    <!--</nz-form-item>-->
+                    <byl-input-formitem [controlName]="'phone'" [labelCaption]="'手机号码'"
+                                        [hostForm]="form" [controlPath]="'phone'" [isRequired]="'false'"
+                                        [placeHolder]="'请输入手机号码'"></byl-input-formitem>
+
+                    <!--<nz-form-item>-->
+                        <!--<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phone" >手机号码</nz-form-label>-->
+                        <!--<nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>-->
+                          <!--<input nz-input formControlName="phone" nzSize="large" placeholder="手机号码" id="phone" >-->
+
+                        <!--</nz-form-control>-->
+                    <!--</nz-form-item>-->
+                    <byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"
+                                        [hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"
+                                        [placeHolder]="'请输入备注'"></byl-input-formitem>
+
+                    <!--<nz-form-item>-->
+                        <!--<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="remarks" >备注</nz-form-label>-->
+                        <!--<nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>-->
+                          <!--<input nz-input formControlName="remarks" nzSize="large" placeholder="备注" id="remarks" >-->
+
+                        <!--</nz-form-control>-->
+                    <!--</nz-form-item>-->
+                    <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
+                    <!--<nz-form-item nz-row>-->
+                       <!--<ng-container *ngIf="errMsg && errMsg.length > 0">-->
+                            <!--<nz-alert [nzType]="'error'" nzCloseable [nzMessage]="'保存数据错误'"-->
+                                      <!--[nzDescription]="errMsg"-->
+                            <!--&gt;</nz-alert>-->
+                        <!--</ng-container>-->
+                    <!--</nz-form-item>-->
 
 
                     <nz-form-item nz-row class="mb0">
 
                         <nz-form-control [nzSpan]="14" [nzOffset]="6">
-                            <button nz-button [nzType]="'primary'" [nzSize]="'large'"
+                            <button nz-button [nzType]="'primary'"
                                     [disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>
                             <button nz-button (click)="resetButtonClick($event)">重置</button>
 
@@ -97,8 +125,8 @@
             </span>
         </nz-tab>
 
-        <nz-tab [nzDisabled]="!sourceId">
-            <ng-template #nzTabHeading>权限</ng-template>
+        <nz-tab [nzDisabled]="!sourceId" nzTitle="权限">
+            <!--<ng-template #nzTabHeading>权限</ng-template>-->
             <byl-permission-item-list [masterId]="sourceId"
                                       [findAvailablePoolsService]="accountService"
                                       [savePermissionRelationService]="accountService"
@@ -107,8 +135,9 @@
             </byl-permission-item-list>
         </nz-tab>
 
-        <byl-entity-logger [title]="'日志'" [entityId]="sourceId"></byl-entity-logger>
-
+        <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">
+          <byl-entity-logger [entityId]="sourceId"></byl-entity-logger>
+        </nz-tab>
         <!--<nz-tab>-->
             <!--<ng-template #nzTabHeading>日志</ng-template>-->
             <!--<span>-->

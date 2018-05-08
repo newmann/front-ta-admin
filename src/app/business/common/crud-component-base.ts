@@ -9,7 +9,7 @@ import {BylResultBody} from '../../service/model/result-body.model';
 import {BylBaseService} from '../../service/service/base.service';
 import {BylCrudEvent, BylCrudWaitingComponent} from './waiting/crud-waiting.component';
 import {ReuseTabService} from '@delon/abc';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
 
 /**
@@ -34,21 +34,20 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
     public searchData$: Subject<string> = new Subject<string>();
 
 
-
     ngOnInit() {
         //从list窗口调入修改单据时，载入数据
-        console.log("执行base init");
+        console.log('执行base init');
         if (this.sourceId) {
-            this.loadData(this.sourceId)
-        }else{
+            this.loadData(this.sourceId);
+        } else {
             this.reset();
         }
     }
 
     constructor(public msgService: NzMessageService,
                 public configService: BylConfigService,
-                public modalService: NzModalService,
-                public modalSubject: NzModalRef,
+                // public modalService: NzModalService,
+                // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {
@@ -121,19 +120,19 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
      * 保存
      */
     submitForm() {
-        const msgId = this.msgService.loading('正在保存..', { nzDuration: 0 }).messageId;
+        const msgId = this.msgService.loading('正在保存..', {nzDuration: 0}).messageId;
         // this.showSavingReveal();
         // this._loading = true;
         this.errMsg = '';
         this.getFormData();
         let saveResult$: Observable<BylResultBody<T>>;
 
-        console.log("submit form", this.businessData);
+        console.log('submit form', this.businessData);
 
-        if (this.sourceId){
+        if (this.sourceId) {
             //当前为修改界面
             saveResult$ = this.businessService.update(this.businessData);
-        } else{
+        } else {
             //当前为新增界面
             saveResult$ = this.businessService.add(this.businessData);
         }
@@ -209,7 +208,7 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
                 console.info('将修改后的数据传回list界面');
                 //将修改后的数据传回list界面
                 // this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate], data: this.businessData});
-                this.modalSubject.destroy();
+                // this.modalSubject.destroy();
         }
     }
 
@@ -264,7 +263,6 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
     // destorySavingReveal() {
     //     if (this.savingReveal) this.savingReveal.destroy();
     // }
-
 
 
     abstract newBusinessData(): T;

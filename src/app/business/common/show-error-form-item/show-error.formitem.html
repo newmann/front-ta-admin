@@ -1,0 +1,8 @@
+
+<nz-form-item nz-row>
+  <ng-container *ngIf="errorMessage && errorMessage.length > 0">
+    <nz-alert [nzType]="'error'" nzCloseable [nzMessage]="msgTitle"
+              [nzDescription]="errorMessage"
+    ></nz-alert>
+  </ng-container>
+</nz-form-item>

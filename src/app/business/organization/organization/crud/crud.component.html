@@ -1,9 +1,7 @@
 <page-header [title]="'组织信息维护'" *ngIf="processType.length > 0 "></page-header>
 <nz-card [nzBordered]="false">
     <nz-tabset>
-        <nz-tab>
-            <ng-template #nzTabHeading>基本信息
-            </ng-template>
+        <nz-tab [nzTitle]="'基本信息'">
             <span>
                 <form nz-form [formGroup]="form"  role="form">
                     <nz-form-item nz-row>
@@ -115,7 +113,9 @@
             </span>
         </nz-tab>
 
-        <byl-entity-logger [title]="'日志'" [entityId]="sourceId"></byl-entity-logger>
+      <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">
+        <byl-entity-logger [entityId]="sourceId"></byl-entity-logger>
+      </nz-tab>
         <!--<nz-tab>-->
             <!--<ng-template #nzTabHeading>日志</ng-template>-->
             <!--<span>-->

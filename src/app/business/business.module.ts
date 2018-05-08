@@ -1,29 +1,28 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { SharedModule } from '@shared/shared.module';
-import { BylBusinessRoutingModule } from 'app/business/business-routing.module';
-import {UserRegisterResultComponent} from "./passport/register-result/register-result.component";
-import {UserRegisterComponent} from "./passport/register/register.component";
-import {UserLoginComponent} from "./passport/login/login.component";
+import {SharedModule} from '@shared/shared.module';
+import {BylBusinessRoutingModule} from 'app/business/business-routing.module';
+import {UserRegisterResultComponent} from './passport/register-result/register-result.component';
+import {UserRegisterComponent} from './passport/register/register.component';
+import {UserLoginComponent} from './passport/login/login.component';
 
-import {Exception500Component} from "../routes/exception/500.component";
-import {DashboardAnalysisComponent} from "../routes/dashboard/analysis/analysis.component";
-import {CallbackComponent} from "../routes/callback/callback.component";
-import {DashboardWorkplaceComponent} from "../routes/dashboard/workplace/workplace.component";
-import {DashboardMonitorComponent} from "../routes/dashboard/monitor/monitor.component";
-import {Exception403Component} from "../routes/exception/403.component";
-import {Exception404Component} from "../routes/exception/404.component";
-import {DashboardV1Component} from "../routes/dashboard/v1/v1.component";
-import {BylWaitingComponent} from "./common/waiting/waiting.component";
-import {BylCrudWaitingComponent} from "./common/waiting/crud-waiting.component";
-import {BylEmbeddableAddressComponent} from "./common/embeddable-address/embeddable-address.component";
+import {Exception500Component} from '../routes/exception/500.component';
+import {DashboardAnalysisComponent} from '../routes/dashboard/analysis/analysis.component';
+import {CallbackComponent} from '../routes/callback/callback.component';
+import {DashboardWorkplaceComponent} from '../routes/dashboard/workplace/workplace.component';
+import {DashboardMonitorComponent} from '../routes/dashboard/monitor/monitor.component';
+import {Exception403Component} from '../routes/exception/403.component';
+import {Exception404Component} from '../routes/exception/404.component';
+import {DashboardV1Component} from '../routes/dashboard/v1/v1.component';
+import {BylWaitingComponent} from './common/waiting/waiting.component';
+import {BylCrudWaitingComponent} from './common/waiting/crud-waiting.component';
+import {BylEmbeddableAddressComponent} from './common/embeddable-address/embeddable-address.component';
 import {BylBusinessSharedModule} from './business-shared.module';
-import {UserLockComponent} from "../routes/passport/lock/lock.component";
-
+import {UserLockComponent} from '../routes/passport/lock/lock.component';
 
 
 @NgModule({
-    imports: [ SharedModule,
+    imports: [SharedModule,
         BylBusinessSharedModule,
         BylBusinessRoutingModule],
     declarations: [
@@ -45,9 +44,8 @@ import {UserLockComponent} from "../routes/passport/lock/lock.component";
 
 
     ],
-    entryComponents:[
-
-    ]
+    entryComponents: []
 })
 
-export class BylBusinessModule {}
+export class BylBusinessModule {
+}

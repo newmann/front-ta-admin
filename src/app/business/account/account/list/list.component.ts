@@ -1,29 +1,31 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
-import {BylListFormData} from "../../../../service/model/list-form-data.model";
-import {BylConfigService} from "../../../../service/constant/config.service";
-import {Router} from "@angular/router";
-import {BylListComponentBase} from "../../../common/list-component-base";
-import {BylPersonQuery} from "../../../../service/person/query/person-query.model";
-import {BylAccount} from "../../../../service/account/model/account.model";
-import {BylAccountService} from "../../../../service/account/service/account.service";
-import {BylAccountQuery} from "../../../../service/account/query/account-query.model";
+import {BylListFormData} from '../../../../service/model/list-form-data.model';
+import {BylConfigService} from '../../../../service/constant/config.service';
+import {Router} from '@angular/router';
+import {BylListComponentBase} from '../../../common/list-component-base';
+import {BylPersonQuery} from '../../../../service/person/query/person-query.model';
+import {BylAccount} from '../../../../service/account/model/account.model';
+import {BylAccountService} from '../../../../service/account/service/account.service';
+import {BylAccountQuery} from '../../../../service/account/query/account-query.model';
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import {BylPageResp} from '../../../../service/model/page-resp.model';
 import {Observable} from 'rxjs/Observable';
 import {BylAccountAvailablePoolsInterface} from '../../../../service/account/service/account-related.interface';
-import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
-import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
+import {BylProjectQuery} from '../../../../service/project/query/project-query.model';
+import {BylListFormFunctionModeEnum} from '../../../../service/model/list-form-function-mode.enum';
+import {SFSchema, SFUISchema} from '@delon/form';
+import {BylListQueryFormComponent} from '../../../common/list-query-form/list-query.form';
 
 
 @Component({
-  selector: 'byl-account-list',
-  templateUrl: './list.component.html',
+    selector: 'byl-account-list',
+    templateUrl: './list.component.html',
 })
 export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
     // LIST_MODE:BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
 
-    @Input() masterId: string;//用户查询对应关系的界面，比如角色包含的用户等
+    @Input() masterId: string; //用户查询对应关系的界面，比如角色包含的用户等
 
     /**
      * 当前在什么状态，主要是为了兼容不同的功能，比如筛选用户的界面等等,暂先定义两个：
@@ -33,11 +35,11 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
 
     @Input() functionMode: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
     @Input() findAvailablePoolsService: BylAccountAvailablePoolsInterface; //调用方传入查询函数
-
+    @Input() selectModalForm: NzModalRef;
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public functionSubject$: NzModalRef,
+                // public functionSubject$: NzModalRef,
                 public router: Router,
                 public accountService: BylAccountService) {
         super(message, configService, modalService, router);
@@ -83,7 +85,7 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
         //将数据传出，并退出界面
         $event.preventDefault();
         // this.functionSubject$.next(this.selectedRows);
-        this.functionSubject$.destroy(this.selectedRows);
+        this.selectModalForm.destroy(this.selectedRows);
     }
 
     /**
@@ -94,7 +96,7 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
 
         this.clearGrid();
 
-        let queryResult: Observable<BylResultBody<BylPageResp<BylAccount>>> ;
+        let queryResult: Observable<BylResultBody<BylPageResp<BylAccount>>>;
         if (this.functionMode === BylListFormFunctionModeEnum.SELECT) {
 
             console.log(this.findAvailablePoolsService);
@@ -105,34 +107,76 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
         }
 
         queryResult.subscribe(
-                data => {
-                    this.loading = false;
-                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                        // 正确获取数据
-                        this.total = data.data.total;
+            data => {
+                this.loading = false;
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                    // 正确获取数据
+                    this.total = data.data.total;
 
-                        // this.listData = Array.from(data.data.rows);
-                        this.listData = this.genListData(Array.from(data.data.rows));
+                    // this.listData = Array.from(data.data.rows);
+                    this.listData = this.genListData(Array.from(data.data.rows));
 
-                    } else {
-                        console.error(data.msg);
-                        super.showMsg(data.msg);
-                    }
-                },
-                err => {
-                    this.loading = false;
-                    console.error(err);
-                    super.showMsg(err.toString());
+                } else {
+                    console.error(data.msg);
+                    super.showMsg(data.msg);
                 }
-            );
+            },
+            err => {
+                this.loading = false;
+                console.error(err);
+                super.showMsg(err.toString());
+            }
+        );
 
     }
+
     /**
      * 设置查询缺省值
      */
-    setQDataDefaultValue(){
+    setQDataDefaultValue() {
         let q = new BylAccountQuery();
 
-        Object.assign(this.qData,q);
+        Object.assign(this.qData, q);
+    }
+
+    queryDefaultData: any = { };
+    queryUiSchema: SFUISchema = {};
+    querySchema: SFSchema = {
+        properties: {
+            code: { type: 'string' },
+            fullName: { type: 'string' },
+            nickname: { type: 'string' },
+            modifyDateBegin: { type: 'string', format: 'date' },
+            modifyDateEnd: { type: 'string', format: 'date' }
+        },
+        required: []
+    };
+
+    queryForm: NzModalRef;
+
+    showQueryForm() {
+        this.queryForm = this.modalService.create({
+            nzTitle: '输入查询条件',
+            nzZIndex: 9999, //最外层
+            nzWidth: '80%',
+            nzContent: BylListQueryFormComponent,
+            nzFooter: null,
+            // onOk() {
+            //
+            // },
+            // onCancel() {
+            //     console.log('Click cancel');
+            // },
+            nzComponentParams: {
+                defaultData: this.queryDefaultData,
+                uiSchema: this.queryUiSchema,
+                schema: this.querySchema
+            },
+            nzMaskClosable: false
+        });
+
+        this.queryForm.afterClose.subscribe((value: any) => {
+            console.log(value);
+        });
     }
 }
