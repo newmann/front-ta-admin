@@ -1,0 +1,28 @@
+<div [formGroup]="hostForm">
+  <nz-form-item >
+    <nz-form-label [nzSm]="6" [nzXs]="24" [nzRequired]="isRequired" [nzFor]="controlName" >{{labelCaption}}</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
+      <nz-input-group  nzCompact formGroupName="projectManager">
+        <input formControlName="managerId"  type="hidden">
+        <input nz-input [formControlName]="controlName" [placeholder]="placeHolder" [id]="controlName" style="width: 30%;">
+
+        <nz-form-explain *ngIf="inputControl.dirty && inputControl.errors">
+          <ng-container *ngIf="inputControl.hasError('required')">必须输入{{labelCaption}}</ng-container>
+          <!--<p nz-form-explain *ngIf="username.errors?.idCard">输入身份证号码不正确</p>-->
+          <ng-container *ngIf="inputControl.hasError('duplicate')">输入的{{labelCaption}}已经被使用</ng-container>
+          <ng-container *ngIf="inputControl.hasError('other')">验证出现异常：{{validatedExtraInfo}}</ng-container>
+          <!--<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>-->
+          <ng-container *ngIf="inputControl.pending">验证中...</ng-container>
+        </nz-form-explain>
+
+        <input nz-input formControlName="managerName" style="width: 60%;" disabled="true">
+
+        <button nz-button [nzType]="'default'" [nzLoading]="loading"  (click)="searchManager($event)" style="width: 10%;" >
+          <i class="anticon anticon-search"></i>
+        </button>
+
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+</div>
+

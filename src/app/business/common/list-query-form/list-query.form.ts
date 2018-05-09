@@ -7,7 +7,7 @@ import {NzModalRef} from 'ng-zorro-antd';
     templateUrl: './list-query.form.html'
 })
 export class BylListQueryFormComponent {
-    @Input() defaultData: any = { };
+    @Input() defaultData: any = {};
     @Input() uiSchema: SFUISchema = {};
     @Input() schema: SFSchema = {};
 
@@ -18,18 +18,19 @@ export class BylListQueryFormComponent {
         this.modal.destroy(value);
     }
 
-    quit(){
+    quit() {
         this.modal.destroy(null);
     }
 
-    getDefaultDataStr(){
+    getDefaultDataStr() {
         return JSON.stringify(this.defaultData);
     }
-    // change(value: any) {
-    //     // console.log('change', value);
-    // }
-    //
-    // error(value: any) {
-    //     // console.log('error', value);
-    // }
+
+    change(value: any) {
+        console.log('change', value);
+    }
+
+    error(value: any) {
+        console.log('error', value);
+    }
 }

@@ -62,7 +62,7 @@
                     <!--&lt;!&ndash;<div nz-form-control class="flex-1">&ndash;&gt;-->
                     <!--&lt;!&ndash;<nz-select [(ngModel)]="qData.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"&ndash;&gt;-->
                     <!--&lt;!&ndash;[nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"&ndash;&gt;-->
+                    <!--&lt;!&ndash;<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.label"&ndash;&gt;-->
                     <!--&lt;!&ndash;[nzValue]="i.value"></nz-option>&ndash;&gt;-->
                     <!--&lt;!&ndash;</nz-select>&ndash;&gt;-->
                     <!--&lt;!&ndash;</div>&ndash;&gt;-->
@@ -115,7 +115,18 @@
         <!--</div>-->
     <!--</form>-->
 <!--</nz-card>-->
-<byl-list-query-widget [defaultData]="queryDefaultData" [schema]="querySchema" [uiSchema]="queryUiSchema"></byl-list-query-widget>
+<byl-list-query-widget [defaultData]="queryDefaultData" [schema]="querySchema"
+                       [uiSchema]="queryUiSchema" [actionTemplateRef]="queryAction"></byl-list-query-widget>
+<ng-template #queryAction >
+  <ng-container *ngIf="functionMode === SELECT_MODE">
+    <button nz-button (click) = "batchSelect($event)" [nzType]="'default'"  class="ml-sm">
+      <i class="anticon anticon-plus"></i><span>添加</span>
+    </button>
+    <button nz-button  (click)="search()" [nzType]="'primary'" [nzLoading]="loading"  class="ml-sm">
+      <i class="anticon anticon-search"></i><span>查询</span>
+    </button>
+  </ng-container>
+</ng-template>
 
 <nz-card [nzBordered]="false">
 
@@ -135,7 +146,7 @@
                 <!--<i class="anticon anticon-filter" nz-dropdown></i>-->
                 <!--<ul nz-menu>-->
                 <!--<li nz-menu-item *ngFor="let i of statusList">-->
-                <!--<label nz-checkbox [(ngModel)]="i.value"><span>{{i.caption}}</span></label>-->
+                <!--<label nz-checkbox [(ngModel)]="i.value"><span>{{i.label}}</span></label>-->
                 <!--</li>-->
                 <!--</ul>-->
                 <!--<div nz-table-filter>-->

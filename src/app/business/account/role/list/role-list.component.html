@@ -51,7 +51,7 @@
                 <nz-form-control>
                     <nz-select [(ngModel)]="qData.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"
                                [nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">
-                        <nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"
+                        <nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.label"
                                    [nzValue]="i.value"></nz-option>
                     </nz-select>
                 </nz-form-control>
@@ -121,7 +121,7 @@
                     <i class="anticon anticon-filter" nz-dropdown></i>
                     <ul nz-menu>
                         <li nz-menu-item *ngFor="let i of statusList">
-                            <label nz-checkbox [(ngModel)]="i.value"><span>{{i.caption}}</span></label>
+                            <label nz-checkbox [(ngModel)]="i.value"><span>{{i.label}}</span></label>
                         </li>
                     </ul>
                     <div nz-table-filter>

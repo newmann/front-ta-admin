@@ -5,6 +5,45 @@
     <title>Title</title>
 </head>
 <body>
+<form nz-form [formGroup]="form"  role="form">
+
+  <byl-input-formitem [controlName]="'username'" [labelCaption]="'代码'"
+                      [hostForm]="form" [controlPath]="'username'" [isRequired]="'true'"
+                      [placeHolder]="'请输入代码'"></byl-input-formitem>
+
+  <byl-radio-formitem [controlName]="'gender'" [labelCaption]="'性别'"
+                      [hostForm]="form" [controlPath]="'gender'" [isRequired]="'true'"
+                      [selectOptions]="genderOptions"></byl-radio-formitem>
+
+
+<byl-date-formitem [controlName]="'issueDate'" [labelCaption]="'发证日期'"
+                   [hostForm]="form" [controlPath]="'issueDate'" [isRequired]="'false'"
+                   [placeHolder]="'请输入发证日期'"></byl-date-formitem>
+
+  <byl-select-formitem [controlName]="'politicalStatus'" [labelCaption]="'政治面貌'"
+                       [hostForm]="form" [controlPath]="'politicalStatus'" [isRequired]="'false'"
+                       [placeHolder]="'请选择政治面貌'" [selectMode]="'default'"
+                       selectOptions="politicalOptions" ></byl-select-formitem>
+
+  <byl-input-number-formitem [controlName]="'reason'" [labelCaption]="'借款原因'"
+                             [hostForm]="form" [controlPath]="'reason'" [isRequired]="'true'"
+                             [max]="100000000" [min]="0" [precision]="1" [step]="1"></byl-input-number-formitem>
+
+
+  <byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"
+                      [hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"
+                      [placeHolder]="'请输入备注'"></byl-input-formitem>
+
+  <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
+
+  <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">
+    <byl-entity-logger [entityId]="sourceId"></byl-entity-logger>
+  </nz-tab>
+
+
+
+
+
 <nz-form-item nz-row>
     <nz-form-label nz-col [nzSm]="4">
         <label for="billNo" nz-form-item-required>

@@ -5,7 +5,7 @@
  **/
 export interface BylIStatusItem {
     value: number; //状态值
-    caption: string; //状态显示名称
+    label: string; //状态显示名称
 
 }
 
@@ -21,7 +21,7 @@ export class BylDefineStatus {
     }
 
     getValue(caption: string): number {
-        const filterItem = this.data.filter(item => item.caption === caption);
+        const filterItem = this.data.filter(item => item.label === caption);
         if (filterItem.length = 0) {
             return BYL_STATUS_NOT_FIND_VALUE;
         } else {
@@ -34,7 +34,7 @@ export class BylDefineStatus {
         if (filterItem.length = 0) {
             return BYL_STATUS_NOT_FIND_CAPTION;
         } else {
-            return filterItem[0].caption;
+            return filterItem[0].label;
         }
     }
 

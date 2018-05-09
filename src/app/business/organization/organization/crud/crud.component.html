@@ -71,7 +71,7 @@
                                         <p nz-form-explain *ngIf="legalPersonIdCard.pending">验证中...</p>
                                     </ng-container>
 
-                                    <input nz-input formControlName="legalPersonName" style="width: 60%;" [nzDisabled]="true" id="legalPersonName">
+                                    <input nz-input formControlName="legalPersonName" style="width: 60%;" disabled="true" id="legalPersonName">
 
                                     <button nz-button [nzType]="'default'" [nzLoading]="loading"  (click)="searchLegalPerson($event)" style="width: 10%;" >
                                         <i class="anticon anticon-search"></i>

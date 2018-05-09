@@ -1,10 +1,9 @@
-import {Component, forwardRef, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {NzMessageService, NzModalRef, NzModalService} from "ng-zorro-antd";
-import {BylListQueryFormComponent} from "../list-query-form/list-query.form";
-import {SFSchema, SFUISchema} from "@delon/form";
-import {BylConfigService} from "../../../service/constant/config.service";
-
-
+import {Component, forwardRef, Input, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
+import {NzMessageService, NzModalRef, NzModalService} from 'ng-zorro-antd';
+import {BylListQueryFormComponent} from '../list-query-form/list-query.form';
+import {SFSchema, SFUISchema} from '@delon/form';
+import {BylConfigService} from '../../../service/constant/config.service';
+import {BylListFormFunctionModeEnum} from '../../../service/model/list-form-function-mode.enum';
 
 
 @Component({
@@ -14,15 +13,18 @@ import {BylConfigService} from "../../../service/constant/config.service";
 export class BylListQueryWidgetComponent {
 
     @Input()
-    set defaultData(value: any){
-        this._defaultData =value;
+    set defaultData(value: any) {
+        this._defaultData = value;
         this.queryData = value;
     };
+
     get defaultData() {
         return this._defaultData;
     }
+
     private _defaultData: any = {};
 
+    @Input() actionTemplateRef: TemplateRef<void>;
 
     @Input() uiSchema: SFUISchema = {};
     @Input() schema: SFSchema = {};
@@ -31,23 +33,23 @@ export class BylListQueryWidgetComponent {
 
     public queryData: any; //保存最新的查询条件
 
-    get queryMessage(){
-        let result = "";
+    get queryMessage() {
+        let result = '';
         for (let prop of Object.getOwnPropertyNames(this.queryData)) {
-            result = result + this.getTitle(prop) + ":" + this.queryData[prop] + "   ||  ";
+            result = result + this.getTitle(prop) + ':' + this.queryData[prop] + '   ||  ';
         }
-        return JSON.stringify(this.queryData) + "||" + result;
+        return JSON.stringify(this.queryData) + '||' + result;
 
     }
 
-    private getTitle(name:string):string{
+    private getTitle(name: string): string {
         return this.schema.properties[name].title;
     }
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService
-                ) {
+    ) {
     }
 
     showQueryForm() {
@@ -66,7 +68,7 @@ export class BylListQueryWidgetComponent {
         });
 
         this.queryForm.afterClose.subscribe((value: any) => {
-            Object.assign(this.queryData,value);
+            Object.assign(this.queryData, value);
         });
     }
 

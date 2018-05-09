@@ -21,11 +21,10 @@ export class BylBusinessEntityTypeManager {
         }
 
     }
-
     static getStatusArray(): BylIStatusItem[] {
         return [
-            {value: BylBusinessEntityTypeEnum.PERSON, caption: this.getStatusCaption(BylBusinessEntityTypeEnum.PERSON)},
-            {value: BylBusinessEntityTypeEnum.ORGANIZATION, caption: this.getStatusCaption(BylBusinessEntityTypeEnum.ORGANIZATION)}
+            {value: BylBusinessEntityTypeEnum.PERSON, label: this.getStatusCaption(BylBusinessEntityTypeEnum.PERSON)},
+            {value: BylBusinessEntityTypeEnum.ORGANIZATION, label: this.getStatusCaption(BylBusinessEntityTypeEnum.ORGANIZATION)}
         ];
     }
 }

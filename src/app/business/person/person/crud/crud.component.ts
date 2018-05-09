@@ -21,7 +21,7 @@ import {BylCountryService} from '../../../../service/address/service/country.ser
 import {BylProvinceService} from '../../../../service/address/service/province.service';
 import {BylCityService} from '../../../../service/address/service/city.service';
 import {BylPersonAddress} from '../../../../service/person/model/person-address.model';
-import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
+import {BylSimpleEntityLoggerService} from '../../../../service/simple-entity-logger/service/simple-entity-logger.service';
 
 
 @Component({
@@ -38,6 +38,34 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
 
     public searchedPoliticalStatus: Array<BylPoliticalStatus> = [];
     public selectedPoliticalStatus: BylPoliticalStatus;
+
+    public genderOptions = [
+        {caption: '1', value: '男'},
+        {caption: '-1', value: '女'},
+        {caption: '0', value: '未知'},
+    ];
+
+    get nationOptions() {
+        let result = [];
+        this.searchedNations.forEach(item => {
+            let detail: any;
+            detail.value = item.code;
+            detail.caption = item.name;
+            result.push(detail);
+        });
+        return result;
+    }
+
+    get politicalOptions() {
+        let result = [];
+        this.searchedPoliticalStatus.forEach(item => {
+            let detail: any;
+            detail.value = item.code;
+            detail.caption = item.name;
+            result.push(detail);
+        });
+        return result;
+    }
 
     // public form: FormGroup;
 

@@ -7,7 +7,7 @@ import {BylConfigService} from '../../service/constant/config.service';
 import {BylBaseService} from '../../service/service/base.service';
 import {BylCrudEvent} from './waiting/crud-waiting.component';
 import {BylResultBody} from '../../service/model/result-body.model';
-import {BylListFormFunctionModeEnum} from "../../service/model/list-form-function-mode.enum";
+import {BylListFormFunctionModeEnum} from '../../service/model/list-form-function-mode.enum';
 
 /**
  * @Description: list组件的抽象类
@@ -16,8 +16,8 @@ import {BylListFormFunctionModeEnum} from "../../service/model/list-form-functio
  **/
 export abstract class BylListComponentBase<T> implements OnInit {
 
-    LIST_MODE:BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
-    SELECT_MODE:BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.SELECT;
+    LIST_MODE: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
+    SELECT_MODE: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.SELECT;
 
 
     public businessService: BylBaseService<T>;
@@ -82,11 +82,11 @@ export abstract class BylListComponentBase<T> implements OnInit {
     /**
      * 重置查询条件
      */
-    resetQuery(){
+    resetQuery() {
         this.setQDataDefaultValue();
 
         console.log(this.qData);
-     }
+    }
 
     /**
      * 显示新增界面

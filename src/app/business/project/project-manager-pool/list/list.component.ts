@@ -1,19 +1,22 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {NzModalRef, NzMessageService, NzModalService} from 'ng-zorro-antd';
 
 import {BylListComponentBase} from '../../../common/list-component-base';
-
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
-import {Router} from '@angular/router';
+
 import {BylProjectManagerPoolService} from '../../../../service/project/service/project-manager-pool.service';
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
 import {BylProjectManagerPoolQuery} from '../../../../service/project/query/project-manager-pool-query.model';
 import {BylProjectManagerPool} from '../../../../service/project/model/project-manager-pool.model';
-import {BylCrudEvent, BylCrudWaitingComponent} from '../../../common/waiting/crud-waiting.component';
+
 import {BylAccountListComponent} from '../../../account/account/list/list.component';
-import {BylAccount} from '../../../../service/account/model/account.model';
+
 import {BylResultBody} from '../../../../service/model/result-body.model';
-import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
+
+import {SFSchema, SFUISchema} from '@delon/form';
+import * as moment from 'moment';
+import {BylListFormFunctionModeEnum} from '../../../../service/model/list-form-function-mode.enum';
 
 @Component({
     selector: 'byl-project-manager-pool-list',
@@ -26,15 +29,15 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
      * select： 筛选界面，
      */
 
-    @Input() functionMode: string;
+    @Input() functionMode: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
+    @Input() selectModalForm: NzModalRef;
 
-
-    public accountReveal: any; // 账户筛选窗口
+    public accountReveal: NzModalRef; // 账户筛选窗口
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public functionSubject$: NzModalRef,
+                // public modalRef: NzModalRef,
                 public router: Router,
                 public projectManagerPoolService: BylProjectManagerPoolService) {
         super(message, configService, modalService, router);
@@ -55,6 +58,7 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
             nzZIndex: 9999, //最外层
             nzWidth: '90%',
             nzContent: BylAccountListComponent,
+            nzFooter: null,
             // onOk() {
             //
             // },
@@ -62,14 +66,15 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
             //     console.log('Click cancel');
             // },
             nzComponentParams: {
-                functionMode: 'select',
-                findAvailablePoolsService: this.projectManagerPoolService
+                functionMode: BylListFormFunctionModeEnum.SELECT,
+                findAvailablePoolsService: this.projectManagerPoolService,
+                selectModalForm: this.accountReveal
             },
             nzMaskClosable: false
         });
         // this.accountReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
 
-        this.accountReveal.destroy(result => {
+        this.accountReveal.afterClose.subscribe(result => {
             console.info(result);
 
             console.info(typeof result);
@@ -149,18 +154,49 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
 
 
     //处理调用选择窗口问题
-    selectedEntity(item: BylProjectManagerPool){
+    selectedEntity(item: BylProjectManagerPool) {
         // this.functionSubject$.next(item);
-        this.functionSubject$.destroy(item);
+        // this.modalRef.destroy(item);
+        this.selectModalForm.destroy(item);
     }
 
     /**
      * 设置查询缺省值
      */
-    setQDataDefaultValue(){
+    setQDataDefaultValue() {
         let q = new BylProjectManagerPoolQuery();
 
-        Object.assign(this.qData,q);
+        Object.assign(this.qData, q);
     }
 
+//#region 查询条件
+    queryDefaultData: any = {
+        modifyDateBegin: moment(moment.now()).subtract(6, 'month').format('YYYY-MM-DD'),
+        modifyDateEnd: moment(moment.now()).format('YYYY-MM-DD')
+    };
+    queryUiSchema: SFUISchema = {};
+    querySchema: SFSchema = {
+        properties: {
+            code: {
+                type: 'string',
+                title: '代码类似于'
+            },
+            name: {
+                type: 'string',
+                title: '姓名类似于'
+            },
+            modifyDateBegin: {
+                type: 'string',
+                title: '最后修改日期大于等于',
+                ui: {widget: 'date'}
+            },
+            modifyDateEnd: {
+                type: 'string',
+                title: '最后修改日期小于等于',
+                ui: {widget: 'date'}
+            }
+        },
+        required: []
+    };
+//#endregion
 }

@@ -41,13 +41,13 @@ export class BylProjectStatusManager {
 
     static getStatusArray(): BylIStatusItem[] {
         return [
-            {value: BylProjectStatusEnum.UNSUBMITED, caption: this.getStatusCaption(BylProjectStatusEnum.UNSUBMITED)},
-            {value: BylProjectStatusEnum.SUBMITED, caption: this.getStatusCaption(BylProjectStatusEnum.SUBMITED)},
-            {value: BylProjectStatusEnum.RUNNING, caption: this.getStatusCaption(BylProjectStatusEnum.RUNNING)},
-            {value: BylProjectStatusEnum.ACHIEVEMENT, caption: this.getStatusCaption(BylProjectStatusEnum.ACHIEVEMENT)},
-            {value: BylProjectStatusEnum.DELETED, caption: this.getStatusCaption(BylProjectStatusEnum.DELETED)},
-            {value: BylProjectStatusEnum.SUBMITED_DELETED, caption: this.getStatusCaption(BylProjectStatusEnum.SUBMITED_DELETED)},
-            {value: BylProjectStatusEnum.RUNNING_DELETED, caption: this.getStatusCaption(BylProjectStatusEnum.RUNNING_DELETED)}
+            {value: BylProjectStatusEnum.UNSUBMITED, label: this.getStatusCaption(BylProjectStatusEnum.UNSUBMITED)},
+            {value: BylProjectStatusEnum.SUBMITED, label: this.getStatusCaption(BylProjectStatusEnum.SUBMITED)},
+            {value: BylProjectStatusEnum.RUNNING, label: this.getStatusCaption(BylProjectStatusEnum.RUNNING)},
+            {value: BylProjectStatusEnum.ACHIEVEMENT, label: this.getStatusCaption(BylProjectStatusEnum.ACHIEVEMENT)},
+            {value: BylProjectStatusEnum.DELETED, label: this.getStatusCaption(BylProjectStatusEnum.DELETED)},
+            {value: BylProjectStatusEnum.SUBMITED_DELETED, label: this.getStatusCaption(BylProjectStatusEnum.SUBMITED_DELETED)},
+            {value: BylProjectStatusEnum.RUNNING_DELETED, label: this.getStatusCaption(BylProjectStatusEnum.RUNNING_DELETED)}
         ];
     }
 }

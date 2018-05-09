@@ -1,11 +1,13 @@
-<!--<page-header [title]="'项目信息维护'" *ngIf="processType.length > 0 "></page-header>-->
-<!--<nz-card [nzBordered]="false">-->
-    <!--<nz-tabset>-->
-        <!--<nz-tab>-->
-            <!--<ng-template #nzTabHeading>基本信息-->
-            <!--</ng-template>-->
-            <!--<span>-->
-                <!--<form nz-form [formGroup]="form" (ngSubmit)="submitForm()" role="form">-->
+<page-header [title]="'项目信息维护'" *ngIf="processType.length > 0 "></page-header>
+<nz-card [nzBordered]="false">
+    <nz-tabset>
+        <nz-tab nzTitle="基本信息">
+                <form nz-form [formGroup]="form"  role="form">
+
+                  <byl-input-formitem [controlName]="'code'" [labelCaption]="'代码'"
+                                      [hostForm]="form" [controlPath]="'code'" [isRequired]="'true'"
+                                      [placeHolder]="'请输入项目代码'"></byl-input-formitem>
+
                     <!--<div nz-form-item nz-row>-->
                         <!--<div nz-form-label nz-col [nzSm]="4">-->
                             <!--<label for="code" nz-form-item-required>-->
@@ -31,6 +33,11 @@
 
                         <!--</div>-->
                     <!--</div>-->
+
+                  <byl-input-formitem [controlName]="'name'" [labelCaption]="'名称'"
+                                      [hostForm]="form" [controlPath]="'name'" [isRequired]="'true'"
+                                      [placeHolder]="'请输入项目名称'"></byl-input-formitem>
+
                     <!--<div nz-form-item nz-row>-->
                         <!--<div nz-form-label nz-col [nzSm]="4">-->
                             <!--<label for="name" nz-form-item-required>-->
@@ -52,6 +59,9 @@
                             <!--</ng-container>-->
                         <!--</div>-->
                     <!--</div>-->
+                  <byl-fetch-project-manager-formitem #projectManager
+                                      [hostForm]="form" [isRequired]="'true'"
+                                      [placeHolder]="'请输入项目代码'"></byl-fetch-project-manager-formitem>
 
                     <!--<div nz-form-item nz-row>-->
                         <!--<div nz-form-label nz-col [nzSm]="4">-->
@@ -85,7 +95,7 @@
                         <!--</div>-->
                     <!--</div>-->
 
-                    <!--&lt;!&ndash;<byl-embeddable-address formControlName="address"></byl-embeddable-address>&ndash;&gt;-->
+                    <!--<byl-embeddable-address formControlName="address"></byl-embeddable-address>-->
                     <!--<div nz-form-item nz-row>-->
                         <!--<div nz-form-label nz-col [nzSm]="4">-->
                             <!--<label for="addressTree" nz-form-item-required>-->
@@ -120,6 +130,10 @@
                             <!--<nz-input formControlName="detailAddress" nzPlaceHolder="详细地址"  ></nz-input>-->
                         <!--</div>-->
                     <!--</div>-->
+                  <byl-input-formitem [controlName]="'zipCode'" [labelCaption]="'邮政编码'"
+                                      [hostForm]="form" [controlPath]="'zipCode'" [isRequired]="'false'"
+                                      [placeHolder]="'请输入邮政编码'"></byl-input-formitem>
+
                     <!--<div nz-form-item nz-row>-->
                         <!--<div nz-form-label nz-col [nzSm]="4">-->
                             <!--<label for="zipCode" >-->
@@ -133,8 +147,11 @@
 
                         <!--</div>-->
                     <!--</div>-->
+                  <byl-date-formitem [controlName]="'planBeginDate'" [labelCaption]="'计划开始日期'"
+                                     [hostForm]="form" [controlPath]="'planBeginDate'" [isRequired]="'false'"
+                                     [placeHolder]="'请输入计划开始日期'"></byl-date-formitem>
 
-                    <!--<div nz-form-item nz-row>-->
+                  <!--<div nz-form-item nz-row>-->
                         <!--<div nz-form-label nz-col [nzSm]="4">-->
                             <!--<label for="planBeginDate" >-->
                                     <!--<span>-->
@@ -150,6 +167,9 @@
 
                         <!--</div>-->
                     <!--</div>-->
+                  <byl-date-formitem [controlName]="'planEndDate'" [labelCaption]="'计划结束日期'"
+                                     [hostForm]="form" [controlPath]="'planEndDate'" [isRequired]="'false'"
+                                     [placeHolder]="'请输入计划结束日期'"></byl-date-formitem>
                     <!--<div nz-form-item nz-row>-->
                         <!--<div nz-form-label nz-col [nzSm]="4">-->
                             <!--<label for="planEndDate" >-->
@@ -168,55 +188,29 @@
                     <!--</div>-->
 
 
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="remarks"> 备注</label>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback>-->
-                            <!--<nz-input formControlName="remarks" nzPlaceHolder="备注" ></nz-input>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                  <byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"
+                                      [hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"
+                                      [placeHolder]="'请输入备注'"></byl-input-formitem>
 
-                    <!--<div nz-form-item nz-row class="mb0">-->
-
-                        <!--<ng-container *ngIf="errMsg.length > 0">-->
-                            <!--<p>{{errMsg}}</p>-->
-                        <!--</ng-container>-->
-
-                        <!--<div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">-->
-                            <!--<button nz-button [nzType]="'primary'" [nzSize]="'large'"-->
-                                    <!--[disabled]="form.invalid || (!form.dirty)">保存</button>-->
-                            <!--<button nz-button (click)="resetButtonClick($event)">重置</button>-->
+                  <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
 
 
-                        <!--</div>-->
+                    <nz-form-item nz-row class="mb0">
+                        <div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
+                            <button nz-button [nzType]="'primary'" [nzSize]="'large'"
+                                    [disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>
+                            <button nz-button (click)="resetButtonClick($event)">重置</button>
+                        </div>
+                    </nz-form-item>
 
-                    <!--</div>-->
+                </form>
+        </nz-tab>
 
-                <!--</form>-->
-            <!--</span>-->
-        <!--</nz-tab>-->
 
-        <!--<byl-entity-logger [title]="'日志'" [entityId]="sourceId"></byl-entity-logger>-->
-        <!--&lt;!&ndash;<nz-tab>&ndash;&gt;-->
-            <!--&lt;!&ndash;<ng-template #nzTabHeading>日志</ng-template>&ndash;&gt;-->
-            <!--&lt;!&ndash;<span>&ndash;&gt;-->
-                <!--&lt;!&ndash;<nz-timeline>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<nz-timeline-item [nzColor]="'green'">Create a services site 2015-09-01</nz-timeline-item>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<nz-timeline-item [nzColor]="'green'">Solve initial network problems 2015-09-01</nz-timeline-item>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<nz-timeline-item [nzColor]="'red'">Technical testing 2015-09-01</nz-timeline-item>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<nz-timeline-item>Network problems being solved 2015-09-01</nz-timeline-item>&ndash;&gt;-->
-                <!--&lt;!&ndash;</nz-timeline>&ndash;&gt;-->
-            <!--&lt;!&ndash;</span>&ndash;&gt;-->
-        <!--&lt;!&ndash;</nz-tab>&ndash;&gt;-->
+      <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">
+        <byl-entity-logger [entityId]="sourceId"></byl-entity-logger>
+      </nz-tab>
 
-    <!--</nz-tabset>-->
-    <!--&lt;!&ndash;<div nz-row >&ndash;&gt;-->
-    <!--&lt;!&ndash;<div  nz-col [nzSpan]="20" [nzOffset]="4">&ndash;&gt;-->
-    <!--&lt;!&ndash;<button nz-button [nzType]="'primary'" [nzSize]="'large'" (click) = "showButtonClick($event)">show</button>&ndash;&gt;-->
-
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--</nz-card>-->
+    </nz-tabset>
+</nz-card>
 

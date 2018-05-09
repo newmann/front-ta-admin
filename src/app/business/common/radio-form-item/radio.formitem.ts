@@ -6,17 +6,18 @@ import {FormGroup} from '@angular/forms';
 // };
 
 @Component({
-    selector: 'byl-input-formitem',
-    templateUrl: './input.formitem.html'
+    selector: 'byl-radio-formitem',
+    templateUrl: './radio.formitem.html'
 })
-export class BylInputWidgetComponent /*implements ControlValueAccessor */ {
+export class BylRadioWidgetComponent /*implements ControlValueAccessor */ {
     @Input() public controlName: string;
     @Input() public labelCaption: string;
-    @Input() public placeHolder: string;
+    // @Input() public placeHolder: string;
     @Input() public hostForm: FormGroup;
     @Input() public controlPath: string;
     @Input() public isRequired: boolean;
     @Input() public validatedExtraInfo: string;
+    @Input() public selectOptions: Array<any>;
 
     get inputControl() {
         return this.hostForm.get(this.controlPath);

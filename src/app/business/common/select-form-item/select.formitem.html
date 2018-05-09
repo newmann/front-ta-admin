@@ -1,0 +1,31 @@
+<div [formGroup]="hostForm">
+  <nz-form-item >
+    <nz-form-label [nzSm]="6" [nzXs]="24"  [nzRequired]="isRequired" nzFor="controlName" >{{labelCaption}}
+      <!--<nz-tooltip [nzTitle]="'比如家庭地址、单位地址、现居住地等'">-->
+      <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
+      <!--</nz-tooltip>-->
+    </nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
+      <!--<nz-input formControlName="type" nzPlaceHolder="地址类型" ></nz-input>-->
+      <!--nzTags-->
+      <nz-select
+        [formControlName]="controlName"
+        [nzPlaceHolder]="placeHolder" [id]="controlName"
+        [nzNotFoundContent]="'无法找到'"
+        nzShowSearch [nzMode]="selectMode" >
+        <nz-option
+          *ngFor="let option of selectOptions"
+          [nzLabel]="option.label"
+          [nzValue]="option.value">
+        </nz-option>
+      </nz-select>
+
+      <nz-form-explain *ngIf="inputControl.dirty && inputControl.errors">
+        <ng-container *ngIf="inputControl.hasError('required')">不能为空</ng-container>
+        <ng-container *ngIf="inputControl.hasError('other')">验证出现异常：{{validatedExtraInfo}}</ng-container>
+        <ng-container *ngIf="inputControl.pending">验证中...</ng-container>
+      </nz-form-explain>
+
+    </nz-form-control>
+  </nz-form-item>
+</div>

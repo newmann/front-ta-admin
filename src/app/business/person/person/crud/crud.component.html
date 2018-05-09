@@ -55,29 +55,33 @@
                             <!--</ng-container>-->
                         <!--</div>-->
                     <!--</div>-->
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="gender" nz-form-item-required>
-                                    <span>
-                                        性别
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="gender">
+               <byl-radio-formitem [controlName]="'gender'" [labelCaption]="'性别'"
+                                   [hostForm]="form" [controlPath]="'gender'" [isRequired]="'true'"
+                                   [selectOptions]="genderOptions"></byl-radio-formitem>
 
-                            <nz-radio-group formControlName="gender" >
-                              <label nz-radio-button [nzValue]="1"><span>男</span></label>
-                              <label nz-radio-button [nzValue]="-1"><span>女</span></label>
-                              <label nz-radio-button [nzValue]="0"><span>未知</span></label>
-                            </nz-radio-group>
-                            <ng-container *ngIf="gender.dirty && gender.touched">
-                                <p nz-form-explain *ngIf="gender.errors?.required">必须选择性别</p>
-                            </ng-container>
-                        </div>
-                    </div>
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="gender" nz-form-item-required>-->
+                                    <!--<span>-->
+                                        <!--性别-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="gender">-->
+
+                            <!--<nz-radio-group formControlName="gender" >-->
+                              <!--<label nz-radio-button [nzValue]="1"><span>男</span></label>-->
+                              <!--<label nz-radio-button [nzValue]="-1"><span>女</span></label>-->
+                              <!--<label nz-radio-button [nzValue]="0"><span>未知</span></label>-->
+                            <!--</nz-radio-group>-->
+                            <!--<ng-container *ngIf="gender.dirty && gender.touched">-->
+                                <!--<p nz-form-explain *ngIf="gender.errors?.required">必须选择性别</p>-->
+                            <!--</ng-container>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <!--<div nz-form-item nz-row>-->
                         <!--<div nz-form-label nz-col [nzSm]="4">-->
                             <!--<label for="birthYear" >-->
@@ -129,55 +133,62 @@
                             <!--</ng-container>-->
                         <!--</div>-->
                     <!--</div>-->
+               <byl-select-formitem [controlName]="'nation'" [labelCaption]="'民族'"
+                                    [hostForm]="form" [controlPath]="'nation'" [isRequired]="'false'"
+                                    [placeHolder]="'请选择民族'" [selectMode]="'default'"
+                                    selectOptions="nationOptions" ></byl-select-formitem>
 
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="nation" >
-                                    <span>
-                                        民族
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback>
-                            <nz-select formControlName="nation" [nzPlaceHolder]="'请选择所属民族'" nzAllowClear>
-                                所属民族
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="nation" >-->
+                                    <!--<span>-->
+                                        <!--民族-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback>-->
+                            <!--<nz-select formControlName="nation" [nzPlaceHolder]="'请选择所属民族'" nzAllowClear>-->
+                                <!--所属民族-->
 
-                                <nz-option *ngFor="let option of searchedNations"
-                                           [nzValue]="option.code"
-                                           [nzLabel]="option.name"
-                                ></nz-option>
+                                <!--<nz-option *ngFor="let option of searchedNations"-->
+                                           <!--[nzValue]="option.code"-->
+                                           <!--[nzLabel]="option.name"-->
+                                <!--&gt;</nz-option>-->
 
 
-                            </nz-select>
+                            <!--</nz-select>-->
 
-                        </div>
-                    </div>
+                        <!--</div>-->
+                    <!--</div>-->
+               <byl-select-formitem [controlName]="'politicalStatus'" [labelCaption]="'政治面貌'"
+                                    [hostForm]="form" [controlPath]="'politicalStatus'" [isRequired]="'false'"
+                                    [placeHolder]="'请选择政治面貌'" [selectMode]="'default'"
+                                    selectOptions="politicalOptions" ></byl-select-formitem>
+                    <!--<div nz-form-item nz-row>-->
+                        <!--<div nz-form-label nz-col [nzSm]="4">-->
+                            <!--<label for="politicalStatus" >-->
+                                    <!--<span>-->
+                                        <!--政治面貌-->
+                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                                    <!--</span>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback >-->
+                            <!--<nz-select  formControlName="politicalStatus" nzAllowClear [nzPlaceHolder]="'选择政治面貌'">-->
+                              <!--<nz-option-->
+                                  <!--*ngFor="let option of searchedPoliticalStatus"-->
+                                  <!--[nzLabel]="option.name"-->
+                                  <!--[nzValue]="option.code"-->
+                              <!--&gt;</nz-option>-->
+                            <!--</nz-select>-->
 
-                    <div nz-form-item nz-row>
-                        <div nz-form-label nz-col [nzSm]="4">
-                            <label for="politicalStatus" >
-                                    <span>
-                                        政治面貌
-                                        <!--<nz-tooltip [nzTitle]="'What do you want other to call you'">-->
-                                        <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                                        <!--</nz-tooltip>-->
-                                    </span>
-                            </label>
-                        </div>
-                        <div nz-form-control nz-col [nzSm]="20" nzHasFeedback >
-                            <nz-select  formControlName="politicalStatus" nzAllowClear [nzPlaceHolder]="'选择政治面貌'">
-                              <nz-option
-                                  *ngFor="let option of searchedPoliticalStatus"
-                                  [nzLabel]="option.name"
-                                  [nzValue]="option.code"
-                              ></nz-option>
-                            </nz-select>
-
-                        </div>
-                    </div>
+                        <!--</div>-->
+                    <!--</div>-->
 
                <byl-input-formitem [controlName]="'nativePlace'" [labelCaption]="'籍贯'"
                                    [hostForm]="form" [controlPath]="'nativePlace'" [isRequired]="'false'"

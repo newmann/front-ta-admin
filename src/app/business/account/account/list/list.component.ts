@@ -40,7 +40,7 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                // public functionSubject$: NzModalRef,
+                // public modalRef: NzModalRef,
                 public router: Router,
                 public accountService: BylAccountService) {
         super(message, configService, modalService, router);

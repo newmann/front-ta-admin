@@ -1,0 +1,18 @@
+<div [formGroup]="hostForm">
+  <nz-form-item nz-row>
+    <nz-form-label nz-col [nzSm]="6" [nzXs]="24" [nzFor]="controlName" [nzRequired]="isRequired">
+      {{labelCaption}}
+    </nz-form-label>
+    <nz-form-control nz-col [nzSm]="14" [nzXs]="24"  nzHasFeedback  [ngStyle]="{ width: '300px', border: '1px solid #d9d9d9', borderRadius: '4px' }">
+      <nz-calendar nzCard="true" [formControlName]="controlName"
+                   [id]="controlName" ></nz-calendar>
+
+        <nz-form-explain *ngIf="inputControl.dirty && inputControl.errors">
+          <ng-container *ngIf="inputControl.hasError('required')">不能为空</ng-container>
+          <ng-container *ngIf="inputControl.hasError('other')">验证出现异常：{{validatedExtraInfo}}</ng-container>
+          <ng-container *ngIf="inputControl.pending">验证中...</ng-container>
+        </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+
+</div>

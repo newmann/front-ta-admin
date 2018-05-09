@@ -2,42 +2,48 @@
 <nz-card [nzBordered]="false">
 
     <form nz-form [formGroup]="form" role="form">
-        <nz-form-item nz-row>
-            <nz-form-label nz-col [nzSm]="4">证件类型
-                <!--<label for="type" nz-form-item-required>-->
-                        <!--<span>-->
-                            <!--证件类型-->
-                            <!--<nz-tooltip [nzTitle]="'比如身份证、驾驶证、护照等'">-->
-                            <!--<i nz-tooltip class="anticon anticon-question-circle-o"></i>-->
-                            <!--</nz-tooltip>-->
-                        <!--</span>-->
-                <!--</label>-->
-            </nz-form-label>
-            <nz-form-control nz-col [nzSm]="20" nzHasFeedback  >
-                <!--<nz-input formControlName="type" nzPlaceHolder="地址类型" ></nz-input>-->
-                <!--nzTags-->
-                <nz-select
-                    formControlName="type"
-                    [nzPlaceHolder]="'请选择或输入证件类型'"
-                    [nzNotFoundContent]="'无法找到'"
-                    [nzMode]="multiple"
-                    nzShowSearch  id="type">
-                    <nz-option
-                        *ngFor="let option of typeOptions"
-                        [nzLabel]="option.label"
-                        [nzValue]="option.value">
-                    </nz-option>
-                </nz-select>
 
-                <nz-form-explain *ngIf="type.dirty && type.errors">
-                    <ng-container *ngIf="type.hasError('required')">必须输入证件类型</ng-container>
-                    <ng-container  *ngIf="type.hasError('other')">验证出现异常：{{type.hasError('other')}}</ng-container>
-                    <!--<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>-->
-                    <ng-container  *ngIf="type.pending">验证中...</ng-container>
-                </nz-form-explain>
+      <byl-select-formitem [controlName]="'type'" [labelCaption]="'证件类型'"
+                          [hostForm]="form" [controlPath]="'type'" [isRequired]="'true'"
+                          [placeHolder]="'请选择证件类型'" [selectMode]="'multiple'"
+                          selectOptions="typeOptions" ></byl-select-formitem>
 
-            </nz-form-control>
-        </nz-form-item>
+        <!--<nz-form-item nz-row>-->
+            <!--<nz-form-label nz-col [nzSm]="4">证件类型-->
+                <!--&lt;!&ndash;<label for="type" nz-form-item-required>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;证件类型&ndash;&gt;-->
+                            <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'比如身份证、驾驶证、护照等'">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;</label>&ndash;&gt;-->
+            <!--</nz-form-label>-->
+            <!--<nz-form-control nz-col [nzSm]="20" nzHasFeedback  >-->
+                <!--&lt;!&ndash;<nz-input formControlName="type" nzPlaceHolder="地址类型" ></nz-input>&ndash;&gt;-->
+                <!--&lt;!&ndash;nzTags&ndash;&gt;-->
+                <!--<nz-select-->
+                    <!--formControlName="type"-->
+                    <!--[nzPlaceHolder]="'请选择或输入证件类型'"-->
+                    <!--[nzNotFoundContent]="'无法找到'"-->
+                    <!--[nzMode]="multiple"-->
+                    <!--nzShowSearch  id="type">-->
+                    <!--<nz-option-->
+                        <!--*ngFor="let option of typeOptions"-->
+                        <!--[nzLabel]="option.label"-->
+                        <!--[nzValue]="option.value">-->
+                    <!--</nz-option>-->
+                <!--</nz-select>-->
+
+                <!--<nz-form-explain *ngIf="type.dirty && type.errors">-->
+                    <!--<ng-container *ngIf="type.hasError('required')">必须输入证件类型</ng-container>-->
+                    <!--<ng-container  *ngIf="type.hasError('other')">验证出现异常：{{type.hasError('other')}}</ng-container>-->
+                    <!--&lt;!&ndash;<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>&ndash;&gt;-->
+                    <!--<ng-container  *ngIf="type.pending">验证中...</ng-container>-->
+                <!--</nz-form-explain>-->
+
+            <!--</nz-form-control>-->
+        <!--</nz-form-item>-->
 
       <byl-input-formitem [controlName]="'code'" [labelCaption]="'证件号码'"
                           [hostForm]="form" [controlPath]="'code'" [isRequired]="'true'"
@@ -64,24 +70,30 @@
             <!--</div>-->
         <!--</div>-->
 
+        <byl-date-formitem [controlName]="'issueDate'" [labelCaption]="'发证日期'"
+                           [hostForm]="form" [controlPath]="'issueDate'" [isRequired]="'false'"
+                           [placeHolder]="'请输入发证日期'"></byl-date-formitem>
+        <!--<nz-form-item nz-row>-->
+            <!--<nz-form-label nz-col [nzSm]="4" nzFor="issueDate">发证日期-->
+            <!--</nz-form-label>-->
+            <!--<nz-form-control nz-col [nzSm]="20" nzHasFeedback [ngStyle]="{ width: '300px', border: '1px solid #d9d9d9', borderRadius: '4px' }">-->
+                <!--<nz-calendar nzCard  formControlName="issueDate" nzPlaceHolder="发证日期" ></nz-calendar>-->
 
-        <nz-form-item nz-row>
-            <nz-form-label nz-col [nzSm]="4" nzFor="issueDate">发证日期
-            </nz-form-label>
-            <nz-form-control nz-col [nzSm]="20" nzHasFeedback [ngStyle]="{ width: '300px', border: '1px solid #d9d9d9', borderRadius: '4px' }">
-                <nz-calendar nzCard  formControlName="issueDate" nzPlaceHolder="发证日期" ></nz-calendar>
+            <!--</nz-form-control>-->
+        <!--</nz-form-item>-->
+      <byl-date-formitem [controlName]="'effectiveDate'" [labelCaption]="'到效日期'"
+                         [hostForm]="form" [controlPath]="'effectiveDate'" [isRequired]="'true'"
+                         [placeHolder]="'请输入到效日期'"></byl-date-formitem>
 
-            </nz-form-control>
-        </nz-form-item>
-        <nz-form-item nz-row>
-            <nz-form-label nz-col [nzSm]="4" [nzFor]="'effectiveDate'" [nzRequired]="'true'">
-                            到效日期
-            </nz-form-label>
-            <nz-form-control nz-col [nzSm]="20" nzHasFeedback  [ngStyle]="{ width: '300px', border: '1px solid #d9d9d9', borderRadius: '4px' }">
-                <nz-calendar nzCard formControlName="effectiveDate" nzPlaceHolder="到效日期" ></nz-calendar>
+        <!--<nz-form-item nz-row>-->
+            <!--<nz-form-label nz-col [nzSm]="4" [nzFor]="'effectiveDate'" [nzRequired]="'true'">-->
+                            <!--到效日期-->
+            <!--</nz-form-label>-->
+            <!--<nz-form-control nz-col [nzSm]="20" nzHasFeedback  [ngStyle]="{ width: '300px', border: '1px solid #d9d9d9', borderRadius: '4px' }">-->
+                <!--<nz-calendar nzCard formControlName="effectiveDate" nzPlaceHolder="到效日期" ></nz-calendar>-->
 
-            </nz-form-control>
-        </nz-form-item>
+            <!--</nz-form-control>-->
+        <!--</nz-form-item>-->
 
         <nz-form-item nz-row>
             <nz-form-label nz-col [nzSm]="4" [nzFor]="'frontPhotoUrl'">

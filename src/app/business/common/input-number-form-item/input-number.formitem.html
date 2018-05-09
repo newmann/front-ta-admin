@@ -1,0 +1,16 @@
+<div [formGroup]="hostForm">
+  <nz-form-item >
+    <nz-form-label [nzSm]="6" [nzXs]="24" [nzRequired]="isRequired" [nzFor]="controlName" >{{labelCaption}}</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
+      <nz-input-number [formControlName]="controlName" [id]="controlName"
+        [nzMax]="max" [nzMin]="min" [nzPrecision]="precision" [nzStep]="step"></nz-input-number>
+      <!--nzSize="large"-->
+      <nz-form-explain *ngIf="inputControl.dirty && inputControl.errors">
+        <ng-container *ngIf="inputControl.hasError('required')">必须输入{{labelCaption}}</ng-container>
+        <ng-container *ngIf="inputControl.hasError('other')">验证出现异常：{{validatedExtraInfo}}</ng-container>
+        <ng-container *ngIf="inputControl.pending">验证中...</ng-container>
+      </nz-form-explain>
+
+    </nz-form-control>
+  </nz-form-item>
+</div>

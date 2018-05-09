@@ -94,7 +94,7 @@
                 </form>
             </span>
         </nz-tab>
-        <nz-tab [nzDisabled]="!sourceId" [nzTitle]="'用户'">
+        <nz-tab [nzDisabled]="!sourceId" nzTitle="用户">
             <byl-account-item-list [masterId]="sourceId"
                                    [findAvailablePoolsService]="departmentService"
                                    [findEntityAccountService]="departmentService"

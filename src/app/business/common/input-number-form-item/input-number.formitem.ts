@@ -6,18 +6,20 @@ import {FormGroup} from '@angular/forms';
 // };
 
 @Component({
-    selector: 'byl-input-formitem',
-    templateUrl: './input.formitem.html'
+    selector: 'byl-input-number-formitem',
+    templateUrl: './input-number.formitem.html'
 })
-export class BylInputWidgetComponent /*implements ControlValueAccessor */ {
+export class BylInputNumberWidgetComponent /*implements ControlValueAccessor */ {
     @Input() public controlName: string;
     @Input() public labelCaption: string;
-    @Input() public placeHolder: string;
     @Input() public hostForm: FormGroup;
     @Input() public controlPath: string;
     @Input() public isRequired: boolean;
     @Input() public validatedExtraInfo: string;
-
+    @Input() public min = 0;
+    @Input() public max = Infinity;
+    @Input() public precision: number;
+    @Input() public step: number;
     get inputControl() {
         return this.hostForm.get(this.controlPath);
     }

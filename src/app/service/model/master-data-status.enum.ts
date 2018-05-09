@@ -27,9 +27,9 @@ export class BylMasterDataStatusManager {
 
     static getStatusArray(): BylIStatusItem[] {
         return [
-            {value: BylMasterDataStatusEnum.NORMAL, caption: this.getStatusCaption(BylMasterDataStatusEnum.NORMAL)},
-            {value: BylMasterDataStatusEnum.LOCKED, caption: this.getStatusCaption(BylMasterDataStatusEnum.LOCKED)},
-            {value: BylMasterDataStatusEnum.DELETED, caption: this.getStatusCaption(BylMasterDataStatusEnum.DELETED)}
+            {value: BylMasterDataStatusEnum.NORMAL, label: this.getStatusCaption(BylMasterDataStatusEnum.NORMAL)},
+            {value: BylMasterDataStatusEnum.LOCKED, label: this.getStatusCaption(BylMasterDataStatusEnum.LOCKED)},
+            {value: BylMasterDataStatusEnum.DELETED, label: this.getStatusCaption(BylMasterDataStatusEnum.DELETED)}
         ];
     }
 }

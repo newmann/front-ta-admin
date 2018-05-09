@@ -15,6 +15,10 @@ import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-lo
     templateUrl: './crud.component.html',
 })
 export class BylBorrowMoneyTicketListCrudComponent extends BylCrudComponentBase<BylBorrowMoneyTicket> {
+    public borrowTypeOptions = [
+        {caption: '1', value: '个体'},
+        {caption: '2', value: '组织'}
+    ];
 
     @Input()
     set setSourceId(value: string) {
