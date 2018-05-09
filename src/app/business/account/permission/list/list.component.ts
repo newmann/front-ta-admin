@@ -14,6 +14,7 @@ import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-f
 import {BylPermissionAvailablePoolsInterface} from "../../../../service/account/service/permission-related.interface";
 import {BylPageResp} from "../../../../service/model/page-resp.model";
 import {Observable} from "rxjs/Observable";
+import {SFSchema, SFUISchema} from "@delon/form";
 
 @Component({
   selector: 'byl-permission-list',
@@ -24,14 +25,13 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
     @Input() masterId: string;//用户查询对应关系的界面，比如角色包含的用户等
     @Input() functionMode: BylListFormFunctionModeEnum = this.LIST_MODE;
     @Input() findAvailablePoolsService: BylPermissionAvailablePoolsInterface; //调用方传入查询函数
-
+    @Input() selectModalForm: NzModalRef;
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
                 public router: Router,
-                public permissionService: BylPermissionService,
-                public functionSubject$: NzModalRef) {
+                public permissionService: BylPermissionService) {
         super(message, configService, modalService, router);
 
         this.businessService = permissionService;
@@ -92,7 +92,7 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
         //将数据传出，并退出界面
         $event.preventDefault();
         // this.functionSubject$.next(this.selectedRows);
-        this.functionSubject$.destroy(this.selectedRows);
+        this.selectModalForm.destroy(this.selectedRows);
     }
 
     /**
@@ -133,4 +133,34 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
         );
 
     }
+
+    //#region 查询条件
+    queryDefaultData: any = {
+        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+    queryUiSchema: SFUISchema = {};
+    querySchema: SFSchema = {
+        properties: {
+            packageName: { type: 'string',
+                title: '包名类似于'
+            },
+            moduleName: { type: 'string',
+                title: '模块名类似于'
+            },
+            action: { type: 'string',
+                title: '功能类似于'
+            },
+            modifyDateBegin: { type: 'string',
+                title: '最后修改日期大于等于',
+                ui: { widget: 'date' }
+            },
+            modifyDateEnd: { type: 'string',
+                title: '最后修改日期小于等于',
+                ui: { widget: 'date' }
+            }
+        },
+        required: []
+    };
+//#endregion
+
 }

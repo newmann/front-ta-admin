@@ -22,7 +22,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ALAIN_I18N_TOKEN } from '@delon/theme';
 import { I18NService } from '@core/i18n/i18n.service';
-import { JWTInterceptor} from '@delon/auth';
+import {ITokenService, JWTInterceptor} from '@delon/auth';
 import { BYL_API_URL_LOGIN } from 'app/service/constant/backend-url.constant';
 import {BylBusinessModule} from "./business/business.module";
 // third

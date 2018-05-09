@@ -6,6 +6,115 @@
 </head>
 <body>
 
+<page-header [title]="'账户管理'" *ngIf="functionMode === LIST_MODE" >
+  <ng-template #action>
+    <button nz-button (click)="add()" [nzType]="'default'" [nzSize]="'large'">
+      <i class="anticon anticon-plus"></i><span>新建</span>
+    </button>
+    <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">
+      <i class="anticon anticon-search"></i><span>查询</span>
+    </button>
+
+    <!--<button nz-button (click)="showQueryForm()" [nzSize]="'large'">重置查询条件</button>-->
+
+    <ng-container *ngIf="selectedRows.length > 0">
+
+
+      <button nz-button [nzSize]="'large'" class="ml-sm">批量操作</button>
+
+      <nz-dropdown [nzPlacement]="'bottomLeft'">
+        <button nz-button nz-dropdown [nzSize]="'large'" class="ml-sm">
+          更多操作 <i class="anticon anticon-down"></i>
+        </button>
+        <ul nz-menu>
+          <li nz-menu-item (click)="batchDelete()">删除</li>
+          <li nz-menu-item (click)="batchApproval()">批量审批</li>
+        </ul>
+      </nz-dropdown>
+    </ng-container>
+
+  </ng-template>
+</page-header>
+
+
+<byl-list-query-widget [defaultData]="queryDefaultData" [schema]="querySchema"
+                       [uiSchema]="queryUiSchema" [actionTemplateRef]="queryAction"></byl-list-query-widget>
+<ng-template #queryAction >
+  <ng-container *ngIf="functionMode === SELECT_MODE">
+    <button nz-button (click) = "batchSelect($event)" [nzType]="'default'"  class="ml-sm">
+      <i class="anticon anticon-plus"></i><span>添加</span>
+    </button>
+    <button nz-button  (click)="search()" [nzType]="'primary'" [nzLoading]="loading"  class="ml-sm">
+      <i class="anticon anticon-search"></i><span>查询</span>
+    </button>
+  </ng-container>
+</ng-template>
+
+<nz-card [nzBordered]="false">
+
+  <nz-table #nzTable [nzData]="listData" [(nzPageSize)]="page.pageSize" [(nzPageIndex)]="page.page" [nzLoading]="loading"
+            nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total"
+            (nzPageIndexChange)="search()" (nzPageSizeChange)="pageSizeChange($event)">
+    <thead>
+    <tr>
+      <th  nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
+           (nzCheckedChange)="checkAll($event)"></th>
+      <th ><span>代码</span></th>
+      <th ><span>姓名</span></th>
+      <th ><span>昵称</span></th>
+      <th >
+        <span>邮箱</span>
+        <!--<nz-dropdown [nzTrigger]="'click'">-->
+        <!--<i class="anticon anticon-filter" nz-dropdown></i>-->
+        <!--<ul nz-menu>-->
+        <!--<li nz-menu-item *ngFor="let i of statusList">-->
+        <!--<label nz-checkbox [(ngModel)]="i.value"><span>{{i.label}}</span></label>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--<div nz-table-filter>-->
+        <!--<span nz-table-filter-confirm (click)="search()">确定</span>-->
+        <!--<span nz-table-filter-clear>重置</span>-->
+        <!--</div>-->
+        <!--</nz-dropdown>-->
+      </th>
+      <th >
+        <span>手机</span>
+      </th>
+      <th >
+        <span>状态</span>
+      </th>
+      <th >
+        <span>备注</span>
+      </th>
+
+      <th  *ngIf="functionMode === LIST_MODE" ><span>操作</span></th>
+    </tr>
+    </thead>
+    <tbody >
+    <tr *ngFor="let i of nzTable.data">
+      <td  nzShowCheckbox [(nzChecked)]="i.checked" [nzDisabled]="i.disabled"
+           (nzCheckedChange)="refreshStatus($event)"></td>
+      <td >{{i.item.username}}</td>
+      <td >{{i.item.fullName}}</td>
+      <td >{{i.item.nickname}}</td>
+      <td >{{i.item.email}}</td>
+      <td >{{i.item.phone}}</td>
+      <td >{{i.item.status}}</td>
+      <td >{{i.item.remarks }}</td>
+      <td  *ngIf="functionMode === LIST_MODE" >
+        <a (click)="modifyEntity(i.item.id)">修改</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+
+</nz-card>
+
+
+
+
+
+
 <!--input template-->
 <div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24" class="mb-md">
     <div nz-form-item class="d-flex">

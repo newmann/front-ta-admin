@@ -1,29 +1,31 @@
 <page-header [title]="'账户管理'" *ngIf="functionMode === LIST_MODE" >
     <ng-template #action>
-        <button nz-button (click)="add()" [nzType]="'default'" [nzSize]="'large'">
+      <ng-container *ngIf="selectedRows.length > 0">
+
+
+        <button nz-button class="ml-sm">批量操作</button>
+
+        <nz-dropdown [nzPlacement]="'bottomLeft'">
+          <button nz-button nz-dropdown class="ml-sm">
+            更多操作 <i class="anticon anticon-down"></i>
+          </button>
+          <ul nz-menu>
+            <li nz-menu-item (click)="batchDelete()">删除</li>
+            <li nz-menu-item (click)="batchApproval()">批量审批</li>
+          </ul>
+        </nz-dropdown>
+      </ng-container>
+
+        <button nz-button (click)="add()" [nzType]="'default'" >
             <i class="anticon anticon-plus"></i><span>新建</span>
         </button>
-        <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">
+        <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" >
             <i class="anticon anticon-search"></i><span>查询</span>
         </button>
 
         <!--<button nz-button (click)="showQueryForm()" [nzSize]="'large'">重置查询条件</button>-->
 
-        <ng-container *ngIf="selectedRows.length > 0">
 
-
-            <button nz-button [nzSize]="'large'" class="ml-sm">批量操作</button>
-
-            <nz-dropdown [nzPlacement]="'bottomLeft'">
-                <button nz-button nz-dropdown [nzSize]="'large'" class="ml-sm">
-                更多操作 <i class="anticon anticon-down"></i>
-                </button>
-                <ul nz-menu>
-                    <li nz-menu-item (click)="batchDelete()">删除</li>
-                    <li nz-menu-item (click)="batchApproval()">批量审批</li>
-                </ul>
-            </nz-dropdown>
-        </ng-container>
 
     </ng-template>
 </page-header>
@@ -185,5 +187,5 @@
         </tr>
         </tbody>
     </nz-table>
-
+  <byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>
 </nz-card>

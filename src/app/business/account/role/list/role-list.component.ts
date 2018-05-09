@@ -12,6 +12,7 @@ import {BylListFormData} from '../../../../service/model/list-form-data.model';
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from '../../../../service/model/master-data-status.enum';
 import {BylListComponentBase} from '../../../common/list-component-base';
 import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
+import {SFSchema, SFUISchema} from "@delon/form";
 
 @Component({
     selector: 'byl-role-list',
@@ -36,7 +37,7 @@ export class BylRoleListComponent extends BylListComponentBase<BylRole> {
         // this.businessCrudComponent = BylPersonCrudComponent;
 
         this.statusList = BylMasterDataStatusManager.getStatusArray();
-
+        this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
     }
 
     // checkAll(value: boolean) {
@@ -163,5 +164,34 @@ export class BylRoleListComponent extends BylListComponentBase<BylRole> {
         Object.assign(this.qData,q);
     }
 
-
+    //#region 查询条件
+    queryDefaultData: any = {
+        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+    queryUiSchema: SFUISchema = {};
+    querySchema: SFSchema = {
+        properties: {
+            name: { type: 'string',
+                title: '角色名称类似于'
+            },
+            status: {
+                type: 'string',
+                title: '状态',
+                enum: [],
+                ui: {
+                    widget: 'tag'
+                }
+            },
+            modifyDateBegin: { type: 'string',
+                title: '最后修改日期大于等于',
+                ui: { widget: 'date' }
+            },
+            modifyDateEnd: { type: 'string',
+                title: '最后修改日期小于等于',
+                ui: { widget: 'date' }
+            }
+        },
+        required: []
+    };
+//#endregion
 }

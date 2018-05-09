@@ -9,6 +9,10 @@ import {BylListFormData} from '../../../../service/model/list-form-data.model';
 
 import {BylPersonQuery} from '../../../../service/person/query/person-query.model';
 import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
+import {SFSchema, SFUISchema} from "@delon/form";
+import * as moment from "moment";
+import {BylIStatusItem} from "../../../../service/model/status.model";
+import {BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
 
 
 @Component({
@@ -16,7 +20,7 @@ import {BylProjectQuery} from "../../../../service/project/query/project-query.m
     templateUrl: './list.component.html',
 })
 export class BylPersonListComponent extends BylListComponentBase<BylPerson> {
-
+    // statusList: BylIStatusItem[]; //状态
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
@@ -26,6 +30,8 @@ export class BylPersonListComponent extends BylListComponentBase<BylPerson> {
 
         this.businessService = personService;
         this.crudUrl = '/person/person/crud';
+        // this.statusList = BylMasterDataStatusManager.getStatusArray();
+        // this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
         // this.businessCrudComponent = BylPersonCrudComponent;
     }
 
@@ -68,4 +74,30 @@ export class BylPersonListComponent extends BylListComponentBase<BylPerson> {
 
         Object.assign(this.qData,q);
     }
+
+    //#region 查询条件
+    queryDefaultData: any = {
+        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+    queryUiSchema: SFUISchema = {};
+    querySchema: SFSchema = {
+        properties: {
+            name: { type: 'string',
+                title: '姓名类似于'
+            },
+            idCard: { type: 'string',
+                title: '身份证号类似于'
+            },
+            modifyDateBegin: { type: 'string',
+                title: '最后修改日期大于等于',
+                ui: { widget: 'date' }
+            },
+            modifyDateEnd: { type: 'string',
+                title: '最后修改日期小于等于',
+                ui: { widget: 'date' }
+            }
+        },
+        required: []
+    };
+//#endregion
 }

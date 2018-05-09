@@ -85,7 +85,7 @@ export class BylPermissionItemListComponent implements OnInit  {
         this.message.info(msg);
     }
     /**
-     * 从个体中选择可用的资源
+     * 选择权限
      */
     addPermission() {
 
@@ -95,6 +95,7 @@ export class BylPermissionItemListComponent implements OnInit  {
             nzZIndex: 9999, //最外层
             nzWidth: '90%',
             nzContent: BylPermissionListComponent,
+            nzFooter: null,
             // onOk() {
             //
             // },
@@ -104,13 +105,14 @@ export class BylPermissionItemListComponent implements OnInit  {
             nzComponentParams: {
                 functionMode: BylListFormFunctionModeEnum.SELECT,
                 findAvailablePoolsService: this.findAvailablePoolsService,
-                masterId: this._masterId
+                masterId: this._masterId,
+                selectModalForm: this.addForm
             },
             nzMaskClosable: false
         });
         // this.addForm.next(BylCrudEvent[BylCrudEvent.bylSaving]);
 
-        this.addForm.destroy(result => {
+        this.addForm.afterClose.subscribe(result => {
             console.info(result);
 
             console.info(typeof result);

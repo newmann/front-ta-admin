@@ -19,6 +19,7 @@ import {Observable} from 'rxjs/Observable';
 import {zip} from 'rxjs/observable/zip';
 import {BylListComponentBase} from '../../../common/list-component-base';
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from '../../../../service/model/master-data-status.enum';
+import {SFSchema, SFUISchema} from "@delon/form";
 
 @Component({
     selector: 'byl-department-list',
@@ -106,14 +107,11 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
 
     }
 
-    // private _modifyForm: NzModalSubject;//维护界面
-    // 新增
-    // modalVisible = false;
-    // newDepartment: BylDepartment;
+
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public functionSubject$: NzModalRef,
+                // public functionSubject$: NzModalRef,
                 public router: Router,
                 public departmentService: BylDepartmentService) {
         super(message, configService, modalService, router);
@@ -123,52 +121,13 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
         // this.businessCrudComponent = BylPersonCrudComponent;
         this.statusList = BylMasterDataStatusManager.getStatusArray();
 
+        this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
+
         this.registerTreeToggleExpanded();
 
     }
 
 
-    // refChecked() {
-    //     this.selectedRows = this.listData.filter(w => w.checked);
-    //     const checkedCount = this.selectedRows.length;
-    //     this.allChecked = checkedCount === this.listData.length;
-    //     this.indeterminate = this.allChecked ? false : checkedCount > 0;
-    // }
-
-    // ngOnInit() {
-    //     super.ngOnInit();
-    // }
-
-
-    // showModifyForm(id:string) {
-    //
-    //     this._modifyForm = this.modalService.open({
-    //         title: '修改',
-    //         content: BylDepartmentCrudComponent,
-    //         // onOk() {
-    //         //
-    //         // },
-    //         // onCancel() {
-    //         //     console.log('Click cancel');
-    //         // },
-    //         footer: false,
-    //         componentParams: {
-    //             sourceDepartmentId: id
-    //         },
-    //         maskClosable: false
-    //     });
-    //     //
-    //     this._modifyForm.subscribe(result => {
-    //         console.log(result);
-    //         if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
-    //             //更新对应的数据
-    //             this.updateListData(result.data);
-    //
-    //         }
-    //
-    //
-    //     });
-    // }
     /**
      * 查找
      */
@@ -358,4 +317,39 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
 
         Object.assign(this.qData,q);
     }
+
+    //#region 查询条件
+    queryDefaultData: any = {
+        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+    queryUiSchema: SFUISchema = {};
+    querySchema: SFSchema = {
+        properties: {
+            code: { type: 'string',
+                title: '代码类似于'
+            },
+            name: { type: 'string',
+                title: '名称类似于'
+            },
+            status: {
+                type: 'string',
+                title: '状态',
+                enum: [],
+                ui: {
+                    widget: 'tag'
+                }
+            },
+            modifyDateBegin: { type: 'string',
+                title: '最后修改日期大于等于',
+                ui: { widget: 'date' }
+            },
+            modifyDateEnd: { type: 'string',
+                title: '最后修改日期小于等于',
+                ui: { widget: 'date' }
+            }
+        },
+        required: []
+    };
+//#endregion
+
 }

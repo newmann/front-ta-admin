@@ -1,23 +1,24 @@
 <page-header [title]="'角色管理'">
     <ng-template #action>
-        <button nz-button (click)="add()" [nzType]="'default'" [nzSize]="'large'">
+        <ng-container *ngIf="selectedRows.length > 0">
+          <button nz-button class="ml-sm">批量操作</button>
+          <nz-dropdown [nzPlacement]="'bottomLeft'" class="ml-sm">
+            <button nz-button nz-dropdown  class="ml-sm">
+              更多操作 <i class="anticon anticon-down"></i>
+            </button>
+            <ul nz-menu>
+              <li nz-menu-item (click)="batchDelete()">删除</li>
+              <li nz-menu-item (click)="batchApproval()">批量审批</li>
+            </ul>
+          </nz-dropdown>
+        </ng-container>
+
+        <button nz-button (click)="add()" [nzType]="'default'" class="ml-sm" >
             <i class="anticon anticon-plus"></i><span>新建</span>
         </button>
-        <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">
+        <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" class="ml-sm">
             <i class="anticon anticon-search"></i><span>查询</span>
         </button>
-        <ng-container *ngIf="selectedRows.length > 0">
-            <button nz-button [nzSize]="'large'" class="ml-sm">批量操作</button>
-            <nz-dropdown [nzPlacement]="'bottomLeft'">
-                <button nz-button nz-dropdown [nzSize]="'large'" class="ml-sm">
-                    更多操作 <i class="anticon anticon-down"></i>
-                </button>
-                <ul nz-menu>
-                    <li nz-menu-item (click)="batchDelete()">删除</li>
-                    <li nz-menu-item (click)="batchApproval()">批量审批</li>
-                </ul>
-            </nz-dropdown>
-        </ng-container>
         <!--<ng-container *ngIf="selectedRows.length > 0">-->
         <!--<button nz-button [nzSize]="'large'" class="ml-sm">批量操作</button>-->
         <!--<nz-dropdown [nzPlacement]="'bottomLeft'">-->
@@ -33,64 +34,67 @@
 
     </ng-template>
 </page-header>
+<byl-list-query-widget [defaultData]="queryDefaultData" [schema]="querySchema"
+                       [uiSchema]="queryUiSchema" ></byl-list-query-widget>
+
 <nz-card [nzBordered]="false">
-    <form nz-form [nzLayout]="'inline'">
-        <div nz-row [nzGutter]="24">
-            <div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24" class="mb-md">
-              <nz-form-item [nzFlex]>
-                <nz-form-label [nzFor]="'qName'">角色名称</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input [(ngModel)]="qData.name" name="qName" [nzSize]="'large'"
-                               placeHolder="请输入" id="qName">
-                    </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24" class="mb-md">
-              <nz-form-item [nzFlex]>
-                <nz-form-label [nzFor]="'qStatus'">角色状态</nz-form-label>
-                <nz-form-control>
-                    <nz-select [(ngModel)]="qData.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"
-                               [nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">
-                        <nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.label"
-                                   [nzValue]="i.value"></nz-option>
-                    </nz-select>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-          <div *ngIf="expandQuery" nz-col [nzLg]="6"  [nzMd]="8" [nzSm]="12"  [nzXs]="24"  class="mb-md">
-            <nz-form-item [nzFlex]>
-              <nz-form-label [nzFor]="'qModifyDateBegin'">最后修改起始日期</nz-form-label>
-              <nz-form-control>
-                <nz-calendar [nzCard]  [(ngModel)]="qData.modifyDateBegin" name="qModifyDateBegin" id="qModifyDateBegin"
-                ></nz-calendar>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
+    <!--<form nz-form [nzLayout]="'inline'">-->
+        <!--<div nz-row [nzGutter]="24">-->
+            <!--<div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24" class="mb-md">-->
+              <!--<nz-form-item [nzFlex]>-->
+                <!--<nz-form-label [nzFor]="'qName'">角色名称</nz-form-label>-->
+                    <!--<nz-form-control>-->
+                        <!--<input nz-input [(ngModel)]="qData.name" name="qName" [nzSize]="'large'"-->
+                               <!--placeHolder="请输入" id="qName">-->
+                    <!--</nz-form-control>-->
+              <!--</nz-form-item>-->
+            <!--</div>-->
+            <!--<div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24" class="mb-md">-->
+              <!--<nz-form-item [nzFlex]>-->
+                <!--<nz-form-label [nzFor]="'qStatus'">角色状态</nz-form-label>-->
+                <!--<nz-form-control>-->
+                    <!--<nz-select [(ngModel)]="qData.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"-->
+                               <!--[nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">-->
+                        <!--<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.label"-->
+                                   <!--[nzValue]="i.value"></nz-option>-->
+                    <!--</nz-select>-->
+                <!--</nz-form-control>-->
+              <!--</nz-form-item>-->
+            <!--</div>-->
+          <!--<div *ngIf="expandQuery" nz-col [nzLg]="6"  [nzMd]="8" [nzSm]="12"  [nzXs]="24"  class="mb-md">-->
+            <!--<nz-form-item [nzFlex]>-->
+              <!--<nz-form-label [nzFor]="'qModifyDateBegin'">最后修改起始日期</nz-form-label>-->
+              <!--<nz-form-control>-->
+                <!--<nz-calendar [nzCard]  [(ngModel)]="qData.modifyDateBegin" name="qModifyDateBegin" id="qModifyDateBegin"-->
+                <!--&gt;</nz-calendar>-->
+              <!--</nz-form-control>-->
+            <!--</nz-form-item>-->
+          <!--</div>-->
 
-          <div *ngIf="expandQuery" nz-col [nzLg]="6" [nzMd]="8" [nzSm]="12"  [nzXs]="24"   class="mb-md">
-            <nz-form-item [nzFlex]>
-              <nz-form-label [nzFor]="'qModifyDateEnd'">最后修改截止日期</nz-form-label>
-              <nz-form-control >
-                <nz-calendar [nzDateFullCell] [(ngModel)]="qData.modifyDateEnd"
-                             name="qModifyDateEnd" id="qModifyDateEnd"></nz-calendar>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
+          <!--<div *ngIf="expandQuery" nz-col [nzLg]="6" [nzMd]="8" [nzSm]="12"  [nzXs]="24"   class="mb-md">-->
+            <!--<nz-form-item [nzFlex]>-->
+              <!--<nz-form-label [nzFor]="'qModifyDateEnd'">最后修改截止日期</nz-form-label>-->
+              <!--<nz-form-control >-->
+                <!--<nz-calendar [nzDateFullCell] [(ngModel)]="qData.modifyDateEnd"-->
+                             <!--name="qModifyDateEnd" id="qModifyDateEnd"></nz-calendar>-->
+              <!--</nz-form-control>-->
+            <!--</nz-form-item>-->
+          <!--</div>-->
 
 
-            <!--<div nz-col [nzSpan]="expandQuery ? 24 : 8" class="mb-md" [class.text-right]="expandQuery">-->
-          <div nz-col [nzLg]="expandQuery ? 24 : 6"  [nzMd]="expandQuery ? 24 : 8"  [nzSm]="expandQuery ? 24 : 12"  [nzXs]="expandQuery ? 24 : 24" class="mb-md" [class.text-right]="true">
-                <!--<button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询-->
-                <!--</button>-->
-                <button nz-button type="reset" (click)="resetQuery()" [nzSize]="'large'" class="mx-sm">重置</button>
-                <a (click)="expandQuery =!expandQuery">
-                    {{expandQuery ? '收起' : '展开'}}
-                    <i class="anticon" [class.anticon-down]="!expandQuery" [class.anticon-up]="expandQuery"></i>
-                </a>
-            </div>
-        </div>
-    </form>
-    <byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>
+            <!--&lt;!&ndash;<div nz-col [nzSpan]="expandQuery ? 24 : 8" class="mb-md" [class.text-right]="expandQuery">&ndash;&gt;-->
+          <!--<div nz-col [nzLg]="expandQuery ? 24 : 6"  [nzMd]="expandQuery ? 24 : 8"  [nzSm]="expandQuery ? 24 : 12"  [nzXs]="expandQuery ? 24 : 24" class="mb-md" [class.text-right]="true">-->
+                <!--&lt;!&ndash;<button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询&ndash;&gt;-->
+                <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                <!--<button nz-button type="reset" (click)="resetQuery()" [nzSize]="'large'" class="mx-sm">重置</button>-->
+                <!--<a (click)="expandQuery =!expandQuery">-->
+                    <!--{{expandQuery ? '收起' : '展开'}}-->
+                    <!--<i class="anticon" [class.anticon-down]="!expandQuery" [class.anticon-up]="expandQuery"></i>-->
+                <!--</a>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</form>-->
+
     <!--<div class="mb-md">-->
         <!--<nz-alert [nzType]="'info'" [nzMessage]="selectMsg" [nzShowIcon]="true">-->
             <!--<ng-template #selectMsg >-->
@@ -151,15 +155,17 @@
                 <span>
                     <a (click)="modifyEntity(i.item.id)">修改</a>
                     <ng-container *ngIf="i.item.status === normalRoleStatus">
-                        <span nz-table-divider></span>
+                      <nz-divider nzType="vertical"></nz-divider>
                         <a (click)="lockRole(i.item.id)">锁定</a>
                     </ng-container>
                 </span>
             </td>
         </tr>
         </tbody>
+
     </nz-table>
 
+  <byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>
 </nz-card>
 <!--<nz-modal [nzVisible]="modalVisible" [nzTitle]="'新建角色'" [nzConfirmLoading]="loading" [nzContent]="modalContent"-->
 <!--(nzOnCancel)="modalVisible=false" (nzOnOk)="saveNew()">-->

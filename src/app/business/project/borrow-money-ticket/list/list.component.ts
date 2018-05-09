@@ -9,6 +9,10 @@ import {BylBorrowMoneyTicket} from "../../../../service/project/model/borrow-mon
 import {BylBorrowMoneyTicketQuery} from "../../../../service/project/query/borrow-money-ticket-query.model";
 import {BylIStatusItem} from '../../../../service/model/status.model';
 import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
+import * as moment from "moment";
+import {SFSchema, SFUISchema} from "@delon/form";
+import {BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
+import {BylBorrowMoneyTicketManager} from "../../../../service/project/model/borrow-money-ticket-status.enum";
 
 @Component({
   selector: 'byl-borrow-money-ticket-list',
@@ -28,6 +32,8 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBase<Byl
         this.businessService = borrowMoneyTicketService;
         this.crudUrl = '/project/borrow-money-ticket/crud';
         // this.businessCrudComponent = BylPersonCrudComponent;
+        this.statusList = BylBorrowMoneyTicketManager.getStatusArray();
+        this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
     }
 
     genListData(findResult: Array<BylBorrowMoneyTicket>): Array<BylListFormData<BylBorrowMoneyTicket>> {
@@ -65,4 +71,40 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBase<Byl
 
         Object.assign(this.qData,q);
     }
+    //#region 查询条件
+    queryDefaultData: any = {
+        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+    queryUiSchema: SFUISchema = {};
+    querySchema: SFSchema = {
+        properties: {
+            billNo: { type: 'string',
+                title: '单号类似于'
+            },
+            reason: { type: 'string',
+                title: '借款原因类似于'
+            },
+            project: { type: 'string',
+                title: '所属项目'
+            },
+            status: {
+                type: 'string',
+                title: '状态',
+                enum: [],
+                ui: {
+                    widget: 'tag'
+                }
+            },
+            modifyDateBegin: { type: 'string',
+                title: '最后修改日期大于等于',
+                ui: { widget: 'date' }
+            },
+            modifyDateEnd: { type: 'string',
+                title: '最后修改日期小于等于',
+                ui: { widget: 'date' }
+            }
+        },
+        required: []
+    };
+//#endregion
 }

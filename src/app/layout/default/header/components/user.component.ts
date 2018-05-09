@@ -27,7 +27,7 @@ export class HeaderUserComponent implements OnInit {
     constructor(
         public settings: SettingsService,
         private router: Router,
-        private chatService: ChatService,
+        public chatService: ChatService,
         @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {}
 
     ngOnInit(): void {
@@ -47,7 +47,7 @@ export class HeaderUserComponent implements OnInit {
     logout() {
         this.tokenService.clear();
         this.router.navigateByUrl(this.tokenService.login_url);
-        
+
         this.chatService.disconnectStomp();
     }
 }

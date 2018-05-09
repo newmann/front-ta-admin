@@ -4,7 +4,7 @@ import {BylBorrowMoneyQualificationPool} from "../../../../service/project/model
 import {BylCrudEvent} from "../../../common/waiting/crud-waiting.component";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {Router} from "@angular/router";
-import {NzMessageService, NzModalService} from "ng-zorro-antd";
+import {NzMessageService, NzModalRef, NzModalService} from "ng-zorro-antd";
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
 import {BylProjectManagerPoolQuery} from "../../../../service/project/query/project-manager-pool-query.model";
 import {BylConfigService} from "../../../../service/constant/config.service";
@@ -13,14 +13,19 @@ import {BylPersonListComponent} from "../../../person/person/list/list.component
 import {BylOrganizationListComponent} from "../../../organization/organization/list/list.component";
 import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 import {BylBorrowMoneyQualificationPoolQuery} from "../../../../service/project/query/borrow-money-qualification-pool-query.model";
+import * as moment from "moment";
+import {SFSchema, SFUISchema} from "@delon/form";
+import {BylIStatusItem} from "../../../../service/model/status.model";
+import {BylBusinessEntityTypeManager} from "../../../../service/model/business-entity-type.enum";
 
 @Component({
   selector: 'byl-borrow-money-qualification-pool-list',
   templateUrl: './list.component.html',
 })
 export class BylBorrowMoneyQualificationPoolListComponent extends BylListComponentBase<BylBorrowMoneyQualificationPool> {
-    public addPoolReveal: any; // 账户筛选窗口
+    public addPoolReveal: NzModalRef; // 账户筛选窗口
 
+    businessEntityType: BylIStatusItem[]; // 实体类型
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
@@ -30,6 +35,9 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
 
         this.businessService = borrowMoneyQualificationPoolService;
         this.crudUrl = '';
+
+        this.businessEntityType = BylBusinessEntityTypeManager.getStatusArray();
+        this.querySchema.properties['type'].enum.push(...this.businessEntityType); //设置查询条件中的类型字段
         // this.businessCrudComponent = BylPersonCrudComponent;
     }
 
@@ -44,6 +52,7 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
             nzZIndex: 9999, //最外层
             nzWidth: '90%',
             nzContent: BylPersonListComponent,
+            nzFooter: null,
             // onOk() {
             //
             // },
@@ -58,7 +67,7 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
         });
         // this.addPoolReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
 
-        this.addPoolReveal.destroy(result => {
+        this.addPoolReveal.afterClose.subscribe(result => {
             console.info(result);
 
             console.info(typeof result);
@@ -104,6 +113,7 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
             nzZIndex: 9999, //最外层
             nzWidth: '90%',
             nzContent: BylOrganizationListComponent,
+            nzFooter: null,
             // onOk() {
             //
             // },
@@ -118,7 +128,7 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
         });
         // this.addPoolReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
 
-        this.addPoolReveal.destroy(result => {
+        this.addPoolReveal.afterClose.subscribe(result => {
             console.info(result);
 
             console.info(typeof result);
@@ -214,4 +224,38 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
 
         Object.assign(this.qData,q);
     }
+
+    //#region 查询条件
+    queryDefaultData: any = {
+        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+    queryUiSchema: SFUISchema = {};
+    querySchema: SFSchema = {
+        properties: {
+            type: {
+                type: 'string',
+                title: '类型',
+                enum: [],
+                ui: {
+                    widget: 'tag'
+                }
+            },
+            code: { type: 'string',
+                title: '代码类似于'
+            },
+            name: { type: 'string',
+                title: '名称类似于'
+            },
+            modifyDateBegin: { type: 'string',
+                title: '最后修改日期大于等于',
+                ui: { widget: 'date' }
+            },
+            modifyDateEnd: { type: 'string',
+                title: '最后修改日期小于等于',
+                ui: { widget: 'date' }
+            }
+        },
+        required: []
+    };
+//#endregion
 }

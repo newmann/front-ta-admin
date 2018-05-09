@@ -139,7 +139,7 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
 
         Object.assign(this.qData, q);
     }
-
+//#region 查询条件
     queryDefaultData: any = {
         modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
         modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
@@ -166,6 +166,7 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
         },
         required: []
     };
+//#endregion
 
     // queryForm: NzModalRef;
     //

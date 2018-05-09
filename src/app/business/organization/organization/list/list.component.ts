@@ -8,6 +8,8 @@ import {BylOrganization} from "../../../../service/organization/model/organizati
 import {BylOrganizationService} from "../../../../service/organization/service/organization.service";
 import {BylOrganizationQuery} from "../../../../service/organization/query/organization-query.model";
 import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
+import * as moment from "moment";
+import {SFSchema, SFUISchema} from "@delon/form";
 
 @Component({
   selector: 'byl-organization-list',
@@ -67,4 +69,33 @@ export class BylOrganizationListComponent extends BylListComponentBase<BylOrgani
         Object.assign(this.qData,q);
     }
 
+    //#region 查询条件
+    queryDefaultData: any = {
+        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+    queryUiSchema: SFUISchema = {};
+    querySchema: SFSchema = {
+        properties: {
+            name: { type: 'string',
+                title: '名称类似于'
+            },
+            code: { type: 'string',
+                title: '代码类似于'
+            },
+            simpleName: { type: 'string',
+                title: '简称类似于'
+            },
+
+            modifyDateBegin: { type: 'string',
+                title: '最后修改日期大于等于',
+                ui: { widget: 'date' }
+            },
+            modifyDateEnd: { type: 'string',
+                title: '最后修改日期小于等于',
+                ui: { widget: 'date' }
+            }
+        },
+        required: []
+    };
+//#endregion
 }

@@ -89,6 +89,7 @@ export class BylAccountItemListComponent implements OnInit {
             nzZIndex: 9999, //最外层
             nzWidth: '90%',
             nzContent: BylAccountListComponent,
+            nzFooter: null,
             // onOk() {
             //
             // },
@@ -98,13 +99,14 @@ export class BylAccountItemListComponent implements OnInit {
             nzComponentParams: {
                 functionMode: BylListFormFunctionModeEnum.SELECT,
                 findAvailablePoolsService: this.findAvailablePoolsService,
-                masterId: this._masterId
+                masterId: this._masterId,
+                selectModalForm: this.addForm
             },
             nzMaskClosable: false
         });
         // this.addForm.next(BylCrudEvent[BylCrudEvent.bylSaving]);
 
-        this.addForm.destroy(result => {
+        this.addForm.afterClose.subscribe(result => {
             console.info(result);
 
             console.info(typeof result);
