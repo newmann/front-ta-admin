@@ -10,6 +10,7 @@ import { AuthService } from 'app/service/auth/auth.service';
 import { BylResultBody } from 'app/service/model/result-body.model';
 import { AuthDataService } from 'app/service/auth/auth-data.service';
 import { ChatService } from 'app/service/chat/chat.service';
+import {BylStartupService} from "../../../service/startup/startup.service";
 
 @Component({
     selector: 'passport-login',
@@ -35,7 +36,8 @@ export class BylUserLoginComponent implements OnDestroy {
         private authDataService: AuthDataService,
         private chatService: ChatService,
         @Optional() @Inject(ReuseTabService) private reuseTabService: ReuseTabService,
-        @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService
+        @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
+        private startupService: BylStartupService
     ) {
         this.form = fb.group({
             // userName: [null, [Validators.required, Validators.minLength(5)]],
@@ -171,25 +173,42 @@ export class BylUserLoginComponent implements OnDestroy {
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     this.authDataService.Account = data.data.account;
                     this.authDataService.Token = data.data.token;
+
+                    console.log('login return token:',data.data.token);
+
                     // 清空路由复用信息
                     this.reuseTabService.clear();
-                    this.tokenService.set({
+                    if (this.tokenService.set({
                         token: this.authDataService.Token,
                         name: this.authDataService.Account.username,
                         email: this.authDataService.Account.email,
                         id: this.authDataService.Account.id,
-                        time: +new Date
-                    });
-                    // this.chatService.initAndConnect(); // todo 是否启用 chat Service
-                    this.router.navigate(['/dashboard/v1']);
+                        time: +new Date // 当前时间转化成number todo any useful?
+                    })) {
+                        //重新初始化系统配置
+                        this.startupService.load().then(() => {
+                            // this.chatService.initAndConnect(); // todo 是否启用 chat Service
+                            this.router.navigate(['/']);
+                        }).catch(
+                            (err) => {
+                                console.error(err);
+                                this.error = err;
+                            });
+                    }else{
+                        let err = "保存token到本地缓存失败！";
+                        console.error(err);
+                        this.error = err;
+
+                    }
 
                 } else {
+                    console.error(data.msg);
                     this.error = data.msg;
                 }
             },
             err => {
                 this.loading = false;
-                console.log(err);
+                console.error(err);
                 this.error = err.toString();
             }
 

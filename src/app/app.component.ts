@@ -29,15 +29,20 @@ export class AppComponent implements OnInit {
 
     //如果token有效，则获取本地的资源，恢复到上次退出状态。
     let token: JWTTokenModel;
-    token = this.tokenService.get<JWTTokenModel>();
+    token = this.tokenService.get<JWTTokenModel>(JWTTokenModel);
     console.log('IN AppComponent, token:', token.token);
-    console.log('token expired? :', token.isExpired);
-    if (token.isExpired) {
-          //直接进入操作界面
-          this.router.navigate(['/']);
+    console.log('IN AppComponent, payload:', token.payload);
+
+    console.log('token expired? :', token.isExpired(0));
+    if (token.isExpired(0)) {
+        console.log('token expired, 进入登录界面'); //进入登录界面
+        this.router.navigate(['/passport/login']);
+
     } else {
-          //进入登录界面
-          this.router.navigate(['/passport/login']);
+        console.log('token validate, 进入主界面');
+        //直接进入操作界面
+        // this.router.navigate(['/']);
+
     }
 
     this.router.events

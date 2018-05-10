@@ -9,16 +9,13 @@ import {BylUserLoginComponent} from './passport/login/login.component';
 import {Exception500Component} from '../routes/exception/500.component';
 import {DashboardAnalysisComponent} from '../routes/dashboard/analysis/analysis.component';
 import {CallbackComponent} from '../routes/callback/callback.component';
-import {DashboardWorkplaceComponent} from '../routes/dashboard/workplace/workplace.component';
-import {DashboardMonitorComponent} from '../routes/dashboard/monitor/monitor.component';
 import {Exception403Component} from '../routes/exception/403.component';
 import {Exception404Component} from '../routes/exception/404.component';
 import {DashboardV1Component} from '../routes/dashboard/v1/v1.component';
-import {BylWaitingComponent} from './common/waiting/waiting.component';
-import {BylCrudWaitingComponent} from './common/waiting/crud-waiting.component';
-import {BylEmbeddableAddressComponent} from './common/embeddable-address/embeddable-address.component';
 import {BylBusinessSharedModule} from './business-shared.module';
 import {UserLockComponent} from '../routes/passport/lock/lock.component';
+import {BylDashboardWorkplaceComponent} from "./dashboard/workplace/workplace.component";
+import {BylDashboardMonitorComponent} from "./dashboard/monitor/monitor.component";
 
 
 @NgModule({
@@ -28,8 +25,8 @@ import {UserLockComponent} from '../routes/passport/lock/lock.component';
     declarations: [
         DashboardV1Component,
         DashboardAnalysisComponent,
-        DashboardMonitorComponent,
-        DashboardWorkplaceComponent,
+        BylDashboardMonitorComponent,
+        BylDashboardWorkplaceComponent,
         // passport pages
 
         BylUserLoginComponent,

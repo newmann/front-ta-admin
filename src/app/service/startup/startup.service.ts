@@ -37,10 +37,10 @@ export class BylStartupService {
         return new Promise((resolve, reject) => {
             //如果token有效，则获取本地的资源，恢复到上次退出状态。
             let token: JWTTokenModel;
-            token = this.tokenService.get<JWTTokenModel>();
+            token = this.tokenService.get<JWTTokenModel>(JWTTokenModel);
 
             if (token.token) {
-                if (!token.isExpired) {
+                if (!token.isExpired(0)) {
                     zip(
                         this.cacheService.get(SETTING_LANG),
                         this.cacheService.get(SETTING_APP)

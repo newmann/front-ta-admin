@@ -3,8 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { environment } from '@env/environment';
 import {DashboardAnalysisComponent} from "../routes/dashboard/analysis/analysis.component";
 import {CallbackComponent} from "../routes/callback/callback.component";
-import {DashboardWorkplaceComponent} from "../routes/dashboard/workplace/workplace.component";
-import {DashboardMonitorComponent} from "../routes/dashboard/monitor/monitor.component";
+// import {DashboardWorkplaceComponent} from "../routes/dashboard/workplace/workplace.component";
+// import {DashboardMonitorComponent} from "../routes/dashboard/monitor/monitor.component";
 import {Exception404Component} from "../routes/exception/404.component";
 import {BylUserRegisterResultComponent} from "./passport/register-result/register-result.component";
 import {BylUserRegisterComponent} from "./passport/register/register.component";
@@ -19,6 +19,8 @@ import {DashboardV1Component} from "../routes/dashboard/v1/v1.component";
 import {LayoutMobileComponent} from '../layout/mobile/mobile.component';
 import {RouterGuardService} from '../service/router/router-guard.service';
 import {UserLockComponent} from "../routes/passport/lock/lock.component";
+import {BylDashboardWorkplaceComponent} from "./dashboard/workplace/workplace.component";
+import {BylDashboardMonitorComponent} from "./dashboard/monitor/monitor.component";
 
 
 const routes: Routes = [
@@ -27,12 +29,12 @@ const routes: Routes = [
         component: LayoutDefaultComponent,
         canActivate: [RouterGuardService],
         children: [
-            { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
-            { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
+            { path: '', redirectTo: 'dashboard/workplace', pathMatch: 'full' },
+            { path: 'dashboard', redirectTo: 'dashboard/workplace', pathMatch: 'full' },
             { path: 'dashboard/v1', component: DashboardV1Component },
             { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
-            { path: 'dashboard/monitor', component: DashboardMonitorComponent },
-            { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },
+            { path: 'dashboard/monitor', component: BylDashboardMonitorComponent },
+            { path: 'dashboard/workplace', component: BylDashboardWorkplaceComponent },
             { path: 'widgets', loadChildren: '../routes/widgets/widgets.module#WidgetsModule' },
             { path: 'style', loadChildren: '../routes/style/style.module#StyleModule' },
             { path: 'delon', loadChildren: '../routes/delon/delon.module#DelonModule' },
@@ -98,8 +100,8 @@ const routes: Routes = [
             { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
             { path: 'dashboard/v1', component: DashboardV1Component },
             { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
-            { path: 'dashboard/monitor', component: DashboardMonitorComponent },
-            { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },
+            { path: 'dashboard/monitor', component: BylDashboardMonitorComponent },
+            { path: 'dashboard/workplace', component: BylDashboardWorkplaceComponent },
             { path: 'widgets', loadChildren: '../routes/widgets/widgets.module#WidgetsModule' },
             { path: 'style', loadChildren: '../routes/style/style.module#StyleModule' },
             { path: 'delon', loadChildren: '../routes/delon/delon.module#DelonModule' },
