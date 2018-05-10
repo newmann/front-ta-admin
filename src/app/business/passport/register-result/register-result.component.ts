@@ -6,6 +6,6 @@ import { NzMessageService } from 'ng-zorro-antd';
     templateUrl: './register-result.component.html',
     styleUrls: [ './register-result.component.less' ]
 })
-export class UserRegisterResultComponent {
+export class BylUserRegisterResultComponent {
     constructor(public msg: NzMessageService) {}
 }

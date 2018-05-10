@@ -6,9 +6,9 @@ import {CallbackComponent} from "../routes/callback/callback.component";
 import {DashboardWorkplaceComponent} from "../routes/dashboard/workplace/workplace.component";
 import {DashboardMonitorComponent} from "../routes/dashboard/monitor/monitor.component";
 import {Exception404Component} from "../routes/exception/404.component";
-import {UserRegisterResultComponent} from "./passport/register-result/register-result.component";
-import {UserRegisterComponent} from "./passport/register/register.component";
-import {UserLoginComponent} from "./passport/login/login.component";
+import {BylUserRegisterResultComponent} from "./passport/register-result/register-result.component";
+import {BylUserRegisterComponent} from "./passport/register/register.component";
+import {BylUserLoginComponent} from "./passport/login/login.component";
 
 import {Exception500Component} from "../routes/exception/500.component";
 import {Exception403Component} from "../routes/exception/403.component";
@@ -73,9 +73,9 @@ const routes: Routes = [
     //     path: 'passport',
     //     component: LayoutPassportComponent,
     //     children: [
-    //         { path: 'login', component: UserLoginComponent },
-    //         { path: 'register', component: UserRegisterComponent },
-    //         { path: 'register-result', component: UserRegisterResultComponent }
+    //         { path: 'login', component: BylUserLoginComponent },
+    //         { path: 'register', component: BylUserRegisterComponent },
+    //         { path: 'register-result', component: BylUserRegisterResultComponent }
     //     ]
     // },
     // passport
@@ -83,9 +83,9 @@ const routes: Routes = [
         path: 'passport',
         component: LayoutPassportComponent,
         children: [
-            { path: 'login', component: UserLoginComponent, data: { title: '登录', titleI18n: 'pro-login' } },
-            { path: 'register', component: UserRegisterComponent, data: { title: '注册', titleI18n: 'pro-register' } },
-            { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果', titleI18n: 'pro-register-result' } }
+            { path: 'login', component: BylUserLoginComponent, data: { title: '登录', titleI18n: 'pro-login' } },
+            { path: 'register', component: BylUserRegisterComponent, data: { title: '注册', titleI18n: 'pro-register' } },
+            { path: 'register-result', component: BylUserRegisterResultComponent, data: { title: '注册结果', titleI18n: 'pro-register-result' } }
         ]
     },
     // 移动布局

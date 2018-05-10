@@ -31,6 +31,7 @@ import { NgxTinymceModule } from 'ngx-tinymce';
 // JSON-Schema form
 import { JsonSchemaModule } from '@shared/json-schema/json-schema.module';
 import {BylBusinessSharedModule} from './business/business-shared.module';
+import {BylStartupService} from './service/startup/startup.service';
 
 
 
@@ -40,6 +41,10 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 export function StartupServiceFactory(startupService: StartupService): Function {
+    return () => startupService.load();
+}
+
+export function BylStartupServiceFactory(startupService: BylStartupService): Function {
     return () => startupService.load();
 }
 
@@ -86,16 +91,24 @@ export function StartupServiceFactory(startupService: StartupService): Function 
     providers: [
         { provide: LOCALE_ID, useValue: 'zh-Hans' },
         // { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true},
-        // { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true}, // 全程采用jwt格式的token
+        { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true}, // 全程采用jwt格式的token
         { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true},
         { provide: ALAIN_I18N_TOKEN, useClass: I18NService, multi: false },
-        StartupService,
+        BylStartupService,
         {
             provide: APP_INITIALIZER,
-            useFactory: StartupServiceFactory,
-            deps: [StartupService],
+            useFactory: BylStartupServiceFactory,
+            deps: [BylStartupService],
             multi: true
         }
+
+        // StartupService,
+        // {
+        //     provide: APP_INITIALIZER,
+        //     useFactory: StartupServiceFactory,
+        //     deps: [StartupService],
+        //     multi: true
+        // }
     ],
     bootstrap: [AppComponent]
 })

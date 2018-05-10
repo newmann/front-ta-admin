@@ -1,18 +1,30 @@
 <h3>注册</h3>
 <form nz-form [formGroup]="form" (ngSubmit)="submit()" role="form">
   <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+  <!--<nz-form-item>-->
+    <!--<nz-form-control>-->
+      <!--<nz-input-group nzSize="large" nzAddonBeforeIcon="anticon anticon-user">-->
+        <!--<input nz-input formControlName="mail" placeholder="邮箱">-->
+      <!--</nz-input-group>-->
+      <!--<ng-container *ngIf="mail.dirty && mail.errors">-->
+        <!--<nz-form-explain *ngIf="mail.errors?.required">请输入邮箱地址！</nz-form-explain>-->
+        <!--<nz-form-explain *ngIf="mail.errors?.email">邮箱地址格式错误！</nz-form-explain>-->
+      <!--</ng-container>-->
+    <!--</nz-form-control>-->
+  <!--</nz-form-item>-->
   <nz-form-item>
     <nz-form-control>
-      <nz-input-group nzSize="large" nzAddonBeforeIcon="anticon anticon-user">
-        <input nz-input formControlName="mail" placeholder="邮箱">
-      </nz-input-group>
-      <ng-container *ngIf="mail.dirty && mail.errors">
-        <nz-form-explain *ngIf="mail.errors?.required">请输入邮箱地址！</nz-form-explain>
-        <nz-form-explain *ngIf="mail.errors?.email">邮箱地址格式错误！</nz-form-explain>
-      </ng-container>
+    <nz-input-group nzSize="large" nzAddonBeforeIcon="anticon anticon-user">
+    <input nz-input formControlName="code" placeholder="代码">
+    </nz-input-group>
+    <ng-container *ngIf="code.dirty && code.errors">
+    <nz-form-explain *ngIf="code.errors?.required">请输入代码！</nz-form-explain>
+    </ng-container>
     </nz-form-control>
   </nz-form-item>
+
   <nz-form-item>
+
     <nz-form-control>
       <nz-popover [nzPlacement]="'right'" [nzTrigger]="'focus'" [(nzVisible)]="visible"
                   nzOverlayClassName="register-password-cdk" [nzOverlayStyle]="{'width.px': 240}">

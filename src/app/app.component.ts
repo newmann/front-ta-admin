@@ -1,7 +1,9 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import {Component, HostBinding, Inject, OnInit} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { SettingsService, TitleService } from '@delon/theme';
 import { filter } from 'rxjs/operators';
+import {CacheService} from '@delon/cache';
+import {DA_SERVICE_TOKEN, ITokenService, JWTTokenModel} from '@delon/auth';
 
 @Component({
   selector: 'app-root',
@@ -16,18 +18,28 @@ export class AppComponent implements OnInit {
   constructor(
     private settings: SettingsService,
     private router: Router,
-    private titleSrv: TitleService) {
+    private titleSrv: TitleService,
+    private cacheService: CacheService,
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {
   }
 
   ngOnInit() {
     // 判断一下，如果当前有有效的token，就自动登录，否则显示登录界面
-    // console.log('IN AppComponent init...');
-    // if (this.cacheService.get('token') == null) {
+    console.log('IN AppComponent init...');
 
-    //   this.router.navigate(['/passport/login']);
-    // } else {
-    //   console.log('token=' + this.cacheService.get('token') + '所以，自动登录。');
-    // }
+    //如果token有效，则获取本地的资源，恢复到上次退出状态。
+    let token: JWTTokenModel;
+    token = this.tokenService.get<JWTTokenModel>();
+    console.log('IN AppComponent, token:', token.token);
+    console.log('token expired? :', token.isExpired);
+    if (token.isExpired) {
+          //直接进入操作界面
+          this.router.navigate(['/']);
+    } else {
+          //进入登录界面
+          this.router.navigate(['/passport/login']);
+    }
+
     this.router.events
         .pipe(filter(evt => evt instanceof NavigationEnd))
         .subscribe(() => this.titleSrv.setTitle());

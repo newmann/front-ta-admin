@@ -6,7 +6,6 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { SocialService, SocialOpenType, TokenService, DA_SERVICE_TOKEN } from '@delon/auth';
 import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
-import { StartupService } from '@core/startup/startup.service';
 import { AuthService } from 'app/service/auth/auth.service';
 import { BylResultBody } from 'app/service/model/result-body.model';
 import { AuthDataService } from 'app/service/auth/auth-data.service';
@@ -18,7 +17,7 @@ import { ChatService } from 'app/service/chat/chat.service';
     styleUrls: ['./login.component.less'],
     providers: [SocialService]
 })
-export class UserLoginComponent implements OnDestroy {
+export class BylUserLoginComponent implements OnDestroy {
 
     form: FormGroup;
     error = '';
@@ -36,14 +35,13 @@ export class UserLoginComponent implements OnDestroy {
         private authDataService: AuthDataService,
         private chatService: ChatService,
         @Optional() @Inject(ReuseTabService) private reuseTabService: ReuseTabService,
-        @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
-        private startupSrv: StartupService
+        @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService
     ) {
         this.form = fb.group({
             // userName: [null, [Validators.required, Validators.minLength(5)]],
             // password: [null, Validators.required],
             userName: ['admin', [Validators.required, Validators.minLength(5)]],
-            password: ['12345', Validators.required],
+            password: ['Kidson100', Validators.required],
 
             mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
             captcha: [null, [Validators.required]],

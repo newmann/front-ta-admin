@@ -1,16 +1,16 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd';
-import {AuthService} from "../../../service/auth/auth.service";
-import {BylResultBody} from "../../../service/model/result-body.model";
+import {Component, OnDestroy} from '@angular/core';
+import {Router} from '@angular/router';
+import {FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
+import {NzMessageService} from 'ng-zorro-antd';
+import {AuthService} from '../../../service/auth/auth.service';
+import {BylResultBody} from '../../../service/model/result-body.model';
 
 @Component({
     selector: 'passport-register',
     templateUrl: './register.component.html',
-    styleUrls: [ './register.component.less' ]
+    styleUrls: ['./register.component.less']
 })
-export class UserRegisterComponent implements OnDestroy {
+export class BylUserRegisterComponent implements OnDestroy {
 
     form: FormGroup;
     error = '';
@@ -30,10 +30,10 @@ export class UserRegisterComponent implements OnDestroy {
                 public msg: NzMessageService,
                 private auth: AuthService) {
         this.form = fb.group({
-            mail: [null, [Validators.email]],
-            password: [null, [Validators.required, Validators.minLength(6), UserRegisterComponent.checkPassword.bind(this)]],
-            confirm: [null, [Validators.required, Validators.minLength(6), UserRegisterComponent.passwordEquar]],
-            mobilePrefix: [ '+86' ],
+            code: [null, [Validators.required]],
+            password: [null, [Validators.required, Validators.minLength(6), BylUserRegisterComponent.checkPassword.bind(this)]],
+            confirm: [null, [Validators.required, Validators.minLength(6), BylUserRegisterComponent.passwordEquar]],
+            mobilePrefix: ['+86'],
             mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
             captcha: [null, []]
             // captcha: [null, [Validators.required]]
@@ -57,18 +57,32 @@ export class UserRegisterComponent implements OnDestroy {
     static passwordEquar(control: FormControl) {
         if (!control || !control.parent) return null;
         if (control.value !== control.parent.get('password').value) {
-            return { equar: true };
+            return {equar: true};
         }
         return null;
     }
 
     // region: fields
 
-    get mail() { return this.form.controls.mail; }
-    get password() { return this.form.controls.password; }
-    get confirm() { return this.form.controls.confirm; }
-    get mobile() { return this.form.controls.mobile; }
-    get captcha() { return this.form.controls.captcha; }
+    get code() {
+        return this.form.controls.code;
+    }
+
+    get password() {
+        return this.form.controls.password;
+    }
+
+    get confirm() {
+        return this.form.controls.confirm;
+    }
+
+    get mobile() {
+        return this.form.controls.mobile;
+    }
+
+    get captcha() {
+        return this.form.controls.captcha;
+    }
 
     // endregion
 
@@ -96,7 +110,8 @@ export class UserRegisterComponent implements OnDestroy {
         if (this.form.invalid) return;
 
         this.loading = true;
-        this.auth.emailRegister(this.mail.value,this.password.value,this.mobile.value).subscribe(
+        // this.auth.emailRegister(this.mail.value, this.password.value, this.mobile.value).subscribe(
+        this.auth.codeRegister(this.code.value, this.password.value, this.mobile.value).subscribe(
             data => {
                 this.loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -111,7 +126,6 @@ export class UserRegisterComponent implements OnDestroy {
                 console.log(err);
                 this.error = err.toString();
             }
-
         );
 
         // setTimeout(() => {

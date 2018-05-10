@@ -2,9 +2,9 @@ import {NgModule} from '@angular/core';
 
 import {SharedModule} from '@shared/shared.module';
 import {BylBusinessRoutingModule} from 'app/business/business-routing.module';
-import {UserRegisterResultComponent} from './passport/register-result/register-result.component';
-import {UserRegisterComponent} from './passport/register/register.component';
-import {UserLoginComponent} from './passport/login/login.component';
+import {BylUserRegisterResultComponent} from './passport/register-result/register-result.component';
+import {BylUserRegisterComponent} from './passport/register/register.component';
+import {BylUserLoginComponent} from './passport/login/login.component';
 
 import {Exception500Component} from '../routes/exception/500.component';
 import {DashboardAnalysisComponent} from '../routes/dashboard/analysis/analysis.component';
@@ -32,9 +32,9 @@ import {UserLockComponent} from '../routes/passport/lock/lock.component';
         DashboardWorkplaceComponent,
         // passport pages
 
-        UserLoginComponent,
-        UserRegisterComponent,
-        UserRegisterResultComponent,
+        BylUserLoginComponent,
+        BylUserRegisterComponent,
+        BylUserRegisterResultComponent,
         // single pages
         UserLockComponent,
         CallbackComponent,
