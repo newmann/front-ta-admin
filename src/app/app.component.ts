@@ -4,6 +4,7 @@ import { SettingsService, TitleService } from '@delon/theme';
 import { filter } from 'rxjs/operators';
 import {CacheService} from '@delon/cache';
 import {DA_SERVICE_TOKEN, ITokenService, JWTTokenModel} from '@delon/auth';
+import {BylElectronService} from './service/electron/electron.service';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class.aside-collapsed') get isCollapsed() { return this.settings.layout.collapsed; }
 
   constructor(
+      private electronService: BylElectronService,
     private settings: SettingsService,
     private router: Router,
     private titleSrv: TitleService,
@@ -24,6 +26,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+      if (this.electronService.isElectron()) {
+          console.log('Mode electron');
+          console.log('Electron ipcRenderer', this.electronService.ipcRenderer);
+          console.log('NodeJS childProcess', this.electronService.childProcess);
+      } else {
+          console.log('Mode web');
+      }
+
     // 判断一下，如果当前有有效的token，就自动登录，否则显示登录界面
     console.log('IN AppComponent init...');
 

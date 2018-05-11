@@ -28,10 +28,12 @@ import {BylAccountService} from "./account/service/account.service";
 import {BylOrganizationService} from "./organization/service/organization.service";
 import {BylSimpleEntityLoggerService} from "./simple-entity-logger/service/simple-entity-logger.service";
 import {BylPermissionService} from "./account/service/permission.service";
+import {BylElectronService} from './electron/electron.service';
 
 
 @NgModule({
     providers: [
+        BylElectronService,
         BylConfigService,
         BylSimpleEntityLoggerService,
 

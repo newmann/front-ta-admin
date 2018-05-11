@@ -20,3 +20,10 @@ declare var Cloud: any;
 // 微信
 declare var hljs: any;
 declare var wx: any;
+
+//electron,魔法用法
+declare var window: Window;
+interface Window {
+    process: any;
+    require: any;
+}
