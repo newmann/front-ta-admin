@@ -17,7 +17,7 @@ import {LayoutDefaultComponent} from "../layout/default/default.component";
 import {LayoutFullScreenComponent} from "../layout/fullscreen/fullscreen.component";
 import {DashboardV1Component} from "../routes/dashboard/v1/v1.component";
 import {LayoutMobileComponent} from '../layout/mobile/mobile.component';
-import {RouterGuardService} from '../service/router/router-guard.service';
+import {BylRouterGuardService} from '../service/router/router-guard.service';
 import {UserLockComponent} from "../routes/passport/lock/lock.component";
 import {BylDashboardWorkplaceComponent} from "./dashboard/workplace/workplace.component";
 import {BylDashboardMonitorComponent} from "./dashboard/monitor/monitor.component";
@@ -27,7 +27,7 @@ const routes: Routes = [
     {
         path: '',
         component: LayoutDefaultComponent,
-        canActivate: [RouterGuardService],
+        canActivate: [BylRouterGuardService],
         children: [
             { path: '', redirectTo: 'dashboard/workplace', pathMatch: 'full' },
             { path: 'dashboard', redirectTo: 'dashboard/workplace', pathMatch: 'full' },
@@ -94,7 +94,7 @@ const routes: Routes = [
     {
         path: 'mobile',
         component: LayoutMobileComponent,
-        canActivate: [RouterGuardService],
+        canActivate: [BylRouterGuardService],
         children: [
             { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
             { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },

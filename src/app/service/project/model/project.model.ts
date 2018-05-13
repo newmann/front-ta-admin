@@ -22,6 +22,13 @@ export class BylProject extends BylBaseModel {
     planBeginDate: number;
     planEndDate: number;
 
+    planAmount:number; //计划成本总额
+    progressAssessAmount: number; //实际进展评估额
+    borrowedAmount: number; //预借款总额
+    settleedAmount: number; //结算总额
+    status: number;
+
+
     get fullAddress(): string {
 
         let result = '';

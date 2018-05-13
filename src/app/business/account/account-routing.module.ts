@@ -13,11 +13,11 @@ import {BylPermissionListComponent} from './permission/list/list.component';
 const routes: Routes = [
     { path: 'role/list', component: BylRoleListComponent },
     // { path: 'role/add', component: RoleOperComponent },
-    { path: 'role/crud/:type', component: BylRoleCrudComponent },
+    { path: 'role/crud/:type', component: BylRoleCrudComponent,data: {reuse: true}  },
     { path: 'department/list', component: BylDepartmentListComponent },
-    { path: 'department/crud/:type', component: BylDepartmentCrudComponent },
+    { path: 'department/crud/:type', component: BylDepartmentCrudComponent,data: {reuse: true}  },
     { path: 'account/list', component: BylAccountListComponent },
-    { path: 'account/crud/:type', component: BylAccountCrudComponent },
+    { path: 'account/crud/:type', component: BylAccountCrudComponent,data: {reuse: true} },
     { path: 'permission/list', component: BylPermissionListComponent }
 ];
 

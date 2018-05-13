@@ -3,9 +3,12 @@
     <nz-form-label nz-col [nzSm]="6" [nzXs]="24" [nzFor]="controlName" [nzRequired]="isRequired">
       {{labelCaption}}
     </nz-form-label>
-    <nz-form-control nz-col [nzSm]="14" [nzXs]="24"  nzHasFeedback  [ngStyle]="{ width: '300px', border: '1px solid #d9d9d9', borderRadius: '4px' }">
-      <nz-calendar nzCard="true" [formControlName]="controlName"
-                   [id]="controlName" ></nz-calendar>
+    <!--<nz-form-control nz-col [nzSm]="14" [nzXs]="24"  nzHasFeedback  [ngStyle]="{ width: '300px', border: '1px solid #d9d9d9', borderRadius: '4px' }">-->
+      <!--<nz-calendar nzCard="true" [formControlName]="controlName"-->
+                   <!--[id]="controlName" ></nz-calendar>-->
+    <nz-form-control nz-col [nzSm]="14" [nzXs]="24"  nzHasFeedback>
+      <input nz-input type="date"  [formControlName]="controlName"
+             [id]="controlName" >
 
         <nz-form-explain *ngIf="inputControl.dirty && inputControl.errors">
           <ng-container *ngIf="inputControl.hasError('required')">不能为空</ng-container>

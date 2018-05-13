@@ -3,8 +3,6 @@
  * @Author: newmannhu@qq.com
  * @Date: Created in 2018-04-14 18:10
  **/
-import {Validate} from "@delon/abc";
-import {AbstractControl, ValidationErrors} from "@angular/forms";
 
 /** 一套日常验证器 */
 // tslint:disable-next-line:class-name

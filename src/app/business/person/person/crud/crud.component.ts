@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BylLoggerService} from '../../../../service/utils/logger';
 
 import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
@@ -15,13 +14,11 @@ import {BylPoliticalStatus} from '../../../../service/person/model/political-sta
 import {BylNationService} from '../../../../service/person/service/nation.service';
 import {BylPoliticalStatusService} from '../../../../service/person/service/political-status.service';
 import {BylResultBody} from '../../../../service/model/result-body.model';
-import {_Validators, ReuseTabService} from '@delon/abc';
-import {BylValidators} from '../../../../service/utils/validators';
+import {ReuseTabService} from '@delon/abc';
 import {BylCountryService} from '../../../../service/address/service/country.service';
 import {BylProvinceService} from '../../../../service/address/service/province.service';
 import {BylCityService} from '../../../../service/address/service/city.service';
-import {BylPersonAddress} from '../../../../service/person/model/person-address.model';
-import {BylSimpleEntityLoggerService} from '../../../../service/simple-entity-logger/service/simple-entity-logger.service';
+import {_Validators} from "@delon/util";
 
 
 @Component({
@@ -40,17 +37,18 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
     public selectedPoliticalStatus: BylPoliticalStatus;
 
     public genderOptions = [
-        {caption: '1', value: '男'},
-        {caption: '-1', value: '女'},
-        {caption: '0', value: '未知'},
+        {value: '1', caption: '男'},
+        {value: '-1', caption: '女'},
+        {value: '0', caption: '未知'},
     ];
 
     get nationOptions() {
         let result = [];
         this.searchedNations.forEach(item => {
-            let detail: any;
-            detail.value = item.code;
-            detail.caption = item.name;
+            let detail = {
+                value: item.code,
+                caption: item.name
+            };
             result.push(detail);
         });
         return result;
@@ -59,9 +57,10 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
     get politicalOptions() {
         let result = [];
         this.searchedPoliticalStatus.forEach(item => {
-            let detail: any;
-            detail.value = item.code;
-            detail.caption = item.name;
+            let detail = {
+                value: item.code,
+                caption: item.name
+            };
             result.push(detail);
         });
         return result;

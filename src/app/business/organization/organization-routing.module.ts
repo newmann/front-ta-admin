@@ -10,7 +10,7 @@ const routes: Routes = [
     // { path: 'role/add', component: RoleOperComponent },
     // { path: 'role/crud/:type', component: BylRoleCrudComponent },
     { path: 'organization/list', component: BylOrganizationListComponent  },
-    { path: 'organization/crud/:type', component: BylOrganizationCrudComponent },
+    { path: 'organization/crud/:type', component: BylOrganizationCrudComponent ,data: {reuse: true} },
 
 ];
 

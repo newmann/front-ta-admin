@@ -127,8 +127,8 @@
 
 <nz-card [nzBordered]="false">
 
-    <nz-table #nzTable [nzData]="listData" [nzPageSize]="page.pageSize" [nzLoading]="loading"
-              nzShowSizeChanger [nzTotal]="total" [(nzPageIndex)]="page.page" nzShowTotal="true"
+    <nz-table #nzTable [nzData]="listData" [(nzPageSize)]="page.pageSize" [(nzPageIndex)]="page.page" [nzLoading]="loading"
+              nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total"
               (nzPageIndexChange)="search()" (nzPageSizeChange)="pageSizeChange($event)">
         <thead >
           <tr>

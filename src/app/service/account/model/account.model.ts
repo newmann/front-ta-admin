@@ -6,6 +6,8 @@
 import { BylBaseModel } from '../../model/base.model';
 import { BylPermission } from 'app/service/account/model/permission.model';
 import {BylRole} from "./role.model";
+import {BylMasterDataStatusManager} from "../../model/master-data-status.enum";
+import {BylDatetimeUtils} from "../../utils/datetime.utils";
 
 export class BylAccount extends BylBaseModel {
     username: string;
@@ -22,4 +24,11 @@ export class BylAccount extends BylBaseModel {
     permissionList: Set<BylPermission>;
     roleList: Set<BylRole>;
 
+    get statusCaption(): string{
+        return BylMasterDataStatusManager.getStatusCaption(this.status);
+    }
+
+    get modifyDateTimeStr(): string{
+        return BylDatetimeUtils.formatDateTimeWeek(this.modifyAction.modifyDateTime);
+    }
 }

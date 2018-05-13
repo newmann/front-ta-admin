@@ -4,37 +4,37 @@ import { _HttpClient } from '@delon/theme';
 import { SimpleTableColumn } from '@delon/abc';
 
 @Component({
-    selector: 'pro-profile-advanced',
-    templateUrl: './advanced.component.html',
-    styleUrls: [ './advanced.component.less' ]
+  selector: 'pro-profile-advanced',
+  templateUrl: './advanced.component.html',
+  styleUrls: ['./advanced.component.less'],
 })
 export class ProProfileAdvancedComponent implements OnInit {
-    list: any[] = [];
+  list: any[] = [];
 
-    data = {
-        advancedOperation1: [],
-        advancedOperation2: [],
-        advancedOperation3: []
-    };
+  data = {
+    advancedOperation1: [],
+    advancedOperation2: [],
+    advancedOperation3: [],
+  };
 
-    opColumns: SimpleTableColumn[] = [
-        { title: '²Ù×÷ÀàÐÍ', index: 'type' },
-        { title: '²Ù×÷ÈË', index: 'name' },
-        { title: 'Ö´ÐÐ½á¹û', index: 'status', render: 'status' },
-        { title: '²Ù×÷Ê±¼ä', index: 'updatedAt', type: 'date' },
-        { title: '±¸×¢', index: 'memo', default: '-' }
-    ];
+  opColumns: SimpleTableColumn[] = [
+    { title: 'æ“ä½œç±»åž‹', index: 'type' },
+    { title: 'æ“ä½œäºº', index: 'name' },
+    { title: 'æ‰§è¡Œç»“æžœ', index: 'status', render: 'status' },
+    { title: 'æ“ä½œæ—¶é—´', index: 'updatedAt', type: 'date' },
+    { title: 'å¤‡æ³¨', index: 'memo', default: '-' },
+  ];
 
-    constructor(public msg: NzMessageService, private http: _HttpClient) {}
+  constructor(public msg: NzMessageService, private http: _HttpClient) {}
 
-    ngOnInit() {
-        this.http.get('/profile/advanced').subscribe((res: any) => {
-            this.data = res;
-            this.change({ index: 0, tab: null });
-        });
-    }
+  ngOnInit() {
+    this.http.get('/profile/advanced').subscribe((res: any) => {
+      this.data = res;
+      this.change({ index: 0, tab: null });
+    });
+  }
 
-    change(args: NzTabChangeEvent) {
-        this.list = this.data[`advancedOperation${args.index + 1}`];
-    }
+  change(args: NzTabChangeEvent) {
+    this.list = this.data[`advancedOperation${args.index + 1}`];
+  }
 }

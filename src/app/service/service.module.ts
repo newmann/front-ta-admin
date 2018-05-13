@@ -10,7 +10,7 @@ import {BylRoleService} from "./account/service/role.service";
 import { LOGGER_SERVICE_PROVIDER } from './utils/logger/logger.service';
 import { BYL_LOGGER_STATE } from './utils/logger';
 import {BylDepartmentService} from "./account/service/department.service";
-import {RouterGuardService} from './router/router-guard.service';
+import {BylRouterGuardService} from './router/router-guard.service';
 import {BylPersonService} from "./person/service/person.service";
 import {BylPersonAddressService} from "./person/service/person-address.service";
 import {BylPersonCertificateService} from "./person/service/person-certificate.service";
@@ -29,6 +29,12 @@ import {BylOrganizationService} from "./organization/service/organization.servic
 import {BylSimpleEntityLoggerService} from "./simple-entity-logger/service/simple-entity-logger.service";
 import {BylPermissionService} from "./account/service/permission.service";
 import {BylElectronService} from './electron/electron.service';
+import {BylWorkTypeService} from "./project/service/work-type.service";
+import {BylOutsourcerService} from "./project/service/outsourcer.service";
+import {BylOutsourceEmployeeService} from "./project/service/outsource-employee.service";
+import {BylExpenseTypeService} from "./project/service/expense-type.service";
+import {BylEmployeeService} from "./project/service/employee.service";
+
 
 
 @NgModule({
@@ -36,6 +42,7 @@ import {BylElectronService} from './electron/electron.service';
         BylElectronService,
         BylConfigService,
         BylSimpleEntityLoggerService,
+
 
         //account module
         AuthService,
@@ -63,6 +70,11 @@ import {BylElectronService} from './electron/electron.service';
         BylProjectManagerPoolService,
         BylBorrowMoneyTicketService,
         BylBorrowMoneyQualificationPoolService,
+        BylWorkTypeService,
+        BylOutsourcerService,
+        BylOutsourceEmployeeService,
+        BylExpenseTypeService,
+        BylEmployeeService,
 
         ChatService,
         CustomStompRService,
@@ -72,7 +84,7 @@ import {BylElectronService} from './electron/electron.service';
         },
         { provide: BYL_LOGGER_STATE, useValue: true },
         LOGGER_SERVICE_PROVIDER,
-        RouterGuardService
+        BylRouterGuardService
     ]
 })
 export class BylServiceModule {

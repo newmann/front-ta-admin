@@ -5,9 +5,14 @@
  * @Date：
 
  */
+import {BylDatetimeUtils} from "../utils/datetime.utils";
+
 export class BylEmbeddableModifyAction{
     modifyId: string;
     modifyCode: string;
     modifyName: string;
     modifyDateTime: number;
+    get modifyDateTimeStr(): string{
+        return BylDatetimeUtils.formatDateTime(this.modifyDateTime);
+    }
 }

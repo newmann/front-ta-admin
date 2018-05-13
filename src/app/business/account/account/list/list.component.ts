@@ -17,6 +17,13 @@ import {BylListFormFunctionModeEnum} from '../../../../service/model/list-form-f
 import {SFSchema, SFUISchema} from '@delon/form';
 import {BylListQueryFormComponent} from '../../../common/list-query-form/list-query.form';
 import * as moment from "moment";
+import {BylPageReq} from "../../../../service/model/page-req.model";
+import {
+    ACTION_DELETE, ACTION_LOCK,
+    ACTION_MODIFY, ACTION_UNLOCK, BylTableClickAction, BylTableColumn,
+    BylTableDefine
+} from "../../../common/list-form-table-item/table.formitem";
+import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 
 
 @Component({
@@ -58,6 +65,7 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
             // item.disabled = (data.status === BylRoleStatus.DELETED);
             item.item = new BylAccount();
             Object.assign(item.item, data);
+
             return item;
         });
     }
@@ -195,4 +203,40 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
     //         console.log(value);
     //     });
     // }
+
+    tableDefine:BylTableDefine ={
+        showCheckbox: true,
+        entityAction: [
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL },
+            {actionName: ACTION_UNLOCK,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.LOCKED },
+            {actionName: ACTION_LOCK,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL }
+            ],
+        columns:[
+        {label:"代码", fieldPath: "username" },
+        {label:"姓名", fieldPath: "fullName" },
+        {label:"昵称", fieldPath: "nickname" },
+        {label:"最后修改时间", fieldPath: "modifyDateTimeStr" },
+        {label:"状态", fieldPath: "statusCaption" },
+    ]};
+
+
+    pageChange(item: BylPageReq){
+        this.page = item;
+        this.search();
+    }
+
+    selectedChange(data: BylListFormData<BylAccount>[]){
+        this.selectedRows = data;
+
+    }
+    entityAction(action: BylTableClickAction){
+        switch(action.actionName){
+            case ACTION_MODIFY:
+                this.modifyEntity(action.id);
+                break;
+            default:
+                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+        }
+
+    }
 }

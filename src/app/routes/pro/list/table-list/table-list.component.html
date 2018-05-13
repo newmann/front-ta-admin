@@ -66,13 +66,15 @@
     </nz-row>
   </form>
   <button nz-button (click)="add(modalContent)" [nzType]="'primary'">
-    <i class="anticon anticon-plus"></i><span>新建</span>
+    <i class="anticon anticon-plus"></i>
+    <span>新建</span>
   </button>
   <ng-container *ngIf="selectedRows.length > 0">
     <button nz-button class="ml-sm">批量操作</button>
     <nz-dropdown [nzPlacement]="'bottomLeft'">
       <button nz-button nz-dropdown class="ml-sm">
-        更多操作 <i class="anticon anticon-down"></i>
+        更多操作
+        <i class="anticon anticon-down"></i>
       </button>
       <ul nz-menu>
         <li nz-menu-item (click)="remove()">删除</li>
@@ -83,15 +85,14 @@
   <div class="my-md">
     <nz-alert [nzType]="'info'" [nzShowIcon]="true" [nzMessage]="message">
       <ng-template #message>
-        已选择 <strong class="text-primary">{{selectedRows.length}}</strong> 项&nbsp;&nbsp;
-        服务调用总计 <strong>{{totalCallNo}}</strong> 万
+        已选择
+        <strong class="text-primary">{{selectedRows.length}}</strong> 项&nbsp;&nbsp; 服务调用总计
+        <strong>{{totalCallNo}}</strong> 万
         <a *ngIf="totalCallNo > 0" (click)="st.clearCheck()" class="ml-lg">清空</a>
       </ng-template>
     </nz-alert>
   </div>
-  <simple-table #st [columns]="columns" [data]="data" [loading]="loading"
-    (checkboxChange)="checkboxChange($event)"
-    (filterChange)="getData()">
+  <simple-table #st [columns]="columns" [data]="data" [loading]="loading" (checkboxChange)="checkboxChange($event)" (filterChange)="getData()">
     <ng-template st-row="status" let-i>
       <nz-badge [nzStatus]="i.statusType" [nzText]="i.statusText"></nz-badge>
     </ng-template>
@@ -105,4 +106,3 @@
     </nz-form-control>
   </nz-form-item>
 </ng-template>
-

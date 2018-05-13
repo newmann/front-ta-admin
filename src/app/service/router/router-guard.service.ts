@@ -13,7 +13,7 @@ import {genMobileUrl, isMobileUrl} from '../utils/string.utils';
 import {DA_SERVICE_TOKEN, ITokenService, JWTTokenModel} from "@delon/auth";
 
 @Injectable()
-export class RouterGuardService implements CanActivate{
+export class BylRouterGuardService implements CanActivate{
     private _browserType: string; // 客户端类型
     private _isMobile: boolean; // 是否为移动端
 
@@ -50,10 +50,11 @@ export class RouterGuardService implements CanActivate{
         //判断是否登录，如果没有，则转到登录页面
         let token: JWTTokenModel;
         token = this.tokenService.get<JWTTokenModel>(JWTTokenModel);
-        console.log("token:",token.token);
-        console.log("token payload:", token.payload);
-        console.log('token expired:',token.isExpired(0));
+        // console.log("token:",token.token);
+        // console.log("token payload:", token.payload);
+        // console.log('token expired:',token.isExpired(0));
         if (token.isExpired(0)) {
+            console.log("In BylRouterGuardService, token expired。");
             //无效，进入登录界面
             this.router.navigate(['/passport/login']);
             return false;

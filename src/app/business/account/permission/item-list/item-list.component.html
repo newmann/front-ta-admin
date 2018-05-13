@@ -6,17 +6,24 @@
     <button nz-button (click)="search()" [nzType]="'primary'" [nzSize]="'large'" class="ant-btn__block mb-sm">
         <i class="anticon anticon-search"></i><span>查询</span>
     </button>
-    <div class="mb-md">
-        <nz-alert [nzType]="'info'" [nzShowIcon]="true">
-            <span alert-body>
-                已选择 <strong class="text-primary">{{selectedRows.length}}</strong> 项&nbsp;&nbsp;
-                <!--服务调用总计 <strong>{{totalCallNo}}</strong> 万-->
-                <a *ngIf="selectedRows.length > 0" (click)="batchDelete()" class="ml-lg">批量删除</a>
 
-            </span>
+    <button nz-button (click)="batchDelete()" [nzType]="'danger'"
+            [nzSize]="'large'" class="ant-btn__block mb-sm"  *ngIf="selectedRows.length > 0">
+      <i class="anticon anticon-delete"></i><span>批量删除</span>
+    </button>
 
-        </nz-alert>
-    </div>
+    <byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>
+    <!--<div class="mb-md" *ngIf="selectedRows.length > 0">-->
+        <!--<nz-alert [nzType]="'info'" [nzShowIcon]="'true'">-->
+            <!--<span alert-body>-->
+                <!--已选择 <strong class="text-primary">{{selectedRows.length}}</strong> 项&nbsp;&nbsp;-->
+                <!--&lt;!&ndash;服务调用总计 <strong>{{totalCallNo}}</strong> 万&ndash;&gt;-->
+                <!--<a *ngIf="selectedRows.length > 0" (click)="batchDelete()" class="ml-lg">批量删除</a>-->
+
+            <!--</span>-->
+
+        <!--</nz-alert>-->
+    <!--</div>-->
     <nz-table #nzTable [nzData]="listData"  [nzLoading]="loading"
               [nzShowPagination]= "false">
         <thead >

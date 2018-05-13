@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { zip } from 'rxjs/observable/zip';
-import { getTimeDistance, yuan, fixedZero } from '@delon/abc';
+import { getTimeDistance, yuan } from '@delon/util';
 import { _HttpClient } from '@delon/theme';
 import {Router} from "@angular/router";
 
@@ -64,18 +64,19 @@ export class BylDashboardMonitorComponent implements OnInit, OnDestroy {
         const activeData = [];
         for (let i = 0; i < 24; i += 1) {
             activeData.push({
-                x: `${fixedZero(i)}:00`,
-                y: (i * 50) + (Math.floor(Math.random() * 200)),
+                x: `${i.toString().padStart(2, '0')}:00`,
+                y: i * 50 + Math.floor(Math.random() * 200),
             });
         }
         this.activeData = activeData;
         // stat
         this.activeStat.max = [...activeData].sort()[activeData.length - 1].y + 200;
-        this.activeStat.min = [...activeData].sort()[Math.floor(activeData.length / 2)].y;
+        this.activeStat.min = [...activeData].sort()[
+            Math.floor(activeData.length / 2)
+            ].y;
         this.activeStat.t1 = activeData[Math.floor(activeData.length / 2)].x;
         this.activeStat.t2 = activeData[activeData.length - 1].x;
     }
-
     // endregion
 
     couponFormat(val: any) {

@@ -17,11 +17,14 @@ import {BylSelectWidgetComponent} from './common/select-form-item/select.formite
 import {BylDateWidgetComponent} from './common/date-form-item/date.formitem';
 import {BylRadioWidgetComponent} from './common/radio-form-item/radio.formitem';
 import {BylInputNumberWidgetComponent} from './common/input-number-form-item/input-number.formitem';
+import {BylPipeModule} from "../service/pipe.module";
+import {BylListFormTableWidgetComponent} from "./common/list-form-table-item/table.formitem";
 
 
 @NgModule({
     imports: [
-        SharedModule
+        SharedModule,
+        BylPipeModule
     ],
     declarations: [
         BylAccountListComponent,
@@ -40,11 +43,15 @@ import {BylInputNumberWidgetComponent} from './common/input-number-form-item/inp
         BylShowErrorFormItemComponent,
         BylSelectInfoFormItemComponent,
         BylListQueryFormComponent,
-        BylListQueryWidgetComponent
+        BylListQueryWidgetComponent,
+        BylListFormTableWidgetComponent
 
 
     ],
     exports: [
+        BylPipeModule,
+
+
         BylAccountListComponent,
         BylPersonListComponent,
         BylOrganizationListComponent,
@@ -61,7 +68,8 @@ import {BylInputNumberWidgetComponent} from './common/input-number-form-item/inp
         BylShowErrorFormItemComponent,
         BylSelectInfoFormItemComponent,
         BylListQueryFormComponent,
-        BylListQueryWidgetComponent
+        BylListQueryWidgetComponent,
+        BylListFormTableWidgetComponent
 
     ],
     entryComponents: [

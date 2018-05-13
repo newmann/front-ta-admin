@@ -1,11 +1,17 @@
-<nz-card [nzBordered]="false" nzTitle="查询条件" [nzExtra]="actionTemplateRef">
-  <nz-alert nzType="info" [nzMessage]="msgBody"></nz-alert>
+<!--<ng-container *ngIf="actionTemplateRef">-->
+  <!--<nz-card [nzBordered]="false" >-->
+    <!--<nz-alert nzType="info" [nzMessage]="'查询条件'" [nzDescription]="msgBody"></nz-alert>-->
+  <!--</nz-card>-->
+<!--</ng-container>-->
+
+
+<nz-card [nzBordered]="false" [nzTitle]="'查询条件'" [nzExtra]="actionTemplateRef">
+  <nz-alert nzType="info" [nzDescription]="msgBody"></nz-alert>
 </nz-card>
 
 <ng-template #msgBody>
   <div nz-row>{{queryMessage}}</div>
   <div nz-row nzType="flex" nzJustify="end">
-    <a (click)="showQueryForm()" >重新设置</a>
+      <a (click)="showQueryForm()" >重新设置</a>
   </div>
-
 </ng-template>

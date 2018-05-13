@@ -41,18 +41,35 @@ export class AppComponent implements OnInit {
     let token: JWTTokenModel;
     token = this.tokenService.get<JWTTokenModel>(JWTTokenModel);
     console.log('IN AppComponent, token:', token.token);
-    console.log('IN AppComponent, payload:', token.payload);
+    // console.log('IN AppComponent, payload:', token.payload);
+    // console.log('token expired? :', token.isExpired(0));
+    if (token){
+        if (token.isExpired(0)) {
+            console.log('token expired, 进入登录界面'); //进入登录界面
+            console.log('token payload:', token.payload);
 
-    console.log('token expired? :', token.isExpired(0));
-    if (token.isExpired(0)) {
-        console.log('token expired, 进入登录界面'); //进入登录界面
+            // console.log('token payload.exp:', token.payload.exp);
+            //
+            // const date = new Date(0);
+            // date.setUTCSeconds(token.payload.exp);
+            //
+            // console.log("date.setUTCSeconds(token.payload.exp):",date.valueOf());
+            // console.log("new Date().valueOf():", new Date().valueOf());
+            // // return !(date.valueOf() > new Date().valueOf() + offsetSeconds * 1000);
+            // console.log("reslut:", !(date.valueOf() > new Date().valueOf() + 0 * 1000));
+
+            this.router.navigate(['/passport/login']);
+
+        } else {
+            console.log('token validate, 进入主界面');
+            //直接进入操作界面
+            // this.router.navigate(['/']);
+
+        }
+
+    } else{
+        console.log('没有设置token, 需要登录。');
         this.router.navigate(['/passport/login']);
-
-    } else {
-        console.log('token validate, 进入主界面');
-        //直接进入操作界面
-        // this.router.navigate(['/']);
-
     }
 
     this.router.events

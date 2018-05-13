@@ -16,7 +16,7 @@ export const enum BylBorrowMoneyTicketStatusEnum {
     COMFIRMED_DELETED = -20
 }
 
-export class BylBorrowMoneyTicketManager {
+export class BylBorrowMoneyTicketStatusManager {
 
     static getStatusCaption(status: number): string {
         switch (status) {

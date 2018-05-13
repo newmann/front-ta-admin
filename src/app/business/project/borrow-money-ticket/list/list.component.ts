@@ -12,7 +12,7 @@ import {BylProjectQuery} from "../../../../service/project/query/project-query.m
 import * as moment from "moment";
 import {SFSchema, SFUISchema} from "@delon/form";
 import {BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
-import {BylBorrowMoneyTicketManager} from "../../../../service/project/model/borrow-money-ticket-status.enum";
+import {BylBorrowMoneyTicketStatusManager} from "../../../../service/project/model/borrow-money-ticket-status.enum";
 
 @Component({
   selector: 'byl-borrow-money-ticket-list',
@@ -32,7 +32,7 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBase<Byl
         this.businessService = borrowMoneyTicketService;
         this.crudUrl = '/project/borrow-money-ticket/crud';
         // this.businessCrudComponent = BylPersonCrudComponent;
-        this.statusList = BylBorrowMoneyTicketManager.getStatusArray();
+        this.statusList = BylBorrowMoneyTicketStatusManager.getStatusArray();
         this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
     }
 

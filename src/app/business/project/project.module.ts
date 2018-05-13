@@ -13,6 +13,8 @@ import {BylBorrowMoneyQualificationPoolListComponent} from './borrow-money-quali
 import {BylBorrowMoneyTicketListComponent} from './borrow-money-ticket/list/list.component';
 import {BylBorrowMoneyTicketListCrudComponent} from './borrow-money-ticket/crud/crud.component';
 import {BylFetchProjectManagerWidgetComponent} from './fetch-project-manager-form-item/fetch-project-manager.formitem';
+import {BylWorkTypeListComponent} from "./work-type/list/list.component";
+import {BylWorkTypeCrudComponent} from "./work-type/crud/crud.component";
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import {BylFetchProjectManagerWidgetComponent} from './fetch-project-manager-for
         BylBorrowMoneyQualificationPoolListComponent,
         BylBorrowMoneyTicketListComponent,
         BylBorrowMoneyTicketListCrudComponent,
-        BylFetchProjectManagerWidgetComponent
+        BylFetchProjectManagerWidgetComponent,
+        BylWorkTypeListComponent,
+        BylWorkTypeCrudComponent
 
     ],
     entryComponents: [

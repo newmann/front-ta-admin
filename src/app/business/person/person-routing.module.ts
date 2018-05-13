@@ -12,9 +12,9 @@ const routes: Routes = [
     // { path: 'role/add', component: RoleOperComponent },
     // { path: 'role/crud/:type', component: BylRoleCrudComponent },
     { path: 'person/list', component: BylPersonListComponent },
-    { path: 'person/crud/:type', component: BylPersonCrudComponent },
-    { path: 'address/crud/:type', component: BylPersonAddressCrudComponent },
-    { path: 'certificate/crud/:type', component: BylPersonCertificateCrudComponent }
+    { path: 'person/crud/:type', component: BylPersonCrudComponent ,data: {reuse: true} },
+    { path: 'address/crud/:type', component: BylPersonAddressCrudComponent,data: {reuse: true}  },
+    { path: 'certificate/crud/:type', component: BylPersonCertificateCrudComponent ,data: {reuse: true} }
 ];
 
 @NgModule({

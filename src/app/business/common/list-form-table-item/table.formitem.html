@@ -1,0 +1,50 @@
+<nz-card [nzBordered]="false">
+
+  <nz-table #nzTable [nzData]="listData" [(nzPageSize)]="page.pageSize" [(nzPageIndex)]="page.page" [nzLoading]="loading"
+            nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total"
+            (nzPageIndexChange)="pageIndexChange($event)" (nzPageSizeChange)="pageSizeChange($event)">
+    <thead >
+    <tr>
+      <ng-container *ngIf="tableDefine.showCheckbox">
+        <th  nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
+             (nzCheckedChange)="checkAll($event)"></th>
+      </ng-container>
+
+      <th *ngFor="let colDefine of tableDefine.columns"><span>{{colDefine.label}}</span></th>
+
+      <!--<th ><span>模块</span></th>-->
+      <!--<th ><span>功能</span></th>-->
+      <!--<th >-->
+        <!--<span>备注</span>-->
+      <!--</th>-->
+
+      <th *ngIf="tableDefine.entityAction.length > 0" ><span>操作</span></th>
+    </tr>
+    </thead>
+    <tbody >
+    <tr  *ngFor="let i of nzTable.data">
+      <ng-container *ngIf="tableDefine.showCheckbox">
+        <td  nzShowCheckbox [(nzChecked)]="i.checked" [nzDisabled]="i.disabled"
+             (nzCheckedChange)="refreshStatus($event)"></td>
+      </ng-container>
+
+      <td *ngFor="let colDefine of tableDefine.columns">{{getFieldData(i.item,colDefine.fieldPath)}}</td>
+      <!--<td >{{i.item.moduleName}}</td>-->
+      <!--<td >{{i.item.action}}</td>-->
+      <!--<td >{{i.item.remarks }}</td>-->
+
+      <td >
+      <span *ngFor="let actionName of getActionArray(i.item) ; first as isFirst">
+        <!--<ng-container *ngIf="showAction(actionDefine, i.item)">-->
+
+          <nz-divider  nzType="vertical" *ngIf=" ! isFirst"></nz-divider>
+          <a (click)="entityClick(i.item.id, actionName)">{{actionName}}</a>
+
+        <!--</ng-container>-->
+      </span>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+  <byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>
+</nz-card>

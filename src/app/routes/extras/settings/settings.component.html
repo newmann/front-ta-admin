@@ -33,14 +33,16 @@
                   <nz-option [nzLabel]="'Select a verified email to display'" [nzValue]="''"></nz-option>
                   <nz-option [nzLabel]="'cipchk@qq.com'" [nzValue]="'cipchk@qq.com'"></nz-option>
                 </nz-select>
-                <nz-form-explain>You can manage verified email addresses in your <a (click)="active=3">email settings</a>.</nz-form-explain>
+                <nz-form-explain>You can manage verified email addresses in your
+                  <a (click)="active=3">email settings</a>.</nz-form-explain>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
               <nz-form-label nzFor="bio">Bio</nz-form-label>
               <nz-form-control>
                 <textarea nz-input formControlName="bio" id="bio" placeholder="Tell us a little bit about yourself"></textarea>
-                <nz-form-explain>You can <strong>@mention</strong> other users and organizations to link to them.</nz-form-explain>
+                <nz-form-explain>You can
+                  <strong>@mention</strong> other users and organizations to link to them.</nz-form-explain>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
@@ -53,7 +55,8 @@
               <nz-form-label nzFor="company">Company</nz-form-label>
               <nz-form-control>
                 <input nz-input formControlName="company" id="company">
-                <nz-form-explain>You can <strong>@mention</strong> your company's GitHub organization to link it.</nz-form-explain>
+                <nz-form-explain>You can
+                  <strong>@mention</strong> your company's GitHub organization to link it.</nz-form-explain>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item class="border-top-1 mt-md pt-md">
@@ -72,9 +75,7 @@
         <nz-col [nzSpan]="8">
           <h4>Profile picture</h4>
           <img src="./assets/img/avatar.jpg" style="width: 100%;">
-          <nz-upload
-            nzAction="https://jsonplaceholder.typicode.com/posts/"
-            class="d-block mt-md text-center">
+          <nz-upload nzAction="https://jsonplaceholder.typicode.com/posts/" class="d-block mt-md text-center">
             <button nz-button>Upload new picture</button>
           </nz-upload>
         </nz-col>
@@ -99,7 +100,8 @@
             <nz-form-item>
               <nz-form-label nzRequired nzFor="confirm_new_password">Confirm new password</nz-form-label>
               <nz-form-control>
-                <input nz-input [(ngModel)]="pwd.confirm_new_password" name="confirm_new_password" id="confirm_new_password" type="password" required>
+                <input nz-input [(ngModel)]="pwd.confirm_new_password" name="confirm_new_password" id="confirm_new_password" type="password"
+                  required>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
@@ -122,10 +124,14 @@
         <nz-col [nzSpan]="12">
           cipchk@qq.com
           <nz-tooltip [nzTitle]="'This email will be used for account-related notifications (e.g. account changes, password resets, billing receipts) as well as any web-based GitHub operations (e.g. edits and merges).'">
-            <span nz-tooltip><nz-tag [nzColor]="'#28a745'">Primary</nz-tag></span>
+            <span nz-tooltip>
+              <nz-tag [nzColor]="'#28a745'">Primary</nz-tag>
+            </span>
           </nz-tooltip>
           <nz-tooltip [nzTitle]="'This email will be used as the \'from\' address for web-based GitHub operations.'">
-            <span nz-tooltip><nz-tag [nzColor]="'#959da5'">Public</nz-tag></span>
+            <span nz-tooltip>
+              <nz-tag [nzColor]="'#959da5'">Public</nz-tag>
+            </span>
           </nz-tooltip>
         </nz-col>
         <nz-col [nzSpan]="12" class="text-right">

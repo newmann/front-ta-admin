@@ -10,8 +10,7 @@
     <span alert-body [innerHTML]="group.tip"></span>
   </nz-alert>
   <div class="icons" nz-row [nzGutter]="16">
-    <div class="item" nz-col [nzXs]="8" [nzMd]="4"
-      *ngFor="let item of group.list" (click)="onCopy(group, item)">
+    <div class="item" nz-col [nzXs]="8" [nzMd]="4" *ngFor="let item of group.list" (click)="onCopy(group, item)">
       <em class="{{group.prefix}}{{item.k}}"></em> {{item.k}}
       <em *ngIf="item.a" class="text-grey">(alias)</em>
     </div>

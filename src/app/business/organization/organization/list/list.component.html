@@ -162,7 +162,7 @@
             <td >{{i.item.name}}</td>
             <td >{{i.item.simpleName}}</td>
             <td >{{i.item.legalPerson?.legalPersonName}}</td>
-            <td >{{i.item.type}}</td>
+            <td >{{i.item.type | bylOrganizationType}}</td>
             <td >{{i.item.modifyAction.modifyDateTime | _date}}</td>
             <td >
                 <span>

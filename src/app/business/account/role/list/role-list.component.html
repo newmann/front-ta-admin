@@ -148,7 +148,7 @@
                (nzCheckedChange)="refreshStatus($event)"></td>
             <td >{{i.item.name}}</td>
             <td >{{i.item.remarks}}</td>
-            <td >{{getStatusCaption(i.item.status)}}</td>
+            <td >{{i.item.status | bylMasterDataStatus}}</td>
             <td >{{i.item.modifyAction.modifyDateTime | _date}}</td>
             <td >
                 <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->

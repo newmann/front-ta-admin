@@ -9,7 +9,8 @@ import {BylProjectStatusEnum} from "../model/project-status.enum";
 export class BylProjectQuery {
     code: string;
     name: string;
-    status = [BylProjectStatusEnum.UNSUBMITED,BylProjectStatusEnum.SUBMITED,BylProjectStatusEnum.RUNNING]; //缺省为未提交、已提交、运行中
+    // status = [BylProjectStatusEnum.UNSUBMITED,BylProjectStatusEnum.SUBMITED,BylProjectStatusEnum.RUNNING]; //缺省为未提交、已提交、运行中
+    status: Array<number>;
     modifyDateBegin: number;
     modifyDateEnd: number;
 }

@@ -21,7 +21,8 @@ import {BylDashboardMonitorComponent} from "./dashboard/monitor/monitor.componen
 @NgModule({
     imports: [SharedModule,
         BylBusinessSharedModule,
-        BylBusinessRoutingModule],
+        BylBusinessRoutingModule
+    ],
     declarations: [
         DashboardV1Component,
         DashboardAnalysisComponent,
