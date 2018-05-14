@@ -119,7 +119,7 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
         this.businessService = departmentService;
         this.crudUrl = '/account/department/crud';
         // this.businessCrudComponent = BylPersonCrudComponent;
-        this.statusList = BylMasterDataStatusManager.getStatusArray();
+        this.statusList = BylMasterDataStatusManager.getArray();
 
         this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
 

@@ -11,7 +11,7 @@ export const enum BylCheckTypeEnum {
 
 export class BylCheckTypeEnumManager {
 
-    static getStatusCaption(status: number): string {
+    static getCaption(status: number): string {
         switch (status) {
             case BylCheckTypeEnum.DAY:
                 return '天';
@@ -24,10 +24,11 @@ export class BylCheckTypeEnumManager {
 
     }
 
-    static getStatusArray(): BylIStatusItem[] {
+    static getArray(): BylIStatusItem[] {
         return [
-            {value: BylCheckTypeEnum.DAY, label: this.getStatusCaption(BylCheckTypeEnum.DAY)},
-            {value: BylCheckTypeEnum.HOUR, label: this.getStatusCaption(BylCheckTypeEnum.HOUR)}
+            {value: BylCheckTypeEnum.DAY, caption: this.getCaption(BylCheckTypeEnum.DAY)},
+            {value: BylCheckTypeEnum.HOUR, caption: this.getCaption(BylCheckTypeEnum.HOUR)}
         ];
     }
+
 }

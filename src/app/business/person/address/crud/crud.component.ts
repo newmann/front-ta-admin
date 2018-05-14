@@ -86,9 +86,9 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
         this.form.reset({
             type: this.businessData.type,
             addressTree: this.addressTreevalue,
-            // addressTree: [{value: this.businessData.addr.countryCode, label: this.businessData.addr.countryName},
-            //     {value: this.businessData.addr.provinceCode, label: this.businessData.addr.provinceName},
-            //     {value: this.businessData.addr.cityCode, label: this.businessData.addr.cityName}],
+            // addressTree: [{value: this.businessData.addr.countryCode, caption: this.businessData.addr.countryName},
+            //     {value: this.businessData.addr.provinceCode, caption: this.businessData.addr.provinceName},
+            //     {value: this.businessData.addr.cityCode, caption: this.businessData.addr.cityName}],
             detailAddress: this.businessData.addr.detailAddress,
             zipCode: this.businessData.addr.zipCode,
             remarks: this.businessData.remarks

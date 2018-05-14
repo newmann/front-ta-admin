@@ -14,7 +14,7 @@ export const enum BylOrganizationTypeEnum {
 
 export class BylOrganizationTypeManager {
 
-    static getStatusCaption(status: number): string {
+    static getCaption(status: number): string {
         switch (status) {
             case BylOrganizationTypeEnum.TEAM:
                 return "团队";
@@ -31,12 +31,12 @@ export class BylOrganizationTypeManager {
         }
 
     }
-    static getStatusArray(): BylIStatusItem[] {
+    static getArray(): BylIStatusItem[] {
         return [
-            {value: BylOrganizationTypeEnum.TEAM, label: this.getStatusCaption(BylOrganizationTypeEnum.TEAM)},
-            {value: BylOrganizationTypeEnum.CORP, label: this.getStatusCaption(BylOrganizationTypeEnum.CORP)},
-            {value: BylOrganizationTypeEnum.GOV, label: this.getStatusCaption(BylOrganizationTypeEnum.GOV)},
-            {value: BylOrganizationTypeEnum.ASSOCIATION, label: this.getStatusCaption(BylOrganizationTypeEnum.ASSOCIATION)}
+            {value: BylOrganizationTypeEnum.TEAM, caption: this.getCaption(BylOrganizationTypeEnum.TEAM)},
+            {value: BylOrganizationTypeEnum.CORP, caption: this.getCaption(BylOrganizationTypeEnum.CORP)},
+            {value: BylOrganizationTypeEnum.GOV, caption: this.getCaption(BylOrganizationTypeEnum.GOV)},
+            {value: BylOrganizationTypeEnum.ASSOCIATION, caption: this.getCaption(BylOrganizationTypeEnum.ASSOCIATION)}
 
         ];
     }

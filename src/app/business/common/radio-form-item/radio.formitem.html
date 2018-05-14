@@ -2,9 +2,8 @@
   <nz-form-item >
     <nz-form-label [nzSm]="6" [nzXs]="24" [nzRequired]="isRequired" [nzFor]="controlName" >{{labelCaption}}</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
-      <nz-radio-group [formControlName]="controlName" [id]="controlName"  >
-        <label *ngFor="let option of selectOptions" nz-radio-button [nzValue]="option.value">
-          {{option.caption}}</label>
+      <nz-radio-group [id]="controlName"  [formControlName]="controlName" >
+        <label *ngFor="let option of selectOptions" nz-radio-button [nzValue]="option.value">{{option.caption}}</label>
       </nz-radio-group>
 
       <nz-form-explain *ngIf="inputControl.dirty && inputControl.errors">

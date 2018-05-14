@@ -30,7 +30,7 @@ export class BylPersonListComponent extends BylListComponentBase<BylPerson> {
 
         this.businessService = personService;
         this.crudUrl = '/person/person/crud';
-        // this.statusList = BylMasterDataStatusManager.getStatusArray();
+        // this.statusList = BylMasterDataStatusManager.getArray();
         // this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
         // this.businessCrudComponent = BylPersonCrudComponent;
     }

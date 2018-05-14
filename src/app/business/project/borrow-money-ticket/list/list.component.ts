@@ -32,7 +32,7 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBase<Byl
         this.businessService = borrowMoneyTicketService;
         this.crudUrl = '/project/borrow-money-ticket/crud';
         // this.businessCrudComponent = BylPersonCrudComponent;
-        this.statusList = BylBorrowMoneyTicketStatusManager.getStatusArray();
+        this.statusList = BylBorrowMoneyTicketStatusManager.getArray();
         this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
     }
 

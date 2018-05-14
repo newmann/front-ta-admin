@@ -18,7 +18,7 @@ export const enum BylBorrowMoneyTicketStatusEnum {
 
 export class BylBorrowMoneyTicketStatusManager {
 
-    static getStatusCaption(status: number): string {
+    static getCaption(status: number): string {
         switch (status) {
             case BylBorrowMoneyTicketStatusEnum.UNSUBMITED:
                 return '未提交';
@@ -45,17 +45,17 @@ export class BylBorrowMoneyTicketStatusManager {
 
     }
 
-    static getStatusArray(): BylIStatusItem[] {
+    static getArray(): BylIStatusItem[] {
         return [
-            {value: BylBorrowMoneyTicketStatusEnum.UNSUBMITED, label: this.getStatusCaption(BylBorrowMoneyTicketStatusEnum.UNSUBMITED)},
-            {value: BylBorrowMoneyTicketStatusEnum.SUBMITED, label: this.getStatusCaption(BylBorrowMoneyTicketStatusEnum.SUBMITED)},
-            {value: BylBorrowMoneyTicketStatusEnum.CHECKED, label: this.getStatusCaption(BylBorrowMoneyTicketStatusEnum.CHECKED)},
-            {value: BylBorrowMoneyTicketStatusEnum.CONFIRMED, label: this.getStatusCaption(BylBorrowMoneyTicketStatusEnum.CONFIRMED)},
-            {value: BylBorrowMoneyTicketStatusEnum.SETTLED, label: this.getStatusCaption(BylBorrowMoneyTicketStatusEnum.SETTLED)},
-            {value: BylBorrowMoneyTicketStatusEnum.DELETED, label: this.getStatusCaption(BylBorrowMoneyTicketStatusEnum.DELETED)},
-            {value: BylBorrowMoneyTicketStatusEnum.SUBMITED_DELETED, label: this.getStatusCaption(BylBorrowMoneyTicketStatusEnum.SUBMITED_DELETED)},
-            {value: BylBorrowMoneyTicketStatusEnum.CHECKED_DELETED, label: this.getStatusCaption(BylBorrowMoneyTicketStatusEnum.CHECKED_DELETED)},
-            {value: BylBorrowMoneyTicketStatusEnum.COMFIRMED_DELETED, label: this.getStatusCaption(BylBorrowMoneyTicketStatusEnum.COMFIRMED_DELETED)}
+            {value: BylBorrowMoneyTicketStatusEnum.UNSUBMITED, caption: this.getCaption(BylBorrowMoneyTicketStatusEnum.UNSUBMITED)},
+            {value: BylBorrowMoneyTicketStatusEnum.SUBMITED, caption: this.getCaption(BylBorrowMoneyTicketStatusEnum.SUBMITED)},
+            {value: BylBorrowMoneyTicketStatusEnum.CHECKED, caption: this.getCaption(BylBorrowMoneyTicketStatusEnum.CHECKED)},
+            {value: BylBorrowMoneyTicketStatusEnum.CONFIRMED, caption: this.getCaption(BylBorrowMoneyTicketStatusEnum.CONFIRMED)},
+            {value: BylBorrowMoneyTicketStatusEnum.SETTLED, caption: this.getCaption(BylBorrowMoneyTicketStatusEnum.SETTLED)},
+            {value: BylBorrowMoneyTicketStatusEnum.DELETED, caption: this.getCaption(BylBorrowMoneyTicketStatusEnum.DELETED)},
+            {value: BylBorrowMoneyTicketStatusEnum.SUBMITED_DELETED, caption: this.getCaption(BylBorrowMoneyTicketStatusEnum.SUBMITED_DELETED)},
+            {value: BylBorrowMoneyTicketStatusEnum.CHECKED_DELETED, caption: this.getCaption(BylBorrowMoneyTicketStatusEnum.CHECKED_DELETED)},
+            {value: BylBorrowMoneyTicketStatusEnum.COMFIRMED_DELETED, caption: this.getCaption(BylBorrowMoneyTicketStatusEnum.COMFIRMED_DELETED)}
         ];
     }
 }

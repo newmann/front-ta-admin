@@ -9,6 +9,6 @@ import {BylBorrowMoneyTicketStatusManager} from "../model/borrow-money-ticket-st
 @Pipe({name: 'bylBorrowMoneyTicketStatus'})
 export class BylBorrowMoneyTicketStatusPipe implements PipeTransform {
     transform(value: number): string {
-        return BylBorrowMoneyTicketStatusManager.getStatusCaption(value);
+        return BylBorrowMoneyTicketStatusManager.getCaption(value);
     }
 }

@@ -10,7 +10,7 @@ export const enum BylMasterDataStatusEnum {
 
 export class BylMasterDataStatusManager {
 
-    static getStatusCaption(status: number): string {
+    static getCaption(status: number): string {
         switch (status) {
             case BylMasterDataStatusEnum.NORMAL:
                 return '正常';
@@ -25,11 +25,11 @@ export class BylMasterDataStatusManager {
 
     }
 
-    static getStatusArray(): BylIStatusItem[] {
+    static getArray(): BylIStatusItem[] {
         return [
-            {value: BylMasterDataStatusEnum.NORMAL, label: this.getStatusCaption(BylMasterDataStatusEnum.NORMAL)},
-            {value: BylMasterDataStatusEnum.LOCKED, label: this.getStatusCaption(BylMasterDataStatusEnum.LOCKED)},
-            {value: BylMasterDataStatusEnum.DELETED, label: this.getStatusCaption(BylMasterDataStatusEnum.DELETED)}
+            {value: BylMasterDataStatusEnum.NORMAL, caption: this.getCaption(BylMasterDataStatusEnum.NORMAL)},
+            {value: BylMasterDataStatusEnum.LOCKED, caption: this.getCaption(BylMasterDataStatusEnum.LOCKED)},
+            {value: BylMasterDataStatusEnum.DELETED, caption: this.getCaption(BylMasterDataStatusEnum.DELETED)}
         ];
     }
 }

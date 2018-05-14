@@ -7,15 +7,15 @@
                                   [hostForm]="form" [controlPath]="'billNo'" [isRequired]="'true'"
                                   [placeHolder]="'请输入单号'"></byl-input-formitem>
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="billNo" nz-form-item-required>-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="billNo" nz-form-item-required>-->
                                     <!--<span>-->
                                         <!--单号-->
                                         <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
                                         <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
                                         <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
 
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="billNo">-->
@@ -36,21 +36,21 @@
                                   [hostForm]="form" [controlPath]="'borrowType'" [isRequired]="'true'"
                                   [selectOptions]="borrowTypeOptions"></byl-radio-formitem>
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="borrowType" nz-form-item-required>-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="borrowType" nz-form-item-required>-->
                                     <!--<span>-->
                                         <!--借款人类型-->
                                         <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
                                         <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
                                         <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="borrowType">-->
 
                             <!--<nz-radio-group formControlName="borrowType" >-->
-                              <!--<label nz-radio-button [nzValue]="1"><span>个体</span></label>-->
-                              <!--<label nz-radio-button [nzValue]="2"><span>组织</span></label>-->
+                              <!--<caption nz-radio-button [nzValue]="1"><span>个体</span></caption>-->
+                              <!--<caption nz-radio-button [nzValue]="2"><span>组织</span></caption>-->
                             <!--</nz-radio-group>-->
                             <!--<ng-container *ngIf="borrowType.dirty && borrowType.touched">-->
                                 <!--<p nz-form-explain *ngIf="borrowType.errors?.required">必须选择借款人类型</p>-->
@@ -59,9 +59,9 @@
                     <!--</div>-->
 
                     <!--<nz-form-item nz-row>-->
-                        <!--<nz-form-label nz-col [nzSm]="4" [nzFor]="'borrowCode'" [nzRequired]="'true'">-->
+                        <!--<nz-form-caption nz-col [nzSm]="4" [nzFor]="'borrowCode'" [nzRequired]="'true'">-->
                           <!--借款人-->
-                        <!--</nz-form-label>-->
+                        <!--</nz-form-caption>-->
                         <!--<nz-form-control nz-col [nzSm]="20" nzHasFeedback >-->
 
                             <!--<nz-input-group nzCompact>-->
@@ -84,15 +84,15 @@
                     <!--</nz-form-item>-->
 
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="projectCode" nz-form-item-required>-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="projectCode" nz-form-item-required>-->
                                     <!--<span>-->
                                         <!--所属项目-->
                                         <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
                                         <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
                                         <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="managerCode">-->
 
@@ -120,15 +120,15 @@
                                   [placeHolder]="'请输入借款原因'"></byl-input-formitem>
 
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="reason" nz-form-item-required>-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="reason" nz-form-item-required>-->
                                     <!--<span>-->
                                         <!--借款原因-->
                                         <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
                                         <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
                                         <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="reason">-->
                             <!--<nz-input formControlName="reason" nzPlaceHolder="借款原因" ></nz-input>-->
@@ -144,15 +144,15 @@
                                   [hostForm]="form" [controlPath]="'reason'" [isRequired]="'true'"
                                   [max]="100000000" [min]="0" [precision]="1" [step]="1"></byl-input-number-formitem>
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="amount" nz-form-item-required>-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="amount" nz-form-item-required>-->
                                     <!--<span>-->
                                         <!--借款金额-->
                                         <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
                                         <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
                                         <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="amount">-->
                             <!--<nz-input-number [nzMin]="0" formControlName="amount" nzPlaceHolder="借款金额" [nzAllowClear]="true"></nz-input-number>-->
@@ -170,15 +170,15 @@
                                  [placeHolder]="'请输入借款日期'"></byl-date-formitem>
 
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="borrowDate" nz-form-item-required>-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="borrowDate" nz-form-item-required>-->
                                     <!--<span>-->
                                         <!--借款日期-->
                                         <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
                                         <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
                                         <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="borrowDate">-->
                             <!--<nz-datepicker formControlName="borrowDate" nzPlaceHolder="借款日期" [nzFormat]="'YYYY/MM/DD'"></nz-datepicker>-->

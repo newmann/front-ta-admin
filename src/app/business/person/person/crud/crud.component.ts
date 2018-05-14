@@ -19,6 +19,7 @@ import {BylCountryService} from '../../../../service/address/service/country.ser
 import {BylProvinceService} from '../../../../service/address/service/province.service';
 import {BylCityService} from '../../../../service/address/service/city.service';
 import {_Validators} from "@delon/util";
+import {BylGenderEnumManager} from "../../../../service/person/model/gender.enum";
 
 
 @Component({
@@ -36,11 +37,9 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
     public searchedPoliticalStatus: Array<BylPoliticalStatus> = [];
     public selectedPoliticalStatus: BylPoliticalStatus;
 
-    public genderOptions = [
-        {value: '1', caption: '男'},
-        {value: '-1', caption: '女'},
-        {value: '0', caption: '未知'},
-    ];
+    get genderOptions(){
+        return BylGenderEnumManager.getArray();   
+    } ;
 
     get nationOptions() {
         let result = [];

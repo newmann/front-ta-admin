@@ -9,7 +9,7 @@ export const enum BylBusinessEntityTypeEnum {
 
 export class BylBusinessEntityTypeManager {
 
-    static getStatusCaption(status: number): string {
+    static getCaption(status: number): string {
         switch (status) {
             case BylBusinessEntityTypeEnum.PERSON:
                 return '个体';
@@ -21,10 +21,10 @@ export class BylBusinessEntityTypeManager {
         }
 
     }
-    static getStatusArray(): BylIStatusItem[] {
+    static getArray(): BylIStatusItem[] {
         return [
-            {value: BylBusinessEntityTypeEnum.PERSON, label: this.getStatusCaption(BylBusinessEntityTypeEnum.PERSON)},
-            {value: BylBusinessEntityTypeEnum.ORGANIZATION, label: this.getStatusCaption(BylBusinessEntityTypeEnum.ORGANIZATION)}
+            {value: BylBusinessEntityTypeEnum.PERSON, caption: this.getCaption(BylBusinessEntityTypeEnum.PERSON)},
+            {value: BylBusinessEntityTypeEnum.ORGANIZATION, caption: this.getCaption(BylBusinessEntityTypeEnum.ORGANIZATION)}
         ];
     }
 }

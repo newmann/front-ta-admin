@@ -11,6 +11,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 
 import {BylWorkTypeService} from "../../../../service/project/service/work-type.service";
 import {BylWorkType} from "../../../../service/project/model/work-type.model";
+import {BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
 
 
 @Component({
@@ -33,12 +34,10 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBase<BylWorkType> 
     defineForm(): void {
         // 绑定验证模式
         this.form = this.fb.group({
-            username: [null, Validators.compose([Validators.required])],
-            fullName: [null, Validators.compose([Validators.required])],
-            nickname: [null],
-            password: [null, Validators.compose([Validators.required])],
-            email: [null],
-            phone: [null],
+            code: [null, Validators.compose([Validators.required])],
+            name: [null, Validators.compose([Validators.required])],
+            checkType: [null,Validators.compose([Validators.required])],
+            standardTimeLength: [null, Validators.compose([Validators.required])],
             remarks: [null]
         });
     }
@@ -83,46 +82,56 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBase<BylWorkType> 
      * 重置界面内容
      */
     reset() {
+
+        console.log('reset form', this.businessData);
+
+        // this.form.reset(this.businessData, {onlySelf: true, emitEvent: false});
+        //
+        // super.reset();
+        console.log('checkTypeOptions:', this.checkTypeOptions);
+
+        this.form.reset(this.businessData, {onlySelf: true, emitEvent: false});
+        //
+        // this.form.markAsPristine();
+        // for (const key in this.form.controls) {
+        //     this.form.controls[key].markAsPristine();
+        // }
+        // console.log('this.form.dirty' + this.form.dirty);
+        // console.log('this.form.invalid' + this.form.invalid);
+
+        super.reset();
+
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
             this.reuseTabService.title = '编辑-' + this.businessData.name;
-
         }
 
-        console.log('reset form', this.businessData);
-
-        this.form.reset(this.businessData, {onlySelf: true, emitEvent: false});
-
-        super.reset();
-
 
     }
 
+    get checkTypeOptions(){
+        let result =  [{value: "1", caption: "小时"},
+            {value: "2", caption: " 天"}];
+        return result;
+        // return BylCheckTypeEnumManager.getArray();
+    }
 
     //#region get form fields
-    get username() {
-        return this.form.controls.username;
+    get code() {
+        return this.form.controls.code;
     }
 
-    get fullName() {
-        return this.form.controls.fullName;
+    get name() {
+        return this.form.controls.name;
     }
 
-    get nickname() {
-        return this.form.controls.nickname;
+    get checkType() {
+        return this.form.controls.checkType;
     }
 
-    get password() {
-        return this.form.controls.password;
-    }
-
-    get email() {
-        return this.form.controls.email;
-    }
-
-    get phone() {
-        return this.form.controls.phone;
+    get standardTimeLength() {
+        return this.form.controls.standardTimeLength;
     }
 
     get remarks() {

@@ -36,7 +36,7 @@ export class BylRoleListComponent extends BylListComponentBase<BylRole> {
         this.crudUrl = '/account/role/crud';
         // this.businessCrudComponent = BylPersonCrudComponent;
 
-        this.statusList = BylMasterDataStatusManager.getStatusArray();
+        this.statusList = BylMasterDataStatusManager.getArray();
         this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
     }
 
@@ -152,7 +152,7 @@ export class BylRoleListComponent extends BylListComponentBase<BylRole> {
     }
 
     getStatusCaption(status: number): string {
-        return BylMasterDataStatusManager.getStatusCaption(status);
+        return BylMasterDataStatusManager.getCaption(status);
     }
 
     /**

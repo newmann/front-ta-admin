@@ -9,6 +9,6 @@ import {BylMasterDataStatusManager} from "../model/master-data-status.enum";
 @Pipe({name: 'bylMasterDataStatus'})
 export class BylMasterDataStatusPipe implements PipeTransform {
     transform(value: number): string {
-        return BylMasterDataStatusManager.getStatusCaption(value);
+        return BylMasterDataStatusManager.getCaption(value);
     }
 }

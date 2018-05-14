@@ -12,7 +12,7 @@ export const enum BylEmployeeStatusEnum {
 
 export class BylEmployeeStatusManager {
 
-    static getStatusCaption(status: number): string {
+    static getCaption(status: number): string {
         switch (status) {
             case BylEmployeeStatusEnum.NORMAL:
                 return '正常';
@@ -27,11 +27,11 @@ export class BylEmployeeStatusManager {
 
     }
 
-    static getStatusArray(): BylIStatusItem[] {
+    static getArray(): BylIStatusItem[] {
         return [
-            {value: BylEmployeeStatusEnum.NORMAL, label: this.getStatusCaption(BylEmployeeStatusEnum.NORMAL)},
-            {value: BylEmployeeStatusEnum.LEAVE, label: this.getStatusCaption(BylEmployeeStatusEnum.LEAVE)},
-            {value: BylEmployeeStatusEnum.LOCKED, label: this.getStatusCaption(BylEmployeeStatusEnum.LOCKED)}
+            {value: BylEmployeeStatusEnum.NORMAL, caption: this.getCaption(BylEmployeeStatusEnum.NORMAL)},
+            {value: BylEmployeeStatusEnum.LEAVE, caption: this.getCaption(BylEmployeeStatusEnum.LEAVE)},
+            {value: BylEmployeeStatusEnum.LOCKED, caption: this.getCaption(BylEmployeeStatusEnum.LOCKED)}
 
         ];
     }

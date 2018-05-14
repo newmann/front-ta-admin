@@ -98,15 +98,15 @@ export class BylBorrowMoneyTicketListCrudComponent extends BylCrudComponentBase<
         //
         // this.businessData.address.countryId = this.addressTreevalue[0].value;
         // this.businessData.address.countryCode = this.addressTreevalue[0].value;
-        // this.businessData.address.countryName = this.addressTreevalue[0].label;
+        // this.businessData.address.countryName = this.addressTreevalue[0].caption;
         //
         // this.businessData.address.provinceId = this.addressTreevalue[1].value;
         // this.businessData.address.provinceCode = this.addressTreevalue[1].value;
-        // this.businessData.address.provinceName = this.addressTreevalue[1].label;
+        // this.businessData.address.provinceName = this.addressTreevalue[1].caption;
         //
         // this.businessData.address.cityId = this.addressTreevalue[2].value;
         // this.businessData.address.cityCode = this.addressTreevalue[2].value;
-        // this.businessData.address.cityName = this.addressTreevalue[2].label;
+        // this.businessData.address.cityName = this.addressTreevalue[2].caption;
         //
         // this.businessData.address.detailAddress = this.detailAddress.value;
         //
@@ -131,13 +131,13 @@ export class BylBorrowMoneyTicketListCrudComponent extends BylCrudComponentBase<
      * 重置界面内容
      */
     reset() {
-        // let country = {value: this.businessData.address.countryCode, label: this.businessData.address.countryName};
+        // let country = {value: this.businessData.address.countryCode, caption: this.businessData.address.countryName};
         // this.addressTreevalue[0] = country;
         //
-        // let province = {value: this.businessData.address.provinceCode, label: this.businessData.address.provinceName};
+        // let province = {value: this.businessData.address.provinceCode, caption: this.businessData.address.provinceName};
         // this.addressTreevalue[1] = province;
         //
-        // let city = {value: this.businessData.address.cityCode, label: this.businessData.address.cityName};
+        // let city = {value: this.businessData.address.cityCode, caption: this.businessData.address.cityName};
         // this.addressTreevalue[2] = city;
         //
         this.form.reset(this.businessData, {onlySelf: true, emitEvent: false});

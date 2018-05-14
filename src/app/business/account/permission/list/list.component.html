@@ -43,7 +43,7 @@
         <!--<div nz-row [nzGutter]="24">-->
             <!--<div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24" class="mb-md">-->
                 <!--<nz-form-item [nzFlex]>-->
-                  <!--<nz-form-label [nzFor]="'qPackageName'">包名类似于</nz-form-label>-->
+                  <!--<nz-form-caption [nzFor]="'qPackageName'">包名类似于</nz-form-caption>-->
                     <!--<nz-form-control>-->
                         <!--<input nz-input [(ngModel)]="qData.packageName" name="qPackageName" [nzSize]="'large'" placeHolder="请输入"-->
                                   <!--id="qPackageName">-->
@@ -52,7 +52,7 @@
             <!--</div>-->
             <!--<div nz-col [nzLg]="6" [nzMd]="8"  [nzSm]="12"  [nzXs]="24"  class="mb-md">-->
                 <!--<nz-form-item [nzFlex]>-->
-                  <!--<nz-form-label [nzFor]="'qModuleName'">模块类似于</nz-form-label>-->
+                  <!--<nz-form-caption [nzFor]="'qModuleName'">模块类似于</nz-form-caption>-->
                     <!--<nz-form-control>-->
                         <!--<input nz-input [(ngModel)]="qData.moduleName" name="qModuleName" [nzSize]="'large'" placeHolder="请输入"-->
                                   <!--id="qModuleName">-->
@@ -62,7 +62,7 @@
             <!--</div>-->
             <!--<div nz-col [nzLg]="6"  [nzMd]="8" [nzSm]="12"  [nzXs]="24"   class="mb-md">-->
                 <!--<nz-form-item [nzFlex]>-->
-                  <!--<nz-form-label [nzFor]="'qAction'">功能类似于</nz-form-label>-->
+                  <!--<nz-form-caption [nzFor]="'qAction'">功能类似于</nz-form-caption>-->
                     <!--<nz-form-control >-->
                         <!--<input nz-input [(ngModel)]="qData.action" name="qAction" [nzSize]="'large'" placeHolder="请输入"-->
                                   <!--id="qAction">-->
@@ -71,7 +71,7 @@
                     <!--&lt;!&ndash;<div nz-form-control class="flex-1">&ndash;&gt;-->
                     <!--&lt;!&ndash;<nz-select [(ngModel)]="qData.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"&ndash;&gt;-->
                     <!--&lt;!&ndash;[nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.label"&ndash;&gt;-->
+                    <!--&lt;!&ndash;<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"&ndash;&gt;-->
                     <!--&lt;!&ndash;[nzValue]="i.value"></nz-option>&ndash;&gt;-->
                     <!--&lt;!&ndash;</nz-select>&ndash;&gt;-->
                     <!--&lt;!&ndash;</div>&ndash;&gt;-->
@@ -80,7 +80,7 @@
 
             <!--&lt;!&ndash;<div *ngIf="expandQuery" nz-col [nzLg]="6"  [nzMd]="8" [nzSm]="12"  [nzXs]="24"  class="mb-md">&ndash;&gt;-->
                 <!--&lt;!&ndash;<div nz-form-item class="d-flex">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div nz-form-label><label for="qModifyDateBegin">最后修改起始日期</label></div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div nz-form-caption><caption for="qModifyDateBegin">最后修改起始日期</caption></div>&ndash;&gt;-->
                     <!--&lt;!&ndash;<div nz-form-control class="flex-1">&ndash;&gt;-->
                         <!--&lt;!&ndash;<nz-datepicker [(ngModel)]="qData.modifyDateBegin" name="'qModifyDateBegin" nzId="'qModifyDateBegin"&ndash;&gt;-->
                                        <!--&lt;!&ndash;[nzSize]="'large'" [nzPlaceHolder]="'起始日期'" class="d-block"></nz-datepicker>&ndash;&gt;-->
@@ -90,7 +90,7 @@
 
             <!--&lt;!&ndash;<div *ngIf="expandQuery" nz-col [nzLg]="6" [nzMd]="8" [nzSm]="12"  [nzXs]="24"   class="mb-md">&ndash;&gt;-->
                 <!--&lt;!&ndash;<div nz-form-item class="d-flex">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div nz-form-label><label for="qModifyDateEnd">最后修改截止日期</label></div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div nz-form-caption><caption for="qModifyDateEnd">最后修改截止日期</caption></div>&ndash;&gt;-->
                     <!--&lt;!&ndash;<div nz-form-control class="flex-1">&ndash;&gt;-->
                         <!--&lt;!&ndash;<nz-datepicker [(ngModel)]="qData.modifyDateEnd" name="qModifyDateEnd" nzId="qModifyDateEnd"&ndash;&gt;-->
                                        <!--&lt;!&ndash;[nzSize]="'large'" [nzPlaceHolder]="'截止日期'" class="d-block"></nz-datepicker>&ndash;&gt;-->

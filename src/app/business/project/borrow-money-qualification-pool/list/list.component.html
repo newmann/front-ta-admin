@@ -34,11 +34,11 @@
         <!--<div nz-row [nzGutter]="24">-->
             <!--<div nz-col [nzSpan]="8" class="mb-md">-->
                 <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-label><label for="qType">类型</label></div>-->
+                    <!--<div nz-form-caption><caption for="qType">类型</caption></div>-->
                     <!--<div nz-form-control class="flex-1">-->
                         <!--<nz-radio-group [(ngModel)]="qData.type"  name="qType" [nzSize]="'large'" nzId="'qType'" >-->
-                            <!--<label nz-radio-button [nzValue]="1"><span>个体</span></label>-->
-                            <!--<label nz-radio-button [nzValue]="2"><span>组织</span></label>-->
+                            <!--<caption nz-radio-button [nzValue]="1"><span>个体</span></caption>-->
+                            <!--<caption nz-radio-button [nzValue]="2"><span>组织</span></caption>-->
                         <!--</nz-radio-group>-->
 
                     <!--</div>-->
@@ -46,7 +46,7 @@
                     <!--&lt;!&ndash;<div nz-form-control class="flex-1">&ndash;&gt;-->
                     <!--&lt;!&ndash;<nz-select [(ngModel)]="qData.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"&ndash;&gt;-->
                     <!--&lt;!&ndash;[nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.label"&ndash;&gt;-->
+                    <!--&lt;!&ndash;<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"&ndash;&gt;-->
                     <!--&lt;!&ndash;[nzValue]="i.value"></nz-option>&ndash;&gt;-->
                     <!--&lt;!&ndash;</nz-select>&ndash;&gt;-->
                     <!--&lt;!&ndash;</div>&ndash;&gt;-->
@@ -54,7 +54,7 @@
             <!--</div>-->
             <!--<div nz-col [nzSpan]="8" class="mb-md">-->
                 <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-label><label for="qCode">代码类似于</label></div>-->
+                    <!--<div nz-form-caption><caption for="qCode">代码类似于</caption></div>-->
                     <!--<div nz-form-control class="flex-1">-->
                         <!--<nz-input [(ngModel)]="qData.code" name="'qCode'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"-->
                                   <!--nzId="'qCode'"></nz-input>-->
@@ -63,7 +63,7 @@
                     <!--&lt;!&ndash;<div nz-form-control class="flex-1">&ndash;&gt;-->
                     <!--&lt;!&ndash;<nz-select [(ngModel)]="qData.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"&ndash;&gt;-->
                     <!--&lt;!&ndash;[nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.label"&ndash;&gt;-->
+                    <!--&lt;!&ndash;<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"&ndash;&gt;-->
                     <!--&lt;!&ndash;[nzValue]="i.value"></nz-option>&ndash;&gt;-->
                     <!--&lt;!&ndash;</nz-select>&ndash;&gt;-->
                     <!--&lt;!&ndash;</div>&ndash;&gt;-->
@@ -71,7 +71,7 @@
             <!--</div>-->
             <!--<div nz-col [nzSpan]="8" class="mb-md">-->
                 <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-label><label for="qName">姓名类似于</label></div>-->
+                    <!--<div nz-form-caption><caption for="qName">姓名类似于</caption></div>-->
                     <!--<div nz-form-control class="flex-1">-->
                         <!--<nz-input [(ngModel)]="qData.name" name="'qName'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"-->
                                   <!--nzId="'qName'"></nz-input>-->
@@ -81,7 +81,7 @@
 
             <!--<div *ngIf="expandQuery" nz-col [nzSpan]="8" class="mb-md">-->
                 <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-label><label for="qModifyDateBegin">最后修改起始日期</label></div>-->
+                    <!--<div nz-form-caption><caption for="qModifyDateBegin">最后修改起始日期</caption></div>-->
                     <!--<div nz-form-control class="flex-1">-->
                         <!--<nz-datepicker [(ngModel)]="qData.modifyDateBegin" name="'qModifyDateBegin" nzId="'qModifyDateBegin"-->
                                        <!--[nzSize]="'large'" [nzPlaceHolder]="'起始日期'" class="d-block"></nz-datepicker>-->
@@ -91,7 +91,7 @@
 
             <!--<div *ngIf="expandQuery" nz-col [nzSpan]="8" class="mb-md">-->
                 <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-label><label for="qModifyDateEnd">最后修改截止日期</label></div>-->
+                    <!--<div nz-form-caption><caption for="qModifyDateEnd">最后修改截止日期</caption></div>-->
                     <!--<div nz-form-control class="flex-1">-->
                         <!--<nz-datepicker [(ngModel)]="qData.modifyDateEnd" name="qModifyDateEnd" nzId="qModifyDateEnd"-->
                                        <!--[nzSize]="'large'" [nzPlaceHolder]="'截止日期'" class="d-block"></nz-datepicker>-->
@@ -119,8 +119,8 @@
         <thead >
         <tr>
             <!--<th  [nzCheckbox]="true">-->
-            <!--<label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
-            <!--(ngModelChange)="checkAll($event)"></label>-->
+            <!--<caption nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
+            <!--(ngModelChange)="checkAll($event)"></caption>-->
             <!--</th>-->
             <th ><span>类型</span></th>
             <th ><span>代码</span></th>
@@ -137,9 +137,9 @@
         <tbody >
         <tr  *ngFor="let i of nzTable.data">
             <!--<td  [nzCheckbox]="true">-->
-            <!--<label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
+            <!--<caption nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
             <!--(ngModelChange)="refreshStatus($event)">-->
-            <!--</label>-->
+            <!--</caption>-->
             <!--</td>-->
             <td >{{i.item.type}}</td>
 

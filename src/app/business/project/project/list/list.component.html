@@ -26,7 +26,7 @@
         <!--<div nz-row [nzGutter]="24">-->
             <!--<div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24"  class="mb-md">-->
                 <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-label><label for="code">代码类似于</label></div>-->
+                    <!--<div nz-form-caption><caption for="code">代码类似于</caption></div>-->
                     <!--<div nz-form-control class="flex-1">-->
                         <!--<nz-input [(ngModel)]="qData.code" name="code" nzId = "code" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"-->
                                   <!--&gt;</nz-input>-->
@@ -35,7 +35,7 @@
             <!--</div>-->
             <!--<div nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24" class="mb-md">-->
                 <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-label><label for="name">名称类似于</label></div>-->
+                    <!--<div nz-form-caption><caption for="name">名称类似于</caption></div>-->
                     <!--<div nz-form-control class="flex-1">-->
                         <!--<nz-input [(ngModel)]="qData.name" name="name" nzId = "name" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"-->
                                   <!--&gt;</nz-input>-->
@@ -44,7 +44,7 @@
                     <!--&lt;!&ndash;<div nz-form-control class="flex-1">&ndash;&gt;-->
                     <!--&lt;!&ndash;<nz-select [(ngModel)]="qData.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"&ndash;&gt;-->
                     <!--&lt;!&ndash;[nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.label"&ndash;&gt;-->
+                    <!--&lt;!&ndash;<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"&ndash;&gt;-->
                     <!--&lt;!&ndash;[nzValue]="i.value"></nz-option>&ndash;&gt;-->
                     <!--&lt;!&ndash;</nz-select>&ndash;&gt;-->
                     <!--&lt;!&ndash;</div>&ndash;&gt;-->
@@ -54,7 +54,7 @@
 
             <!--<div *ngIf="expandQuery" nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24"  class="mb-md">-->
                 <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-label><label for="modifyDateBegin">最后修改起始日期</label></div>-->
+                    <!--<div nz-form-caption><caption for="modifyDateBegin">最后修改起始日期</caption></div>-->
                     <!--<div nz-form-control class="flex-1">-->
                         <!--<nz-datepicker [(ngModel)]="qData.modifyDateBegin" name="modifyDateBegin" nzId = "modifyDateBegin"-->
                                        <!--[nzSize]="'large'"  class="d-block"></nz-datepicker>-->
@@ -64,7 +64,7 @@
 
             <!--<div *ngIf="expandQuery" nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24"  class="mb-md">-->
                 <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-label><label for="modifyDateEnd">最后修改截止日期</label></div>-->
+                    <!--<div nz-form-caption><caption for="modifyDateEnd">最后修改截止日期</caption></div>-->
                     <!--<div nz-form-control class="flex-1">-->
                         <!--<nz-datepicker [(ngModel)]="qData.modifyDateEnd" name="modifyDateEnd" nzId = "modifyDateEnd"-->
                                        <!--[nzSize]="'large'" class="d-block"></nz-datepicker>-->
@@ -74,11 +74,11 @@
 
             <!--<div *ngIf="expandQuery" nz-col [nzLg]="6" [nzMd]="8" [nzSm]="16" [nzXs]="24" class="mb-md">-->
                 <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-label><label for="status">项目状态</label></div>-->
+                    <!--<div nz-form-caption><caption for="status">项目状态</caption></div>-->
                     <!--<div nz-form-control class="flex-1">-->
                         <!--<nz-select [(ngModel)]="qData.status" name="status" nzId = "status" [nzPlaceHolder]="'请选择'"-->
                                    <!--[nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">-->
-                            <!--<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.label"-->
+                            <!--<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"-->
                                        <!--[nzValue]="i.value"></nz-option>-->
                         <!--</nz-select>-->
                     <!--</div>-->
@@ -111,8 +111,8 @@
         <thead >
         <tr>
             <!--<th  [nzCheckbox]="true">-->
-            <!--<label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
-            <!--(ngModelChange)="checkAll($event)"></label>-->
+            <!--<caption nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
+            <!--(ngModelChange)="checkAll($event)"></caption>-->
             <!--</th>-->
             <th ><span>代码</span></th>
             <th ><span>名称</span></th>
@@ -123,7 +123,7 @@
                 <!--<i class="anticon anticon-filter" nz-dropdown></i>-->
                 <!--<ul nz-menu>-->
                 <!--<li nz-menu-item *ngFor="let i of statusList">-->
-                <!--<label nz-checkbox [(ngModel)]="i.value"><span>{{i.label}}</span></label>-->
+                <!--<caption nz-checkbox [(ngModel)]="i.value"><span>{{i.caption}}</span></caption>-->
                 <!--</li>-->
                 <!--</ul>-->
                 <!--<div nz-table-filter>-->
@@ -156,9 +156,9 @@
         <tbody >
         <tr  *ngFor="let i of nzTable.data">
             <!--<td  [nzCheckbox]="true">-->
-            <!--<label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
+            <!--<caption nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
             <!--(ngModelChange)="refreshStatus($event)">-->
-            <!--</label>-->
+            <!--</caption>-->
             <!--</td>-->
             <td >{{i.item.code}}</td>
             <td >{{i.item.name}}</td>

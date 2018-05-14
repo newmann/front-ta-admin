@@ -41,7 +41,7 @@ export class BylWorkTypeListComponent extends BylListComponentBasePro<BylWorkTyp
         this.crudUrl = '/project/work-type/crud';
         // this.businessCrudComponent = BylPersonCrudComponent;
 
-        this.statusList = BylMasterDataStatusManager.getStatusArray();
+        this.statusList = BylMasterDataStatusManager.getArray();
         this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
     }
 
@@ -130,7 +130,7 @@ export class BylWorkTypeListComponent extends BylListComponentBasePro<BylWorkTyp
     }
 
     getStatusCaption(status: number): string {
-        return BylMasterDataStatusManager.getStatusCaption(status);
+        return BylMasterDataStatusManager.getCaption(status);
     }
 
     /**

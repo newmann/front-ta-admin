@@ -18,7 +18,7 @@ export const enum BylExpenseTicketStatusEnum {
 
 export class BylExpenseTicketStatusManager {
 
-    static getStatusCaption(status: number): string {
+    static getCaption(status: number): string {
         switch (status) {
             case BylExpenseTicketStatusEnum.UNSUBMITED:
                 return '未提交';
@@ -48,18 +48,18 @@ export class BylExpenseTicketStatusManager {
 
     }
 
-    static getStatusArray(): BylIStatusItem[] {
+    static getArray(): BylIStatusItem[] {
         return [
-            {value: BylExpenseTicketStatusEnum.UNSUBMITED, label: this.getStatusCaption(BylExpenseTicketStatusEnum.UNSUBMITED)},
-            {value: BylExpenseTicketStatusEnum.SUBMITED, label: this.getStatusCaption(BylExpenseTicketStatusEnum.SUBMITED)},
-            {value: BylExpenseTicketStatusEnum.CHECKED, label: this.getStatusCaption(BylExpenseTicketStatusEnum.CHECKED)},
-            // {value: BylExpenseTicketStatusEnum.CONFIRMED, label: this.getStatusCaption(BylExpenseTicketStatusEnum.CONFIRMED)},
-            {value: BylExpenseTicketStatusEnum.SETTLED, label: this.getStatusCaption(BylExpenseTicketStatusEnum.SETTLED)},
-            {value: BylExpenseTicketStatusEnum.DELETED, label: this.getStatusCaption(BylExpenseTicketStatusEnum.DELETED)},
-            {value: BylExpenseTicketStatusEnum.SUBMITED_DELETED, label: this.getStatusCaption(BylExpenseTicketStatusEnum.SUBMITED_DELETED)},
-            {value: BylExpenseTicketStatusEnum.CHECKED_DELETED, label: this.getStatusCaption(BylExpenseTicketStatusEnum.CHECKED_DELETED)},
-            // {value: BylExpenseTicketStatusEnum.COMFIRMED_DELETED, label: this.getStatusCaption(BylExpenseTicketStatusEnum.COMFIRMED_DELETED)}
-            {value: BylExpenseTicketStatusEnum.SETTLEED_DELETED, label: this.getStatusCaption(BylExpenseTicketStatusEnum.SETTLEED_DELETED)}
+            {value: BylExpenseTicketStatusEnum.UNSUBMITED, caption: this.getCaption(BylExpenseTicketStatusEnum.UNSUBMITED)},
+            {value: BylExpenseTicketStatusEnum.SUBMITED, caption: this.getCaption(BylExpenseTicketStatusEnum.SUBMITED)},
+            {value: BylExpenseTicketStatusEnum.CHECKED, caption: this.getCaption(BylExpenseTicketStatusEnum.CHECKED)},
+            // {value: BylExpenseTicketStatusEnum.CONFIRMED, caption: this.getCaption(BylExpenseTicketStatusEnum.CONFIRMED)},
+            {value: BylExpenseTicketStatusEnum.SETTLED, caption: this.getCaption(BylExpenseTicketStatusEnum.SETTLED)},
+            {value: BylExpenseTicketStatusEnum.DELETED, caption: this.getCaption(BylExpenseTicketStatusEnum.DELETED)},
+            {value: BylExpenseTicketStatusEnum.SUBMITED_DELETED, caption: this.getCaption(BylExpenseTicketStatusEnum.SUBMITED_DELETED)},
+            {value: BylExpenseTicketStatusEnum.CHECKED_DELETED, caption: this.getCaption(BylExpenseTicketStatusEnum.CHECKED_DELETED)},
+            // {value: BylExpenseTicketStatusEnum.COMFIRMED_DELETED, caption: this.getCaption(BylExpenseTicketStatusEnum.COMFIRMED_DELETED)}
+            {value: BylExpenseTicketStatusEnum.SETTLEED_DELETED, caption: this.getCaption(BylExpenseTicketStatusEnum.SETTLEED_DELETED)}
         ];
     }
 }

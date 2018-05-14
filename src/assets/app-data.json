@@ -182,6 +182,20 @@
           "i18n": "borrow_money_ticket_new"
         }
         ]
+      },{
+        "text": "工种设置",
+        "i18n": "work-type",
+        "icon": "icon-speedometer",
+        "children": [{
+          "text": "工种管理",
+          "link": "/project/work-type/list",
+          "i18n": "work_type_list"
+        },{
+          "text": "工种新增",
+          "link": "/project/work-type/crud/new",
+          "i18n": "work_type_new"
+        }
+        ]
       }]
     }, {
       "text": "快捷菜单",

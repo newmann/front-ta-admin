@@ -9,6 +9,6 @@ import {BylProjectStatusManager} from "../model/project-status.enum";
 @Pipe({name: 'bylProjectStatus'})
 export class BylProjectStatusPipe implements PipeTransform {
     transform(value: number): string {
-        return BylProjectStatusManager.getStatusCaption(value);
+        return BylProjectStatusManager.getCaption(value);
     }
 }

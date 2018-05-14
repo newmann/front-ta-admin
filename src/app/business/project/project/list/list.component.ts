@@ -71,7 +71,7 @@ export class BylProjectListComponent extends BylListComponentBase<BylProject> {
         this.businessService = projectService;
         this.crudUrl = '/project/project/crud';
 
-        this.statusList = BylProjectStatusManager.getStatusArray();
+        this.statusList = BylProjectStatusManager.getArray();
         this.querySchema.properties['status'].enum.push(...this.statusList);
 
         // this.defineQueryForm();

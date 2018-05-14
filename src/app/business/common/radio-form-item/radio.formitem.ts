@@ -1,5 +1,6 @@
 import {Component, forwardRef, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormGroup} from '@angular/forms';
+import {BylSelectOption} from "../select-option";
 
 
 // const noop = () => {
@@ -7,7 +8,8 @@ import {FormGroup} from '@angular/forms';
 
 @Component({
     selector: 'byl-radio-formitem',
-    templateUrl: './radio.formitem.html'
+    templateUrl: './radio.formitem.html',
+    preserveWhitespaces: false
 })
 export class BylRadioWidgetComponent /*implements ControlValueAccessor */ {
     @Input() public controlName: string;
@@ -17,7 +19,7 @@ export class BylRadioWidgetComponent /*implements ControlValueAccessor */ {
     @Input() public controlPath: string;
     @Input() public isRequired: boolean;
     @Input() public validatedExtraInfo: string;
-    @Input() public selectOptions: Array<any>;
+    @Input() public selectOptions: Array<BylSelectOption>;
 
     get inputControl() {
         return this.hostForm.get(this.controlPath);

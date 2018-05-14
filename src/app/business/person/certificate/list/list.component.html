@@ -10,8 +10,8 @@
         <thead >
         <tr>
             <!--<th  [nzCheckbox]="true">-->
-            <!--<label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
-            <!--(ngModelChange)="checkAll($event)"></label>-->
+            <!--<caption nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
+            <!--(ngModelChange)="checkAll($event)"></caption>-->
             <!--</th>-->
             <th ><span>类型</span></th>
             <th ><span>证件编号</span></th>
@@ -30,9 +30,9 @@
         <tbody >
         <tr  *ngFor="let i of nzTable.data">
             <!--<td  [nzCheckbox]="true">-->
-            <!--<label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
+            <!--<caption nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
             <!--(ngModelChange)="refreshStatus($event)">-->
-            <!--</label>-->
+            <!--</caption>-->
             <!--</td>-->
             <td >{{i.item.type}}</td>
             <td >{{i.item.code}}</td>

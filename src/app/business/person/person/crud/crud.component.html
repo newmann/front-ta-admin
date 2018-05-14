@@ -7,15 +7,15 @@
                                    [hostForm]="form" [controlPath]="'idCard'" [isRequired]="'true'"
                                    [placeHolder]="'请输入身份证号码'"></byl-input-formitem>
                <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="idCard" nz-form-item-required>-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="idCard" nz-form-item-required>-->
                                     <!--<span>-->
                                         <!--身份证号码：-->
                                         <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
                                         <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
                                         <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="idCard">-->
                             <!--<nz-input formControlName="idCard" nzPlaceHolder="身份证号码" ></nz-input>-->
@@ -35,15 +35,15 @@
                                    [hostForm]="form" [controlPath]="'name'" [isRequired]="'true'"
                                    [placeHolder]="'请输入姓名'"></byl-input-formitem>
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="name" nz-form-item-required>-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="name" nz-form-item-required>-->
                                     <!--<span>-->
                                         <!--姓名-->
                                         <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
                                         <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
                                         <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="name">-->
                             <!--<nz-input formControlName="name" nzPlaceHolder="姓名" ></nz-input>-->
@@ -60,22 +60,22 @@
                                    [selectOptions]="genderOptions"></byl-radio-formitem>
 
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="gender" nz-form-item-required>-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="gender" nz-form-item-required>-->
                                     <!--<span>-->
                                         <!--性别-->
                                         <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
                                         <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
                                         <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="gender">-->
 
                             <!--<nz-radio-group formControlName="gender" >-->
-                              <!--<label nz-radio-button [nzValue]="1"><span>男</span></label>-->
-                              <!--<label nz-radio-button [nzValue]="-1"><span>女</span></label>-->
-                              <!--<label nz-radio-button [nzValue]="0"><span>未知</span></label>-->
+                              <!--<caption nz-radio-button [nzValue]="1"><span>男</span></caption>-->
+                              <!--<caption nz-radio-button [nzValue]="-1"><span>女</span></caption>-->
+                              <!--<caption nz-radio-button [nzValue]="0"><span>未知</span></caption>-->
                             <!--</nz-radio-group>-->
                             <!--<ng-container *ngIf="gender.dirty && gender.touched">-->
                                 <!--<p nz-form-explain *ngIf="gender.errors?.required">必须选择性别</p>-->
@@ -83,12 +83,12 @@
                         <!--</div>-->
                     <!--</div>-->
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="birthYear" >-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="birthYear" >-->
                                     <!--<span>-->
                                         <!--出生年份-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="birthYear">-->
                             <!--<nz-input formControlName="birthYear" nzPlaceHolder="出生年份" ></nz-input>-->
@@ -100,12 +100,12 @@
                         <!--</div>-->
                     <!--</div>-->
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="birthMonth" >-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="birthMonth" >-->
                                     <!--<span>-->
                                         <!--出生月份-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="birthMonth">-->
                             <!--<nz-input formControlName="birthMonth" nzPlaceHolder="出生月份" ></nz-input>-->
@@ -117,12 +117,12 @@
                         <!--</div>-->
                     <!--</div>-->
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="birthDay" >-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="birthDay" >-->
                                     <!--<span>-->
                                         <!--出生日-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="birthDay">-->
                             <!--<nz-input formControlName="birthDay" nzPlaceHolder="出生日" ></nz-input>-->
@@ -139,15 +139,15 @@
                                     [selectOptions]="nationOptions" ></byl-select-formitem>
 
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="nation" >-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="nation" >-->
                                     <!--<span>-->
                                         <!--民族-->
                                         <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
                                         <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
                                         <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback>-->
                             <!--<nz-select formControlName="nation" [nzPlaceHolder]="'请选择所属民族'" nzAllowClear>-->
@@ -168,15 +168,15 @@
                                     [placeHolder]="'请选择政治面貌'" [selectMode]="'default'"
                                     [selectOptions]="politicalOptions" ></byl-select-formitem>
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="politicalStatus" >-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="politicalStatus" >-->
                                     <!--<span>-->
                                         <!--政治面貌-->
                                         <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
                                         <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
                                         <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback >-->
                             <!--<nz-select  formControlName="politicalStatus" nzAllowClear [nzPlaceHolder]="'选择政治面貌'">-->
@@ -194,15 +194,15 @@
                                    [hostForm]="form" [controlPath]="'nativePlace'" [isRequired]="'false'"
                                    [placeHolder]="'籍贯'"></byl-input-formitem>
                     <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-label nz-col [nzSm]="4">-->
-                            <!--<label for="nativePlace" >-->
+                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
+                            <!--<caption for="nativePlace" >-->
                                     <!--<span>-->
                                         <!--籍贯-->
                                         <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
                                         <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
                                         <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
                                     <!--</span>-->
-                            <!--</label>-->
+                            <!--</caption>-->
                         <!--</div>-->
                         <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="nativePlace">-->
                             <!--<nz-input formControlName="nativePlace" nzPlaceHolder="籍贯" ></nz-input>-->

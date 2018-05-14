@@ -42,8 +42,10 @@ export class BylStartupService {
             if (token.token) {
                 if (!token.isExpired(0)) {
                     zip(
-                        this.cacheService.get(SETTING_LANG),
-                        this.cacheService.get(SETTING_APP)
+                        this.httpClient.get(SETTING_LANG),
+                        this.httpClient.get(SETTING_APP),
+                        // this.cacheService.get(SETTING_LANG,{mode:"promise", type: "m"}),
+                        // this.cacheService.get(SETTING_APP,{mode:"promise", type: "m"})
                     ).pipe(
                         // 接收其他拦截器后产生的异常消息
                         catchError(([langData, appData]) => {

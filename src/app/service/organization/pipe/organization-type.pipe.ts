@@ -10,6 +10,6 @@ import {BylOrganizationTypeManager} from "../model/organization-type.enum";
 @Pipe({name: 'bylOrganizationType'})
 export class BylOrganizationTypePipe implements PipeTransform {
     transform(value: number): string {
-        return BylOrganizationTypeManager.getStatusCaption(value);
+        return BylOrganizationTypeManager.getCaption(value);
     }
 }

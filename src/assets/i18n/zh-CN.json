@@ -64,5 +64,9 @@
   "pro-user": "账户",
   "pro-login": "登录",
   "pro-register": "注册",
-  "pro-register-result": "注册结果"
+  "pro-register-result": "注册结果",
+
+  "work-type": "工种设置",
+  "work_type_list": "工种管理",
+  "work_type_new": "工种新增"
 }

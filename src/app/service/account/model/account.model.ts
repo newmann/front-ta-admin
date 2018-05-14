@@ -25,7 +25,7 @@ export class BylAccount extends BylBaseModel {
     roleList: Set<BylRole>;
 
     get statusCaption(): string{
-        return BylMasterDataStatusManager.getStatusCaption(this.status);
+        return BylMasterDataStatusManager.getCaption(this.status);
     }
 
     get modifyDateTimeStr(): string{

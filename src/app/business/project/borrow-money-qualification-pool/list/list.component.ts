@@ -36,7 +36,7 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
         this.businessService = borrowMoneyQualificationPoolService;
         this.crudUrl = '';
 
-        this.businessEntityType = BylBusinessEntityTypeManager.getStatusArray();
+        this.businessEntityType = BylBusinessEntityTypeManager.getArray();
         this.querySchema.properties['type'].enum.push(...this.businessEntityType); //设置查询条件中的类型字段
         // this.businessCrudComponent = BylPersonCrudComponent;
     }

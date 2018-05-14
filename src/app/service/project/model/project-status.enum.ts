@@ -16,7 +16,7 @@ export const enum BylProjectStatusEnum {
 
 export class BylProjectStatusManager {
 
-    static getStatusCaption(status: number): string {
+    static getCaption(status: number): string {
         switch (status) {
             case BylProjectStatusEnum.UNSUBMITED:
                 return '未提交';
@@ -39,15 +39,15 @@ export class BylProjectStatusManager {
 
     }
 
-    static getStatusArray(): BylIStatusItem[] {
+    static getArray(): BylIStatusItem[] {
         return [
-            {value: BylProjectStatusEnum.UNSUBMITED, label: this.getStatusCaption(BylProjectStatusEnum.UNSUBMITED)},
-            {value: BylProjectStatusEnum.SUBMITED, label: this.getStatusCaption(BylProjectStatusEnum.SUBMITED)},
-            {value: BylProjectStatusEnum.RUNNING, label: this.getStatusCaption(BylProjectStatusEnum.RUNNING)},
-            {value: BylProjectStatusEnum.ACHIEVEMENT, label: this.getStatusCaption(BylProjectStatusEnum.ACHIEVEMENT)},
-            {value: BylProjectStatusEnum.DELETED, label: this.getStatusCaption(BylProjectStatusEnum.DELETED)},
-            {value: BylProjectStatusEnum.SUBMITED_DELETED, label: this.getStatusCaption(BylProjectStatusEnum.SUBMITED_DELETED)},
-            {value: BylProjectStatusEnum.RUNNING_DELETED, label: this.getStatusCaption(BylProjectStatusEnum.RUNNING_DELETED)}
+            {value: BylProjectStatusEnum.UNSUBMITED, caption: this.getCaption(BylProjectStatusEnum.UNSUBMITED)},
+            {value: BylProjectStatusEnum.SUBMITED, caption: this.getCaption(BylProjectStatusEnum.SUBMITED)},
+            {value: BylProjectStatusEnum.RUNNING, caption: this.getCaption(BylProjectStatusEnum.RUNNING)},
+            {value: BylProjectStatusEnum.ACHIEVEMENT, caption: this.getCaption(BylProjectStatusEnum.ACHIEVEMENT)},
+            {value: BylProjectStatusEnum.DELETED, caption: this.getCaption(BylProjectStatusEnum.DELETED)},
+            {value: BylProjectStatusEnum.SUBMITED_DELETED, caption: this.getCaption(BylProjectStatusEnum.SUBMITED_DELETED)},
+            {value: BylProjectStatusEnum.RUNNING_DELETED, caption: this.getCaption(BylProjectStatusEnum.RUNNING_DELETED)}
         ];
     }
 }
