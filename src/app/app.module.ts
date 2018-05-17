@@ -32,12 +32,13 @@ import { NgxTinymceModule } from 'ngx-tinymce';
 import { JsonSchemaModule } from '@shared/json-schema/json-schema.module';
 import {BylBusinessSharedModule} from './business/business-shared.module';
 import {BylStartupService} from './service/startup/startup.service';
+import {BylFrameModule} from "./frame/frame.module";
 
 
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http, `assets/i18n/`, '.json');
+    return new TranslateHttpLoader(http, `assets/tpm/i18n/`, '.json');
 }
 
 export function StartupServiceFactory(startupService: StartupService): Function {
@@ -61,6 +62,7 @@ export function BylStartupServiceFactory(startupService: BylStartupService): Fun
         BylServiceModule, // 自定义服务模块
         SharedModule,
         LayoutModule,
+        BylFrameModule,
         BylBusinessModule,
         BylBusinessSharedModule,
         // i18n
@@ -74,13 +76,24 @@ export function BylStartupServiceFactory(startupService: BylStartupService): Fun
         // thirds
         UEditorModule.forRoot({
             // **注：** 建议使用本地路径；以下为了减少 ng-alain 脚手架的包体大小引用了CDN，可能会有部分功能受影响
-            // 指定ueditor.js路径目录
-            path: '//apps.bdimg.com/libs/ueditor/1.4.3.1/',
-            // 默认全局配置项
+            js: [
+                `//apps.bdimg.com/libs/ueditor/1.4.3.1/ueditor.config.js`,
+                `//apps.bdimg.com/libs/ueditor/1.4.3.1/ueditor.all.min.js`,
+            ],
             options: {
-                themePath: '//apps.bdimg.com/libs/ueditor/1.4.3.1/themes/'
-            }
+                UEDITOR_HOME_URL: `//apps.bdimg.com/libs/ueditor/1.4.3.1/`,
+            },
         }),
+
+        // UEditorModule.forRoot({
+        //     // **注：** 建议使用本地路径；以下为了减少 ng-alain 脚手架的包体大小引用了CDN，可能会有部分功能受影响
+        //     // 指定ueditor.js路径目录
+        //     path: '//apps.bdimg.com/libs/ueditor/1.4.3.1/',
+        //     // 默认全局配置项
+        //     options: {
+        //         themePath: '//apps.bdimg.com/libs/ueditor/1.4.3.1/themes/'
+        //     }
+        // }),
         NgxTinymceModule.forRoot({
             baseURL: '//cdn.bootcss.com/tinymce/4.7.4/'
         }),

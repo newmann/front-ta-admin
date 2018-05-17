@@ -18,9 +18,7 @@ import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
 
-@NgModule({
-  imports: [SharedModule, RouteRoutingModule],
-  declarations: [
+const COMPONENTS = [
     DashboardV1Component,
     DashboardAnalysisComponent,
     DashboardMonitorComponent,
@@ -34,7 +32,13 @@ import { Exception500Component } from './exception/500.component';
     CallbackComponent,
     Exception403Component,
     Exception404Component,
-    Exception500Component,
-  ],
+  Exception500Component
+];
+const COMPONENTS_NOROUNT = [];
+
+@NgModule({
+  imports: [SharedModule, RouteRoutingModule],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
+  entryComponents: COMPONENTS_NOROUNT
 })
 export class RoutesModule {}

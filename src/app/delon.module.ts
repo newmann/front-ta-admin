@@ -22,7 +22,8 @@ import { DelonUtilModule } from '@delon/util';
 import { DelonMockModule } from '@delon/mock';
 import * as MOCKDATA from '../../_mock';
 import { environment } from '@env/environment';
-const MOCKMODULE = true ? [DelonMockModule.forRoot({ data: MOCKDATA })] : [];
+const MOCKMODULE = !environment.production ? [DelonMockModule.forRoot({ data: MOCKDATA })] : [];
+// const MOCKMODULE = true ? [DelonMockModule.forRoot({ data: MOCKDATA })] : [];
 
 // region: global config functions
 
@@ -67,6 +68,7 @@ export class DelonModule {
     return {
       ngModule: DelonModule,
       providers: [
+          // TIPS：若不需要路由复用需要移除以下代码及模板`<reuse-tab></reuse-tab>`
         {
           provide: RouteReuseStrategy,
           useClass: ReuseTabStrategy,

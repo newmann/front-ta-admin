@@ -16,7 +16,7 @@ import {LayoutPassportComponent} from "../layout/passport/passport.component";
 import {LayoutDefaultComponent} from "../layout/default/default.component";
 import {LayoutFullScreenComponent} from "../layout/fullscreen/fullscreen.component";
 import {DashboardV1Component} from "../routes/dashboard/v1/v1.component";
-import {LayoutMobileComponent} from '../layout/mobile/mobile.component';
+import {LayoutMobileComponent} from '../frame/mobile/mobile.component';
 import {BylRouterGuardService} from '../service/router/router-guard.service';
 import {UserLockComponent} from "../routes/passport/lock/lock.component";
 import {BylDashboardWorkplaceComponent} from "./dashboard/workplace/workplace.component";

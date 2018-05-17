@@ -116,7 +116,7 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
         //     // },
         //     footer: false,
         //     componentParams: {
-        //         sourceId: id
+        //         _sourceId: id
         //     },
         //     maskClosable: false
         // });

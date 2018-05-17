@@ -54,3 +54,18 @@ export function removeMobileTag(url: string): string{
         return url;
     }
 }
+
+export function isEmpty(value: undefined | null | string ): boolean {
+    if (typeof(value) === 'undefined') return true;
+
+    if ( value === null) return true;
+
+    if (value.length === 0) return true;
+
+    return false;
+
+}
+
+export function isNotEmpty(value: undefined | null | string ): boolean {
+    return !(isEmpty(value));
+}

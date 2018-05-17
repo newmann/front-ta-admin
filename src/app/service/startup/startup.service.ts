@@ -10,8 +10,8 @@ import {I18NService} from '@core/i18n/i18n.service';
 import {DA_SERVICE_TOKEN, ITokenModel, ITokenService, JWTTokenModel} from '@delon/auth';
 import {CacheService} from '@delon/cache';
 
-const SETTING_LANG = 'assets/i18n/zh-CN.json';
-const SETTING_APP = 'assets/app-data.json';
+const SETTING_LANG = 'assets/tmp/i18n/zh-CN.json';
+const SETTING_APP = 'assets/tmp/app-data.json';
 
 /**
  * 用于应用启动时

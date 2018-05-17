@@ -38,7 +38,7 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
     public selectedPoliticalStatus: BylPoliticalStatus;
 
     get genderOptions(){
-        return BylGenderEnumManager.getArray();   
+        return BylGenderEnumManager.getArray();
     } ;
 
     get nationOptions() {
@@ -67,7 +67,7 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
 
     // public form: FormGroup;
 
-    // private sourceId: string;
+    // private _sourceId: string;
     @Input()
     set setSourceId(value: string) {
         this.sourceId = value;
@@ -153,9 +153,9 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
         );
 
         // //在从list窗口调入的情况下，载入数据
-        // console.info('sourceId', this.sourceId);
-        // if (this.sourceId) {
-        //     this.loadData(this.sourceId);
+        // console.info('_sourceId', this._sourceId);
+        // if (this._sourceId) {
+        //     this.loadData(this._sourceId);
         // } else {
         //     //界面显示
         //     this.reset();

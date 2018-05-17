@@ -11,9 +11,10 @@ import {
   HttpResponse,
   HttpUserEvent,
 } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { Observable, of, throwError } from 'rxjs';
+// import { Observable } from 'rxjs/Observable';
+// import { of } from 'rxjs/observable/of';
+// import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { mergeMap, catchError } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';

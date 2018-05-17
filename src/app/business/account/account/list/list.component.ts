@@ -239,4 +239,12 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
         }
 
     }
+
+    batchDelete(){
+
+    };
+
+    batchApproval(){
+
+    }
 }

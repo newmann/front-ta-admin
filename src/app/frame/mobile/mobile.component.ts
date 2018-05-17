@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
     styleUrls: ['./mobile.component.less']
 })
 export class LayoutMobileComponent {
+    isFetching: boolean; //todo 什么用？
+
     links = [
         {
             title: '帮助',

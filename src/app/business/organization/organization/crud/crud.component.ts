@@ -32,7 +32,7 @@ export class BylOrganizationCrudComponent extends BylCrudComponentBase<BylOrgani
 
     // public form: FormGroup;
 
-    // private sourceId: string;
+    // private _sourceId: string;
     @Input()
     set setSourceId(value: string) {
         this.sourceId = value;
@@ -87,14 +87,16 @@ export class BylOrganizationCrudComponent extends BylCrudComponentBase<BylOrgani
         this.businessService = organizationService;
 
     }
+    searchLegalPerson(){
 
+    }
     // ngOnInit(): void {
     //     super.ngOnInit();
     //
     //     //在从list窗口调入的情况下，载入数据
-    //     console.info('sourceId', this.sourceId);
-    //     if (this.sourceId) {
-    //         this.loadData(this.sourceId);
+    //     console.info('_sourceId', this._sourceId);
+    //     if (this._sourceId) {
+    //         this.loadData(this._sourceId);
     //     } else {
     //         //界面显示
     //         this.reset();

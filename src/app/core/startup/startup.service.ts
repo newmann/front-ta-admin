@@ -1,7 +1,7 @@
 import { Injectable, Injector, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { zip } from 'rxjs/observable/zip';
+import { zip } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {
   MenuService,
@@ -35,8 +35,8 @@ export class StartupService {
     // https://github.com/angular/angular/issues/15088
     return new Promise((resolve, reject) => {
       zip(
-        this.httpClient.get(`assets/i18n/${this.i18n.defaultLang}.json`),
-        this.httpClient.get('assets/app-data.json'),
+        this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`),
+        this.httpClient.get('assets/tmp/app-data.json'),
       )
         .pipe(
           // 接收其他拦截器后产生的异常消息

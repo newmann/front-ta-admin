@@ -7,8 +7,8 @@ import {CustomStompRService} from 'app/service/chat/custom.stomp.r.service';
 import {BYL_API_URL_LOGIN} from 'app/service/constant/backend-url.constant';
 import {BylConfigService} from "./constant/config.service";
 import {BylRoleService} from "./account/service/role.service";
-import { LOGGER_SERVICE_PROVIDER } from './utils/logger/logger.service';
-import { BYL_LOGGER_STATE } from './utils/logger';
+// import { LOGGER_SERVICE_PROVIDER } from './utils/logger/logger.service';
+// import { BYL_LOGGER_STATE } from './utils/logger';
 import {BylDepartmentService} from "./account/service/department.service";
 import {BylRouterGuardService} from './router/router-guard.service';
 import {BylPersonService} from "./person/service/person.service";
@@ -82,8 +82,8 @@ import {BylEmployeeService} from "./project/service/employee.service";
             provide: BYL_API_URL_LOGIN,
             useValue: '/api/auth/login'
         },
-        { provide: BYL_LOGGER_STATE, useValue: true },
-        LOGGER_SERVICE_PROVIDER,
+        // { provide: BYL_LOGGER_STATE, useValue: true },
+        // LOGGER_SERVICE_PROVIDER,
         BylRouterGuardService
     ]
 })

@@ -115,9 +115,9 @@
         <nz-tab [nzDisabled]="!sourceId" nzTitle="权限">
             <!--<ng-template #nzTabHeading>权限</ng-template>-->
             <byl-permission-item-list [masterId]="sourceId"
-                                      [findAvailablePoolsService]="workTypeService"
-                                      [savePermissionRelationService]="workTypeService"
-                                      [findEntityPermissionService] = "workTypeService"  >
+                                      [findAvailablePoolsService]="accountService"
+                                      [savePermissionRelationService]="accountService"
+                                      [findEntityPermissionService] = "accountService"  >
 
             </byl-permission-item-list>
         </nz-tab>

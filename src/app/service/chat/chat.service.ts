@@ -10,7 +10,7 @@ import { StompConfig, StompRService, StompState } from '@stomp/ng2-stompjs';
 import { CustomStompRService } from './custom.stomp.r.service';
 import { StompHeaders } from '@stomp/ng2-stompjs/src/stomp-headers';
 import { ChatMessageModel } from './chat.message.model';
-import { exitCodeFromResult } from '@angular/compiler-cli';
+// import { exitCodeFromResult } from '@angular/compiler-cli';
 import { environment } from '@env/environment';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Subscription } from 'rxjs/Subscription';

@@ -103,9 +103,9 @@ export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
     //
     //     //在从list窗口调入的情况下，载入数据
     //     //在从list窗口调入的情况下，载入数据
-    //     console.info('sourceId', this.sourceId);
-    //     if (this.sourceId) {
-    //         this.loadData(this.sourceId);
+    //     console.info('_sourceId', this._sourceId);
+    //     if (this._sourceId) {
+    //         this.loadData(this._sourceId);
     //     } else {
     //         //界面显示
     //         this.reset();

@@ -182,7 +182,7 @@ export class BylPermissionItemListComponent implements OnInit  {
     //         // },
     //         footer: false,
     //         componentParams: {
-    //             sourceId: null,
+    //             _sourceId: null,
     //             masterId: this.masterId,
     //         },
     //         maskClosable: false

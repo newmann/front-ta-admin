@@ -15,7 +15,7 @@
           formControlName="type"
           [nzPlaceHolder]="'请选择或输入地址类型'"
           [nzNotFoundContent]="'无法找到'"
-          nzShowSearch [nzMode]="multiple" id="type">
+          nzShowSearch [nzMode]="'multiple'" id="type">
           <nz-option
             *ngFor="let option of typeOptions"
             [nzLabel]="option.label"

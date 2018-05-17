@@ -71,7 +71,7 @@ export class BylEmbeddableAddressComponent implements ControlValueAccessor, OnIn
         this.onChange(this._address);
     }
 
-    get addressTree(): [{}] {
+    get addressTree(): Array<{value: string, label: string}> {
         console.log('get addressTree');
         if (this._address) {
             return [{value: this._address.countryCode, label: this._address.countryName},
