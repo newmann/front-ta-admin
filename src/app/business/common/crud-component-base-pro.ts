@@ -1,4 +1,3 @@
-
 import {ElementRef, OnInit, ViewChild} from '@angular/core';
 import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
@@ -10,7 +9,7 @@ import {BylBaseService} from '../../service/service/base.service';
 
 import {ReuseTabService} from '@delon/abc';
 import {Observable} from 'rxjs/Observable';
-import {SFComponent, SFSchema, SFUISchema} from "@delon/form";
+import {SFComponent, SFSchema, SFUISchema} from '@delon/form';
 
 
 /**
@@ -23,7 +22,7 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
     public defaultBusinessData: T;
     public businessData: T;
     public formUiSchema: SFUISchema = {};
-    public formSchema: SFSchema =  {
+    public formSchema: SFSchema = {
         properties: {}
     };
 
@@ -58,7 +57,7 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService
-                ) {
+    ) {
         this.defineForm();
 
         //初始化新增界面的缺省值
@@ -136,7 +135,7 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
         // this.showSavingReveal();
         // this._loading = true;
         this.errMsg = '';
-        this.getFormData();
+        // this.getFormData();
         let saveResult$: Observable<BylResultBody<T>>;
 
         console.log('submit form', this.businessData);
@@ -156,12 +155,12 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
                     // 通知显示窗口保存正确
                     // this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
                     // this.savingReveal.destroy(); //退出提示界面
-                    if (this.processType === "new") {
+                    if (this.processType === 'new') {
                         //新增界面
-                        Object.assign(this.defaultBusinessData , this.newBusinessData());
-                    } else{
+                        Object.assign(this.defaultBusinessData, this.newBusinessData());
+                    } else {
                         //将返回值设置到default值中
-                        Object.assign(this.defaultBusinessData,data.data);
+                        Object.assign(this.defaultBusinessData, data.data);
                     }
                     this.reset(); //重置界面
 
@@ -191,15 +190,16 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
     /**
      *  将界面中的数据保存到businessData中去
      */
-    abstract getFormData(): void;
+
+    // abstract getFormData(): void;
 
     /**
      * 重置界面内容
      */
     reset(): void {
-        console.log("reset ,sfForm", this.sfForm);
+        console.log('reset ,sfForm', this.sfForm);
 
-        Object.assign(this.businessData,this.defaultBusinessData);
+        Object.assign(this.businessData, this.defaultBusinessData);
         this.sfForm.reset();
     }
 

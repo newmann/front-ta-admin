@@ -3,6 +3,7 @@
 
 
 import {BylIStatusItem} from '../../model/status.model';
+import {BylSFRadioData} from '../../../business/common/sf-relative';
 
 export const enum BylCheckTypeEnum {
     DAY = 1,
@@ -31,4 +32,11 @@ export class BylCheckTypeEnumManager {
         ];
     }
 
+    static getSFRadioDataArray(): BylSFRadioData[] {
+        return [
+            {value: BylCheckTypeEnum.DAY, label: this.getCaption(BylCheckTypeEnum.DAY)},
+            {value: BylCheckTypeEnum.HOUR, label: this.getCaption(BylCheckTypeEnum.HOUR)}
+        ];
+
+    }
 }

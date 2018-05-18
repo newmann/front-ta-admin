@@ -170,16 +170,16 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
     }
     //
     //
-    getFormData() {
-        // for (const i in this.form.controls) {
-        //     this.form.controls[i].markAsDirty();
-        // }
-
-        Object.assign(this.businessData, this.sfForm.value);
-
-        console.table(this.businessData);
-
-    }
+    // getFormData() {
+    //     // for (const i in this.form.controls) {
+    //     //     this.form.controls[i].markAsDirty();
+    //     // }
+    //
+    //     Object.assign(this.businessData, this.sfForm.value);
+    //
+    //     console.table(this.businessData);
+    //
+    // }
     //
     /**
      * 重置界面内容

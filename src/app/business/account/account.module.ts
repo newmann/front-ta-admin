@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {ColorPickerModule, ColorPickerService} from 'ngx-color-picker';
-import {ImageCropperModule} from 'ng2-img-cropper';
+// import {ImageCropperModule} from 'ng2-img-cropper';
 import {SharedModule} from '@shared/shared.module';
 import {BylAccountRoutingModule} from './account-routing.module';
 import {BylRoleListComponent} from './role/list/role-list.component';
@@ -21,8 +21,8 @@ import {BylPipeModule} from "../../service/pipe.module";
         SharedModule,
         BylBusinessSharedModule,
         BylAccountRoutingModule,
-        ColorPickerModule,
-        ImageCropperModule
+        ColorPickerModule
+          // ImageCropperModule
     ],
     declarations: [
         BylRoleListComponent,

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {ColorPickerModule, ColorPickerService} from 'ngx-color-picker';
-import {ImageCropperModule} from 'ng2-img-cropper';
+// import {ImageCropperModule} from 'ng2-img-cropper';
 import {SharedModule} from '@shared/shared.module';
 import {BylProjectRoutingModule} from './project-routing.module';
 
@@ -22,8 +22,8 @@ import {BylWorkTypeCrudComponent} from "./work-type/crud/crud.component";
         SharedModule,
         BylBusinessSharedModule,
         BylProjectRoutingModule,
-        ColorPickerModule,
-        ImageCropperModule
+        ColorPickerModule
+        // ,ImageCropperModule
     ],
     declarations: [
         // BylRoleListComponent,
