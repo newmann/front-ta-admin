@@ -15,19 +15,27 @@ import {BylCityService} from '../../../../service/address/service/city.service';
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import * as moment from 'moment';
 import {BylFetchProjectManagerWidgetComponent} from '../../fetch-project-manager-form-item/fetch-project-manager.formitem';
+import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
+import {map} from "rxjs/operators";
+import {BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
+import {isEmpty} from "../../../../service/utils/string.utils";
+import {BylProjectManagerPoolService} from "../../../../service/project/service/project-manager-pool.service";
+import {SFComponent, SFSchemaEnumType} from "@delon/form";
+import {BylProjectManagerPool} from "../../../../service/project/model/project-manager-pool.model";
+import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 
 
 @Component({
     selector: 'byl-project-crud',
     templateUrl: './crud.component.html',
 })
-export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
+export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject> {
     // public managerPoolReveal: any; // 项目经理筛选窗口
 
     public addressTreevalue: any[] = [null, null, null]; // 初始化为空数组
 
-    @ViewChild(BylFetchProjectManagerWidgetComponent)
-    private projectManagerWidget: BylFetchProjectManagerWidgetComponent;
+    // @ViewChild(BylFetchProjectManagerWidgetComponent)
+    // private projectManagerWidget: BylFetchProjectManagerWidgetComponent;
 
     @Input()
     set setSourceId(value: string) {
@@ -39,30 +47,198 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
     }
 
     defineForm(): void {
+        this.formSchema = {
+            properties: {
+                "code": {
+                    "type": 'string',
+                    "title": '代码',
+                    "ui": {
+                        placeholder: '请输入项目代码',
+                        "validator": (value: string) => {
+                            if (isEmpty(value)) {
+                                console.log('check code:', value);
+                                return [];
+                            }
+
+                            return this.projectService.checkCodeAvailable({data: value,id: this.sourceId}).pipe(
+                                map((res) => {
+                                        if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                                            if (res.data) {
+                                                return [];
+                                            } else {
+                                                return ([{keyword: 'required', message: '项目代码'+ value + '已存在'}]);
+                                            }
+
+                                        } else {
+                                            return ([{keyword: 'required', message: res.msg}]);
+                                        }
+                                    }
+                                ));
+                        }
+                    }
+                },
+                "name": {
+                    "type": 'string',
+                    "title": '名称',
+                    "ui": {
+                        placeholder: '请输入项目名称',
+                        "validator": (value: string) =>{
+                            if (isEmpty(value)) {
+                                console.log('check name:', value);
+                                return [];
+                            }
+
+                            return this.projectService.checkNameAvailable({data: value,id: this.sourceId}).pipe(
+                                map((res) => {
+                                        if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                                            if (res.data) {
+                                                return [];
+                                            } else {
+                                                return ([{keyword: 'required', message: '项目名称已存在。'}]);
+                                            }
+
+                                        } else {
+                                            return ([{keyword: 'required', message: res.msg}]);
+                                        }
+                                    }
+                                ));
+                        }
+                    }
+                },
+                "manager": {
+                    "type": "string",
+                    "title": '项目经理',
+                    enum:[],
+                    "ui": {
+                        widget: 'select',
+                        placeholder: '请输入项目经理代码或名称，系统自动查找',
+                        allowClear: 'true',
+                        serverSearch: 'true',
+                        showSearch: 'true',
+                        onSearch: (text: string) =>{
+                            console.log("search for manager:", text);
+                            if ((text) && (text.length>0)){
+                                // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
+                                return this.projectManagerPoolService.fetchAvailableByCodeOrName(text)
+                                    .toPromise().then(
+                                        (res) => {
+                                            if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                                                if (res.data) {
+                                                    let searchResult: SFSchemaEnumType[] = [];
+
+                                                    res.data.forEach(item =>{
+                                                        let v = new BylEntityReference();
+                                                        v.id = item.poolId;
+                                                        v.code = item.poolCode;
+                                                        v.name = item.poolName;
+
+                                                        let i :SFSchemaEnumType = {};
+                                                        i.label = v.getFullCaption();
+                                                        i.value = v;
+                                                        searchResult.push(i);
+                                                    });
+
+                                                    return searchResult;
+
+                                                } else {
+                                                    return [];
+                                                }
+                                            } else{
+                                                console.error("获取项目经理资源出错：", res);
+                                                return ([]);
+                                            }
+
+                                        }
+                                    ).catch(error => (console.error("获取项目经理资源出错：",error)));
+                            }
+
+                            // return this.projectManagerPoolService.fetchAvailableByCodeOrName(value).pipe(
+                            //     map((res) => {
+                            //             if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                            //                 if (res.data) {
+                            //                     let searchResult: SFSchemaEnumType[] = [];
+                            //
+                            //                     res.data.forEach(item =>{
+                            //                         let i :SFSchemaEnumType = {};
+                            //                         i.label = item.poolName +"[" + item.poolCode + "]";
+                            //                         i.value = item;
+                            //                         searchResult.push(i);
+                            //                     });
+                            //
+                            //                     return searchResult;
+                            //
+                            //                 } else {
+                            //                     return [];
+                            //                 }
+                            //             } else{
+                            //                 console.error("获取项目经理资源出错：", res);
+                            //                 return ([]);
+                            //             }
+                            //
+                            //         }
+                            //     ));
+                        },
+                        openChange: (value: string) =>{
+                            console.log("openChange:", value);
+                            // if (value){
+                            //     return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(value);
+                            // }
+
+                        }
+                    }
+                },
+                "planBeginDateDF": {
+                    type: "number",
+                    title: '计划开始日期',
+                    ui: {
+                        widget: 'date',
+                        placeholder: '请选择计划开始日期'
+                    }
+                },
+                "planEndDateDF": {
+                    "type": "number",
+                    "title": '计划结束日期',
+                    ui: {
+                        widget: 'date',
+                        placeholder: '请选择计划结束日期'
+                    }
+
+                },
+                "remarks": {
+                    "type": 'string',
+                    "title": '备注'
+                }
+            },
+            "required": ["code", "name","manager"]
+
+        };
+
+
         // 绑定验证模式
-        this.form = this.fb.group({
-            code: [null, Validators.compose([Validators.required])],
-            name: [null, Validators.compose([Validators.required])],
-            projectManager: this.fb.group({
-                    managerId: [null, Validators.compose([Validators.required])],
-                    managerCode: [null, Validators.compose([Validators.required])],
-                    managerName: [null, Validators.compose([Validators.required])]
-            }),
-            addressTree: [null, Validators.compose([Validators.required])],
-            detailAddress: [null, Validators.compose([Validators.required])],
-            zipCode: [null],
-            // detailAddress: [null],
-            // contactZipCode: [null],
-            planBeginDate: [null],
-            planEndDate: [null],
-            remarks: [null]
-        });
+        // this.form = this.fb.group({
+        //     code: [null, Validators.compose([Validators.required])],
+        //     name: [null, Validators.compose([Validators.required])],
+        //     projectManager: this.fb.group({
+        //             managerId: [null, Validators.compose([Validators.required])],
+        //             managerCode: [null, Validators.compose([Validators.required])],
+        //             managerName: [null, Validators.compose([Validators.required])]
+        //     }),
+        //     addressTree: [null, Validators.compose([Validators.required])],
+        //     detailAddress: [null, Validators.compose([Validators.required])],
+        //     zipCode: [null],
+        //     // detailAddress: [null],
+        //     // contactZipCode: [null],
+        //     planBeginDate: [null],
+        //     planEndDate: [null],
+        //     remarks: [null]
+        // });
 
 
     }
 
     constructor(public msgService: NzMessageService,
                 public projectService: BylProjectService,
+                public projectManagerPoolService: BylProjectManagerPoolService,
                 public countryService: BylCountryService,
                 public provinceService: BylProvinceService,
                 public cityService: BylCityService,
@@ -72,16 +248,17 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, fb);
+        // super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, fb);
 
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
 
         this.businessService = projectService;
 
     }
-    //
-    // ngOnInit() {
-    //     super.ngOnInit();
-    // }
+
+    ngOnInit() {
+        super.ngOnInit();
+    }
 
     resetButtonClick($event: MouseEvent) {
         $event.preventDefault();
@@ -135,47 +312,55 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
     //     });
     //
     // }
-
+    /**
+     *  在提交之前对businessData进行一些个性化的处理
+     *  如果是普通界面，无须处理
+     */
     getFormData() {
-        for (const i in this.form.controls) {
-            this.form.controls[i].markAsDirty();
-        }
+        super.getFormData();
 
-        console.table(this.form.value);
-        this.businessData.code = this.code.value;
-        this.businessData.name = this.name.value;
-        this.businessData.managerId = this.managerId.value;
-        this.businessData.managerCode = this.managerCode.value;
-        this.businessData.managerName = this.managerName.value;
-
-        this.businessData.address.countryId = this.addressTreevalue[0].value;
-        this.businessData.address.countryCode = this.addressTreevalue[0].value;
-        this.businessData.address.countryName = this.addressTreevalue[0].label;
-
-        this.businessData.address.provinceId = this.addressTreevalue[1].value;
-        this.businessData.address.provinceCode = this.addressTreevalue[1].value;
-        this.businessData.address.provinceName = this.addressTreevalue[1].label;
-
-        this.businessData.address.cityId = this.addressTreevalue[2].value;
-        this.businessData.address.cityCode = this.addressTreevalue[2].value;
-        this.businessData.address.cityName = this.addressTreevalue[2].label;
-
-        this.businessData.address.detailAddress = this.detailAddress.value;
-
-        if (this.zipCode.value) this.businessData.address.zipCode = this.zipCode.value;
-
-        if (this.planBeginDate.value) {
-            this.businessData.planBeginDate = moment(this.planBeginDate.value).valueOf();
-        }
-        if (this.planEndDate.value) {
-            this.businessData.planEndDate = moment(this.planEndDate.value).valueOf();
-        }
-
-
-        if (this.remarks.value) {
-            this.businessData.remarks = this.remarks.value.toString();
-        }
-        console.table(this.businessData);
+        this.businessData.managerId  = this.businessData.manager.id;
+        this.businessData.managerCode  = this.businessData.manager.code;
+        this.businessData.managerName  = this.businessData.manager.name;
+        // for (const i in this.form.controls) {
+        //     this.form.controls[i].markAsDirty();
+        // }
+        //
+        // console.table(this.form.value);
+        // this.businessData.code = this.code.value;
+        // this.businessData.name = this.name.value;
+        // this.businessData.managerId = this.managerId.value;
+        // this.businessData.managerCode = this.managerCode.value;
+        // this.businessData.managerName = this.managerName.value;
+        //
+        // this.businessData.address.countryId = this.addressTreevalue[0].value;
+        // this.businessData.address.countryCode = this.addressTreevalue[0].value;
+        // this.businessData.address.countryName = this.addressTreevalue[0].label;
+        //
+        // this.businessData.address.provinceId = this.addressTreevalue[1].value;
+        // this.businessData.address.provinceCode = this.addressTreevalue[1].value;
+        // this.businessData.address.provinceName = this.addressTreevalue[1].label;
+        //
+        // this.businessData.address.cityId = this.addressTreevalue[2].value;
+        // this.businessData.address.cityCode = this.addressTreevalue[2].value;
+        // this.businessData.address.cityName = this.addressTreevalue[2].label;
+        //
+        // this.businessData.address.detailAddress = this.detailAddress.value;
+        //
+        // if (this.zipCode.value) this.businessData.address.zipCode = this.zipCode.value;
+        //
+        // if (this.planBeginDate.value) {
+        //     this.businessData.planBeginDate = moment(this.planBeginDate.value).valueOf();
+        // }
+        // if (this.planEndDate.value) {
+        //     this.businessData.planEndDate = moment(this.planEndDate.value).valueOf();
+        // }
+        //
+        //
+        // if (this.remarks.value) {
+        //     this.businessData.remarks = this.remarks.value.toString();
+        // }
+        // console.table(this.businessData);
 
     }
 
@@ -183,31 +368,35 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
      * 重置界面内容
      */
     reset() {
-        let country = {value: this.businessData.address.countryCode, label: this.businessData.address.countryName};
-        this.addressTreevalue[0] = country;
+        // let country = {value: this.businessData.address.countryCode, label: this.businessData.address.countryName};
+        // this.addressTreevalue[0] = country;
+        //
+        // let province = {value: this.businessData.address.provinceCode, label: this.businessData.address.provinceName};
+        // this.addressTreevalue[1] = province;
+        //
+        // let city = {value: this.businessData.address.cityCode, label: this.businessData.address.cityName};
+        // this.addressTreevalue[2] = city;
+        //
+        // this.form.reset({
+        //     code: this.businessData.code,
+        //     name: this.businessData.name,
+        //     managerId: this.businessData.managerId,
+        //     managerCode: this.businessData.managerCode,
+        //     managerName: this.businessData.managerName,
+        //     addressTree: this.addressTreevalue,
+        //     detailAddress: this.businessData.address.detailAddress,
+        //     zipCode: this.businessData.address.zipCode,
+        //     // birthYear: this.businessData.birthYear,
+        //     // birthMonth: this.businessData.birthMonth,
+        //     // birthDay: this.businessData.birthDay,
+        //     planBeginDate: this.businessData.planBeginDate,
+        //     planEndDate: this.businessData.planEndDate,
+        //     remarks: this.businessData.remarks
+        // }, {onlySelf: true, emitEvent: false});
+        //
 
-        let province = {value: this.businessData.address.provinceCode, label: this.businessData.address.provinceName};
-        this.addressTreevalue[1] = province;
+        console.log('4、in Project Crud, reset form', this.defaultBusinessData);
 
-        let city = {value: this.businessData.address.cityCode, label: this.businessData.address.cityName};
-        this.addressTreevalue[2] = city;
-
-        this.form.reset({
-            code: this.businessData.code,
-            name: this.businessData.name,
-            managerId: this.businessData.managerId,
-            managerCode: this.businessData.managerCode,
-            managerName: this.businessData.managerName,
-            addressTree: this.addressTreevalue,
-            detailAddress: this.businessData.address.detailAddress,
-            zipCode: this.businessData.address.zipCode,
-            // birthYear: this.businessData.birthYear,
-            // birthMonth: this.businessData.birthMonth,
-            // birthDay: this.businessData.birthDay,
-            planBeginDate: this.businessData.planBeginDate,
-            planEndDate: this.businessData.planEndDate,
-            remarks: this.businessData.remarks
-        }, {onlySelf: true, emitEvent: false});
 
         super.reset();
 
@@ -225,6 +414,40 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
         // this.logger.log('this.form.dirty' + this.form.dirty);
         // this.logger.log('this.form.invalid' + this.form.invalid);
     }
+
+    /**
+     *  在调出一张历史单据进行修改的时候调用
+     *  个性化的处理
+     */
+    setFormData(data: BylProject){
+
+        super.setFormData(data);
+
+        if( this.businessData.managerId){
+            let m = new BylEntityReference();
+            m.id = this.businessData.managerId;
+            m.code = this.businessData.managerCode;
+            m.name = this.businessData.managerName;
+
+            // this.businessData.manager = m;
+            this.businessData.manager = m.code;
+            // this.defaultBusinessData.manager = m;
+            this.defaultBusinessData.manager = m.code;
+
+            // //同时要把这个值放到界面的缺省值中去，否则无法显示
+            if (this.formSchema.properties['manager']){
+                console.log("3、in Project Crud,setFormData:", this.formSchema.properties['manager']);
+                let e :SFSchemaEnumType = {};
+                e.value = m.code;
+                e.label = m.name;
+
+                this.formSchema.properties['manager'].enum.push(e);
+
+            }
+
+        }
+    }
+
 
     selectAddressTree(e: { option: any, index: number }) {
         //保存option的value和label
@@ -316,35 +539,35 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
     }
 
     //#region get form fields
-    get code() {
-        return this.form.controls.code;
-    }
-
-    get name() {
-        return this.form.controls.name;
-    }
-    get managerId() {
-        return this.projectManagerWidget.managerId;
-    }
-
-    get managerCode() {
-        return this.projectManagerWidget.managerCode;
-    }
-    get managerName() {
-        return this.projectManagerWidget.managerName;
-    }
-
-    get addressTree() {
-        return this.form.controls.addressTree;
-    }
-
-    get detailAddress() {
-        return this.form.controls.detailAddress;
-    }
-
-    get zipCode() {
-        return this.form.controls.zipCode;
-    }
+    // get code() {
+    //     return this.form.controls.code;
+    // }
+    //
+    // get name() {
+    //     return this.form.controls.name;
+    // }
+    // get managerId() {
+    //     return this.projectManagerWidget.managerId;
+    // }
+    //
+    // get managerCode() {
+    //     return this.projectManagerWidget.managerCode;
+    // }
+    // get managerName() {
+    //     return this.projectManagerWidget.managerName;
+    // }
+    //
+    // get addressTree() {
+    //     return this.form.controls.addressTree;
+    // }
+    //
+    // get detailAddress() {
+    //     return this.form.controls.detailAddress;
+    // }
+    //
+    // get zipCode() {
+    //     return this.form.controls.zipCode;
+    // }
 
     // get birthYear() {
     //     return this.form.controls.birthYear;
@@ -355,18 +578,22 @@ export class BylProjectCrudComponent extends BylCrudComponentBase<BylProject> {
     // get birthDay() {
     //     return this.form.controls.birthDay;
     // }
-    get planBeginDate() {
-        return this.form.controls.planBeginDate;
-    }
-
-
-    get planEndDate() {
-        return this.form.controls.planEndDate;
-    }
-
-    get remarks() {
-        return this.form.controls.remarks;
-    }
+    // get planBeginDate() {
+    //     return this.form.controls.planBeginDate;
+    // }
+    //
+    //
+    // get planEndDate() {
+    //     return this.form.controls.planEndDate;
+    // }
+    //
+    // get remarks() {
+    //     return this.form.controls.remarks;
+    // }
 
     //#endregion
+
+    error(value: any) {
+        console.log('error', value);
+    }
 }

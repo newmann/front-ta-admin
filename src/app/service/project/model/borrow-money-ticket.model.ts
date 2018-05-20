@@ -10,20 +10,24 @@ import {BylEmbeddableProject} from "../../model/embeddable-project.model";
 import {BylEmbeddableBorrowAction} from './embeddable-borrow-action.model';
 import {BylEmbeddableCheckAction} from '../../model/embeddable-check-action.model';
 import {BylEmbeddableReceiveAction} from './embeddable-receive-action.model';
+import {BylEntityReference} from "../../model/entity-reference.model";
+import {BylBorrowMoneyQualificationPool} from "./borrow-money-qualification-pool.model";
 
 export class BylBorrowMoneyTicket extends BylBaseModel {
     billNo: string;
     name: string;
-    project: BylEmbeddableProject;
+    project: BylEmbeddableProject = new BylEmbeddableProject();
 
-    address: BylEmbeddableAddress;
+    address: BylEmbeddableAddress = new BylEmbeddableAddress();
 
     reason: string;
     amount: number;
 
-    borrowAction: BylEmbeddableBorrowAction;
-    checkAction: BylEmbeddableCheckAction;
-    receiveAction: BylEmbeddableReceiveAction;
+    borrower: BylBorrowMoneyQualificationPool = new BylBorrowMoneyQualificationPool(); //界面用
+
+    borrowAction: BylEmbeddableBorrowAction = new BylEmbeddableBorrowAction();
+    checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
+    receiveAction: BylEmbeddableReceiveAction =new BylEmbeddableReceiveAction();
 
     settlementDateTime: number;
     settlementTicketId: string;

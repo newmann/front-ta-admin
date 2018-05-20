@@ -17,6 +17,10 @@ import * as moment from "moment";
 import {SFSchema, SFUISchema} from "@delon/form";
 import {BylIStatusItem} from "../../../../service/model/status.model";
 import {BylBusinessEntityTypeManager} from "../../../../service/model/business-entity-type.enum";
+import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {BylPageReq} from "../../../../service/model/page-req.model";
+import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
+import {BylBorrowMoneyTicket} from "../../../../service/project/model/borrow-money-ticket.model";
 
 @Component({
   selector: 'byl-borrow-money-qualification-pool-list',
@@ -103,13 +107,13 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
         });
     }
     /**
-     * 从个体中选择可用的资源
+     * 从组织中选择可用的资源
      */
     addOrganizationPool() {
 
 
         this.addPoolReveal = this.modalService.create({
-            nzTitle: '查找个体资源',
+            nzTitle: '查找组织资源',
             nzZIndex: 9999, //最外层
             nzWidth: '90%',
             nzContent: BylOrganizationListComponent,
@@ -136,7 +140,7 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
             //返回的是选中的账户数组
             let pools: Array<BylBorrowMoneyQualificationPool> = [];
             if ((typeof result) === 'object') {
-                console.log('添加新增的个体数据');
+                console.log('添加新增的组织数据');
                 for (let item of result) {
                     pools.push(this.genPoolItemFromOrganization(item));
                 }
@@ -258,4 +262,40 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
         required: []
     };
 //#endregion
+
+    //#region 结果表定义
+    tableDefine:BylTableDefine ={
+        showCheckbox: true,
+        entityAction: [
+            // {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL }
+        ],
+        columns:[
+            {label:"类型", fieldPath: "type" },
+            {label:"代码", fieldPath: "poolCode" },
+            {label:"姓名/名称", fieldPath: "poolName" },
+            {label:"备注", fieldPath: "remarks" },
+            {label:"最后修改时间", fieldPath: "modifyDateTimeStr" }
+        ]};
+
+
+    pageChange(item: BylPageReq){
+        this.page = item;
+        this.search();
+    }
+
+    selectedChange(data: BylListFormData<BylBorrowMoneyQualificationPool>[]){
+        this.selectedRows = data;
+
+    }
+    entityAction(action: BylTableClickAction){
+        switch(action.actionName){
+            case ACTION_MODIFY:
+                this.modifyEntity(action.id);
+                break;
+            default:
+                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+        }
+
+    }
+    //#endregion
 }

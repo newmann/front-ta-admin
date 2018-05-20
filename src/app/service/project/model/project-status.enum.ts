@@ -3,6 +3,7 @@
 
 
 import {BylIStatusItem} from '../../model/status.model';
+import {BylSFRadioData} from "../../../business/common/sf-relative";
 
 export const enum BylProjectStatusEnum {
     UNSUBMITED = 1,
@@ -49,5 +50,18 @@ export class BylProjectStatusManager {
             {value: BylProjectStatusEnum.SUBMITED_DELETED, caption: this.getCaption(BylProjectStatusEnum.SUBMITED_DELETED)},
             {value: BylProjectStatusEnum.RUNNING_DELETED, caption: this.getCaption(BylProjectStatusEnum.RUNNING_DELETED)}
         ];
+    }
+
+    static getSFSelectDataArray(): BylSFRadioData[] {
+        return [
+            {value: BylProjectStatusEnum.UNSUBMITED, label: this.getCaption(BylProjectStatusEnum.UNSUBMITED)},
+            {value: BylProjectStatusEnum.SUBMITED, label: this.getCaption(BylProjectStatusEnum.SUBMITED)},
+            {value: BylProjectStatusEnum.RUNNING, label: this.getCaption(BylProjectStatusEnum.RUNNING)},
+            {value: BylProjectStatusEnum.ACHIEVEMENT, label: this.getCaption(BylProjectStatusEnum.ACHIEVEMENT)},
+            {value: BylProjectStatusEnum.DELETED, label: this.getCaption(BylProjectStatusEnum.DELETED)},
+            {value: BylProjectStatusEnum.SUBMITED_DELETED, label: this.getCaption(BylProjectStatusEnum.SUBMITED_DELETED)},
+            {value: BylProjectStatusEnum.RUNNING_DELETED, label: this.getCaption(BylProjectStatusEnum.RUNNING_DELETED)}
+        ];
+
     }
 }

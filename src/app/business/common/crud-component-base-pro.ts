@@ -19,6 +19,8 @@ import {SFComponent, SFSchema, SFUISchema} from '@delon/form';
  **/
 
 export abstract class BylCrudComponentBasePro<T> implements OnInit {
+    public isLoading:boolean;
+
     public defaultBusinessData: T;
     public businessData: T;
     public formUiSchema: SFUISchema = {};
@@ -36,7 +38,9 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
 
     public searchData$: Subject<string> = new Subject<string>();
 
-    sfForm: SFComponent;
+    @ViewChild('sf') sfForm: SFComponent;
+
+
 
     ngOnInit() {
         //刷新schema
@@ -101,10 +105,8 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
             data => {
                 // this._loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                    console.info(data.data);
-                    Object.assign(this.businessData, data.data);
-                    //重置当前的界面缺省值
-                    Object.assign(this.defaultBusinessData, data.data);
+                    console.info("1:", data.data);
+                    this.setFormData(data.data);
 
                     this.reset();
                 } else {
@@ -135,7 +137,7 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
         // this.showSavingReveal();
         // this._loading = true;
         this.errMsg = '';
-        // this.getFormData();
+        this.getFormData();
         let saveResult$: Observable<BylResultBody<T>>;
 
         console.log('submit form', this.businessData);
@@ -188,18 +190,36 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
     }
 
     /**
-     *  将界面中的数据保存到businessData中去
+     *
+     *  在提交之前对businessData进行一些个性化的处理
+     *  首先要把值传到businessData上去
+     *  个性化的处理放到子类中去
      */
 
-    // abstract getFormData(): void;
+    getFormData(): void{
+        Object.assign(this.businessData, this.sfForm.value);
+    };
+
+    /**
+     *  在调出一张历史单据进行修改的时候调用，可能需要一些个性化的处理
+     */
+    setFormData(data: T){
+        console.log("2、crud-base-pro setFormData", data);
+        Object.assign(this.businessData, data);
+        //重置当前的界面缺省值
+        Object.assign(this.defaultBusinessData, data);
+    }
 
     /**
      * 重置界面内容
      */
     reset(): void {
-        console.log('reset ,sfForm', this.sfForm);
+        console.log('5、crud-base-pro reset , default data: ', this.defaultBusinessData);
+        console.log('6、crud-base-pro reset , data: ', this.businessData);
 
         Object.assign(this.businessData, this.defaultBusinessData);
+
+        console.log('7、crud-base-pro reset , sfForm: ', this.sfForm);
         this.sfForm.reset();
     }
 

@@ -196,6 +196,48 @@
           "i18n": "work_type_new"
         }
         ]
+      },{
+        "text": "费用类型设置",
+        "i18n": "expense-type",
+        "icon": "icon-speedometer",
+        "children": [{
+          "text": "费用类型管理",
+          "link": "/project/expense-type/list",
+          "i18n": "expense_type_list"
+        },{
+          "text": "费用类型新增",
+          "link": "/project/expense-type/crud/new",
+          "i18n": "expense_type_new"
+        }
+        ]
+      },{
+        "text": "员工设置",
+        "i18n": "employee",
+        "icon": "icon-speedometer",
+        "children": [{
+          "text": "员工查询",
+          "link": "/project/employee/list",
+          "i18n": "employee_list"
+        },{
+          "text": "员工新增",
+          "link": "/project/employee/crud/new",
+          "i18n": "employee_new"
+        }
+        ]
+      },{
+        "text": "外包商设置",
+        "i18n": "outsourcer",
+        "icon": "icon-speedometer",
+        "children": [{
+          "text": "外包商查询",
+          "link": "/project/outsourcer/list",
+          "i18n": "outsourcer_list"
+        },{
+          "text": "外包商新增",
+          "link": "/project/outsourcer/crud/new",
+          "i18n": "outsourcer_new"
+        }
+        ]
       }]
     }, {
       "text": "快捷菜单",

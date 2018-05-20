@@ -12,17 +12,48 @@ import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
  */
 
 export class BylDatetimeUtils {
-    static formatString: string = 'YYYY-MM-DD HH:mm';
+    static formatDateTimeString: string = 'YYYY-MM-DD HH:mm';
+    static formatDateString: string = 'YYYY-MM-DD';
 
     static formatDateTime(value: number): string{
         if (value) {
-            return format(value, this.formatString);
+            return format(value, this.formatDateTimeString);
         } else {
             return "";
         }
 
 
     }
+
+    static formatDate(value: number): string{
+        if (value) {
+            return format(value, this.formatDateString);
+        } else {
+            return "";
+        }
+
+
+    }
+
+
+    static convertMillsToDateTime(value: number): Date{
+        if (value) {
+            return new Date(value);
+        } else {
+            return null;
+        }
+
+    }
+
+    static convertDateTimeToMills(value: Date): number{
+        if (value) {
+            return value.valueOf();
+        } else {
+            return 0;
+        }
+
+    }
+
 
     static formatDateTimeWeek(value: number): string{
         if (value) {

@@ -1,14 +1,14 @@
 <page-header [title]="'可借款资源池管理'" >
     <ng-template #action>
-        <button nz-button (click)="addPersonPool()" [nzType]="'default'" [nzSize]="'large'">
+        <button nz-button (click)="addPersonPool()" [nzType]="'default'" >
             <i class="anticon anticon-plus"></i><span>新增个人</span>
         </button>
 
-        <button nz-button (click)="addOrganizationPool()" [nzType]="'default'" [nzSize]="'large'">
+        <button nz-button (click)="addOrganizationPool()" [nzType]="'default'" >
             <i class="anticon anticon-plus"></i><span>新增组织</span>
         </button>
 
-        <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">
+        <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" >
             <i class="anticon anticon-search"></i><span>查询</span>
         </button>
         <!--<ng-container *ngIf="selectedRows.length > 0">-->
@@ -112,65 +112,73 @@
         <!--</div>-->
     <!--</form>-->
 <!--</nz-card>-->
-<nz-card [nzBordered]="false">
-    <nz-table #nzTable [nzData]="listData" [(nzPageSize)]="page.pageSize" [(nzPageIndex)]="page.page" [nzLoading]="loading"
-              nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total"
-              (nzPageIndexChange)="search()" (nzPageSizeChange)="pageSizeChange($event)">
-        <thead >
-        <tr>
-            <!--<th  [nzCheckbox]="true">-->
-            <!--<caption nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
-            <!--(ngModelChange)="checkAll($event)"></caption>-->
+<!--数据显示-->
+<byl-list-form-table-item [listData]="listData"  [total]="total" [loading]="loading"
+                          [tableDefine]="tableDefine"
+                          (pageChange)="pageChange($event)" (entityAction)="entityAction($event)"
+                          (selectedChange)="selectedChange($event)"
+
+></byl-list-form-table-item>
+
+<!--<nz-card [nzBordered]="false">-->
+    <!--<nz-table #nzTable [nzData]="listData" [(nzPageSize)]="page.pageSize" [(nzPageIndex)]="page.page" [nzLoading]="loading"-->
+              <!--nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total"-->
+              <!--(nzPageIndexChange)="search()" (nzPageSizeChange)="pageSizeChange($event)">-->
+        <!--<thead >-->
+        <!--<tr>-->
+            <!--&lt;!&ndash;<th  [nzCheckbox]="true">&ndash;&gt;-->
+            <!--&lt;!&ndash;<caption nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"&ndash;&gt;-->
+            <!--&lt;!&ndash;(ngModelChange)="checkAll($event)"></caption>&ndash;&gt;-->
+            <!--&lt;!&ndash;</th>&ndash;&gt;-->
+            <!--<th ><span>类型</span></th>-->
+            <!--<th ><span>代码</span></th>-->
+            <!--<th ><span>姓名</span></th>-->
+            <!--<th >-->
+                <!--<span>更新时间</span>-->
+                <!--&lt;!&ndash;<nz-table-sort [(nzValue)]="sortMap.updatedAt"&ndash;&gt;-->
+                <!--&lt;!&ndash;(nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>&ndash;&gt;-->
             <!--</th>-->
-            <th ><span>类型</span></th>
-            <th ><span>代码</span></th>
-            <th ><span>姓名</span></th>
-            <th >
-                <span>更新时间</span>
-                <!--<nz-table-sort [(nzValue)]="sortMap.updatedAt"-->
-                <!--(nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>-->
-            </th>
 
-            <th ><span>操作</span></th>
-        </tr>
-        </thead>
-        <tbody >
-        <tr  *ngFor="let i of nzTable.data">
-            <!--<td  [nzCheckbox]="true">-->
-            <!--<caption nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
-            <!--(ngModelChange)="refreshStatus($event)">-->
-            <!--</caption>-->
+            <!--<th ><span>操作</span></th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody >-->
+        <!--<tr  *ngFor="let i of nzTable.data">-->
+            <!--&lt;!&ndash;<td  [nzCheckbox]="true">&ndash;&gt;-->
+            <!--&lt;!&ndash;<caption nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"&ndash;&gt;-->
+            <!--&lt;!&ndash;(ngModelChange)="refreshStatus($event)">&ndash;&gt;-->
+            <!--&lt;!&ndash;</caption>&ndash;&gt;-->
+            <!--&lt;!&ndash;</td>&ndash;&gt;-->
+            <!--<td >{{i.item.type}}</td>-->
+
+            <!--<td >{{i.item.poolCode}}</td>-->
+            <!--<td >{{i.item.poolName}}</td>-->
+            <!--<td >{{i.item.modifyAction.modifyDateTime | _date}}</td>-->
+            <!--<td >-->
+                <!--&lt;!&ndash;<a [routerLink]="['/account/role/crud', i.id]" >修改</a>&ndash;&gt;-->
+                <!--<span>-->
+                    <!--<a (click)="modifyEntity(i.item.id)">修改</a>-->
+                    <!--&lt;!&ndash;<span nz-table-divider></span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<nz-dropdown>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a class="ant-dropdown-link" nz-dropdown>&ndash;&gt;-->
+                    <!--&lt;!&ndash;更多 <i class="anticon anticon-down"></i>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<ul nz-menu>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li nz-menu-item>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a (click)="lockRole(i.item.id)">锁定</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<li nz-menu-item>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">2nd menu item</a>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;</li>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<li nz-menu-item>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">3rd menu item</a>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;</li>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</nz-dropdown>&ndash;&gt;-->
+                <!--</span>-->
             <!--</td>-->
-            <td >{{i.item.type}}</td>
+        <!--</tr>-->
+        <!--</tbody>-->
+    <!--</nz-table>-->
 
-            <td >{{i.item.poolCode}}</td>
-            <td >{{i.item.poolName}}</td>
-            <td >{{i.item.modifyAction.modifyDateTime | _date}}</td>
-            <td >
-                <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
-                <span>
-                    <a (click)="modifyEntity(i.item.id)">修改</a>
-                    <!--<span nz-table-divider></span>-->
-                    <!--<nz-dropdown>-->
-                    <!--<a class="ant-dropdown-link" nz-dropdown>-->
-                    <!--更多 <i class="anticon anticon-down"></i>-->
-                    <!--</a>-->
-                    <!--<ul nz-menu>-->
-                    <!--<li nz-menu-item>-->
-                    <!--<a (click)="lockRole(i.item.id)">锁定</a>-->
-                    <!--</li>-->
-                    <!--&lt;!&ndash;<li nz-menu-item>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">2nd menu item</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<li nz-menu-item>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">3rd menu item</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                    <!--</ul>-->
-                    <!--</nz-dropdown>-->
-                </span>
-            </td>
-        </tr>
-        </tbody>
-    </nz-table>
-
-</nz-card>
+<!--</nz-card>-->

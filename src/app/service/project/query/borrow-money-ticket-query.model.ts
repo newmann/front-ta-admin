@@ -8,7 +8,7 @@ export class BylBorrowMoneyTicketQuery {
     billNo: string;
     projectId: string;
     reason: string;
-    status: Array<number>;
-    modifyDateBegin: number;
-    modifyDateEnd: number;
+    status: Array<number> = [1,2, 10,20,30];
+    modifyDateBegin: number = 0;
+    modifyDateEnd: number = 0;
 }

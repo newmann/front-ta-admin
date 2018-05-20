@@ -9,28 +9,31 @@ import {BylConfigService} from '../../../../service/constant/config.service';
 import {FormBuilder, Validators} from '@angular/forms';
 
 
-import {BylWorkTypeService} from "../../../../service/project/service/work-type.service";
-import {BylWorkType} from "../../../../service/project/model/work-type.model";
+
 import {BylCheckTypeEnum, BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
 import {ErrorData, SFComponent, SFSchema, SFUISchema} from "@delon/form";
-import * as moment from "moment";
 import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
 import {BylProject} from "../../../../service/project/model/project.model";
 import {map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {isEmpty} from "../../../../service/utils/string.utils";
+import {BylOutsourcer} from "../../../../service/project/model/outsourcer.model";
+import {parse} from "date-fns";
+import * as moment from 'moment';
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {BylOutsourcerService} from "../../../../service/project/service/outsourcer.service";
 
 
 @Component({
-    selector: 'byl-work-type-crud',
+    selector: 'byl-outsourcer-crud',
     templateUrl: './crud.component.html',
 })
-export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkType> {
+export class BylOutsourcerCrudComponent extends BylCrudComponentBasePro<BylOutsourcer> {
     processType: string;
 
 
-    newBusinessData(): BylWorkType {
-        return new BylWorkType();
+    newBusinessData(): BylOutsourcer {
+        return new BylOutsourcer();
     }
 
     @Input()
@@ -51,13 +54,13 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
                                 return [];
                             }
 
-                            return this.workTypeService.checkCodeAvailable({data: value,id: this.sourceId}).pipe(
+                            return this.outsourcerService.checkCodeAvailable({data: value,id: this.sourceId}).pipe(
                                 map((res) => {
                                     if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
                                         if (res.data) {
                                             return [];
                                         } else {
-                                            return ([{keyword: 'required', message: '工种代码'+ value + '已存在'}]);
+                                            return ([{keyword: 'required', message: '外包商代码'+ value + '已存在'}]);
                                         }
 
                                     } else {
@@ -70,78 +73,32 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
                 },
                 "name": {
                     "type": 'string',
-                    "title": '名称',
-                    "ui": {
-                        "validator": (value: string) =>{
-                            if (isEmpty(value)) {
-                                console.log('check name:', value);
-                                return [];
-                            }
-
-                            return this.workTypeService.checkNameAvailable({data: value,id: this.sourceId}).pipe(
-                                map((res) => {
-                                        if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                                            if (res.data) {
-                                                return [];
-                                            } else {
-                                                return ([{keyword: 'required', message: '工种名称已存在。'}]);
-                                            }
-
-                                        } else {
-                                            return ([{keyword: 'required', message: res.msg}]);
-                                        }
-                                    }
-                                ));
-                        }
-                    }
+                    "title": '名称'
                 },
 
-                "checkType": {
-                    "type": 'string',
-                    "title": '考勤类型',
-                    "enum": [],
-                    "ui": {
-                        "widget": "radio",
-                        "styleType": "button"
-                    }
-                },
-                "standardTimeLength": {
-                    "type": 'integer',
-                    "title": '标准工作时长',
-                    "default": 10
-                },
                 "remarks": {
                     "type": 'string',
                     "title": '备注'
                 }
             },
-            "required": ["code", "name", "checkType"],
-            "if": {
-                "properties": {"checkType": {"enum": [10]}}
-            },
-            "then": {
-                "required": ["standardTimeLength"]
-            },
-            "else": {
-                "required": []
-            }
+            "required": ["code", "name"]
         };
 
-        BylCheckTypeEnumManager.getArray().forEach((item) =>{
-            let option = {label: item.caption, value: item.value};
-            this.formSchema.properties['checkType'].enum.push(option);
-        });
+        // BylCheckTypeEnumManager.getArray().forEach((item) =>{
+        //     let option = {label: item.caption, value: item.value};
+        //     this.formSchema.properties['checkType'].enum.push(option);
+        // });
 
         // this.formSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
 
     }
 
-    // defaultFormData: BylWorkType = new BylWorkType();
+    // defaultFormData: BylOutsourcer = new BylOutsourcer();
 
     // this.formUiSchema: SFUISchema = {};
 
     constructor(public msgService: NzMessageService,
-                public workTypeService: BylWorkTypeService,
+                public outsourcerService: BylOutsourcerService,
                 public configService: BylConfigService,
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
@@ -149,7 +106,7 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
                 public reuseTabService: ReuseTabService) {
         super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
         //
-        this.businessService = workTypeService;
+        this.businessService = outsourcerService;
 
 
     }
@@ -168,23 +125,24 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
     }
     //
     //
-    // getFormData() {
-    //     // for (const i in this.form.controls) {
-    //     //     this.form.controls[i].markAsDirty();
-    //     // }
-    //
-    //     Object.assign(this.businessData, this.sfForm.value);
-    //
-    //     console.table(this.businessData);
-    //
-    // }
+    getFormData() {
+        // for (const i in this.form.controls) {
+        //     this.form.controls[i].markAsDirty();
+        // }
+        super.getFormData();
+
+
+        // Object.assign(this.businessData, this.sfForm.value);
+        console.log("in EmployeeCrud getFormData:" , this.businessData);
+
+    }
     //
     /**
      * 重置界面内容
      */
     reset() {
 
-        console.log('reset form', this.businessData);
+        console.log('reset form', this.defaultBusinessData);
 
         super.reset();
         //设置可复用标签的名字：

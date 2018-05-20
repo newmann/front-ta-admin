@@ -18,6 +18,7 @@ import {BylOrganization} from "../../organization/model/organization.model";
 import {BylOrganizationQuery} from "../../organization/query/organization-query.model";
 import {BylPersonAvailablePoolsInterface} from "../../person/service/person-available-pool.interface";
 import {BylOrganizationAvailablePoolsInterface} from "../../organization/service/organization-available-pool.interface";
+import {BylProject} from "../model/project.model";
 
 
 
@@ -63,6 +64,18 @@ export class BylBorrowMoneyQualificationPoolService  extends BylBaseService<BylB
         queryModel.queryReq = query;
 
         return this.http.post<BylResultBody<BylPageResp<BylOrganization>>>(this.BASE_API_URL + '/find-available-organization-pools-page', queryModel);
+    }
+
+    fetchAvailableByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylBorrowMoneyQualificationPool> >> {
+        return this.http.get<BylResultBody<Array<BylBorrowMoneyQualificationPool>>>(this.BASE_API_URL+"/fetch-available-by-code-or-name/" + searchstr);
+    }
+
+    fetchAvailablePersonByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylBorrowMoneyQualificationPool> >> {
+        return this.http.get<BylResultBody<Array<BylBorrowMoneyQualificationPool>>>(this.BASE_API_URL+"/fetch-available-person-by-code-or-name/" + searchstr);
+    }
+
+    fetchAvailableOrgByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylBorrowMoneyQualificationPool> >> {
+        return this.http.get<BylResultBody<Array<BylBorrowMoneyQualificationPool>>>(this.BASE_API_URL+"/fetch-available-org-by-code-or-name/" + searchstr);
     }
 
     // fetchAvailableDepartmentByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylBorrowMoneyQualificationPool> >> {

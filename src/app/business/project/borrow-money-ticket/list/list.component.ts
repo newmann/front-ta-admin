@@ -11,14 +11,18 @@ import {BylIStatusItem} from '../../../../service/model/status.model';
 import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 import * as moment from "moment";
 import {SFSchema, SFUISchema} from "@delon/form";
-import {BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
+import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
 import {BylBorrowMoneyTicketStatusManager} from "../../../../service/project/model/borrow-money-ticket-status.enum";
+import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
+import {BylPageReq} from "../../../../service/model/page-req.model";
+import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
+import {BylProject} from "../../../../service/project/model/project.model";
 
 @Component({
   selector: 'byl-borrow-money-ticket-list',
   templateUrl: './list.component.html',
 })
-export class BylBorrowMoneyTicketListComponent  extends BylListComponentBase<BylBorrowMoneyTicket> {
+export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<BylBorrowMoneyTicket> {
 
     statusList: BylIStatusItem[]; //状态
 
@@ -68,11 +72,17 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBase<Byl
      */
     setQDataDefaultValue(){
         let q = new BylBorrowMoneyTicketQuery();
+        this.qData.billNo = q.billNo ? q.billNo : null;
+        this.qData.reason = q.reason ? q.reason : null;
+        this.qData.modifyDateBegin = q.modifyDateBegin ? q.modifyDateBegin : null;
+        this.qData.modifyDateEnd = q.modifyDateEnd ? q.modifyDateEnd : null;
+        this.qData.status = q.status ? [...q.status] : null;
 
         Object.assign(this.qData,q);
     }
     //#region 查询条件
     queryDefaultData: any = {
+        status: [1,2, 10,20,30],
         modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
         modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
     queryUiSchema: SFUISchema = {};
@@ -107,4 +117,45 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBase<Byl
         required: []
     };
 //#endregion
+
+    tableDefine:BylTableDefine ={
+        showCheckbox: true,
+        entityAction: [
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL }
+        ],
+        columns:[
+            {label:"单号", fieldPath: "billNo" },
+            {label:"所属项目", fieldPath: "projectInfo" },
+            {label:"借款原因", fieldPath: "reason" },
+            {label:"借款金额", fieldPath: "amount" },
+            {label:"借款信息", fieldPath: "borrorActionInfo" },
+            {label:"审核信息", fieldPath: "checkActionInfo" },
+            {label:"收款信息", fieldPath: "receiveActionInfo" },
+            {label:"结算信息", fieldPath: "settlementInfo" },
+            {label:"备注", fieldPath: "remarks" },
+            {label:"状态", fieldPath: "statusCaption" },
+            {label:"最后修改时间", fieldPath: "modifyDateTimeStr" }
+        ]};
+
+
+    pageChange(item: BylPageReq){
+        this.page = item;
+        this.search();
+    }
+
+    selectedChange(data: BylListFormData<BylBorrowMoneyTicket>[]){
+        this.selectedRows = data;
+
+    }
+    entityAction(action: BylTableClickAction){
+        switch(action.actionName){
+            case ACTION_MODIFY:
+                this.modifyEntity(action.id);
+                break;
+            default:
+                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+        }
+
+    }
+
 }

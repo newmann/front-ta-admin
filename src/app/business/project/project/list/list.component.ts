@@ -12,53 +12,20 @@ import {BylProjectStatusManager} from '../../../../service/project/model/project
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import * as moment from 'moment';
 import {SFSchema, SFUISchema} from '@delon/form';
+import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
+import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {BylPageReq} from "../../../../service/model/page-req.model";
+import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
 
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
 })
-export class BylProjectListComponent extends BylListComponentBase<BylProject> {
-    // public q: BylProjectQuery = new BylProjectQuery();
+export class BylProjectListComponent extends BylListComponentBasePro<BylProject> {
 
     public statusList: BylIStatusItem[] = [];
 
     public queryForm: FormGroup;
-
-    // defineQueryForm(): void {
-    //     let q = new BylProjectQuery();
-    //     // 绑定验证模式
-    //     this.queryForm = this.fb.group({
-    //         code: [q.code? q.code: null],
-    //         name: [q.name? q.name: null],
-    //         status: [q.status? q.status: null],
-    //         modifyDateBegin: [q.modifyDateBegin? q.modifyDateBegin: null],
-    //         modifyDateEnd: [q.modifyDateEnd? q.modifyDateEnd: null]
-    //     });
-    //
-    //
-    // }
-
-    // resetQuery(){
-
-    //     console.log(this.queryForm.value);
-    //     let q = new BylProjectQuery();
-    //
-    //     this.queryForm.reset({
-    //         code: (q.code? q.code: null),
-    //         name: (q.name? q.name: null),
-    //         status: (q.status? q.status: null),
-    //         modifyDateBegin: (q.modifyDateBegin? q.modifyDateBegin: null),
-    //         modifyDateEnd: (q.modifyDateEnd? q.modifyDateEnd: null)
-    //     },{onlySelf: false,emitEvent: true});
-    //     // this.queryForm.reset();
-    //
-    //     // this.queryForm.patchValue({
-    //     //   status: q.status
-    //     // });
-    //
-    //     console.log(this.queryForm.value);
-    //
-    // }
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
@@ -170,5 +137,42 @@ export class BylProjectListComponent extends BylListComponentBase<BylProject> {
 //#endregion
 
 
+    tableDefine:BylTableDefine ={
+        showCheckbox: true,
+        entityAction: [
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL }
+        ],
+        columns:[
+            {label:"代码", fieldPath: "code" },
+            {label:"名称", fieldPath: "name" },
+            {label:"地址", fieldPath: "fullAddress" },
+            {label:"项目经理", fieldPath: "fullManager" },
+            {label:"联系方式", fieldPath: "fullContactMethod" },
+            {label:"计划开始日期", fieldPath: "planBeginDate" },
+            {label:"计划结束日期", fieldPath: "planEndDate" },
+            {label:"状态", fieldPath: "statusCaption" },
+            {label:"最后修改时间", fieldPath: "modifyDateTimeStr" }
+        ]};
+
+
+    pageChange(item: BylPageReq){
+        this.page = item;
+        this.search();
+    }
+
+    selectedChange(data: BylListFormData<BylProject>[]){
+        this.selectedRows = data;
+
+    }
+    entityAction(action: BylTableClickAction){
+        switch(action.actionName){
+            case ACTION_MODIFY:
+                this.modifyEntity(action.id);
+                break;
+            default:
+                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+        }
+
+    }
 
 }

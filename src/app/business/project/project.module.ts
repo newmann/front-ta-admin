@@ -11,10 +11,16 @@ import {BylProjectManagerPoolListComponent} from './project-manager-pool/list/li
 import {BylBusinessSharedModule} from '../business-shared.module';
 import {BylBorrowMoneyQualificationPoolListComponent} from './borrow-money-qualification-pool/list/list.component';
 import {BylBorrowMoneyTicketListComponent} from './borrow-money-ticket/list/list.component';
-import {BylBorrowMoneyTicketListCrudComponent} from './borrow-money-ticket/crud/crud.component';
+import {BylBorrowMoneyTicketCrudComponent} from './borrow-money-ticket/crud/crud.component';
 import {BylFetchProjectManagerWidgetComponent} from './fetch-project-manager-form-item/fetch-project-manager.formitem';
 import {BylWorkTypeListComponent} from "./work-type/list/list.component";
 import {BylWorkTypeCrudComponent} from "./work-type/crud/crud.component";
+import {BylExpenseTypeListComponent} from "./expense-type/list/list.component";
+import {BylExpenseTypeCrudComponent} from "./expense-type/crud/crud.component";
+import {BylEmployeeListComponent} from "./employee/list/list.component";
+import {BylEmployeeCrudComponent} from "./employee/crud/crud.component";
+import {BylOutsourcerListComponent} from "./outsourcer/list/list.component";
+import {BylOutsourcerCrudComponent} from "./outsourcer/crud/crud.component";
 
 
 @NgModule({
@@ -37,10 +43,16 @@ import {BylWorkTypeCrudComponent} from "./work-type/crud/crud.component";
         BylProjectManagerPoolListComponent,
         BylBorrowMoneyQualificationPoolListComponent,
         BylBorrowMoneyTicketListComponent,
-        BylBorrowMoneyTicketListCrudComponent,
+        BylBorrowMoneyTicketCrudComponent,
         BylFetchProjectManagerWidgetComponent,
         BylWorkTypeListComponent,
-        BylWorkTypeCrudComponent
+        BylWorkTypeCrudComponent,
+        BylExpenseTypeListComponent,
+        BylExpenseTypeCrudComponent,
+        BylEmployeeListComponent,
+        BylEmployeeCrudComponent,
+        BylOutsourcerListComponent,
+        BylOutsourcerCrudComponent,
 
     ],
     entryComponents: [

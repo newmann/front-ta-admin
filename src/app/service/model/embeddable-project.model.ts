@@ -11,4 +11,12 @@ export class BylEmbeddableProject{
     projectCode: string;
     projectName: string;
 
+    getFullCaption() {
+        if ((this.projectCode) && (this.projectName)) {
+            return this.projectName +"[" + this.projectCode +"]";
+        }else{
+            return "[]";
+        }
+
+    }
 }

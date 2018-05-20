@@ -2,208 +2,63 @@
 <nz-card [nzBordered]="false">
     <nz-tabset>
         <nz-tab nzTitle="基本信息">
-                <form nz-form [formGroup]="form"  role="form">
+          <sf  #sf [button]="null"
+               [schema]="formSchema"
+               [formData]="businessData"
+               mode="edit"
+               (formError)="error($event)">
+            <button type="submit" nz-button [disabled]="!sf.valid" (click)="submitForm()">提交</button>
+            <button (click)="reset()"  type="button" nz-button>重置</button>
 
-                  <byl-input-formitem [controlName]="'code'" [labelCaption]="'代码'"
-                                      [hostForm]="form" [controlPath]="'code'" [isRequired]="'true'"
-                                      [placeHolder]="'请输入项目代码'"></byl-input-formitem>
+          </sf>
+          <p>formdata:{{sfForm.value | json}}</p>
+          <p>businessData:{{businessData | json}}</p>
+                <!--<form nz-form [formGroup]="form"  role="form">-->
 
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="code" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--代码-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
+                  <!--<byl-input-formitem [controlName]="'code'" [labelCaption]="'代码'"-->
+                                      <!--[hostForm]="form" [controlPath]="'code'" [isRequired]="'true'"-->
+                                      <!--[placeHolder]="'请输入项目代码'"></byl-input-formitem>-->
+
+                  <!--<byl-input-formitem [controlName]="'name'" [labelCaption]="'名称'"-->
+                                      <!--[hostForm]="form" [controlPath]="'name'" [isRequired]="'true'"-->
+                                      <!--[placeHolder]="'请输入项目名称'"></byl-input-formitem>-->
+
+
+                  <!--<byl-fetch-project-manager-formitem #projectManager-->
+                                      <!--[hostForm]="form" [isRequired]="'true'"-->
+                                      <!--[placeHolder]="'请输入项目代码'"></byl-fetch-project-manager-formitem>-->
+
+
+                  <!--<byl-input-formitem [controlName]="'zipCode'" [labelCaption]="'邮政编码'"-->
+                                      <!--[hostForm]="form" [controlPath]="'zipCode'" [isRequired]="'false'"-->
+                                      <!--[placeHolder]="'请输入邮政编码'"></byl-input-formitem>-->
+
+                  <!--<byl-date-formitem [controlName]="'planBeginDate'" [labelCaption]="'计划开始日期'"-->
+                                     <!--[hostForm]="form" [controlPath]="'planBeginDate'" [isRequired]="'false'"-->
+                                     <!--[placeHolder]="'请输入计划开始日期'"></byl-date-formitem>-->
+
+                  <!--<byl-date-formitem [controlName]="'planEndDate'" [labelCaption]="'计划结束日期'"-->
+                                     <!--[hostForm]="form" [controlPath]="'planEndDate'" [isRequired]="'false'"-->
+                                     <!--[placeHolder]="'请输入计划结束日期'"></byl-date-formitem>-->
+
+
+
+                  <!--<byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"-->
+                                      <!--[hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"-->
+                                      <!--[placeHolder]="'请输入备注'"></byl-input-formitem>-->
+
+                  <!--<byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>-->
+
+
+                    <!--<nz-form-item nz-row class="mb0">-->
+                        <!--<div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">-->
+                            <!--<button nz-button [nzType]="'primary'" [nzSize]="'large'"-->
+                                    <!--[disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>-->
+                            <!--<button nz-button (click)="resetButtonClick($event)">重置</button>-->
                         <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="code">-->
-                            <!--<nz-input formControlName="code" nzPlaceHolder="项目代码" ></nz-input>-->
+                    <!--</nz-form-item>-->
 
-                            <!--<ng-container *ngIf="code.dirty && code.touched">-->
-                                <!--<p nz-form-explain *ngIf="code.errors?.required">必须输入身份证号码</p>-->
-                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="code.errors?.idCard">输入身份证号码不正确</p>&ndash;&gt;-->
-                                <!--<p nz-form-explain *ngIf="code.errors?.duplicate">输入的身份证已经被使用</p>-->
-                                <!--<p nz-form-explain *ngIf="code.errors?.other">验证出现异常：{{idCard.errors?.msg}}</p>-->
-                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>&ndash;&gt;-->
-                                <!--<p nz-form-explain *ngIf="code.pending">验证中...</p>-->
-                            <!--</ng-container>-->
-
-                        <!--</div>-->
-                    <!--</div>-->
-
-                  <byl-input-formitem [controlName]="'name'" [labelCaption]="'名称'"
-                                      [hostForm]="form" [controlPath]="'name'" [isRequired]="'true'"
-                                      [placeHolder]="'请输入项目名称'"></byl-input-formitem>
-
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="name" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--名称-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="name">-->
-                            <!--<nz-input formControlName="name" nzPlaceHolder="名称" ></nz-input>-->
-
-                            <!--<ng-container *ngIf="name.dirty && name.touched">-->
-                                <!--<p nz-form-explain *ngIf="name.errors?.required">必须输入姓名</p>-->
-                                <!--<p nz-form-explain *ngIf="name.errors?.other">验证出现异常：{{name.errors?.msg}}</p>-->
-                                <!--<p nz-form-explain *ngIf="name.pending">验证中...</p>-->
-                            <!--</ng-container>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                  <byl-fetch-project-manager-formitem #projectManager
-                                      [hostForm]="form" [isRequired]="'true'"
-                                      [placeHolder]="'请输入项目代码'"></byl-fetch-project-manager-formitem>
-
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="managerCode" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--项目经理-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="managerCode">-->
-
-                            <!--<nz-input-group [nzSize]="'large'" nzCompact>-->
-                                <!--<input formControlName="managerId"  type="hidden">-->
-                                <!--<input nz-input formControlName="managerCode" nzPlaceHolder="代码" style="width: 30%;" >-->
-                                <!--<ng-container *ngIf="managerCode.dirty && managerCode.touched">-->
-                                    <!--<p nz-form-explain *ngIf="managerCode.errors?.required">必须输入项目经理代码</p>-->
-                                    <!--<p nz-form-explain *ngIf="managerCode.errors?.other">验证出现异常：{{managerCode.errors?.msg}}</p>-->
-                                    <!--<p nz-form-explain *ngIf="managerCode.pending">验证中...</p>-->
-                                <!--</ng-container>-->
-
-                                <!--<input nz-input formControlName="managerName" style="width: 60%;" [nzDisabled]="true">-->
-
-                                <!--<button nz-button [nzType]="'default'" [nzLoading]="loading"  (click)="searchManager($event)" style="width: 10%;" >-->
-                                    <!--<i class="anticon anticon-search"></i>-->
-                                <!--</button>-->
-                            <!--</nz-input-group>-->
-
-                        <!--</div>-->
-                    <!--</div>-->
-
-                    <!--<byl-embeddable-address formControlName="address"></byl-embeddable-address>-->
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="addressTree" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--地址-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="addressTree">-->
-                            <!--<nz-cascader-->
-                                <!--formControlName = "addressTree"-->
-                                <!--(nzLoad)="loadAddressTree($event)"-->
-                                <!--[nzEnableCache] = "false"-->
-                                <!--(nzSelect) = "selectAddressTree($event)" >-->
-                            <!--</nz-cascader>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="detailAddress" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--详细地址-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="detailAddress">-->
-                            <!--<nz-input formControlName="detailAddress" nzPlaceHolder="详细地址"  ></nz-input>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                  <byl-input-formitem [controlName]="'zipCode'" [labelCaption]="'邮政编码'"
-                                      [hostForm]="form" [controlPath]="'zipCode'" [isRequired]="'false'"
-                                      [placeHolder]="'请输入邮政编码'"></byl-input-formitem>
-
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="zipCode" >-->
-                                    <!--<span>-->
-                                        <!--邮政编码-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="zipCode">-->
-                            <!--<nz-input formControlName="zipCode" nzPlaceHolder="邮政编码" ></nz-input>-->
-
-                        <!--</div>-->
-                    <!--</div>-->
-                  <byl-date-formitem [controlName]="'planBeginDate'" [labelCaption]="'计划开始日期'"
-                                     [hostForm]="form" [controlPath]="'planBeginDate'" [isRequired]="'false'"
-                                     [placeHolder]="'请输入计划开始日期'"></byl-date-formitem>
-
-                  <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="planBeginDate" >-->
-                                    <!--<span>-->
-                                        <!--计划开始日期-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="planBeginDate">-->
-                            <!--<nz-datepicker formControlName="planBeginDate" nzPlaceHolder="计划开始日期" [nzFormat]="'YYYY/MM/DD'"></nz-datepicker>-->
-
-                        <!--</div>-->
-                    <!--</div>-->
-                  <byl-date-formitem [controlName]="'planEndDate'" [labelCaption]="'计划结束日期'"
-                                     [hostForm]="form" [controlPath]="'planEndDate'" [isRequired]="'false'"
-                                     [placeHolder]="'请输入计划结束日期'"></byl-date-formitem>
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="planEndDate" >-->
-                                    <!--<span>-->
-                                        <!--计划结束日期-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="planEndDate">-->
-                            <!--<nz-datepicker formControlName="planEndDate" nzPlaceHolder="计划结束日期" [nzFormat]="'YYYY/MM/DD'"></nz-datepicker>-->
-
-                        <!--</div>-->
-                    <!--</div>-->
-
-
-                  <byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"
-                                      [hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"
-                                      [placeHolder]="'请输入备注'"></byl-input-formitem>
-
-                  <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
-
-
-                    <nz-form-item nz-row class="mb0">
-                        <div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
-                            <button nz-button [nzType]="'primary'" [nzSize]="'large'"
-                                    [disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>
-                            <button nz-button (click)="resetButtonClick($event)">重置</button>
-                        </div>
-                    </nz-form-item>
-
-                </form>
+                <!--</form>-->
         </nz-tab>
 
 

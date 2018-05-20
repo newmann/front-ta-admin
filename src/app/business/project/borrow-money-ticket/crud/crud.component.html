@@ -2,62 +2,67 @@
 <nz-card [nzBordered]="false">
     <nz-tabset>
       <nz-tab [nzTitle]="'基本信息'">
-            <form nz-form [formGroup]="form"  role="form">
-              <byl-input-formitem [controlName]="'billNo'" [labelCaption]="'单号'"
-                                  [hostForm]="form" [controlPath]="'billNo'" [isRequired]="'true'"
-                                  [placeHolder]="'请输入单号'"></byl-input-formitem>
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="billNo" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--单号-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
+            <form nz-form  role="form" #inputForm="ngForm">
+              <!--<byl-input-formitem [controlName]="'billNo'" [labelCaption]="'单号'"-->
+                                  <!--[hostForm]="form" [controlPath]="'billNo'" [isRequired]="'true'"-->
+                                  <!--[placeHolder]="'请输入单号'"></byl-input-formitem>-->
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" [nzRequired]="'true'" >
+                                        单号
+                        </nz-form-label>
 
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="billNo">-->
-                            <!--<nz-input formControlName="billNo" nzPlaceHolder="单号" ></nz-input>-->
+                        <nz-form-control [nzSm]="14" [nzXs]="24"  nzHasFeedback nzValidateStatus="billNo">
+                            <input nz-input #billNo name="billNo" nzPlaceholder="单号" id="billNo" required
+                                   [(ngModel)]="businessData.billNo">
 
-                            <!--<ng-container *ngIf="billNo.dirty && billNo.touched">-->
-                                <!--<p nz-form-explain *ngIf="billNo.errors?.required">必须输入单号</p>-->
-                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="code.errors?.idCard">输入身份证号码不正确</p>&ndash;&gt;-->
-                                <!--<p nz-form-explain *ngIf="billNo.errors?.duplicate">输入的单号已经被使用</p>-->
-                                <!--<p nz-form-explain *ngIf="billNo.errors?.other">验证出现异常：{{billNo.errors?.msg}}</p>-->
-                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>&ndash;&gt;-->
-                                <!--<p nz-form-explain *ngIf="billNo.pending">验证中...</p>-->
-                            <!--</ng-container>-->
+                            <nz-form-explain *ngIf="billNo.dirty && billNo.touched">
+                                <ng-container  *ngIf="billNo.errors?.required">必须输入单号</ng-container>
+                                <!--<p nz-form-explain *ngIf="code.errors?.idCard">输入身份证号码不正确</p>-->
+                                <ng-container  *ngIf="billNo.errors?.duplicate">输入的单号已经被使用</ng-container>
+                                <ng-container *ngIf="billNo.errors?.other">验证出现异常：{{billNo.errors?.msg}}</ng-container>
+                                <!--<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>-->
+                                <ng-container  *ngIf="billNo.pending">验证中...</ng-container>
+                            </nz-form-explain>
 
-                        <!--</div>-->
-                    <!--</div>-->
-              <byl-radio-formitem [controlName]="'borrowType'" [labelCaption]="'借款人类型'"
-                                  [hostForm]="form" [controlPath]="'borrowType'" [isRequired]="'true'"
-                                  [selectOptions]="borrowTypeOptions"></byl-radio-formitem>
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="borrowType" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--借款人类型-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="borrowType">-->
+                        </nz-form-control>
+                    </nz-form-item>
+              <!--<byl-radio-formitem [controlName]="'borrowType'" [labelCaption]="'借款人类型'"-->
+                                  <!--[hostForm]="form" [controlPath]="'borrowType'" [isRequired]="'true'"-->
+                                  <!--[selectOptions]="borrowTypeOptions"></byl-radio-formitem>-->
+                    <nz-form-item >
+                        <nz-form-label [nzSm]="6" [nzXs]="24" [nzRequired]="'true'">
+                                        借款人类型
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24"  nzHasFeedback nzValidateStatus="borrowType">
 
-                            <!--<nz-radio-group formControlName="borrowType" >-->
-                              <!--<caption nz-radio-button [nzValue]="1"><span>个体</span></caption>-->
-                              <!--<caption nz-radio-button [nzValue]="2"><span>组织</span></caption>-->
-                            <!--</nz-radio-group>-->
+                            <nz-radio-group #borrowType name="borrowType" id="borrowType" required
+                                            [(ngModel)]="businessData.borrowAction.borrowType" >
+                              <caption nz-radio-button [nzValue]="1"><span>个体</span></caption>
+                              <caption nz-radio-button [nzValue]="2"><span>组织</span></caption>
+                            </nz-radio-group>
                             <!--<ng-container *ngIf="borrowType.dirty && borrowType.touched">-->
                                 <!--<p nz-form-explain *ngIf="borrowType.errors?.required">必须选择借款人类型</p>-->
                             <!--</ng-container>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                        </nz-form-control>
+                    </nz-form-item>
 
+                    <nz-form-item >
+                      <nz-form-label [nzSm]="6" [nzXs]="24" [nzRequired]="'true'">
+                        借款人
+                      </nz-form-label>
+                      <nz-form-control [nzSm]="14" [nzXs]="24"  nzHasFeedback nzValidateStatus="projectCode">
+                        <nz-select style="width: 100%;" name="project" id="borrower" #project required
+                                   [(ngModel)]="businessData.project" nzPlaceHolder="查找借款人"
+                                   [compareWith]="compareFn"
+                                   nzAllowClear nzShowSearch [nzServerSearch]="true" (nzOnSearch)="searchBorrower($event)">
+                          <nz-option *ngFor="let o of borrowerList" [nzValue]="o" [nzLabel]="o.getFullCaption()"></nz-option>
+                          <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+                            <i class="anticon anticon-loading anticon-spin loading-icon"></i> Loading Data...
+                          </nz-option>
+                        </nz-select>
+
+                      </nz-form-control>
+                    </nz-form-item>
                     <!--<nz-form-item nz-row>-->
                         <!--<nz-form-caption nz-col [nzSm]="4" [nzFor]="'borrowCode'" [nzRequired]="'true'">-->
                           <!--借款人-->
@@ -83,133 +88,137 @@
                         <!--</nz-form-control>-->
                     <!--</nz-form-item>-->
 
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="projectCode" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--所属项目-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="managerCode">-->
+                    <nz-form-item >
+                        <nz-form-label [nzSm]="6" [nzXs]="24" [nzRequired]="'true'">
+                                        所属项目
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24"  nzHasFeedback nzValidateStatus="projectCode">
+                          <nz-select style="width: 100%;" name="project" id="project" #project required
+                                     [(ngModel)]="businessData.project" nzPlaceHolder="查找项目"
+                                     [compareWith]="compareFn"
+                                     nzAllowClear nzShowSearch [nzServerSearch]="true" (nzOnSearch)="searchProject($event)">
+                            <nz-option *ngFor="let o of projectList" [nzValue]="o" [nzLabel]="o.getFullCaption()"></nz-option>
+                            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+                              <i class="anticon anticon-loading anticon-spin loading-icon"></i> Loading Data...
+                            </nz-option>
+                          </nz-select>
+                            <!--<nz-input-group nzCompact="true" >-->
+                                <!--<input name="projectId"  type="hidden" [(ngModel)]="businessData.project.projectId">-->
 
-                            <!--<nz-input-group [nzSize]="'large'" nzCompact>-->
-                                <!--<input formControlName="projectId"  type="hidden">-->
-                                <!--<input nz-input formControlName="projectCode" nzPlaceHolder="代码" style="width: 30%;" >-->
-                                <!--<ng-container *ngIf="projectCode.dirty && projectCode.touched">-->
-                                    <!--<p nz-form-explain *ngIf="projectCode.errors?.required">必须输入项目代码</p>-->
-                                    <!--<p nz-form-explain *ngIf="projectCode.errors?.other">验证出现异常：{{projectCode.errors?.msg}}</p>-->
-                                    <!--<p nz-form-explain *ngIf="projectCode.pending">验证中...</p>-->
-                                <!--</ng-container>-->
+                                <!--<input nz-input #projectCode name="projectCode" nzPlaceHolder="代码" style="width: 30%;"-->
+                                       <!--[(ngModel)] = "businessData.project.projectCode" >-->
+                                <!--<nz-form-explain *ngIf="projectCode.dirty && projectCode.touched">-->
+                                    <!--<ng-container  *ngIf="projectCode.errors?.required">必须输入项目代码</ng-container>-->
+                                    <!--<ng-container  *ngIf="projectCode.errors?.other">验证出现异常：{{projectCode.errors?.msg}}</ng-container>-->
+                                    <!--<ng-container  *ngIf="projectCode.pending">验证中...</ng-container>-->
+                                <!--</nz-form-explain>-->
 
-                                <!--<input nz-input formControlName="projectName" style="width: 60%;" [nzDisabled]="true">-->
+                                <!--<input nz-input name="projectName" style="width: 60%;" [readonly]="'true'"-->
+                                       <!--[(ngModel)] = "businessData.project.projectName" >-->
 
-                                <!--<button nz-button [nzType]="'default'" [nzLoading]="loading"  (click)="searchProject($event)" style="width: 10%;" >-->
-                                    <!--<i class="anticon anticon-search"></i>-->
-                                <!--</button>-->
+                                <!--&lt;!&ndash;<button nz-button [nzType]="'default'" [nzLoading]="loading"  (click)="searchProject($event)" style="width: 10%;" >&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<i class="anticon anticon-search"></i>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                                  <!--<button nz-button nzType="primary" nzSearch (click)="searchProject($event)" style="width: 10%;">筛选</button>-->
                             <!--</nz-input-group>-->
 
-                        <!--</div>-->
-                    <!--</div>-->
+                        </nz-form-control>
+                    </nz-form-item>
 
-              <byl-input-formitem [controlName]="'reason'" [labelCaption]="'借款原因'"
-                                  [hostForm]="form" [controlPath]="'reason'" [isRequired]="'true'"
-                                  [placeHolder]="'请输入借款原因'"></byl-input-formitem>
+              <!--<byl-input-formitem [controlName]="'reason'" [labelCaption]="'借款原因'"-->
+                                  <!--[hostForm]="form" [controlPath]="'reason'" [isRequired]="'true'"-->
+                                  <!--[placeHolder]="'请输入借款原因'"></byl-input-formitem>-->
 
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="reason" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--借款原因-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="reason">-->
-                            <!--<nz-input formControlName="reason" nzPlaceHolder="借款原因" ></nz-input>-->
+                    <nz-form-item >
+                        <nz-form-label [nzSm]="6" [nzXs]="24" [nzRequired]="'true'">
+                                          借款原因
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24"  nzHasFeedback nzValidateStatus="reason">
+                            <input nz-input name="reason" nzPlaceHolder="借款原因" #reason required
+                                   [(ngModel)]="businessData.reason" >
 
-                            <!--<ng-container *ngIf="reason.dirty && reason.touched">-->
-                                <!--<p nz-form-explain *ngIf="reason.errors?.required">必须输入借款原因</p>-->
-                                <!--<p nz-form-explain *ngIf="reason.errors?.other">验证出现异常：{{reason.errors?.msg}}</p>-->
-                                <!--<p nz-form-explain *ngIf="reason.pending">验证中...</p>-->
-                            <!--</ng-container>-->
-                        <!--</div>-->
-                    <!--</div>-->
-              <byl-input-number-formitem [controlName]="'reason'" [labelCaption]="'借款原因'"
-                                  [hostForm]="form" [controlPath]="'reason'" [isRequired]="'true'"
-                                  [max]="100000000" [min]="0" [precision]="1" [step]="1"></byl-input-number-formitem>
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="amount" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--借款金额-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="amount">-->
-                            <!--<nz-input-number [nzMin]="0" formControlName="amount" nzPlaceHolder="借款金额" [nzAllowClear]="true"></nz-input-number>-->
+                            <ng-container *ngIf="reason.dirty && reason.touched">
+                                <p nz-form-explain *ngIf="reason.errors?.required">必须输入借款原因</p>
+                                <p nz-form-explain *ngIf="reason.errors?.other">验证出现异常：{{reason.errors?.msg}}</p>
+                                <p nz-form-explain *ngIf="reason.pending">验证中...</p>
+                            </ng-container>
+                        </nz-form-control>
+                    </nz-form-item>
+              <!--<byl-input-number-formitem [controlName]="'reason'" [labelCaption]="'借款原因'"-->
+                                  <!--[hostForm]="form" [controlPath]="'reason'" [isRequired]="'true'"-->
+                                  <!--[max]="100000000" [min]="0" [precision]="1" [step]="1"></byl-input-number-formitem>-->
+                    <nz-form-item >
+                      <nz-form-label [nzSm]="6" [nzXs]="24" [nzRequired]="'true'">
+                                        借款金额
+                      </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24"  nzHasFeedback nzValidateStatus="amount">
+                            <input nz-input type="number" #amount min="0" max="100000" name="amount" id="amount" required
+                                   nzPlaceHolder="借款金额" nzAllowClear="true" [(ngModel)]="businessData.amount">
 
-                            <!--<ng-container *ngIf="amount.dirty && amount.touched">-->
-                                <!--<p nz-form-explain *ngIf="amount.errors?.required">必须输入借款金额</p>-->
-                                <!--<p nz-form-explain *ngIf="amount.errors?.other">验证出现异常：{{amount.errors?.msg}}</p>-->
-                                <!--<p nz-form-explain *ngIf="amount.pending">验证中...</p>-->
-                            <!--</ng-container>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                            <nz-form-explain  *ngIf="amount.dirty && amount.touched">
+                                <ng-container  *ngIf="amount.errors?.required">必须输入借款金额</ng-container>
+                                <ng-container  *ngIf="amount.errors?.other">验证出现异常：{{amount.errors?.msg}}</ng-container>
+                                <ng-container  *ngIf="amount.pending">验证中...</ng-container>
+                            </nz-form-explain >
+                        </nz-form-control>
+                    </nz-form-item>
 
-              <byl-date-formitem [controlName]="'borrowDate'" [labelCaption]="'借款日期'"
-                                 [hostForm]="form" [controlPath]="'borrowDate'" [isRequired]="'false'"
-                                 [placeHolder]="'请输入借款日期'"></byl-date-formitem>
+              <!--<byl-date-formitem [controlName]="'borrowDate'" [labelCaption]="'借款日期'"-->
+                                 <!--[hostForm]="form" [controlPath]="'borrowDate'" [isRequired]="'false'"-->
+                                 <!--[placeHolder]="'请输入借款日期'"></byl-date-formitem>-->
 
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="borrowDate" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--借款日期-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="borrowDate">-->
-                            <!--<nz-datepicker formControlName="borrowDate" nzPlaceHolder="借款日期" [nzFormat]="'YYYY/MM/DD'"></nz-datepicker>-->
-                            <!--<ng-container *ngIf="borrowDate.dirty && borrowDate.touched">-->
-                                <!--<p nz-form-explain *ngIf="borrowDate.errors?.required">必须输入借款日期</p>-->
-                                <!--<p nz-form-explain *ngIf="borrowDate.errors?.other">验证出现异常：{{borrowDate.errors?.msg}}</p>-->
-                                <!--<p nz-form-explain *ngIf="borrowDate.pending">验证中...</p>-->
-                            <!--</ng-container>-->
+                    <nz-form-item >
+                      <nz-form-label [nzSm]="6" [nzXs]="24" [nzRequired]="'true'">
+                                        借款日期
+                      </nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24"  nzHasFeedback nzValidateStatus="borrowDate">
+                            <nz-date-picker #borrowDate name="borrowDate" nzPlaceHolder="借款日期" required
+                                           [nzFormat]="'YYYY-MM-DD'" [(ngModel)]="businessData.borrowAction.borrowDateTimeDateFormat"></nz-date-picker>
+                            <!--<nz-form-explain *ngIf="borrowDate.valid && borrowDate.pristine">-->
+                                <!--<ng-container *ngIf="borrowDate.errors?.required">必须输入借款日期</ng-container>-->
+                                <!--<ng-container *ngIf="borrowDate.errors?.other">验证出现异常：{{borrowDate.errors?.msg}}</ng-container>-->
+                                <!--<ng-container  *ngIf="borrowDate.pending">验证中...</ng-container>-->
+                            <!--</nz-form-explain>-->
 
-                        <!--</div>-->
-                    <!--</div>-->
+                        </nz-form-control>
+                    </nz-form-item>
 
-              <byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"
-                                  [hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"
-                                  [placeHolder]="'请输入备注'"></byl-input-formitem>
+              <!--<byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"-->
+                                  <!--[hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"-->
+                                  <!--[placeHolder]="'请输入备注'"></byl-input-formitem>-->
+
+              <nz-form-item >
+                <nz-form-label [nzSm]="6" [nzXs]="24">
+                                        备注
+                </nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24"  nzHasFeedback nzValidateStatus="remarks">
+                  <input nz-input #remarks name="remarks" nzPlaceHolder="请输入备注" id="remarks"
+                                  [(ngModel)]="businessData.remarks">
+                  <!--<nz-form-explain *ngIf="borrowDate.valid && borrowDate.pristine">-->
+                  <!--<ng-container *ngIf="borrowDate.errors?.required">必须输入借款日期</ng-container>-->
+                  <!--<ng-container *ngIf="borrowDate.errors?.other">验证出现异常：{{borrowDate.errors?.msg}}</ng-container>-->
+                  <!--<ng-container  *ngIf="borrowDate.pending">验证中...</ng-container>-->
+                  <!--</nz-form-explain>-->
+
+                </nz-form-control>
+              </nz-form-item>
 
               <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
-              <div nz-form-item nz-row class="mb0">
+              <nz-form-item class="mb0">
 
 
-                  <div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
-                      <button nz-button [nzType]="'primary'" [nzSize]="'large'"
-                              [disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>
+                  <nz-form-control [nzSpan]="12" [nzOffset]="4">
+                      <button nz-button [nzType]="'primary'"
+                              [disabled]="inputForm.invalid || (!inputForm.dirty)" (click)="submitForm()">保存</button>
                       <button nz-button (click)="resetButtonClick($event)">重置</button>
 
 
-                  </div>
+                  </nz-form-control>
 
-              </div>
+              </nz-form-item>
 
             </form>
+            <p>{{ this.businessData | json }}</p>
         </nz-tab>
 
       <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">

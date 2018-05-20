@@ -8,18 +8,19 @@ import {BylPersonService} from '../../../../service/person/service/person.servic
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
 
 import {BylPersonQuery} from '../../../../service/person/query/person-query.model';
-import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 import {SFSchema, SFUISchema} from "@delon/form";
 import * as moment from "moment";
-import {BylIStatusItem} from "../../../../service/model/status.model";
-import {BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
+import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
+import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
+import {BylPageReq} from "../../../../service/model/page-req.model";
+import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
 
 
 @Component({
     selector: 'byl-person-list',
     templateUrl: './list.component.html',
 })
-export class BylPersonListComponent extends BylListComponentBase<BylPerson> {
+export class BylPersonListComponent extends BylListComponentBasePro<BylPerson> {
     // statusList: BylIStatusItem[]; //状态
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
@@ -99,5 +100,42 @@ export class BylPersonListComponent extends BylListComponentBase<BylPerson> {
         },
         required: []
     };
+
 //#endregion
+    tableDefine:BylTableDefine ={
+        showCheckbox: true,
+        entityAction: [
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL }
+        ],
+        columns:[
+            {label:"身份证号码", fieldPath: "idCard" },
+            {label:"名称", fieldPath: "name" },
+            {label:"民族", fieldPath: "nationName" },
+            {label:"政治面貌", fieldPath: "politicalStatusName" },
+            {label:"籍贯", fieldPath: "nativePlace" },
+            {label:"备注", fieldPath: "remarks" },
+            {label:"最后修改时间", fieldPath: "modifyDateTimeStr" }
+        ]};
+
+
+    pageChange(item: BylPageReq){
+        this.page = item;
+        this.search();
+    }
+
+    selectedChange(data: BylListFormData<BylPerson>[]){
+        this.selectedRows = data;
+
+    }
+    entityAction(action: BylTableClickAction){
+        switch(action.actionName){
+            case ACTION_MODIFY:
+                this.modifyEntity(action.id);
+                break;
+            default:
+                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+        }
+
+    }
+
 }

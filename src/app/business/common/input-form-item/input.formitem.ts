@@ -1,4 +1,4 @@
-import {Component, forwardRef, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, forwardRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
 
@@ -17,6 +17,7 @@ export class BylInputWidgetComponent /*implements ControlValueAccessor */ {
     @Input() public controlPath: string;
     @Input() public isRequired: boolean;
     @Input() public validatedExtraInfo: string;
+
 
     get inputControl() {
         return this.hostForm.get(this.controlPath);

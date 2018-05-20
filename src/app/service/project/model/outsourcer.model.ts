@@ -9,6 +9,7 @@ import {BylEmbeddableOrganization} from "../../organization/model/embeddable-org
 
 export class BylOutsourcer extends BylBaseModel {
     code: string;
+    name: string;
     organization: BylEmbeddableOrganization;
 
     status: number;

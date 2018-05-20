@@ -6,6 +6,9 @@
 import {BylBaseModel} from '../../model/base.model';
 import {BylEmbeddableAddress} from '../../model/embeddable-address.model';
 import {BylEmbeddableContactMethod} from '../../model/embeddable-contact-method.model';
+import {BylProjectManagerPool} from "./project-manager-pool.model";
+import {BylEntityReference} from "../../model/entity-reference.model";
+import {BylDatetimeUtils} from "../../utils/datetime.utils";
 
 export class BylProject extends BylBaseModel {
     code: string;
@@ -13,6 +16,7 @@ export class BylProject extends BylBaseModel {
 
     address: BylEmbeddableAddress = new BylEmbeddableAddress(); // 项目所在地
 
+    manager: any ;
     managerId: string;
     managerCode: string;
     managerName: string;
@@ -60,4 +64,15 @@ export class BylProject extends BylBaseModel {
         return result;
 
     }
+
+    get planBeginDateDF(): Date{
+        return BylDatetimeUtils.convertMillsToDateTime(this.planBeginDate);
+
+    }
+
+    get planEndDateDF(): Date{
+        return BylDatetimeUtils.convertMillsToDateTime(this.planEndDate);
+
+    }
+
 }

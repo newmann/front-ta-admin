@@ -17,6 +17,8 @@ import {BylBaseService} from '../../service/base.service';
 import {BylAccountQuery} from '../../account/query/account-query.model';
 import {BylAccount} from '../../account/model/account.model';
 import {BylAccountAvailablePoolsInterface} from '../../account/service/account-related.interface';
+import {SFSchemaEnumType} from "@delon/form";
+import {BylEntityReference} from "../../model/entity-reference.model";
 
 
 
@@ -53,8 +55,42 @@ export class BylProjectManagerPoolService extends BylBaseService<BylProjectManag
         return this.http.post<BylResultBody<BylPageResp<BylAccount>>>(this.BASE_API_URL + '/find-available-account-pools-page', queryModel);
     }
 
-    // fetchAvailableDepartmentByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylProjectManagerPool> >> {
-    //     return this.http.get<BylResultBody<Array<BylProjectManagerPool>>>(this.BASE_API_URL+"/fetch-available-BylProjectManagerPool-by-code-or-name/" + searchstr);
+    fetchAvailableByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylProjectManagerPool> >> {
+        return this.http.get<BylResultBody<Array<BylProjectManagerPool>>>(this.BASE_API_URL+"/fetch-available-by-code-or-name/" + searchstr);
+    }
+
+    // fetchAvailableByCodeOrNamePromise(searchstr : string): Promise < void | SFSchemaEnumType[] > {
+    //     return this.fetchAvailableByCodeOrName(searchstr)
+    //         .toPromise().then(
+    //             (res) => {
+    //                 if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
+    //                     if (res.data) {
+    //                         let searchResult: SFSchemaEnumType[] = [];
+    //
+    //                         res.data.forEach(item =>{
+    //                             let v = new BylEntityReference();
+    //                             v.id = item.poolId;
+    //                             v.code = item.poolCode;
+    //                             v.name = item.poolName;
+    //
+    //                             let i :SFSchemaEnumType = {};
+    //                             i.label = v.getFullCaption();
+    //                             i.value = v;
+    //                             searchResult.push(i);
+    //                         });
+    //
+    //                         return searchResult;
+    //
+    //                     } else {
+    //                         return [];
+    //                     }
+    //                 } else{
+    //                     console.error("获取项目经理资源出错：", res);
+    //                     return ([]);
+    //                 }
+    //
+    //             }
+    //         ).catch(error => (console.error("获取项目经理资源出错：",error)));
     // }
 
 

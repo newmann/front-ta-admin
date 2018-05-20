@@ -9,28 +9,31 @@ import {BylConfigService} from '../../../../service/constant/config.service';
 import {FormBuilder, Validators} from '@angular/forms';
 
 
-import {BylWorkTypeService} from "../../../../service/project/service/work-type.service";
-import {BylWorkType} from "../../../../service/project/model/work-type.model";
+
 import {BylCheckTypeEnum, BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
 import {ErrorData, SFComponent, SFSchema, SFUISchema} from "@delon/form";
-import * as moment from "moment";
 import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
 import {BylProject} from "../../../../service/project/model/project.model";
 import {map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {isEmpty} from "../../../../service/utils/string.utils";
+import {BylEmployee} from "../../../../service/project/model/employee.model";
+import {BylEmployeeService} from "../../../../service/project/service/employee.service";
+import {parse} from "date-fns";
+import * as moment from 'moment';
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 
 
 @Component({
-    selector: 'byl-work-type-crud',
+    selector: 'byl-employee-crud',
     templateUrl: './crud.component.html',
 })
-export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkType> {
+export class BylEmployeeCrudComponent extends BylCrudComponentBasePro<BylEmployee> {
     processType: string;
 
 
-    newBusinessData(): BylWorkType {
-        return new BylWorkType();
+    newBusinessData(): BylEmployee {
+        return new BylEmployee();
     }
 
     @Input()
@@ -51,7 +54,7 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
                                 return [];
                             }
 
-                            return this.workTypeService.checkCodeAvailable({data: value,id: this.sourceId}).pipe(
+                            return this.employeeService.checkCodeAvailable({data: value,id: this.sourceId}).pipe(
                                 map((res) => {
                                     if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
                                         if (res.data) {
@@ -70,78 +73,43 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
                 },
                 "name": {
                     "type": 'string',
-                    "title": '名称',
-                    "ui": {
-                        "validator": (value: string) =>{
-                            if (isEmpty(value)) {
-                                console.log('check name:', value);
-                                return [];
-                            }
-
-                            return this.workTypeService.checkNameAvailable({data: value,id: this.sourceId}).pipe(
-                                map((res) => {
-                                        if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                                            if (res.data) {
-                                                return [];
-                                            } else {
-                                                return ([{keyword: 'required', message: '工种名称已存在。'}]);
-                                            }
-
-                                        } else {
-                                            return ([{keyword: 'required', message: res.msg}]);
-                                        }
-                                    }
-                                ));
-                        }
-                    }
+                    "title": '姓名'
                 },
 
-                "checkType": {
+                "enterDateDF": {
                     "type": 'string',
-                    "title": '考勤类型',
-                    "enum": [],
-                    "ui": {
-                        "widget": "radio",
-                        "styleType": "button"
-                    }
+                    "title": '入职日期',
+                    'format': 'date'
                 },
-                "standardTimeLength": {
-                    "type": 'integer',
-                    "title": '标准工作时长',
-                    "default": 10
+                "leaveDateDF": {
+                    "type": 'string',
+                    "title": '离职日期',
+                    'format': 'date'
+
                 },
                 "remarks": {
                     "type": 'string',
                     "title": '备注'
                 }
             },
-            "required": ["code", "name", "checkType"],
-            "if": {
-                "properties": {"checkType": {"enum": [10]}}
-            },
-            "then": {
-                "required": ["standardTimeLength"]
-            },
-            "else": {
-                "required": []
-            }
+            "required": ["code", "name"]
         };
 
-        BylCheckTypeEnumManager.getArray().forEach((item) =>{
-            let option = {label: item.caption, value: item.value};
-            this.formSchema.properties['checkType'].enum.push(option);
-        });
+        // BylCheckTypeEnumManager.getArray().forEach((item) =>{
+        //     let option = {label: item.caption, value: item.value};
+        //     this.formSchema.properties['checkType'].enum.push(option);
+        // });
 
         // this.formSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
 
     }
 
-    // defaultFormData: BylWorkType = new BylWorkType();
+    // defaultFormData: BylEmployee = new BylEmployee();
 
     // this.formUiSchema: SFUISchema = {};
 
     constructor(public msgService: NzMessageService,
-                public workTypeService: BylWorkTypeService,
+                public employeeService: BylEmployeeService,
                 public configService: BylConfigService,
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
@@ -149,7 +117,7 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
                 public reuseTabService: ReuseTabService) {
         super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
         //
-        this.businessService = workTypeService;
+        this.businessService = employeeService;
 
 
     }
@@ -168,23 +136,42 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
     }
     //
     //
-    // getFormData() {
-    //     // for (const i in this.form.controls) {
-    //     //     this.form.controls[i].markAsDirty();
-    //     // }
-    //
-    //     Object.assign(this.businessData, this.sfForm.value);
-    //
-    //     console.table(this.businessData);
-    //
-    // }
+    getFormData() {
+        // for (const i in this.form.controls) {
+        //     this.form.controls[i].markAsDirty();
+        // }
+        super.getFormData();
+
+        if (this.sfForm.value['enterDateDF']) {
+             this.businessData.enterDate = moment(this.sfForm.value["enterDateDF"]).valueOf();
+        }
+        if (this.sfForm.value['leaveDateDF']) {
+            this.businessData.leaveDate = moment(this.sfForm.value["leaveDateDF"]).valueOf();
+
+        }
+        // Object.assign(this.businessData, this.sfForm.value);
+        console.log("in EmployeeCrud getFormData:" , this.businessData);
+
+    }
     //
     /**
      * 重置界面内容
      */
     reset() {
 
-        console.log('reset form', this.businessData);
+        console.log('reset form', this.defaultBusinessData);
+        //只需要修改default值，因为在父类中会将default设置到当前值中去。
+        console.log('in EmployeeCRUD reset form enterdate:', this.defaultBusinessData.enterDate);
+        console.log('in EmployeeCRUD reset form enterdate moment:', moment(this.defaultBusinessData.enterDate).toDate());
+        console.log('in EmployeeCRUD reset form enterdate DF', BylDatetimeUtils.convertMillsToDateTime(this.defaultBusinessData.enterDate));
+
+
+        console.log('in EmployeeCRUD reset form leaveDate:', this.defaultBusinessData.leaveDate);
+        console.log('in EmployeeCRUD reset form leaveDate moment:', moment(this.defaultBusinessData.leaveDate).toDate());
+        console.log('in EmployeeCRUD reset form leaveDate DF', BylDatetimeUtils.convertMillsToDateTime(this.defaultBusinessData.leaveDate));
+
+        this.defaultBusinessData.enterDateDF = BylDatetimeUtils.convertMillsToDateTime(this.defaultBusinessData.enterDate);
+        this.defaultBusinessData.leaveDateDF = BylDatetimeUtils.convertMillsToDateTime(this.defaultBusinessData.leaveDate);
 
         super.reset();
         //设置可复用标签的名字：
