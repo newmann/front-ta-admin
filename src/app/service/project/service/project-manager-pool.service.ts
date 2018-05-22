@@ -59,6 +59,10 @@ export class BylProjectManagerPoolService extends BylBaseService<BylProjectManag
         return this.http.get<BylResultBody<Array<BylProjectManagerPool>>>(this.BASE_API_URL+"/fetch-available-by-code-or-name/" + searchstr);
     }
 
+    findByPoolId(id: string): Observable<BylResultBody<BylProjectManagerPool>> {
+        return this.http.get<BylResultBody<BylProjectManagerPool>>(this.BASE_API_URL + '/find-by-poolid/' + id);
+    }
+
     // fetchAvailableByCodeOrNamePromise(searchstr : string): Promise < void | SFSchemaEnumType[] > {
     //     return this.fetchAvailableByCodeOrName(searchstr)
     //         .toPromise().then(

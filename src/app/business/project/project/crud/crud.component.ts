@@ -54,7 +54,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                     "title": '代码',
                     "ui": {
                         placeholder: '请输入项目代码',
-                        "validator": (value: string) => {
+                        validator: (value: string) => {
                             if (isEmpty(value)) {
                                 console.log('check code:', value);
                                 return [];
@@ -108,76 +108,89 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                 "manager": {
                     "type": "string",
                     "title": '项目经理',
-                    enum:[],
+                    // enum:[{value: {id:"-",code:"-",name: "-"},label: "-"}],
                     "ui": {
-                        widget: 'select',
+                        widget: 'bylProjectManagerPoolSelect',
                         placeholder: '请输入项目经理代码或名称，系统自动查找',
                         allowClear: 'true',
                         serverSearch: 'true',
                         showSearch: 'true',
-                        onSearch: (text: string) =>{
-                            console.log("search for manager:", text);
-                            if ((text) && (text.length>0)){
-                                // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-                                return this.projectManagerPoolService.fetchAvailableByCodeOrName(text)
-                                    .toPromise().then(
-                                        (res) => {
-                                            if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                                                if (res.data) {
-                                                    let searchResult: SFSchemaEnumType[] = [];
-
-                                                    res.data.forEach(item =>{
-                                                        let v = new BylEntityReference();
-                                                        v.id = item.poolId;
-                                                        v.code = item.poolCode;
-                                                        v.name = item.poolName;
-
-                                                        let i :SFSchemaEnumType = {};
-                                                        i.label = v.getFullCaption();
-                                                        i.value = v;
-                                                        searchResult.push(i);
-                                                    });
-
-                                                    return searchResult;
-
-                                                } else {
-                                                    return [];
-                                                }
-                                            } else{
-                                                console.error("获取项目经理资源出错：", res);
-                                                return ([]);
-                                            }
-
-                                        }
-                                    ).catch(error => (console.error("获取项目经理资源出错：",error)));
-                            }
-
-                            // return this.projectManagerPoolService.fetchAvailableByCodeOrName(value).pipe(
-                            //     map((res) => {
-                            //             if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                            //                 if (res.data) {
-                            //                     let searchResult: SFSchemaEnumType[] = [];
-                            //
-                            //                     res.data.forEach(item =>{
-                            //                         let i :SFSchemaEnumType = {};
-                            //                         i.label = item.poolName +"[" + item.poolCode + "]";
-                            //                         i.value = item;
-                            //                         searchResult.push(i);
-                            //                     });
-                            //
-                            //                     return searchResult;
-                            //
-                            //                 } else {
-                            //                     return [];
-                            //                 }
-                            //             } else{
-                            //                 console.error("获取项目经理资源出错：", res);
-                            //                 return ([]);
-                            //             }
-                            //
-                            //         }
-                            //     ));
-                        },
+                        // compareWith: (o1: any, o2: any) => o1 && o2 ? o1.id === o2.id : o1 === o2,
+                        // asyncData: (text: string) => {
+                        //     console.log("search for manager:", text);
+                        //     if ((text) && (text.length > 0)) {
+                        //         // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
+                        //         return this.projectManagerPoolService.fetchAvailableByCodeOrName(text)
+                        //             .map(
+                        //                 (res) => {
+                        //                     if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                        //                         if (res.data) {
+                        //                             let searchResult: SFSchemaEnumType[] = [];
+                        //
+                        //                             res.data.forEach(item => {
+                        //                                 let v = new BylEntityReference();
+                        //                                 v.id = item.poolId;
+                        //                                 v.code = item.poolCode;
+                        //                                 v.name = item.poolName;
+                        //
+                        //                                 let i: SFSchemaEnumType = {};
+                        //                                 i.label = v.getFullCaption();
+                        //                                 i.value = v;
+                        //                                 searchResult.push(i);
+                        //                             });
+                        //
+                        //                             return searchResult;
+                        //
+                        //                         } else {
+                        //                             return [];
+                        //                         }
+                        //                     } else {
+                        //                         console.error("获取项目经理资源出错：", res);
+                        //                         return ([]);
+                        //                     }
+                        //
+                        //                 }
+                        //             );
+                        //     }
+                        // },
+                        // onSearch: (text: string) => {
+                        //     console.log("search for manager:", text);
+                        //     if ((text) && (text.length > 0)) {
+                        //         // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
+                        //         return this.projectManagerPoolService.fetchAvailableByCodeOrName(text)
+                        //             .toPromise().then(
+                        //                 (res) => {
+                        //                     if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                        //                         if (res.data) {
+                        //                             let searchResult: SFSchemaEnumType[] = [];
+                        //
+                        //                             res.data.forEach(item => {
+                        //                                 let v = new BylEntityReference();
+                        //                                 v.id = item.poolId;
+                        //                                 v.code = item.poolCode;
+                        //                                 v.name = item.poolName;
+                        //
+                        //                                 let i: SFSchemaEnumType = {};
+                        //                                 i.label = v.getFullCaption();
+                        //                                 i.value = v;
+                        //                                 searchResult.push(i);
+                        //                             });
+                        //
+                        //                             return searchResult;
+                        //
+                        //                         } else {
+                        //                             return [];
+                        //                         }
+                        //                     } else {
+                        //                         console.error("获取项目经理资源出错：", res);
+                        //                         return ([]);
+                        //                     }
+                        //
+                        //                 }
+                        //             ).catch(error => (console.error("获取项目经理资源出错：", error)));
+                        //     }
+                        //
+                        // },
                         openChange: (value: string) =>{
                             console.log("openChange:", value);
                             // if (value){
@@ -188,16 +201,18 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                     }
                 },
                 "planBeginDateDF": {
-                    type: "number",
+                    type: "string",
                     title: '计划开始日期',
+                    format: 'date',
                     ui: {
                         widget: 'date',
                         placeholder: '请选择计划开始日期'
                     }
                 },
                 "planEndDateDF": {
-                    "type": "number",
+                    "type": "string",
                     "title": '计划结束日期',
+                    format: 'date',
                     ui: {
                         widget: 'date',
                         placeholder: '请选择计划结束日期'
@@ -236,6 +251,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
 
     }
 
+
     constructor(public msgService: NzMessageService,
                 public projectService: BylProjectService,
                 public projectManagerPoolService: BylProjectManagerPoolService,
@@ -258,6 +274,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
 
     ngOnInit() {
         super.ngOnInit();
+
     }
 
     resetButtonClick($event: MouseEvent) {
@@ -429,21 +446,21 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
             m.code = this.businessData.managerCode;
             m.name = this.businessData.managerName;
 
-            // this.businessData.manager = m;
-            this.businessData.manager = m.code;
-            // this.defaultBusinessData.manager = m;
-            this.defaultBusinessData.manager = m.code;
+            this.businessData.manager = m;
+            // this.businessData.manager = m.code;
+            this.defaultBusinessData.manager = m;
+            // this.defaultBusinessData.manager = m.code;
 
-            // //同时要把这个值放到界面的缺省值中去，否则无法显示
-            if (this.formSchema.properties['manager']){
-                console.log("3、in Project Crud,setFormData:", this.formSchema.properties['manager']);
-                let e :SFSchemaEnumType = {};
-                e.value = m.code;
-                e.label = m.name;
-
-                this.formSchema.properties['manager'].enum.push(e);
-
-            }
+            // // // //同时要把这个值放到界面的缺省值中去，否则无法显示
+            // if (this.formSchema.properties['manager']){
+            //     console.log("3、in Project Crud,setFormData:", this.formSchema.properties['manager']);
+            //     let e :SFSchemaEnumType = {};
+            //     e.value = m;
+            //     e.label = m.getFullCaption();
+            //
+            //     this.formSchema.properties['manager'].enum.push(e);
+            //
+            // }
 
         }
     }

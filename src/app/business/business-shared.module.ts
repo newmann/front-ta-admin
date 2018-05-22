@@ -19,6 +19,8 @@ import {BylRadioWidgetComponent} from './common/radio-form-item/radio.formitem';
 import {BylInputNumberWidgetComponent} from './common/input-number-form-item/input-number.formitem';
 import {BylPipeModule} from "../service/pipe.module";
 import {BylListFormTableWidgetComponent} from "./common/list-form-table-item/table.formitem";
+import {WidgetRegistry} from "@delon/form";
+import {BylProjectManagerPoolSelectWidgetSFComponent} from "./common/select-widget-sf/select-project-manager-pool.widget";
 
 
 @NgModule({
@@ -44,7 +46,9 @@ import {BylListFormTableWidgetComponent} from "./common/list-form-table-item/tab
         BylSelectInfoFormItemComponent,
         BylListQueryFormComponent,
         BylListQueryWidgetComponent,
-        BylListFormTableWidgetComponent
+        BylListFormTableWidgetComponent,
+
+        BylProjectManagerPoolSelectWidgetSFComponent
 
 
     ],
@@ -69,7 +73,9 @@ import {BylListFormTableWidgetComponent} from "./common/list-form-table-item/tab
         BylSelectInfoFormItemComponent,
         BylListQueryFormComponent,
         BylListQueryWidgetComponent,
-        BylListFormTableWidgetComponent
+        BylListFormTableWidgetComponent,
+
+        BylProjectManagerPoolSelectWidgetSFComponent
 
     ],
     entryComponents: [
@@ -78,7 +84,8 @@ import {BylListFormTableWidgetComponent} from "./common/list-form-table-item/tab
         BylOrganizationListComponent,
         BylCrudWaitingComponent,
         BylWaitingComponent,
-        BylListQueryFormComponent
+        BylListQueryFormComponent,
+        BylProjectManagerPoolSelectWidgetSFComponent
 
     ]
     // ,
@@ -86,4 +93,9 @@ import {BylListFormTableWidgetComponent} from "./common/list-form-table-item/tab
 })
 
 export class BylBusinessSharedModule {
+    constructor(widgetRegistry: WidgetRegistry) {
+        widgetRegistry.register(BylProjectManagerPoolSelectWidgetSFComponent.KEY, BylProjectManagerPoolSelectWidgetSFComponent);
+
+
+    }
 }
