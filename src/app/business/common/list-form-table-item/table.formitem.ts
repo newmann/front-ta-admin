@@ -135,7 +135,14 @@ export class BylListFormTableWidgetComponent /*implements ControlValueAccessor *
     }
 
     showAction(actionDefine: BylTableActionDefine, dataItem: any): boolean{
-        let result = (actionDefine.checkFieldPath === '-') || (this.getFieldData(dataItem,actionDefine.checkFieldPath) === actionDefine.checkValue);
+        let result: boolean;
+        if ( actionDefine.checkFieldPath){
+            result = (actionDefine.checkFieldPath === '-') || (this.getFieldData(dataItem,actionDefine.checkFieldPath) === actionDefine.checkValue);
+        }else {
+            //在没有设置checkFieldPath的情况下，总是显示
+            result = true;
+        }
+
         // if(result) this._showDividerCount = this._showDividerCount + 1;
 
         return result;
@@ -159,8 +166,8 @@ export interface BylTableDefine{
 
 export class BylTableActionDefine{
     actionName: string;
-    checkFieldPath: string = "-"; //根据这个字段的值判断是否显示
-    checkValue: any = null;//判断值
+    checkFieldPath?: string = "-"; //根据这个字段的值判断是否显示
+    checkValue?: any = null;//判断值
 }
 
 export interface BylTableClickAction{

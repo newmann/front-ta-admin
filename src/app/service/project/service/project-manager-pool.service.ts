@@ -21,15 +21,13 @@ import {SFSchemaEnumType} from "@delon/form";
 import {BylEntityReference} from "../../model/entity-reference.model";
 
 
-
-
 /**
  * @Description: 项目经理资源池service
  * @Author: newmannhu@qq.com
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylProjectManagerPoolService extends BylBaseService<BylProjectManagerPool> implements BylAccountAvailablePoolsInterface{
+export class BylProjectManagerPoolService extends BylBaseService<BylProjectManagerPool> implements BylAccountAvailablePoolsInterface {
 
     constructor(protected http: _HttpClient,
                 protected configServer: BylConfigService,
@@ -43,6 +41,7 @@ export class BylProjectManagerPoolService extends BylBaseService<BylProjectManag
     batchtAdd(pools: Array<BylProjectManagerPool>): Observable<BylResultBody<Array<BylProjectManagerPool>>> {
         return this.http.post<BylResultBody<Array<BylProjectManagerPool>>>(this.BASE_API_URL + '/batch-add', pools);
     }
+
     /**
      * 按分页方式返回
      * @returns {Observable<BylResultBody<>>}
@@ -55,12 +54,16 @@ export class BylProjectManagerPoolService extends BylBaseService<BylProjectManag
         return this.http.post<BylResultBody<BylPageResp<BylAccount>>>(this.BASE_API_URL + '/find-available-account-pools-page', queryModel);
     }
 
-    fetchAvailableByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylProjectManagerPool> >> {
-        return this.http.get<BylResultBody<Array<BylProjectManagerPool>>>(this.BASE_API_URL+"/fetch-available-by-code-or-name/" + searchstr);
+    fetchAvailableByCodeOrName(searchstr: string): Observable<BylResultBody<Array<BylProjectManagerPool>>> {
+        return this.http.get<BylResultBody<Array<BylProjectManagerPool>>>(this.BASE_API_URL + "/fetch-available-by-code-or-name/" + searchstr);
     }
 
     findByPoolId(id: string): Observable<BylResultBody<BylProjectManagerPool>> {
         return this.http.get<BylResultBody<BylProjectManagerPool>>(this.BASE_API_URL + '/find-by-poolid/' + id);
+    }
+
+    deleteById(id: string): Observable<BylResultBody<boolean>> {
+        return this.http.delete(this.BASE_API_URL + '/delete-by-id/' + id);
     }
 
     // fetchAvailableByCodeOrNamePromise(searchstr : string): Promise < void | SFSchemaEnumType[] > {

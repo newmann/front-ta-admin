@@ -7,11 +7,21 @@
  */
 import {BylEmbeddableCreateAction} from "./embeddable-create-action.model";
 import {BylEmbeddableModifyAction} from "./embeddable-modify-action.model";
+import {BylDatetimeUtils} from "../utils/datetime.utils";
 
 
-export abstract class BylBaseModel {
+export class BylBaseModel {
     id: string;
-    createAction: BylEmbeddableCreateAction;
-    modifyAction: BylEmbeddableModifyAction;
+    createAction: BylEmbeddableCreateAction = new BylEmbeddableCreateAction();
+    modifyAction: BylEmbeddableModifyAction = new BylEmbeddableModifyAction();
     remarks: string;
+
+    get modifyDateTimeDisplay() {
+        return BylDatetimeUtils.formatDateTime(this.modifyAction.modifyDateTime);
+    }
+
+    set modifyDateTimeDisplay(value: string) {
+        //应付对象复制
+    }
+
   }

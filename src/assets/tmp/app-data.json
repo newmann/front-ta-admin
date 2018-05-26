@@ -102,6 +102,28 @@
           "i18n": "person_certificate_new"
         }
         ]
+      },{
+        "text": "个人资料",
+        "i18n": "person",
+        "icon": "icon-speedometer",
+        "children": [{
+          "text": "个人资料管理",
+          "link": "/person/person/list",
+          "i18n": "person_list"
+        },{
+          "text": "个人资料新增",
+          "link": "/person/person/crud/new",
+          "i18n": "person_new"
+        },{
+          "text": "个人地址新增",
+          "link": "/person/address/crud/new",
+          "i18n": "person_address_new"
+        },{
+          "text": "个人证件新增",
+          "link": "/person/certificate/crud/new",
+          "i18n": "person_certificate_new"
+        }
+        ]
       }]
     },{
       "text": "组织管理",
@@ -224,21 +246,41 @@
           "i18n": "employee_new"
         }
         ]
-      },{
-        "text": "外包商设置",
-        "i18n": "outsourcer",
-        "icon": "icon-speedometer",
-        "children": [{
-          "text": "外包商查询",
-          "link": "/project/outsourcer/list",
-          "i18n": "outsourcer_list"
-        },{
-          "text": "外包商新增",
-          "link": "/project/outsourcer/crud/new",
-          "i18n": "outsourcer_new"
-        }
-        ]
-      }]
+      }, {
+            "text": "外包商管理",
+            "i18n": "outsourcer",
+            "icon": "icon-speedometer",
+            "children": [
+              {
+                "text": "外包商查询",
+                "link": "/project/outsourcer/list",
+                "i18n": "outsourcer_list"
+              }
+              ,{
+                "text": "外包商新增",
+                "link": "/project/outsourcer/crud/new",
+                "i18n": "outsourcer_new"
+              }
+            ]
+          },
+          {
+            "text": "外包商员工管理",
+            "i18n": "outsource-emplopyee",
+            "icon": "icon-speedometer",
+            "children": [
+              {
+                "text": "外包商员工查询",
+                "link": "/project/outsource-employee/list",
+                "i18n": "outsource_employee_list"
+              }
+              ,{
+                "text": "外包商员工新增",
+                "link": "/project/outsource-employee/crud/new",
+                "i18n": "outsource_employee_new"
+              }
+            ]
+          }
+      ]
     }, {
       "text": "快捷菜单",
       "i18n": "shortcut",

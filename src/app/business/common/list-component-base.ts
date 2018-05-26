@@ -100,35 +100,14 @@ export abstract class BylListComponentBase<T> implements OnInit {
 
     }
 
+    unlockEntity(id: string){
+
+    }
+
     modifyEntity(id: string) {
         if (this.crudUrl) {
             this.router.navigate([this.crudUrl, id]);
         }
-
-        // this.modifyForm = this.modalService.open({
-        //     title: '修改',
-        //     content: this.businessCrudComponent,
-        //     // onOk() {
-        //     //
-        //     // },
-        //     // onCancel() {
-        //     //     console.log('Click cancel');
-        //     // },
-        //     footer: false,
-        //     componentParams: {
-        //         _sourceId: id
-        //     },
-        //     maskClosable: false
-        // });
-        // //
-        // this.modifyForm.subscribe(result => {
-        //     console.log(result);
-        //     if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
-        //         //更新对应的数据
-        //         this.updateListData(result.data);
-        //
-        //     }
-        // });
     }
 
     /**

@@ -40,11 +40,17 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
 
     @ViewChild('sf') sfForm: SFComponent;
 
+    /**
+     * 设置窗口定义的缺省值
+     */
+    setSchemaDefaultValue(){
 
+    };
 
     ngOnInit() {
         //刷新schema
-        // this.sfForm.refreshSchema();
+        this.setSchemaDefaultValue();
+        this.sfForm.refreshSchema(this.formSchema);
 
         //从list窗口调入修改单据时，载入数据
         console.log('执行base init');
@@ -154,16 +160,7 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
             data => {
                 // this._loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                    // 通知显示窗口保存正确
-                    // this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveCorrect]);
-                    // this.savingReveal.destroy(); //退出提示界面
-                    if (this.processType === 'new') {
-                        //新增界面
-                        Object.assign(this.defaultBusinessData, this.newBusinessData());
-                    } else {
-                        //将返回值设置到default值中
-                        Object.assign(this.defaultBusinessData, data.data);
-                    }
+
                     this.reset(); //重置界面
 
                 } else {
@@ -205,21 +202,31 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
      */
     setFormData(data: T){
         console.log("2、crud-base-pro setFormData", data);
+
+        this.businessData = this.newBusinessData();
+        this.defaultBusinessData = this.newBusinessData();
+
         Object.assign(this.businessData, data);
         //重置当前的界面缺省值
         Object.assign(this.defaultBusinessData, data);
+
     }
 
     /**
      * 重置界面内容
      */
     reset(): void {
-        console.log('5、crud-base-pro reset , default data: ', this.defaultBusinessData);
-        console.log('6、crud-base-pro reset , data: ', this.businessData);
 
-        Object.assign(this.businessData, this.defaultBusinessData);
+        if (this.processType === 'new') {
+            //新增界面
+            this.businessData =  this.newBusinessData();
 
-        console.log('7、crud-base-pro reset , sfForm: ', this.sfForm);
+        } else {
+            //修改界面，保存当前值到缺省值
+            this.defaultBusinessData = this.newBusinessData();
+            Object.assign(this.defaultBusinessData, this.businessData);
+        }
+
         this.sfForm.reset();
     }
 

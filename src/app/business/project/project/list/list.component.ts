@@ -150,8 +150,8 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
             {label:"联系方式", fieldPath: "fullContactMethod" },
             {label:"计划开始日期", fieldPath: "planBeginDate" },
             {label:"计划结束日期", fieldPath: "planEndDate" },
-            {label:"状态", fieldPath: "statusCaption" },
-            {label:"最后修改时间", fieldPath: "modifyDateTimeStr" }
+            {label:"状态", fieldPath: "statusDisplay" },
+            {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};
 
 

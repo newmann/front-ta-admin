@@ -21,6 +21,7 @@ import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-sta
 import {BylPageReq} from "../../../../service/model/page-req.model";
 import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
 import {BylBorrowMoneyTicket} from "../../../../service/project/model/borrow-money-ticket.model";
+import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
 
 @Component({
   selector: 'byl-borrow-money-qualification-pool-list',
@@ -64,8 +65,9 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
             //     console.log('Click cancel');
             // },
             nzComponentParams: {
-                functionMode: 'select',
-                findAvailablePoolsService: this.borrowMoneyQualificationPoolService
+                functionMode: BylListFormFunctionModeEnum.SELECT,
+                findAvailablePoolsService: this.borrowMoneyQualificationPoolService,
+                selectModalForm: this.addPoolReveal
             },
             nzMaskClosable: false
         });
@@ -274,7 +276,7 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
             {label:"代码", fieldPath: "poolCode" },
             {label:"姓名/名称", fieldPath: "poolName" },
             {label:"备注", fieldPath: "remarks" },
-            {label:"最后修改时间", fieldPath: "modifyDateTimeStr" }
+            {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};
 
 

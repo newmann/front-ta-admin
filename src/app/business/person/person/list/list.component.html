@@ -1,4 +1,4 @@
-<page-header [title]="'个体管理'" >
+<page-header [title]="'个体管理'"  *ngIf="functionMode === LIST_MODE" >
     <ng-template #action>
         <button nz-button (click)="add()" [nzType]="'default'">
             <i class="anticon anticon-plus"></i><span>新建</span>
@@ -13,8 +13,17 @@
 
 <!--查询条件-->
 <byl-list-query-widget [defaultData]="queryDefaultData" [schema]="querySchema"
-                       [uiSchema]="queryUiSchema" ></byl-list-query-widget>
-
+                       [uiSchema]="queryUiSchema" [actionTemplateRef]="queryAction" ></byl-list-query-widget>
+<ng-template #queryAction >
+  <ng-container *ngIf="functionMode === SELECT_MODE">
+    <button nz-button (click) = "batchSelect($event)" [nzType]="'default'"  class="ml-sm">
+      <i class="anticon anticon-plus"></i><span>添加</span>
+    </button>
+    <button nz-button  (click)="search()" [nzType]="'primary'" [nzLoading]="loading"  class="ml-sm">
+      <i class="anticon anticon-search"></i><span>查询</span>
+    </button>
+  </ng-container>
+</ng-template>
 <!--数据显示-->
 <byl-list-form-table-item [listData]="listData"  [total]="total" [loading]="loading"
                           [tableDefine]="tableDefine"

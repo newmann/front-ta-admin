@@ -21,6 +21,8 @@ import {BylEmployeeListComponent} from "./employee/list/list.component";
 import {BylEmployeeCrudComponent} from "./employee/crud/crud.component";
 import {BylOutsourcerListComponent} from "./outsourcer/list/list.component";
 import {BylOutsourcerCrudComponent} from "./outsourcer/crud/crud.component";
+import {BylOutsourceEmployeeCrudComponent} from "./outsourcer-employee/crud/crud.component";
+import {BylOutsourceEmployeeListComponent} from "./outsourcer-employee/list/list.component";
 
 
 @NgModule({
@@ -53,6 +55,8 @@ import {BylOutsourcerCrudComponent} from "./outsourcer/crud/crud.component";
         BylEmployeeCrudComponent,
         BylOutsourcerListComponent,
         BylOutsourcerCrudComponent,
+        BylOutsourceEmployeeListComponent,
+        BylOutsourceEmployeeCrudComponent,
 
     ],
     entryComponents: [

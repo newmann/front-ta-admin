@@ -12,7 +12,7 @@ export class BylEmbeddableModifyAction{
     modifyCode: string;
     modifyName: string;
     modifyDateTime: number;
-    get modifyDateTimeStr(): string{
+    get modifyDateTimeDisplay() {
         return BylDatetimeUtils.formatDateTime(this.modifyDateTime);
     }
 }

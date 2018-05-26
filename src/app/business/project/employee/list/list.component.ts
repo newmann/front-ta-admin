@@ -185,8 +185,8 @@ export class BylEmployeeListComponent extends BylListComponentBasePro<BylEmploye
             {label:"姓名", fieldPath: "name" },
             {label:"入职日期", fieldPath: "enterDate" },
             {label:"离职日期", fieldPath: "leaveDate" },
-            {label:"状态", fieldPath: "statusCaption" },
-            {label:"最后修改时间", fieldPath: "modifyDateTimeStr" }
+            {label:"状态", fieldPath: "statusDisplay" },
+            {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};
 
 

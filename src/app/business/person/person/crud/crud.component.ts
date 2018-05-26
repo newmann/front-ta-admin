@@ -20,66 +20,24 @@ import {BylProvinceService} from '../../../../service/address/service/province.s
 import {BylCityService} from '../../../../service/address/service/city.service';
 import {_Validators} from "@delon/util";
 import {BylGenderEnumManager} from "../../../../service/person/model/gender.enum";
+import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
+import {isEmpty} from "../../../../service/utils/string.utils";
+import {map} from "rxjs/operators";
+import {BylProject} from "../../../../service/project/model/project.model";
+import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 
 
 @Component({
     selector: 'byl-person-crud',
     templateUrl: './crud.component.html',
 })
-export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
-    // private _person = new BylPerson();
-    // public errMsg = '';
-    // public searchedPersons: Array<BylPerson> = [];
+export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
 
-    public searchedNations: Array<BylNation> = [];
-    public selectedNation: BylNation;
-
-    public searchedPoliticalStatus: Array<BylPoliticalStatus> = [];
-    public selectedPoliticalStatus: BylPoliticalStatus;
-
-    get genderOptions(){
-        return BylGenderEnumManager.getArray();
-    } ;
-
-    get nationOptions() {
-        let result = [];
-        this.searchedNations.forEach(item => {
-            let detail = {
-                value: item.code,
-                caption: item.name
-            };
-            result.push(detail);
-        });
-        return result;
-    }
-
-    get politicalOptions() {
-        let result = [];
-        this.searchedPoliticalStatus.forEach(item => {
-            let detail = {
-                value: item.code,
-                caption: item.name
-            };
-            result.push(detail);
-        });
-        return result;
-    }
-
-    // public form: FormGroup;
-
-    // private _sourceId: string;
     @Input()
     set setSourceId(value: string) {
         this.sourceId = value;
 
     }
-
-    // private _savingReveal: any;
-
-    // public processType = '';
-    // private _loading = false;
-
-    // private _searchData$: Subject<string> = new Subject<string>();
 
 
     newBusinessData(): BylPerson {
@@ -87,79 +45,125 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
     }
 
     defineForm(): void {
-        // 绑定验证模式
-        this.form = this.fb.group({
-            idCard: [null, Validators.compose([Validators.required, _Validators.idCard])],
-            name: [null, Validators.compose([Validators.required])],
-            gender: [null],
-            // birthYear: [null,Validators.compose([Validators.maxLength(4)])],
-            // birthMonth: [null,Validators.compose([Validators.maxLength(2)])],
-            // birthDay: [null,Validators.compose([Validators.maxLength(2)])],
-            nation: [null],
-            politicalStatus: [null],
-            nativePlace: [null],
-            remarks: [null]
-        });
+        // // 绑定验证模式
+        // this.form = this.fb.group({
+        //     idCard: [null, Validators.compose([Validators.required, _Validators.idCard])],
+        //     name: [null, Validators.compose([Validators.required])],
+        //     gender: [null],
+        //     // birthYear: [null,Validators.compose([Validators.maxLength(4)])],
+        //     // birthMonth: [null,Validators.compose([Validators.maxLength(2)])],
+        //     // birthDay: [null,Validators.compose([Validators.maxLength(2)])],
+        //     nation: [null],
+        //     politicalStatus: [null],
+        //     nativePlace: [null],
+        //     remarks: [null]
+        // });
+        this.formSchema = {
+            properties: {
+                "idCard": {
+                    "type": 'string',
+                    "title": '身份证号码',
+                    "ui": {
+                        placeholder: '请输入身份证号码',
+                        validator: (value: string) => {
+                            if (isEmpty(value)) {
+                                console.log('check code:', value);
+                                return [];
+                            }
 
+                            return this.personService.checkIdCardAvailable({data: value,id: this.sourceId}).pipe(
+                                map((res) => {
+                                        if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                                            if (res.data) {
+                                                return [];
+                                            } else {
+                                                return ([{keyword: 'required', message: '项目代码'+ value + '已存在'}]);
+                                            }
+
+                                        } else {
+                                            return ([{keyword: 'required', message: res.msg}]);
+                                        }
+                                    }
+                                ));
+                        }
+                    }
+                },
+                "name": {
+                    "type": 'string',
+                    "title": '名称'
+                },
+                "gender": {
+                    "type": "string",
+                    "title": '性别',
+                    enum: [],
+                    "ui": {
+                        "widget": "radio",
+                        "styleType": "button"
+                    }
+                },
+                "nation": {
+                    type: "string",
+                    title: '民族',
+                    format: 'date',
+                    "ui": {
+                        widget: 'bylNationSelect',
+                        placeholder: '请输入民族的代码或名称，系统自动查找',
+                        allowClear: 'true',
+                        serverSearch: 'true',
+                        showSearch: 'true'
+                    }
+                },
+                "politicalStatus": {
+                    type: "string",
+                    title: '政治面貌',
+                    format: 'date',
+                    "ui": {
+                        widget: 'bylPoliticalStatusSelect',
+                        placeholder: '请输入政治面貌代码或名称，系统自动查找',
+                        allowClear: 'true',
+                        serverSearch: 'true',
+                        showSearch: 'true'
+                    }
+                },
+                "nativePlace": {
+                    "type": "string",
+                    "title": '籍贯'
+                },
+                "remarks": {
+                    "type": 'string',
+                    "title": '备注'
+                }
+            },
+            "required": ["idCard", "name", "gender"]
+
+        };
 
     }
 
+    /**
+     * 设置窗口定义的缺省值
+     */
+    setSchemaDefaultValue(){
+        super.setSchemaDefaultValue();
+        this.formSchema.properties.gender.enum.push(...BylGenderEnumManager.getSFSelectDataArray());
+    };
+
     constructor(public msgService: NzMessageService,
                 public personService: BylPersonService,
-                public nationService: BylNationService,
-                public countryService: BylCountryService,
-                public provinceSerivce: BylProvinceService,
-                public cityService: BylCityService,
-                public politicalStatusService: BylPoliticalStatusService,
+                // public nationService: BylNationService,
+                // public countryService: BylCountryService,
+                // public provinceSerivce: BylProvinceService,
+                // public cityService: BylCityService,
+                // public politicalStatusService: BylPoliticalStatusService,
                 public configService: BylConfigService,
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {
-        super(msgService, configService, /*modalService, modalSubject,*/ activatedRoute, reuseTabService, fb);
-
+        // super(msgService, configService, /*modalService, modalSubject,*/ activatedRoute, reuseTabService, fb);
+        super(msgService, configService, /*modalService, modalSubject,*/ activatedRoute, reuseTabService);
         this.businessService = personService;
-
-    }
-
-    ngOnInit(): void {
-        super.ngOnInit();
-        //获取民族数据
-        this.nationService.findByAll().subscribe(
-            data => {
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                    this.searchedNations = data.data;
-                } else {
-                    this.errMsg = data.msg;
-                }
-            },
-            err => {
-                this.errMsg = err.toString();
-            }
-        );
-        //获取政治面貌数据
-        this.politicalStatusService.findByAll().subscribe(
-            data => {
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                    this.searchedPoliticalStatus = data.data;
-                } else {
-                    this.errMsg = data.msg;
-                }
-            },
-            err => {
-                this.errMsg = err.toString();
-            }
-        );
-
-        // //在从list窗口调入的情况下，载入数据
-        // console.info('_sourceId', this._sourceId);
-        // if (this._sourceId) {
-        //     this.loadData(this._sourceId);
-        // } else {
-        //     //界面显示
-        //     this.reset();
-        // }
 
     }
 
@@ -175,69 +179,53 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
     }
 
     getFormData() {
-        for (const i in this.form.controls) {
-            this.form.controls[i].markAsDirty();
+        super.getFormData();
+
+
+        if (this.businessData.nation) {
+            this.businessData.nationId = this.businessData.nation.id;
+            this.businessData.nationCode = this.businessData.nation.code;
+            this.businessData.nationName = this.businessData.nation.name;
         }
 
-        console.table(this.form.value);
-        Object.assign(this.businessData, this.form.value);
+        if (this.businessData.politicalStatus) {
+            this.businessData.politicalStatusId = this.businessData.politicalStatus.id;
+            this.businessData.politicalStatusCode = this.businessData.politicalStatus.code;
+            this.businessData.politicalStatusName = this.businessData.politicalStatus.name;
 
-        // console.log(this.idCard.value.toString());
-        // console.log(this.businessData);
-
-        // this.businessData.idCard = this.idCard.value.toString();
-        // this.businessData.name = this.name.value.toString();
-        // if (this.gender.value) {
-        //     this.businessData.gender = this.gender.value;
-        // }
-        // if (this.birthYear.value) {
-        //     this.businessData.birthYear = this.birthYear.value;
-        // }
-        //
-        // if (this.birthMonth.value) {
-        //     this.businessData.birthMonth = this.birthMonth.value;
-        //
-        // }
-        // if (this.birthDay.value) {
-        //     this.businessData.birthDay = this.birthDay.value;
-        // }
-        if (this.nation.value) {
-            this.businessData.nationCode = this.nation.value;
-            this.businessData.nationName = this.getNationNameByCode(this.businessData.nationCode);
         }
-
-        if (this.politicalStatus.value) {
-            this.businessData.politicalStatusCode = this.politicalStatus.value;
-            this.businessData.politicalStatusName = this.getPoliticalStatusNameByCode(this.businessData.politicalStatusCode);
-            console.log(this.businessData.politicalStatusName);
-        }
-        // if (this.nativePlace.value) {
-        //     this.businessData.nativePlace = this.nativePlace.value.toString();
-        // }
-        //
-        // if (this.remarks.value) {
-        //     this.businessData.remarks = this.remarks.value.toString();
-        // }
 
     }
 
     /**
+     *  在调出一张历史单据进行修改的时候调用
+     *  个性化的处理
+     */
+    setFormData(data: BylPerson){
+
+        super.setFormData(data);
+
+        if( this.businessData.nationId){
+            let m = new BylEntityReference(this.businessData.nationId,this.businessData.nationCode,this.businessData.nationName);
+
+            this.businessData.nation = m;
+            this.defaultBusinessData.nation = m;
+
+        }
+
+        if( this.businessData.politicalStatusId){
+            let m = new BylEntityReference(this.businessData.politicalStatusId,this.businessData.politicalStatusCode,this.businessData.politicalStatusName);
+
+            this.businessData.politicalStatus = m;
+            this.defaultBusinessData.politicalStatus = m;
+
+        }
+
+    }
+    /**
      * 重置界面内容
      */
     reset() {
-        this.form.reset({
-            idCard: this.businessData.idCard,
-            name: this.businessData.name,
-            gender: this.businessData.gender,
-            // birthYear: this.businessData.birthYear,
-            // birthMonth: this.businessData.birthMonth,
-            // birthDay: this.businessData.birthDay,
-            nation: this.businessData.nationCode,
-            politicalStatus: this.businessData.politicalStatusCode,
-            nativePlace: this.businessData.nativePlace,
-
-            remarks: this.businessData.remarks
-        }, {onlySelf: true, emitEvent: false});
 
         super.reset();
 
@@ -247,77 +235,13 @@ export class BylPersonCrudComponent extends BylCrudComponentBase<BylPerson> {
             this.reuseTabService.title = '编辑-' + this.businessData.name;
         }
 
-
-        // this.form.markAsPristine();
-        // // for (const key in this.form.controls) {
-        // //     this.form.controls[key].markAsPristine();
-        // // }
-        // this.logger.log('this.form.dirty' + this.form.dirty);
-        // this.logger.log('this.form.invalid' + this.form.invalid);
     }
 
-    getNationNameByCode(code: string): string {
-        let name: string = null;
-        this.searchedNations.every(item => {
-            if (item.code === code) {
-                name = item.name;
-                return false;
-            }
-        });
 
-        return name;
+
+
+    error(value: any) {
+        console.log('error', value);
     }
-
-    getPoliticalStatusNameByCode(code: string): string {
-        let name: string = null;
-        this.searchedPoliticalStatus.every(item => {
-            if (item.code === code) {
-                name = item.name;
-                return false;
-            }
-        });
-
-        return name;
-    }
-
-    //#region get form fields
-    get idCard() {
-        return this.form.controls.idCard;
-    }
-
-    get name() {
-        return this.form.controls.name;
-    }
-
-    get gender() {
-        return this.form.controls.gender;
-    }
-
-    // get birthYear() {
-    //     return this.form.controls.birthYear;
-    // }
-    // get birthMonth() {
-    //     return this.form.controls.birthMonth;
-    // }
-    // get birthDay() {
-    //     return this.form.controls.birthDay;
-    // }
-    get nation() {
-        return this.form.controls.nation;
-    }
-
-    get politicalStatus() {
-        return this.form.controls.politicalStatus;
-    }
-
-    get nativePlace() {
-        return this.form.controls.nativePlace;
-    }
-
-    get remarks() {
-        return this.form.controls.remarks;
-    }
-
-    //#endregion
 
 }

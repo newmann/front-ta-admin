@@ -2,233 +2,67 @@
 <nz-card [nzBordered]="false">
     <nz-tabset>
         <nz-tab [nzTitle]="'基本信息'">
-             <form nz-form [formGroup]="form"  role="form">
-               <byl-input-formitem [controlName]="'idCard'" [labelCaption]="'身份证号码'"
-                                   [hostForm]="form" [controlPath]="'idCard'" [isRequired]="'true'"
-                                   [placeHolder]="'请输入身份证号码'"></byl-input-formitem>
-               <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="idCard" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--身份证号码：-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="idCard">-->
-                            <!--<nz-input formControlName="idCard" nzPlaceHolder="身份证号码" ></nz-input>-->
+          <sf  #sf [button]="null"
+               [schema]="formSchema"
+               [formData]="businessData"
+               mode="edit"
+               (formError)="error($event)">
+            <button type="submit" nz-button [disabled]="!sf.valid" (click)="submitForm()">提交</button>
+            <button (click)="reset()"  type="button" nz-button>重置</button>
 
-                            <!--<ng-container *ngIf="idCard.dirty && idCard.touched">-->
-                                <!--<p nz-form-explain *ngIf="idCard.errors?.required">必须输入身份证号码</p>-->
-                                <!--<p nz-form-explain *ngIf="idCard.errors?.idCard">输入身份证号码不正确</p>-->
-                                <!--<p nz-form-explain *ngIf="idCard.errors?.duplicate">输入的身份证已经被使用</p>-->
-                                <!--<p nz-form-explain *ngIf="idCard.errors?.other">验证出现异常：{{idCard.errors?.msg}}</p>-->
-                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>&ndash;&gt;-->
-                                <!--<p nz-form-explain *ngIf="idCard.pending">验证中...</p>-->
-                            <!--</ng-container>-->
+          </sf>
+          <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
 
-                        <!--</div>-->
-                    <!--</div>-->
-               <byl-input-formitem [controlName]="'name'" [labelCaption]="'姓名'"
-                                   [hostForm]="form" [controlPath]="'name'" [isRequired]="'true'"
-                                   [placeHolder]="'请输入姓名'"></byl-input-formitem>
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="name" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--姓名-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="name">-->
-                            <!--<nz-input formControlName="name" nzPlaceHolder="姓名" ></nz-input>-->
-
-                            <!--<ng-container *ngIf="name.dirty && name.touched">-->
-                                <!--<p nz-form-explain *ngIf="name.errors?.required">必须输入姓名</p>-->
-                                <!--<p nz-form-explain *ngIf="name.errors?.other">验证出现异常：{{name.errors?.msg}}</p>-->
-                                <!--<p nz-form-explain *ngIf="name.pending">验证中...</p>-->
-                            <!--</ng-container>-->
-                        <!--</div>-->
-                    <!--</div>-->
-               <byl-radio-formitem [controlName]="'gender'" [labelCaption]="'性别'"
-                                   [hostForm]="form" [controlPath]="'gender'" [isRequired]="'true'"
-                                   [selectOptions]="genderOptions"></byl-radio-formitem>
-
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="gender" nz-form-item-required>-->
-                                    <!--<span>-->
-                                        <!--性别-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="gender">-->
-
-                            <!--<nz-radio-group formControlName="gender" >-->
-                              <!--<caption nz-radio-button [nzValue]="1"><span>男</span></caption>-->
-                              <!--<caption nz-radio-button [nzValue]="-1"><span>女</span></caption>-->
-                              <!--<caption nz-radio-button [nzValue]="0"><span>未知</span></caption>-->
-                            <!--</nz-radio-group>-->
-                            <!--<ng-container *ngIf="gender.dirty && gender.touched">-->
-                                <!--<p nz-form-explain *ngIf="gender.errors?.required">必须选择性别</p>-->
-                            <!--</ng-container>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="birthYear" >-->
-                                    <!--<span>-->
-                                        <!--出生年份-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="birthYear">-->
-                            <!--<nz-input formControlName="birthYear" nzPlaceHolder="出生年份" ></nz-input>-->
-
-                            <!--<ng-container *ngIf="birthYear.dirty && birthYear.touched">-->
-                                <!--<p nz-form-explain *ngIf="birthYear.errors?.maxLength">最大为4位整数</p>-->
-                                <!--<p nz-form-explain *ngIf="birthYear.pending">验证中...</p>-->
-                            <!--</ng-container>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="birthMonth" >-->
-                                    <!--<span>-->
-                                        <!--出生月份-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="birthMonth">-->
-                            <!--<nz-input formControlName="birthMonth" nzPlaceHolder="出生月份" ></nz-input>-->
-
-                            <!--<ng-container *ngIf="birthMonth.dirty && birthMonth.touched">-->
-                                <!--<p nz-form-explain *ngIf="birthMonth.errors?.maxLength">最大为2位整数</p>-->
-                                <!--<p nz-form-explain *ngIf="birthMonth.pending">验证中...</p>-->
-                            <!--</ng-container>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="birthDay" >-->
-                                    <!--<span>-->
-                                        <!--出生日-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="birthDay">-->
-                            <!--<nz-input formControlName="birthDay" nzPlaceHolder="出生日" ></nz-input>-->
-
-                            <!--<ng-container *ngIf="birthDay.dirty && birthDay.touched">-->
-                                <!--<p nz-form-explain *ngIf="birthDay.errors?.maxLength">最大为2位整数</p>-->
-                                <!--<p nz-form-explain *ngIf="birthDay.pending">验证中...</p>-->
-                            <!--</ng-container>-->
-                        <!--</div>-->
-                    <!--</div>-->
-               <byl-select-formitem [controlName]="'nation'" [labelCaption]="'民族'"
-                                    [hostForm]="form" [controlPath]="'nation'" [isRequired]="'false'"
-                                    [placeHolder]="'请选择民族'" [selectMode]="'default'"
-                                    [selectOptions]="nationOptions" ></byl-select-formitem>
-
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="nation" >-->
-                                    <!--<span>-->
-                                        <!--民族-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback>-->
-                            <!--<nz-select formControlName="nation" [nzPlaceHolder]="'请选择所属民族'" nzAllowClear>-->
-                                <!--所属民族-->
-
-                                <!--<nz-option *ngFor="let option of searchedNations"-->
-                                           <!--[nzValue]="option.code"-->
-                                           <!--[nzLabel]="option.name"-->
-                                <!--&gt;</nz-option>-->
+          <p>formdata:{{sfForm.value | json}}</p>
+          <p>businessData:{{businessData | json}}</p>
 
 
-                            <!--</nz-select>-->
+             <!--<form nz-form [formGroup]="form"  role="form">-->
+               <!--<byl-input-formitem [controlName]="'idCard'" [labelCaption]="'身份证号码'"-->
+                                   <!--[hostForm]="form" [controlPath]="'idCard'" [isRequired]="'true'"-->
+                                   <!--[placeHolder]="'请输入身份证号码'"></byl-input-formitem>-->
+
+               <!--<byl-input-formitem [controlName]="'name'" [labelCaption]="'姓名'"-->
+                                   <!--[hostForm]="form" [controlPath]="'name'" [isRequired]="'true'"-->
+                                   <!--[placeHolder]="'请输入姓名'"></byl-input-formitem>-->
+
+               <!--<byl-radio-formitem [controlName]="'gender'" [labelCaption]="'性别'"-->
+                                   <!--[hostForm]="form" [controlPath]="'gender'" [isRequired]="'true'"-->
+                                   <!--[selectOptions]="genderOptions"></byl-radio-formitem>-->
+
+               <!--<byl-select-formitem [controlName]="'nation'" [labelCaption]="'民族'"-->
+                                    <!--[hostForm]="form" [controlPath]="'nation'" [isRequired]="'false'"-->
+                                    <!--[placeHolder]="'请选择民族'" [selectMode]="'default'"-->
+                                    <!--[selectOptions]="nationOptions" ></byl-select-formitem>-->
+
+               <!--<byl-select-formitem [controlName]="'politicalStatus'" [labelCaption]="'政治面貌'"-->
+                                    <!--[hostForm]="form" [controlPath]="'politicalStatus'" [isRequired]="'false'"-->
+                                    <!--[placeHolder]="'请选择政治面貌'" [selectMode]="'default'"-->
+                                    <!--[selectOptions]="politicalOptions" ></byl-select-formitem>-->
+
+               <!--<byl-input-formitem [controlName]="'nativePlace'" [labelCaption]="'籍贯'"-->
+                                   <!--[hostForm]="form" [controlPath]="'nativePlace'" [isRequired]="'false'"-->
+                                   <!--[placeHolder]="'籍贯'"></byl-input-formitem>-->
+
+                   <!--<byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"-->
+                                       <!--[hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"-->
+                                       <!--[placeHolder]="'请输入备注'"></byl-input-formitem>-->
+
+                   <!--<byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>-->
+
+                    <!--<nz-form-item nz-row class="mb0">-->
+
+                        <!--<div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">-->
+                            <!--<button nz-button [nzType]="'primary'" [nzSize]="'large'"-->
+                                    <!--[disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>-->
+                            <!--<button nz-button (click)="resetButtonClick($event)">重置</button>-->
+
 
                         <!--</div>-->
-                    <!--</div>-->
-               <byl-select-formitem [controlName]="'politicalStatus'" [labelCaption]="'政治面貌'"
-                                    [hostForm]="form" [controlPath]="'politicalStatus'" [isRequired]="'false'"
-                                    [placeHolder]="'请选择政治面貌'" [selectMode]="'default'"
-                                    [selectOptions]="politicalOptions" ></byl-select-formitem>
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="politicalStatus" >-->
-                                    <!--<span>-->
-                                        <!--政治面貌-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback >-->
-                            <!--<nz-select  formControlName="politicalStatus" nzAllowClear [nzPlaceHolder]="'选择政治面貌'">-->
-                              <!--<nz-option-->
-                                  <!--*ngFor="let option of searchedPoliticalStatus"-->
-                                  <!--[nzLabel]="option.name"-->
-                                  <!--[nzValue]="option.code"-->
-                              <!--&gt;</nz-option>-->
-                            <!--</nz-select>-->
 
-                        <!--</div>-->
-                    <!--</div>-->
+                    <!--</nz-form-item>-->
 
-               <byl-input-formitem [controlName]="'nativePlace'" [labelCaption]="'籍贯'"
-                                   [hostForm]="form" [controlPath]="'nativePlace'" [isRequired]="'false'"
-                                   [placeHolder]="'籍贯'"></byl-input-formitem>
-                    <!--<div nz-form-item nz-row>-->
-                        <!--<div nz-form-caption nz-col [nzSm]="4">-->
-                            <!--<caption for="nativePlace" >-->
-                                    <!--<span>-->
-                                        <!--籍贯-->
-                                        <!--&lt;!&ndash;<nz-tooltip [nzTitle]="'What do you want other to call you'">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i nz-tooltip class="anticon anticon-question-circle-o"></i>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;</nz-tooltip>&ndash;&gt;-->
-                                    <!--</span>-->
-                            <!--</caption>-->
-                        <!--</div>-->
-                        <!--<div nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="nativePlace">-->
-                            <!--<nz-input formControlName="nativePlace" nzPlaceHolder="籍贯" ></nz-input>-->
-
-                        <!--</div>-->
-                    <!--</div>-->
-
-                   <byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"
-                                       [hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"
-                                       [placeHolder]="'请输入备注'"></byl-input-formitem>
-
-                   <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
-
-                    <nz-form-item nz-row class="mb0">
-
-                        <div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
-                            <button nz-button [nzType]="'primary'" [nzSize]="'large'"
-                                    [disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>
-                            <button nz-button (click)="resetButtonClick($event)">重置</button>
-
-
-                        </div>
-
-                    </nz-form-item>
-
-                </form>
+                <!--</form>-->
 
         </nz-tab>
 

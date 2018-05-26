@@ -11,6 +11,8 @@
             <button (click)="reset()"  type="button" nz-button>重置</button>
 
           </sf>
+          <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
+
           <p>formdata:{{sfForm.value | json}}</p>
           <p>businessData:{{businessData | json}}</p>
                 <!--<form nz-form [formGroup]="form"  role="form">-->

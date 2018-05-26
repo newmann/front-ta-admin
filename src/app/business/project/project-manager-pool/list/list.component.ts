@@ -17,12 +17,20 @@ import {BylResultBody} from '../../../../service/model/result-body.model';
 import {SFSchema, SFUISchema} from '@delon/form';
 import * as moment from 'moment';
 import {BylListFormFunctionModeEnum} from '../../../../service/model/list-form-function-mode.enum';
+import {BylProject} from "../../../../service/project/model/project.model";
+import {
+    ACTION_DELETE, ACTION_MODIFY, BylTableClickAction,
+    BylTableDefine
+} from "../../../common/list-form-table-item/table.formitem";
+import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {BylPageReq} from "../../../../service/model/page-req.model";
+import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 
 @Component({
     selector: 'byl-project-manager-pool-list',
     templateUrl: './list.component.html',
 })
-export class BylProjectManagerPoolListComponent extends BylListComponentBase<BylProjectManagerPool> {
+export class BylProjectManagerPoolListComponent extends BylListComponentBasePro<BylProjectManagerPool> {
     /**
      * 当前在什么状态，主要是为了兼容不同的功能，比如筛选用户的界面等等,暂先定义两个：
      * list:正常的浏览界面
@@ -169,7 +177,29 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
         Object.assign(this.qData, q);
     }
 
-//#region 查询条件
+    deleteEntity(id: string){
+        //从数据库中删除
+        this.projectManagerPoolService.deleteById(id)
+            .subscribe(data => {
+                    this.loading = false;
+                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                        // 删除当前列表中的数据
+                        this.listData = this.listData.filter(item=> item.item.id !== id);
+
+                    } else {
+                        this.showMsg(data.msg);
+                    }
+                },
+                err => {
+                    this.loading = false;
+                    console.log(err);
+                    this.showMsg(err.toString());
+                }
+                );
+
+
+    }
+    //#region 查询条件
     queryDefaultData: any = {
         modifyDateBegin: moment(moment.now()).subtract(6, 'month').format('YYYY-MM-DD'),
         modifyDateEnd: moment(moment.now()).format('YYYY-MM-DD')
@@ -199,4 +229,38 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBase<Byl
         required: []
     };
 //#endregion
+
+    tableDefine:BylTableDefine ={
+        showCheckbox: true,
+        entityAction: [
+            {actionName: ACTION_DELETE }
+        ],
+        columns:[
+            {label:"代码", fieldPath: "poolCode" },
+            {label:"姓名", fieldPath: "poolName" },
+            {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
+        ]};
+
+
+    pageChange(item: BylPageReq){
+        this.page = item;
+        this.search();
+    }
+
+    selectedChange(data: BylListFormData<BylProjectManagerPool>[]){
+        this.selectedRows = data;
+
+    }
+
+    entityAction(action: BylTableClickAction){
+        switch(action.actionName){
+            case ACTION_DELETE:
+                this.deleteEntity(action.id);
+                break;
+            default:
+                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+        }
+
+    }
+
 }

@@ -184,8 +184,8 @@ export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutso
         columns:[
             {label:"代码", fieldPath: "code" },
             {label:"名称", fieldPath: "name" },
-            {label:"状态", fieldPath: "statusCaption" },
-            {label:"最后修改时间", fieldPath: "modifyDateTimeStr" }
+            {label:"状态", fieldPath: "statusDisplay" },
+            {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};
 
 

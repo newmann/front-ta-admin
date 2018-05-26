@@ -186,8 +186,8 @@ export class BylWorkTypeListComponent extends BylListComponentBasePro<BylWorkTyp
             {label:"名称", fieldPath: "name" },
             {label:"考情类型", fieldPath: "checkTypeCaption" },
             {label:"标准工作时长", fieldPath: "standardTimeLength" },
-            {label:"状态", fieldPath: "statusCaption" },
-            {label:"最后修改时间", fieldPath: "modifyDateTimeStr" }
+            {label:"状态", fieldPath: "statusDisplay" },
+            {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};
 
 

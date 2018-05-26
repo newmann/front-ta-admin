@@ -24,11 +24,15 @@ export class BylAccount extends BylBaseModel {
     permissionList: Set<BylPermission>;
     roleList: Set<BylRole>;
 
-    get statusCaption(): string{
+    get statusDisplay(): string{
         return BylMasterDataStatusManager.getCaption(this.status);
     }
 
-    get modifyDateTimeStr(): string{
-        return BylDatetimeUtils.formatDateTimeWeek(this.modifyAction.modifyDateTime);
+    set statusDisplay(value: string){
+        //应付对象复制
     }
+
+    // get modifyDateTimeStr(): string{
+    //     return BylDatetimeUtils.formatDateTimeWeek(this.modifyAction.modifyDateTime);
+    // }
 }

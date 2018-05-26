@@ -58,6 +58,11 @@ export class BylBorrowMoneyTicketService  extends BylBaseService<BylBorrowMoneyT
     findByBillNo(billNo: string): Observable<BylResultBody<BylBorrowMoneyTicket>> {
         return this.http.get<BylResultBody<BylBorrowMoneyTicket>>(this.BASE_API_URL + '/find-by-billno/' + billNo);
     }
+
+    getNewBillNo(): Observable<BylResultBody<string>> {
+        return this.http.get<BylResultBody<string>>(this.BASE_API_URL + '/get-new-billno');
+    }
+
     //
     // /**
     //  * 按分页方式返回

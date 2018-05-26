@@ -24,6 +24,8 @@ import {
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {BylRole} from "../../../../service/account/model/role.model";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 
 @Component({
@@ -64,7 +66,8 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
             item.checked = false;
             // item.disabled = (data.status === BylRoleStatus.DELETED);
             item.item = new BylAccount();
-            Object.assign(item.item, data);
+
+            simpleDeepCopy(item.item, data);
 
             return item;
         });
@@ -82,7 +85,9 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
     updateListData(newData: BylAccount) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
-                Object.assign(item.item, newData);
+                let p = new BylAccount();
+                simpleDeepCopy(p, newData);
+                item.item = p;
             });
     }
 
@@ -96,7 +101,65 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
         // this.functionSubject$.next(this.selectedRows);
         this.selectModalForm.destroy(this.selectedRows);
     }
+    /**
+     * 将当前记录锁定
+     * @param {string} id
+     */
+    lockEntity(id: string) {
+        let lockItem = new BylAccount();
+        this.listData.forEach(item => {
+            if (item.item.id === id) {
+                simpleDeepCopy(lockItem, item.item);
+            }
+        });
 
+        if (!lockItem.id) return;
+
+        lockItem.status = BylMasterDataStatusEnum.LOCKED.valueOf();
+
+        this.updateAccount(lockItem);
+    }
+    /**
+     * 将当前记录锁定
+     * @param {string} id
+     */
+    unlockEntity(id: string) {
+        let lockItem = new BylAccount();
+        this.listData.forEach(item => {
+            if (item.item.id === id) {
+                simpleDeepCopy(lockItem, item.item);
+            }
+        });
+
+        if (!lockItem.id) return;
+
+        lockItem.status = BylMasterDataStatusEnum.NORMAL.valueOf();
+
+        this.updateAccount(lockItem);
+    }
+
+    updateAccount(item: BylAccount){
+        this.accountService.update(item).subscribe(
+            data => {
+                this.loading = false;
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+
+                    // this.listData = Array.from(data.data.rows);
+
+                    this.updateListData(data.data);
+
+                } else {
+                    this.showMsg(data.msg);
+                }
+            },
+            err => {
+                this.loading = false;
+                console.log(err);
+                this.showMsg(err.toString());
+            }
+        );
+
+    }
     /**
      * 自定义查找，覆盖BylListComponentBase.search()
      */
@@ -176,33 +239,6 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
     };
 //#endregion
 
-    // queryForm: NzModalRef;
-    //
-    // showQueryForm() {
-    //     this.queryForm = this.modalService.create({
-    //         nzTitle: '输入查询条件',
-    //         nzZIndex: 9999, //最外层
-    //         nzWidth: '80%',
-    //         nzContent: BylListQueryFormComponent,
-    //         nzFooter: null,
-    //         // onOk() {
-    //         //
-    //         // },
-    //         // onCancel() {
-    //         //     console.log('Click cancel');
-    //         // },
-    //         nzComponentParams: {
-    //             defaultData: this.queryDefaultData,
-    //             uiSchema: this.queryUiSchema,
-    //             schema: this.querySchema
-    //         },
-    //         nzMaskClosable: false
-    //     });
-    //
-    //     this.queryForm.afterClose.subscribe((value: any) => {
-    //         console.log(value);
-    //     });
-    // }
 
     tableDefine:BylTableDefine ={
         showCheckbox: true,
@@ -215,8 +251,9 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
         {label:"代码", fieldPath: "username" },
         {label:"姓名", fieldPath: "fullName" },
         {label:"昵称", fieldPath: "nickname" },
-        {label:"最后修改时间", fieldPath: "modifyDateTimeStr" },
-        {label:"状态", fieldPath: "statusCaption" },
+        {label:"备注", fieldPath: "remarks" },
+        {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" },
+        {label:"状态", fieldPath: "statusDisplay" },
     ]};
 
 
@@ -229,8 +266,17 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
         this.selectedRows = data;
 
     }
+
+
     entityAction(action: BylTableClickAction){
         switch(action.actionName){
+            case ACTION_LOCK:
+                this.lockEntity(action.id);
+                break;
+
+            case ACTION_UNLOCK:
+                this.unlockEntity(action.id);
+                break;
             case ACTION_MODIFY:
                 this.modifyEntity(action.id);
                 break;

@@ -21,6 +21,9 @@ import {BylPipeModule} from "../service/pipe.module";
 import {BylListFormTableWidgetComponent} from "./common/list-form-table-item/table.formitem";
 import {WidgetRegistry} from "@delon/form";
 import {BylProjectManagerPoolSelectWidgetSFComponent} from "./common/select-widget-sf/select-project-manager-pool.widget";
+import {BylOutsourcerSelectWidgetSFComponent} from "./common/select-widget-sf/select-outsourcer-sf.widget";
+import {BylNationSelectWidgetSFComponent} from "./common/select-widget-sf/select-nation-sf.widget";
+import {BylPoliticalStatusSelectWidgetSFComponent} from "./common/select-widget-sf/select-political-status-sf.widget";
 
 
 @NgModule({
@@ -48,9 +51,10 @@ import {BylProjectManagerPoolSelectWidgetSFComponent} from "./common/select-widg
         BylListQueryWidgetComponent,
         BylListFormTableWidgetComponent,
 
-        BylProjectManagerPoolSelectWidgetSFComponent
-
-
+        BylProjectManagerPoolSelectWidgetSFComponent,
+        BylOutsourcerSelectWidgetSFComponent
+        ,BylNationSelectWidgetSFComponent
+        ,BylPoliticalStatusSelectWidgetSFComponent
     ],
     exports: [
         BylPipeModule,
@@ -75,8 +79,10 @@ import {BylProjectManagerPoolSelectWidgetSFComponent} from "./common/select-widg
         BylListQueryWidgetComponent,
         BylListFormTableWidgetComponent,
 
-        BylProjectManagerPoolSelectWidgetSFComponent
-
+        BylProjectManagerPoolSelectWidgetSFComponent,
+        BylOutsourcerSelectWidgetSFComponent
+        ,BylNationSelectWidgetSFComponent
+        ,BylPoliticalStatusSelectWidgetSFComponent
     ],
     entryComponents: [
         BylAccountListComponent,
@@ -85,8 +91,10 @@ import {BylProjectManagerPoolSelectWidgetSFComponent} from "./common/select-widg
         BylCrudWaitingComponent,
         BylWaitingComponent,
         BylListQueryFormComponent,
-        BylProjectManagerPoolSelectWidgetSFComponent
-
+        BylProjectManagerPoolSelectWidgetSFComponent,
+        BylOutsourcerSelectWidgetSFComponent
+        ,BylNationSelectWidgetSFComponent
+        ,BylPoliticalStatusSelectWidgetSFComponent
     ]
     // ,
     // schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
@@ -95,7 +103,8 @@ import {BylProjectManagerPoolSelectWidgetSFComponent} from "./common/select-widg
 export class BylBusinessSharedModule {
     constructor(widgetRegistry: WidgetRegistry) {
         widgetRegistry.register(BylProjectManagerPoolSelectWidgetSFComponent.KEY, BylProjectManagerPoolSelectWidgetSFComponent);
-
-
+        widgetRegistry.register(BylOutsourcerSelectWidgetSFComponent.KEY, BylOutsourcerSelectWidgetSFComponent);
+        widgetRegistry.register(BylNationSelectWidgetSFComponent.KEY, BylNationSelectWidgetSFComponent);
+        widgetRegistry.register(BylPoliticalStatusSelectWidgetSFComponent.KEY, BylPoliticalStatusSelectWidgetSFComponent);
     }
 }

@@ -133,8 +133,8 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
             {label:"收款信息", fieldPath: "receiveActionInfo" },
             {label:"结算信息", fieldPath: "settlementInfo" },
             {label:"备注", fieldPath: "remarks" },
-            {label:"状态", fieldPath: "statusCaption" },
-            {label:"最后修改时间", fieldPath: "modifyDateTimeStr" }
+            {label:"状态", fieldPath: "statusDisplay" },
+            {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};
 
 

@@ -19,7 +19,7 @@ export class BylDatetimeUtils {
         if (value) {
             return format(value, this.formatDateTimeString);
         } else {
-            return "";
+            return null;
         }
 
 
@@ -29,7 +29,7 @@ export class BylDatetimeUtils {
         if (value) {
             return format(value, this.formatDateString);
         } else {
-            return "";
+            return null;
         }
 
 
@@ -61,7 +61,7 @@ export class BylDatetimeUtils {
                 locale: zhLocale
             });
         } else {
-            return "";
+            return null;
         }
 
 
@@ -73,7 +73,7 @@ export class BylDatetimeUtils {
                 // locale: (window as any).__locale__,
             });
         }else {
-            return "";
+            return null;
         }
 
     }

@@ -108,96 +108,13 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                 "manager": {
                     "type": "string",
                     "title": '项目经理',
-                    // enum:[{value: {id:"-",code:"-",name: "-"},label: "-"}],
                     "ui": {
                         widget: 'bylProjectManagerPoolSelect',
                         placeholder: '请输入项目经理代码或名称，系统自动查找',
                         allowClear: 'true',
                         serverSearch: 'true',
                         showSearch: 'true',
-                        // compareWith: (o1: any, o2: any) => o1 && o2 ? o1.id === o2.id : o1 === o2,
-                        // asyncData: (text: string) => {
-                        //     console.log("search for manager:", text);
-                        //     if ((text) && (text.length > 0)) {
-                        //         // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-                        //         return this.projectManagerPoolService.fetchAvailableByCodeOrName(text)
-                        //             .map(
-                        //                 (res) => {
-                        //                     if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                        //                         if (res.data) {
-                        //                             let searchResult: SFSchemaEnumType[] = [];
-                        //
-                        //                             res.data.forEach(item => {
-                        //                                 let v = new BylEntityReference();
-                        //                                 v.id = item.poolId;
-                        //                                 v.code = item.poolCode;
-                        //                                 v.name = item.poolName;
-                        //
-                        //                                 let i: SFSchemaEnumType = {};
-                        //                                 i.label = v.getFullCaption();
-                        //                                 i.value = v;
-                        //                                 searchResult.push(i);
-                        //                             });
-                        //
-                        //                             return searchResult;
-                        //
-                        //                         } else {
-                        //                             return [];
-                        //                         }
-                        //                     } else {
-                        //                         console.error("获取项目经理资源出错：", res);
-                        //                         return ([]);
-                        //                     }
-                        //
-                        //                 }
-                        //             );
-                        //     }
-                        // },
-                        // onSearch: (text: string) => {
-                        //     console.log("search for manager:", text);
-                        //     if ((text) && (text.length > 0)) {
-                        //         // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-                        //         return this.projectManagerPoolService.fetchAvailableByCodeOrName(text)
-                        //             .toPromise().then(
-                        //                 (res) => {
-                        //                     if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                        //                         if (res.data) {
-                        //                             let searchResult: SFSchemaEnumType[] = [];
-                        //
-                        //                             res.data.forEach(item => {
-                        //                                 let v = new BylEntityReference();
-                        //                                 v.id = item.poolId;
-                        //                                 v.code = item.poolCode;
-                        //                                 v.name = item.poolName;
-                        //
-                        //                                 let i: SFSchemaEnumType = {};
-                        //                                 i.label = v.getFullCaption();
-                        //                                 i.value = v;
-                        //                                 searchResult.push(i);
-                        //                             });
-                        //
-                        //                             return searchResult;
-                        //
-                        //                         } else {
-                        //                             return [];
-                        //                         }
-                        //                     } else {
-                        //                         console.error("获取项目经理资源出错：", res);
-                        //                         return ([]);
-                        //                     }
-                        //
-                        //                 }
-                        //             ).catch(error => (console.error("获取项目经理资源出错：", error)));
-                        //     }
-                        //
-                        // },
-                        openChange: (value: string) =>{
-                            console.log("openChange:", value);
-                            // if (value){
-                            //     return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(value);
-                            // }
 
-                        }
                     }
                 },
                 "planBeginDateDF": {
@@ -441,10 +358,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
         super.setFormData(data);
 
         if( this.businessData.managerId){
-            let m = new BylEntityReference();
-            m.id = this.businessData.managerId;
-            m.code = this.businessData.managerCode;
-            m.name = this.businessData.managerName;
+            let m = new BylEntityReference(this.businessData.managerId,this.businessData.managerCode,this.businessData.managerName);
 
             this.businessData.manager = m;
             // this.businessData.manager = m.code;

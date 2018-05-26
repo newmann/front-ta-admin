@@ -5,6 +5,7 @@
  */
 import {BylBaseModel} from '../../model/base.model';
 import {BylEmbeddableAddress} from '../../model/embeddable-address.model';
+import {BylEntityReference} from "../../model/entity-reference.model";
 
 export class BylPerson extends BylBaseModel {
     idCard: string;
@@ -12,6 +13,8 @@ export class BylPerson extends BylBaseModel {
 
     address: BylEmbeddableAddress = new BylEmbeddableAddress();
 
+    country: BylEntityReference ;
+    countryId: string;
     countryCode: string;
     countryName: string;
 
@@ -20,9 +23,13 @@ export class BylPerson extends BylBaseModel {
     birthMonth: number = 0;
     birthDay: number = 0;
 
+    nation: BylEntityReference ;
+    nationId: string;
     nationCode: string;
     nationName: string;
 
+    politicalStatus: BylEntityReference ;
+    politicalStatusId: string;
     politicalStatusCode: string;
     politicalStatusName: string;
 

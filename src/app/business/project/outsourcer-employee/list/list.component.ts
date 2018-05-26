@@ -6,55 +6,57 @@ import {BylIStatusItem} from '../../../../service/model/status.model';
 import {Router} from '@angular/router';
 import * as moment from 'moment';
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
-import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from '../../../../service/model/master-data-status.enum';
+
 import {SFSchema, SFUISchema} from "@delon/form";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
+import {BylWorkTypeQuery} from "../../../../service/project/query/work-type-query.model";
 import {
     ACTION_DELETE, ACTION_MODIFY, BylTableClickAction,
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylPageReq} from "../../../../service/model/page-req.model";
-import {BylExpenseType} from "../../../../service/project/model/expense-type.model";
-import {BylExpenseTypeService} from "../../../../service/project/service/expense-type.service";
-import {BylExpenseTypeQuery} from "../../../../service/project/query/expense-type-query.model";
+import {BylOutsourceEmployee} from '../../../../service/project/model/outsource-employee.model';
+import {BylEmployeeStatusEnum, BylEmployeeStatusManager} from "../../../../service/project/model/employee-status.enum";
+import {BylOutsourcerService} from "../../../../service/project/service/outsourcer.service";
+import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
+import {BylOutsourceEmployeeService} from "../../../../service/project/service/outsource-employee.service";
 
 @Component({
-    selector: 'byl-expense-type-list',
+    selector: 'byl-oursourcer-employee-list',
     templateUrl: './list.component.html',
 })
-export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpenseType> {
+export class BylOutsourceEmployeeListComponent extends BylListComponentBasePro<BylOutsourceEmployee> {
 
 
     statusList: BylIStatusItem[]; //状态
 
-    public normalWorkTypeStatus: number = BylMasterDataStatusEnum.NORMAL;
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
                 public router: Router,
-                public expenseTypeService: BylExpenseTypeService) {
+                public outsourceEmployeeService: BylOutsourceEmployeeService) {
         super(message, configService, modalService, router);
 
-        this.businessService = expenseTypeService;
-        this.crudUrl = '/project/expense-type/crud';
+        this.businessService = outsourceEmployeeService;
+        this.crudUrl = '/project/outsource-employee/crud';
         // this.businessCrudComponent = BylPersonCrudComponent;
 
-        this.statusList = BylMasterDataStatusManager.getArray();
+        this.statusList = BylEmployeeStatusManager.getArray();
         this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
     }
 
     /**
      * 根据查询的结果，生成界面显示的内容，重点是处理好checkec和disabled字段的值。
-     * @param {Array<BylExpenseType>} findResult
-     * @returns {Array<BylListFormData<BylExpenseType>>}
+     * @param {Array<BylOutsourceEmployee>} findResult
+     * @returns {Array<BylListFormData<BylOutsourceEmployee>>}
      */
-    genListData(findResult: Array<BylExpenseType>): Array<BylListFormData<BylExpenseType>> {
+    genListData(findResult: Array<BylOutsourceEmployee>): Array<BylListFormData<BylOutsourceEmployee>> {
         return findResult.map(data => {
-            let item = new BylListFormData<BylExpenseType>();
+            let item = new BylListFormData<BylOutsourceEmployee>();
             item.checked = false;
-            item.disabled = (data.status === BylMasterDataStatusEnum.DELETED);
-            item.item = new BylExpenseType();
+            item.disabled = (data.status !== BylEmployeeStatusEnum.NORMAL);
+            item.item = new BylOutsourceEmployee();
             Object.assign(item.item, data);
             return item;
         });
@@ -63,10 +65,10 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
     /**
      *
      * @param q
-     * @returns {BylExpenseTypeQuery}
+     * @returns {BylWorkTypeQuery}
      */
     genQueryModel(): any {
-        let result = new BylExpenseTypeQuery();
+        let result = new BylWorkTypeQuery();
         if (this.qData.name) result.name = this.qData.name;
         if (this.qData.modifyDateBegin) result.modifyDateBegin = moment(this.qData.modifyDateBegin).valueOf();
         if (this.qData.modifyDateEnd) result.modifyDateEnd = moment(this.qData.modifyDateEnd).add(1, 'days').valueOf(); // 第二天的零点
@@ -89,7 +91,7 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
      * @param {string} id
      */
     lockRole(id: string) {
-        let lockItem = new BylExpenseType();
+        let lockItem = new BylOutsourceEmployee();
         this.listData.forEach(item => {
             if (item.item.id === id) {
                 Object.assign(lockItem, item.item);
@@ -101,7 +103,7 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
 
         lockItem.status = BylMasterDataStatusEnum.LOCKED.valueOf();
 
-        this.expenseTypeService.update(lockItem).subscribe(
+        this.outsourceEmployeeService.update(lockItem).subscribe(
             data => {
                 this.loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -121,22 +123,22 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
         );
     }
 
-    updateListData(newData: BylExpenseType) {
+    updateListData(newData: BylOutsourceEmployee) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
                 Object.assign(item.item, newData);
             });
     }
 
-    getStatusCaption(status: number): string {
-        return BylMasterDataStatusManager.getCaption(status);
-    }
+    // getStatusCaption(status: number): string {
+    //     return BylEmployeeStatusEnum.getCaption(status);
+    // }
 
     /**
      * 设置查询缺省值
      */
     setQDataDefaultValue(){
-        let q = new BylExpenseTypeQuery();
+        let q = new BylWorkTypeQuery();
 
         Object.assign(this.qData,q);
     }
@@ -152,7 +154,7 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
                 title: '代码类似于'
             },
             name: { type: 'string',
-                title: '名称类似于'
+                title: '姓名类似于'
             },
             status: {
                 type: 'string',
@@ -178,9 +180,10 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL }
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.NORMAL }
         ],
         columns:[
+            {label:"所属外包商", fieldPath: "outsourcerCaption" },
             {label:"代码", fieldPath: "code" },
             {label:"名称", fieldPath: "name" },
             {label:"状态", fieldPath: "statusDisplay" },
@@ -193,7 +196,7 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
         this.search();
     }
 
-    selectedChange(data: BylListFormData<BylExpenseType>[]){
+    selectedChange(data: BylListFormData<BylOutsourceEmployee>[]){
         this.selectedRows = data;
 
     }

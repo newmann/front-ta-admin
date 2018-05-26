@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {BylListComponentBase} from '../../../common/list-component-base';
 import {BylPerson} from '../../../../service/person/model/person.model';
 import {Router} from '@angular/router';
-import {NzMessageService, NzModalService} from 'ng-zorro-antd';
+import {NzMessageService, NzModalRef, NzModalService} from 'ng-zorro-antd';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylPersonService} from '../../../../service/person/service/person.service';
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
@@ -14,6 +14,14 @@ import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../s
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {BylPageReq} from "../../../../service/model/page-req.model";
 import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
+import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
+import {BylAccountAvailablePoolsInterface} from "../../../../service/account/service/account-related.interface";
+import {BylPersonAvailablePoolsInterface} from "../../../../service/person/service/person-available-pool.interface";
+import {BylResultBody} from "../../../../service/model/result-body.model";
+import {BylPageResp} from "../../../../service/model/page-resp.model";
+import {Observable} from "rxjs/Observable";
+import {BylAccount} from "../../../../service/account/model/account.model";
+import {deepCopy, simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 
 @Component({
@@ -21,6 +29,16 @@ import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../commo
     templateUrl: './list.component.html',
 })
 export class BylPersonListComponent extends BylListComponentBasePro<BylPerson> {
+    /**
+     * 当前在什么状态，主要是为了兼容不同的功能，比如筛选用户的界面等等,暂先定义两个：
+     * list:正常的浏览界面
+     * select： 筛选界面，
+     */
+
+    @Input() functionMode: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
+    @Input() findAvailablePoolsService: BylPersonAvailablePoolsInterface; //调用方传入查询函数
+    @Input() selectModalForm: NzModalRef;
+
     // statusList: BylIStatusItem[]; //状态
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
@@ -40,10 +58,19 @@ export class BylPersonListComponent extends BylListComponentBasePro<BylPerson> {
     genListData(findResult: Array<BylPerson>): Array<BylListFormData<BylPerson>> {
         return findResult.map(data => {
             let item = new BylListFormData<BylPerson>();
+
             item.checked = false;
             // item.disabled = (data.status === BylRoleStatus.DELETED);
+            console.log("in PersonList genListData data", data);
+
             item.item = new BylPerson();
-            Object.assign(item.item, data);
+
+            console.log("in PersonList genListData before", item.item);
+            // Object.assign(item.item, data);
+            item.item = simpleDeepCopy(item.item, data);
+
+
+            console.log("in PersonList genListData after", item.item);
             return item;
         });
     }
@@ -60,10 +87,56 @@ export class BylPersonListComponent extends BylListComponentBasePro<BylPerson> {
     updateListData(newData: BylPerson) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
-                Object.assign(item.item, newData);
+                simpleDeepCopy(item.item, newData);
             });
     }
 
+    /**
+     * 自定义查找，覆盖BylListComponentBase.search()
+     */
+    search() {
+        this.loading = true;
+
+        let queryResult: Observable<BylResultBody<BylPageResp<BylPerson>>>;
+        if (this.functionMode === BylListFormFunctionModeEnum.SELECT) {
+
+            console.log(this.findAvailablePoolsService);
+
+            queryResult = this.findAvailablePoolsService.findAvailablePersonPoolsPage(this.genQueryModel(), this.page);
+        } else {
+            queryResult = this.personService.findPage(this.genQueryModel(), this.page);
+        }
+
+        queryResult.subscribe(
+            data => {
+                this.loading = false;
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                    // 正确获取数据
+                    this.total = data.data.total;
+                    console.log("in PersonListComponent:",data.data.rows);
+                    // this.listData = Array.from(data.data.rows);
+                    this.listData = this.genListData(Array.from(data.data.rows));
+
+                } else {
+                    console.error(data.msg);
+                    super.showMsg(data.msg);
+                }
+            },
+            err => {
+                this.loading = false;
+                console.error(err);
+                super.showMsg(err.toString());
+            }
+        );
+
+    }
+
+    batchSelect($event) {
+        //将数据传出，并退出界面
+        $event.preventDefault();
+        // this.functionSubject$.next(this.selectedRows);
+        this.selectModalForm.destroy(this.selectedRows);
+    }
     // modifyEntity(id:string){
     //     this.router.navigateByUrl("/person/person/crud/" + id);
     // }
@@ -73,7 +146,7 @@ export class BylPersonListComponent extends BylListComponentBasePro<BylPerson> {
     setQDataDefaultValue(){
         let q = new BylPersonQuery();
 
-        Object.assign(this.qData,q);
+        simpleDeepCopy(this.qData,q);
     }
 
     //#region 查询条件
@@ -105,7 +178,7 @@ export class BylPersonListComponent extends BylListComponentBasePro<BylPerson> {
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL }
+            {actionName: ACTION_MODIFY }
         ],
         columns:[
             {label:"身份证号码", fieldPath: "idCard" },
@@ -114,7 +187,7 @@ export class BylPersonListComponent extends BylListComponentBasePro<BylPerson> {
             {label:"政治面貌", fieldPath: "politicalStatusName" },
             {label:"籍贯", fieldPath: "nativePlace" },
             {label:"备注", fieldPath: "remarks" },
-            {label:"最后修改时间", fieldPath: "modifyDateTimeStr" }
+            {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};
 
 

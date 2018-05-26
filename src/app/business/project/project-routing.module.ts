@@ -14,6 +14,8 @@ import {BylEmployeeCrudComponent} from "./employee/crud/crud.component";
 import {BylEmployeeListComponent} from "./employee/list/list.component";
 import {BylOutsourcerCrudComponent} from "./outsourcer/crud/crud.component";
 import {BylOutsourcerListComponent} from "./outsourcer/list/list.component";
+import {BylOutsourceEmployeeCrudComponent} from "./outsourcer-employee/crud/crud.component";
+import {BylOutsourceEmployeeListComponent} from "./outsourcer-employee/list/list.component";
 
 
 
@@ -34,8 +36,12 @@ const routes: Routes = [
     { path: 'employee/list', component: BylEmployeeListComponent },
     { path: 'employee/crud/:type', component: BylEmployeeCrudComponent,data: {reuse: true}  },
     { path: 'outsourcer/list', component: BylOutsourcerListComponent },
-    { path: 'outsourcer/crud/:type', component: BylOutsourcerCrudComponent,data: {reuse: true}  }
-];
+    { path: 'outsourcer/crud/:type', component: BylOutsourcerCrudComponent,data: {reuse: true}  },
+    { path: 'outsource-employee/list', component: BylOutsourceEmployeeListComponent },
+    { path: 'outsource-employee/crud/:type', component: BylOutsourceEmployeeCrudComponent,data: {reuse: true}  }
+
+    ];
+
 
 @NgModule({
   imports: [ RouterModule.forChild(routes) ],
