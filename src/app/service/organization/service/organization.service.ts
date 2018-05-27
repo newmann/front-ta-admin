@@ -10,6 +10,7 @@ import {BylResultBody} from '../../model/result-body.model';
 import {Observable} from 'rxjs/Observable';
 import {BylPageReq} from '../../model/page-req.model';
 import {BylOrganization} from "../model/organization.model";
+import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
 
 
 
@@ -48,8 +49,13 @@ export class BylOrganizationService  extends BylBaseService<BylOrganization> {
      * @param {string} code
      * @returns {Observable<BylResultBody<boolean>>}
      */
-    checkCodeAvailable(code: string):Observable< BylResultBody < boolean >> {
-        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/check-code-available/' + code);
+    // checkCodeAvailable(code: string):Observable< BylResultBody < boolean >> {
+    //     return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/check-code-available/' + code);
+    //
+    // }
+    checkCodeAvailable(data: BylCheckAvailableReq): Observable<BylResultBody<boolean>> {
+        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/check-code-available', data);
 
     }
+
 }

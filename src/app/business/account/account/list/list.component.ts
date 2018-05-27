@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Injector} from '@angular/core';
 import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
 import {BylConfigService} from '../../../../service/constant/config.service';
@@ -15,7 +15,6 @@ import {BylAccountAvailablePoolsInterface} from '../../../../service/account/ser
 import {BylProjectQuery} from '../../../../service/project/query/project-query.model';
 import {BylListFormFunctionModeEnum} from '../../../../service/model/list-form-function-mode.enum';
 import {SFSchema, SFUISchema} from '@delon/form';
-import {BylListQueryFormComponent} from '../../../common/list-query-form/list-query.form';
 import * as moment from "moment";
 import {BylPageReq} from "../../../../service/model/page-req.model";
 import {
@@ -24,15 +23,15 @@ import {
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
-import {BylRole} from "../../../../service/account/model/role.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 
 
 @Component({
     selector: 'byl-account-list',
     templateUrl: './list.component.html',
 })
-export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
+export class BylAccountListComponent extends BylListComponentBasePro<BylAccount> {
     // LIST_MODE:BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
 
     @Input() masterId: string; //用户查询对应关系的界面，比如角色包含的用户等
@@ -45,10 +44,11 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
 
     @Input() functionMode: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
     @Input() findAvailablePoolsService: BylAccountAvailablePoolsInterface; //调用方传入查询函数
-    @Input() selectModalForm: NzModalRef;
+    // @Input() selectModalForm: NzModalRef;
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
+                public injector: Injector,
                 // public modalRef: NzModalRef,
                 public router: Router,
                 public accountService: BylAccountService) {
@@ -99,7 +99,12 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
         //将数据传出，并退出界面
         $event.preventDefault();
         // this.functionSubject$.next(this.selectedRows);
-        this.selectModalForm.destroy(this.selectedRows);
+        // this.selectModalForm.destroy(this.selectedRows);
+        // this.modalRef.destroy(this.selectedRows);
+        let modalRef: NzModalRef = this.injector.get(NzModalRef);
+        if (modalRef) {
+            modalRef.destroy(this.selectedRows);
+        }
     }
     /**
      * 将当前记录锁定
@@ -164,9 +169,10 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
      * 自定义查找，覆盖BylListComponentBase.search()
      */
     search() {
-        this.loading = true;
 
-        this.clearGrid();
+        this.loading = true;
+        // this.selectedRows = [];
+        this.listWidget.clearGrid();
 
         let queryResult: Observable<BylResultBody<BylPageResp<BylAccount>>>;
         if (this.functionMode === BylListFormFunctionModeEnum.SELECT) {
@@ -257,34 +263,34 @@ export class BylAccountListComponent extends BylListComponentBase<BylAccount> {
     ]};
 
 
-    pageChange(item: BylPageReq){
-        this.page = item;
-        this.search();
-    }
-
-    selectedChange(data: BylListFormData<BylAccount>[]){
-        this.selectedRows = data;
-
-    }
-
-
-    entityAction(action: BylTableClickAction){
-        switch(action.actionName){
-            case ACTION_LOCK:
-                this.lockEntity(action.id);
-                break;
-
-            case ACTION_UNLOCK:
-                this.unlockEntity(action.id);
-                break;
-            case ACTION_MODIFY:
-                this.modifyEntity(action.id);
-                break;
-            default:
-                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-        }
-
-    }
+    // pageChange(item: BylPageReq){
+    //     this.page = item;
+    //     this.search();
+    // }
+    //
+    // selectedChange(data: BylListFormData<BylAccount>[]){
+    //     this.selectedRows = data;
+    //     console.log('in AccountList selectedChange', this.selectedRows);
+    // }
+    //
+    //
+    // entityAction(action: BylTableClickAction){
+    //     switch(action.actionName){
+    //         case ACTION_LOCK:
+    //             this.lockEntity(action.id);
+    //             break;
+    //
+    //         case ACTION_UNLOCK:
+    //             this.unlockEntity(action.id);
+    //             break;
+    //         case ACTION_MODIFY:
+    //             this.modifyEntity(action.id);
+    //             break;
+    //         default:
+    //             console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+    //     }
+    //
+    // }
 
     batchDelete(){
 

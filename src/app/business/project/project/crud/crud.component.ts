@@ -23,6 +23,8 @@ import {BylProjectManagerPoolService} from "../../../../service/project/service/
 import {SFComponent, SFSchemaEnumType} from "@delon/form";
 import {BylProjectManagerPool} from "../../../../service/project/model/project-manager-pool.model";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {BylProjectStatusEnum} from "../../../../service/project/model/project-status.enum";
 
 
 @Component({
@@ -105,7 +107,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                         }
                     }
                 },
-                "manager": {
+                "managerWidget": {
                     "type": "string",
                     "title": '项目经理',
                     "ui": {
@@ -117,21 +119,21 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
 
                     }
                 },
-                "planBeginDateDF": {
+                "planBeginDateWidget": {
                     type: "string",
                     title: '计划开始日期',
                     format: 'date',
                     ui: {
-                        widget: 'date',
+                        format: BylDatetimeUtils.formatDateString,
                         placeholder: '请选择计划开始日期'
                     }
                 },
-                "planEndDateDF": {
+                "planEndDateWidget": {
                     "type": "string",
                     "title": '计划结束日期',
                     format: 'date',
                     ui: {
-                        widget: 'date',
+                        format: BylDatetimeUtils.formatDateString,
                         placeholder: '请选择计划结束日期'
                     }
 
@@ -141,31 +143,9 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                     "title": '备注'
                 }
             },
-            "required": ["code", "name","manager"]
+            "required": ["code", "name","managerWidget"]
 
         };
-
-
-        // 绑定验证模式
-        // this.form = this.fb.group({
-        //     code: [null, Validators.compose([Validators.required])],
-        //     name: [null, Validators.compose([Validators.required])],
-        //     projectManager: this.fb.group({
-        //             managerId: [null, Validators.compose([Validators.required])],
-        //             managerCode: [null, Validators.compose([Validators.required])],
-        //             managerName: [null, Validators.compose([Validators.required])]
-        //     }),
-        //     addressTree: [null, Validators.compose([Validators.required])],
-        //     detailAddress: [null, Validators.compose([Validators.required])],
-        //     zipCode: [null],
-        //     // detailAddress: [null],
-        //     // contactZipCode: [null],
-        //     planBeginDate: [null],
-        //     planEndDate: [null],
-        //     remarks: [null]
-        // });
-
-
     }
 
 
@@ -189,63 +169,16 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
 
     }
 
-    ngOnInit() {
-        super.ngOnInit();
-
-    }
-
-    resetButtonClick($event: MouseEvent) {
-        $event.preventDefault();
-        this.reset();
-    }
-
-    // searchManager($event: MouseEvent) {
-    //     $event.preventDefault();
-    //     console.log("search manager");
-    //     /**
-    //      * 从账户池中查找待加入的项目经理
-    //      */
-    //
-    //     this.managerPoolReveal = this.modalService.create({
-    //         nzTitle: '查找项目经理',
-    //         nzZIndex: 9999, //最外层
-    //         nzWidth: '90%',
-    //         nzContent: BylProjectManagerPoolListComponent,
-    //         // onOk() {
-    //         //
-    //         // },
-    //         // onCancel() {
-    //         //     console.log('Click cancel');
-    //         // },
-    //         nzComponentParams: {
-    //             functionMode: 'select'
-    //         },
-    //         nzMaskClosable: false
-    //     });
-    //     // this.managerPoolReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
-    //
-    //     this.managerPoolReveal.destroy(result => {
-    //         console.info(result);
-    //
-    //         console.info(typeof result);
-    //
-    //         //返回的是选中的项目经理
-    //         let selectedItem: BylProjectManagerPool;
-    //         if ((typeof result) === 'object') {
-    //             console.log('添加新增的项目经理数据');
-    //             selectedItem = result;
-    //         }
-    //
-    //         //设置选中的项目经理
-    //         if (selectedItem) {
-    //             this.managerId.patchValue(selectedItem.poolId);
-    //             this.managerCode.patchValue(selectedItem.poolCode);
-    //             this.managerName.patchValue(selectedItem.poolName);
-    //         }
-    //
-    //     });
+    // ngOnInit() {
+    //     super.ngOnInit();
     //
     // }
+
+    // resetButtonClick($event: MouseEvent) {
+    //     $event.preventDefault();
+    //     this.reset();
+    // }
+
     /**
      *  在提交之前对businessData进行一些个性化的处理
      *  如果是普通界面，无须处理
@@ -253,48 +186,25 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
     getFormData() {
         super.getFormData();
 
-        this.businessData.managerId  = this.businessData.manager.id;
-        this.businessData.managerCode  = this.businessData.manager.code;
-        this.businessData.managerName  = this.businessData.manager.name;
-        // for (const i in this.form.controls) {
-        //     this.form.controls[i].markAsDirty();
+        if (this.businessData.managerWidget){
+            this.businessData.managerId  = this.businessData.managerWidget.id;
+            this.businessData.managerCode  = this.businessData.managerWidget.code;
+            this.businessData.managerName  = this.businessData.managerWidget.name;
+
+        }
+        if (this.businessData.planBeginDateWidget) {
+            this.businessData.planBeginDate = BylDatetimeUtils.convertDateTimeToMills(this.businessData.planBeginDateWidget);
+
+        }
+        if (this.businessData.planEndDateWidget) {
+            this.businessData.planEndDate = BylDatetimeUtils.convertDateTimeToMills(this.businessData.planEndDateWidget);
+
+        }
+
+        // if (!this.businessData.status){
+        //     //todo 暂时直接保存为提交
+        //     this.businessData.status = BylProjectStatusEnum.SUBMITED;
         // }
-        //
-        // console.table(this.form.value);
-        // this.businessData.code = this.code.value;
-        // this.businessData.name = this.name.value;
-        // this.businessData.managerId = this.managerId.value;
-        // this.businessData.managerCode = this.managerCode.value;
-        // this.businessData.managerName = this.managerName.value;
-        //
-        // this.businessData.address.countryId = this.addressTreevalue[0].value;
-        // this.businessData.address.countryCode = this.addressTreevalue[0].value;
-        // this.businessData.address.countryName = this.addressTreevalue[0].label;
-        //
-        // this.businessData.address.provinceId = this.addressTreevalue[1].value;
-        // this.businessData.address.provinceCode = this.addressTreevalue[1].value;
-        // this.businessData.address.provinceName = this.addressTreevalue[1].label;
-        //
-        // this.businessData.address.cityId = this.addressTreevalue[2].value;
-        // this.businessData.address.cityCode = this.addressTreevalue[2].value;
-        // this.businessData.address.cityName = this.addressTreevalue[2].label;
-        //
-        // this.businessData.address.detailAddress = this.detailAddress.value;
-        //
-        // if (this.zipCode.value) this.businessData.address.zipCode = this.zipCode.value;
-        //
-        // if (this.planBeginDate.value) {
-        //     this.businessData.planBeginDate = moment(this.planBeginDate.value).valueOf();
-        // }
-        // if (this.planEndDate.value) {
-        //     this.businessData.planEndDate = moment(this.planEndDate.value).valueOf();
-        // }
-        //
-        //
-        // if (this.remarks.value) {
-        //     this.businessData.remarks = this.remarks.value.toString();
-        // }
-        // console.table(this.businessData);
 
     }
 
@@ -302,32 +212,6 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
      * 重置界面内容
      */
     reset() {
-        // let country = {value: this.businessData.address.countryCode, label: this.businessData.address.countryName};
-        // this.addressTreevalue[0] = country;
-        //
-        // let province = {value: this.businessData.address.provinceCode, label: this.businessData.address.provinceName};
-        // this.addressTreevalue[1] = province;
-        //
-        // let city = {value: this.businessData.address.cityCode, label: this.businessData.address.cityName};
-        // this.addressTreevalue[2] = city;
-        //
-        // this.form.reset({
-        //     code: this.businessData.code,
-        //     name: this.businessData.name,
-        //     managerId: this.businessData.managerId,
-        //     managerCode: this.businessData.managerCode,
-        //     managerName: this.businessData.managerName,
-        //     addressTree: this.addressTreevalue,
-        //     detailAddress: this.businessData.address.detailAddress,
-        //     zipCode: this.businessData.address.zipCode,
-        //     // birthYear: this.businessData.birthYear,
-        //     // birthMonth: this.businessData.birthMonth,
-        //     // birthDay: this.businessData.birthDay,
-        //     planBeginDate: this.businessData.planBeginDate,
-        //     planEndDate: this.businessData.planEndDate,
-        //     remarks: this.businessData.remarks
-        // }, {onlySelf: true, emitEvent: false});
-        //
 
         console.log('4、in Project Crud, reset form', this.defaultBusinessData);
 
@@ -339,14 +223,6 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
             //说明是修改
             this.reuseTabService.title = '编辑-' + this.businessData.name;
         }
-
-
-        // this.form.markAsPristine();
-        // // for (const key in this.form.controls) {
-        // //     this.form.controls[key].markAsPristine();
-        // // }
-        // this.logger.log('this.form.dirty' + this.form.dirty);
-        // this.logger.log('this.form.invalid' + this.form.invalid);
     }
 
     /**
@@ -358,25 +234,25 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
         super.setFormData(data);
 
         if( this.businessData.managerId){
-            let m = new BylEntityReference(this.businessData.managerId,this.businessData.managerCode,this.businessData.managerName);
+            let m = new BylEntityReference(this.businessData.managerId,
+                this.businessData.managerCode,
+                this.businessData.managerName);
 
-            this.businessData.manager = m;
-            // this.businessData.manager = m.code;
-            this.defaultBusinessData.manager = m;
-            // this.defaultBusinessData.manager = m.code;
-
-            // // // //同时要把这个值放到界面的缺省值中去，否则无法显示
-            // if (this.formSchema.properties['manager']){
-            //     console.log("3、in Project Crud,setFormData:", this.formSchema.properties['manager']);
-            //     let e :SFSchemaEnumType = {};
-            //     e.value = m;
-            //     e.label = m.getFullCaption();
-            //
-            //     this.formSchema.properties['manager'].enum.push(e);
-            //
-            // }
+            this.businessData.managerWidget = m;
+            this.defaultBusinessData.managerWidget = m;
 
         }
+
+        if (this.businessData.planBeginDate){
+            this.businessData.planBeginDateWidget = BylDatetimeUtils.convertMillsToDateTime(this.businessData.planBeginDate);
+            this.defaultBusinessData.planBeginDateWidget = BylDatetimeUtils.convertMillsToDateTime(this.businessData.planBeginDate);
+        }
+
+        if (this.businessData.planEndDate){
+            this.businessData.planEndDateWidget = BylDatetimeUtils.convertMillsToDateTime(this.businessData.planEndDate);
+            this.defaultBusinessData.planEndDateWidget = BylDatetimeUtils.convertMillsToDateTime(this.businessData.planEndDate);
+        }
+
     }
 
 
@@ -469,60 +345,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
 
     }
 
-    //#region get form fields
-    // get code() {
-    //     return this.form.controls.code;
-    // }
-    //
-    // get name() {
-    //     return this.form.controls.name;
-    // }
-    // get managerId() {
-    //     return this.projectManagerWidget.managerId;
-    // }
-    //
-    // get managerCode() {
-    //     return this.projectManagerWidget.managerCode;
-    // }
-    // get managerName() {
-    //     return this.projectManagerWidget.managerName;
-    // }
-    //
-    // get addressTree() {
-    //     return this.form.controls.addressTree;
-    // }
-    //
-    // get detailAddress() {
-    //     return this.form.controls.detailAddress;
-    // }
-    //
-    // get zipCode() {
-    //     return this.form.controls.zipCode;
-    // }
 
-    // get birthYear() {
-    //     return this.form.controls.birthYear;
-    // }
-    // get birthMonth() {
-    //     return this.form.controls.birthMonth;
-    // }
-    // get birthDay() {
-    //     return this.form.controls.birthDay;
-    // }
-    // get planBeginDate() {
-    //     return this.form.controls.planBeginDate;
-    // }
-    //
-    //
-    // get planEndDate() {
-    //     return this.form.controls.planEndDate;
-    // }
-    //
-    // get remarks() {
-    //     return this.form.controls.remarks;
-    // }
-
-    //#endregion
 
     error(value: any) {
         console.log('error', value);

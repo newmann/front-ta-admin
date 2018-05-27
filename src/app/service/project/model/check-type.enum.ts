@@ -32,7 +32,7 @@ export class BylCheckTypeEnumManager {
         ];
     }
 
-    static getSFRadioDataArray(): BylSFRadioData[] {
+    static getSFSelectDataArray(): BylSFRadioData[] {
         return [
             {value: BylCheckTypeEnum.DAY, label: this.getCaption(BylCheckTypeEnum.DAY)},
             {value: BylCheckTypeEnum.HOUR, label: this.getCaption(BylCheckTypeEnum.HOUR)}

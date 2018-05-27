@@ -145,11 +145,11 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
         columns:[
             {label:"代码", fieldPath: "code" },
             {label:"名称", fieldPath: "name" },
-            {label:"地址", fieldPath: "fullAddress" },
-            {label:"项目经理", fieldPath: "fullManager" },
+            {label:"地址", fieldPath: "addressDisplay" },
+            {label:"项目经理", fieldPath: "managerDisplay" },
             {label:"联系方式", fieldPath: "fullContactMethod" },
-            {label:"计划开始日期", fieldPath: "planBeginDate" },
-            {label:"计划结束日期", fieldPath: "planEndDate" },
+            {label:"计划开始日期", fieldPath: "planBeginDateDisplay" },
+            {label:"计划结束日期", fieldPath: "planEndDateDisplay" },
             {label:"状态", fieldPath: "statusDisplay" },
             {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};

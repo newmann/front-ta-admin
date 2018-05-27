@@ -184,31 +184,32 @@ export class BylWorkTypeListComponent extends BylListComponentBasePro<BylWorkTyp
         columns:[
             {label:"代码", fieldPath: "code" },
             {label:"名称", fieldPath: "name" },
-            {label:"考情类型", fieldPath: "checkTypeCaption" },
+            {label:"考情类型", fieldPath: "checkTypeDisplay" },
             {label:"标准工作时长", fieldPath: "standardTimeLength" },
+            {label:"备注", fieldPath: "remarks" },
             {label:"状态", fieldPath: "statusDisplay" },
             {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};
 
 
-    pageChange(item: BylPageReq){
-        this.page = item;
-        this.search();
-    }
-
-    selectedChange(data: BylListFormData<BylWorkType>[]){
-        this.selectedRows = data;
-
-    }
-    entityAction(action: BylTableClickAction){
-        switch(action.actionName){
-            case ACTION_MODIFY:
-                this.modifyEntity(action.id);
-                break;
-            default:
-                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-        }
-
-    }
+    // pageChange(item: BylPageReq){
+    //     this.page = item;
+    //     this.search();
+    // }
+    //
+    // selectedChange(data: BylListFormData<BylWorkType>[]){
+    //     this.selectedRows = data;
+    //
+    // }
+    // entityAction(action: BylTableClickAction){
+    //     switch(action.actionName){
+    //         case ACTION_MODIFY:
+    //             this.modifyEntity(action.id);
+    //             break;
+    //         default:
+    //             console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+    //     }
+    //
+    // }
 
 }

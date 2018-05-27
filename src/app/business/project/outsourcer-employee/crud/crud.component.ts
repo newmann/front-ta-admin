@@ -11,6 +11,8 @@ import {BylResultBody} from "../../../../service/model/result-body.model";
 import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylOutsourceEmployee} from "../../../../service/project/model/outsource-employee.model";
 import {BylOutsourceEmployeeService} from "../../../../service/project/service/outsource-employee.service";
+import {BylEntityReference} from "../../../../service/model/entity-reference.model";
+import {BylProject} from "../../../../service/project/model/project.model";
 
 
 @Component({
@@ -33,7 +35,7 @@ export class BylOutsourceEmployeeCrudComponent extends BylCrudComponentBasePro<B
     defineForm(): void {
         this.formSchema = {
             properties: {
-                "outsourcer":{
+                "outsourcerWidget":{
                     "type": 'string',
                     "title": '所属外包商',
                     "ui": {
@@ -71,7 +73,7 @@ export class BylOutsourceEmployeeCrudComponent extends BylCrudComponentBasePro<B
                         }
                     }
                 },
-                "personName": {
+                "name": {
                     "type": 'string',
                     "title": '姓名'
                 },
@@ -81,7 +83,7 @@ export class BylOutsourceEmployeeCrudComponent extends BylCrudComponentBasePro<B
                     "title": '备注'
                 }
             },
-            "required": ["code", "name"]
+            "required": ["outsourcerWidget", "code", "name"]
         };
 
         // BylCheckTypeEnumManager.getArray().forEach((item) =>{
@@ -119,11 +121,11 @@ export class BylOutsourceEmployeeCrudComponent extends BylCrudComponentBasePro<B
     //
     // }
     //
-    resetButtonClick($event: MouseEvent) {
-        $event.preventDefault();
-        this.reset();
-    }
-    //
+    // resetButtonClick($event: MouseEvent) {
+    //     $event.preventDefault();
+    //     this.reset();
+    // }
+    // //
     //
     getFormData() {
         // for (const i in this.form.controls) {
@@ -131,11 +133,35 @@ export class BylOutsourceEmployeeCrudComponent extends BylCrudComponentBasePro<B
         // }
         super.getFormData();
 
+        this.businessData.outsourcer.outsourcerId = this.businessData.outsourcerWidget.id;
+        this.businessData.outsourcer.outsourcerCode = this.businessData.outsourcerWidget.code;
+        this.businessData.outsourcer.outsourcerName = this.businessData.outsourcerWidget.name;
 
         // Object.assign(this.businessData, this.sfForm.value);
         console.log("in EmployeeCrud getFormData:" , this.businessData);
 
     }
+
+    /**
+     *  在调出一张历史单据进行修改的时候调用
+     *  个性化的处理
+     */
+    setFormData(data: BylOutsourceEmployee){
+
+        super.setFormData(data);
+
+        if( this.businessData.outsourcer){
+            if(this.businessData.outsourcer.outsourcerId){
+                let m = new BylEntityReference(this.businessData.outsourcer.outsourcerId,
+                    this.businessData.outsourcer.outsourcerCode,
+                    this.businessData.outsourcer.outsourcerName);
+                this.businessData.outsourcerWidget = m;
+                // this.businessData.manager = m.code;
+                this.defaultBusinessData.outsourcerWidget = m;
+            }
+        }
+    }
+
     //
     /**
      * 重置界面内容

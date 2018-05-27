@@ -4,24 +4,14 @@ import {ReuseTabService} from '@delon/abc';
 import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
 
-import {BylCrudComponentBase} from '../../../common/crud-component-base';
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {FormBuilder, Validators} from '@angular/forms';
-
-
-
-import {BylCheckTypeEnum, BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
-import {ErrorData, SFComponent, SFSchema, SFUISchema} from "@delon/form";
 import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
-import {BylProject} from "../../../../service/project/model/project.model";
 import {map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylOutsourcer} from "../../../../service/project/model/outsourcer.model";
-import {parse} from "date-fns";
-import * as moment from 'moment';
-import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {BylOutsourcerService} from "../../../../service/project/service/outsourcer.service";
+import {BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
 
 
 @Component({
@@ -92,6 +82,14 @@ export class BylOutsourcerCrudComponent extends BylCrudComponentBasePro<BylOutso
         // this.formSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
 
     }
+    /**
+     * 设置窗口定义的缺省值
+     */
+    setSchemaDefaultValue(){
+
+
+        // this.formSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
+    };
 
     // defaultFormData: BylOutsourcer = new BylOutsourcer();
 
@@ -119,11 +117,11 @@ export class BylOutsourcerCrudComponent extends BylCrudComponentBasePro<BylOutso
     //
     // }
     //
-    resetButtonClick($event: MouseEvent) {
-        $event.preventDefault();
-        this.reset();
-    }
-    //
+    // resetButtonClick($event: MouseEvent) {
+    //     $event.preventDefault();
+    //     this.reset();
+    // }
+    // //
     //
     getFormData() {
         // for (const i in this.form.controls) {
@@ -152,45 +150,6 @@ export class BylOutsourcerCrudComponent extends BylCrudComponentBasePro<BylOutso
         }
 
     }
-    //
-    // get checkTypeOptions(){
-    //     let result =  [{value: "1", caption: "小时"},
-    //         {value: "2", caption: " 天"}];
-    //     return result;
-    //     // return BylCheckTypeEnumManager.getArray();
-    // }
-    //
-    // //#region get form fields
-    // get code() {
-    //     return this.form.controls.code;
-    // }
-    //
-    // get name() {
-    //     return this.form.controls.name;
-    // }
-    //
-    // get checkType() {
-    //     return this.form.controls.checkType;
-    // }
-    //
-    // get standardTimeLength() {
-    //     return this.form.controls.standardTimeLength;
-    // }
-    //
-    // get remarks() {
-    //     return this.form.controls.remarks;
-    // }
-    //
-    // //#endregion
-
-    // submit(value: any) {
-    //     console.log('submit', value);
-    // }
-    //
-    //
-    // change(value: any) {
-    //     console.log('change', value);
-    // }
 
     error(value: any) {
         console.log('error', value);

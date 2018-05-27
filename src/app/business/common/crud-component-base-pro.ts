@@ -10,8 +10,7 @@ import {BylBaseService} from '../../service/service/base.service';
 import {ReuseTabService} from '@delon/abc';
 import {Observable} from 'rxjs/Observable';
 import {SFComponent, SFSchema, SFUISchema} from '@delon/form';
-
-
+import {simpleDeepCopy} from '../../service/utils/object.utils';
 /**
  * @Description: crud组件对象的抽象类
  * @Author: newmannhu@qq.com
@@ -24,19 +23,23 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
     public defaultBusinessData: T;
     public businessData: T;
     public formUiSchema: SFUISchema = {};
+    public emptyFormSchema: SFSchema = {
+        properties: {}
+    };
+
     public formSchema: SFSchema = {
         properties: {}
     };
 
     public loading = false;
     public errMsg = '';  // 保存时错误信息
-    public savingReveal: any;
+    // public savingReveal: any;
     public sourceId: string;
     public processType: string;
 
     public businessService: BylBaseService<T>;
 
-    public searchData$: Subject<string> = new Subject<string>();
+    // public searchData$: Subject<string> = new Subject<string>();
 
     @ViewChild('sf') sfForm: SFComponent;
 
@@ -48,9 +51,9 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
     };
 
     ngOnInit() {
-        //刷新schema
-        this.setSchemaDefaultValue();
-        this.sfForm.refreshSchema(this.formSchema);
+        // //刷新schema
+        // this.setSchemaDefaultValue();
+        // this.sfForm.refreshSchema(this.formSchema);
 
         //从list窗口调入修改单据时，载入数据
         console.log('执行base init');
@@ -111,7 +114,7 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
             data => {
                 // this._loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                    console.info("1:", data.data);
+                    console.info("in CrudBasePro loadData", data.data);
                     this.setFormData(data.data);
 
                     this.reset();
@@ -119,17 +122,12 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
 
                     this.errMsg = data.msg;
                 }
-                // 退出显示窗口
-                // this._loading = false;
-                // this.destorySavingReveal();
+
 
             },
             err => {
                 this.errMsg = err.toString();
 
-                // 退出显示窗口
-                // this._loading = false;
-                // this.destorySavingReveal();
 
             }
         );
@@ -146,7 +144,7 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
         this.getFormData();
         let saveResult$: Observable<BylResultBody<T>>;
 
-        console.log('submit form', this.businessData);
+        console.log('in CrudBasePro submitform', this.businessData);
 
         if (this.sourceId) {
             //当前为修改界面
@@ -194,21 +192,21 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
      */
 
     getFormData(): void{
-        Object.assign(this.businessData, this.sfForm.value);
+        simpleDeepCopy(this.businessData, this.sfForm.value);
     };
 
     /**
      *  在调出一张历史单据进行修改的时候调用，可能需要一些个性化的处理
      */
     setFormData(data: T){
-        console.log("2、crud-base-pro setFormData", data);
+        console.log("in Crud-base-pro setFormData", data);
 
         this.businessData = this.newBusinessData();
         this.defaultBusinessData = this.newBusinessData();
 
-        Object.assign(this.businessData, data);
+        simpleDeepCopy(this.businessData, data);
         //重置当前的界面缺省值
-        Object.assign(this.defaultBusinessData, data);
+        simpleDeepCopy(this.defaultBusinessData, data);
 
     }
 
@@ -216,6 +214,9 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
      * 重置界面内容
      */
     reset(): void {
+        //刷新schema
+        this.setSchemaDefaultValue();
+        this.sfForm.refreshSchema(this.formSchema);
 
         if (this.processType === 'new') {
             //新增界面
@@ -224,10 +225,11 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
         } else {
             //修改界面，保存当前值到缺省值
             this.defaultBusinessData = this.newBusinessData();
-            Object.assign(this.defaultBusinessData, this.businessData);
+            simpleDeepCopy(this.defaultBusinessData, this.businessData);
+            this.sfForm.reset();
         }
 
-        this.sfForm.reset();
+
     }
 
 

@@ -183,31 +183,31 @@ export class BylEmployeeListComponent extends BylListComponentBasePro<BylEmploye
         columns:[
             {label:"代码", fieldPath: "code" },
             {label:"姓名", fieldPath: "name" },
-            {label:"入职日期", fieldPath: "enterDate" },
-            {label:"离职日期", fieldPath: "leaveDate" },
+            {label:"入职日期", fieldPath: "enterDateDisplay" },
+            {label:"离职日期", fieldPath: "leaveDateDisplay" },
             {label:"状态", fieldPath: "statusDisplay" },
             {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};
 
 
-    pageChange(item: BylPageReq){
-        this.page = item;
-        this.search();
-    }
-
-    selectedChange(data: BylListFormData<BylEmployee>[]){
-        this.selectedRows = data;
-
-    }
-    entityAction(action: BylTableClickAction){
-        switch(action.actionName){
-            case ACTION_MODIFY:
-                this.modifyEntity(action.id);
-                break;
-            default:
-                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-        }
-
-    }
+    // pageChange(item: BylPageReq){
+    //     this.page = item;
+    //     this.search();
+    // }
+    //
+    // selectedChange(data: BylListFormData<BylEmployee>[]){
+    //     this.selectedRows = data;
+    //
+    // }
+    // entityAction(action: BylTableClickAction){
+    //     switch(action.actionName){
+    //         case ACTION_MODIFY:
+    //             this.modifyEntity(action.id);
+    //             break;
+    //         default:
+    //             console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+    //     }
+    //
+    // }
 
 }

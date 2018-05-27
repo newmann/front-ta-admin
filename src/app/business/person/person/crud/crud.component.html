@@ -3,7 +3,7 @@
     <nz-tabset>
         <nz-tab [nzTitle]="'基本信息'">
           <sf  #sf [button]="null"
-               [schema]="formSchema"
+               [schema]="emptyFormSchema"
                [formData]="businessData"
                mode="edit"
                (formError)="error($event)">

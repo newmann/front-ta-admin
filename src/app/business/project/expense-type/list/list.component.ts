@@ -188,24 +188,24 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
         ]};
 
 
-    pageChange(item: BylPageReq){
-        this.page = item;
-        this.search();
-    }
-
-    selectedChange(data: BylListFormData<BylExpenseType>[]){
-        this.selectedRows = data;
-
-    }
-    entityAction(action: BylTableClickAction){
-        switch(action.actionName){
-            case ACTION_MODIFY:
-                this.modifyEntity(action.id);
-                break;
-            default:
-                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-        }
-
-    }
+    // pageChange(item: BylPageReq){
+    //     this.page = item;
+    //     this.search();
+    // }
+    //
+    // selectedChange(data: BylListFormData<BylExpenseType>[]){
+    //     this.selectedRows = data;
+    //
+    // }
+    // entityAction(action: BylTableClickAction){
+    //     switch(action.actionName){
+    //         case ACTION_MODIFY:
+    //             this.modifyEntity(action.id);
+    //             break;
+    //         default:
+    //             console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+    //     }
+    //
+    // }
 
 }

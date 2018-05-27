@@ -4,7 +4,7 @@
         <nz-tab [nzTitle]="'基本信息'">
             <span>
               <sf  #sf [button]="null"
-                   [schema]="formSchema"
+                   [schema]="emptyFormSchema"
                    [ui]="formUiSchema"
                    [formData]="businessData"
                    mode="edit"
@@ -13,44 +13,7 @@
                 <button (click)="reset()"  type="button" nz-button>重置</button>
 
               </sf>
-                <!--<form nz-form [formGroup]="form"  role="form">-->
-                    <!--<byl-input-formitem [controlName]="'code'" [labelCaption]="'代码'"-->
-                                        <!--[hostForm]="form" [controlPath]="'code'" [isRequired]="'true'"-->
-                                        <!--[placeHolder]="'请输入代码'"></byl-input-formitem>-->
 
-                    <!--<byl-input-formitem [controlName]="'name'" [labelCaption]="'名称'"-->
-                                        <!--[hostForm]="form" [controlPath]="'name'" [isRequired]="'true'"-->
-                                        <!--[placeHolder]="'请输入名称'"></byl-input-formitem>-->
-
-                    <!--<byl-radio-formitem [controlName]="'checkType'" [labelCaption]="'考情类型'"-->
-                                        <!--[hostForm]="form" [controlPath]="'checkType'" [isRequired]="'true'"-->
-                                        <!--[selectOptions]="checkTypeOptions"></byl-radio-formitem>-->
-
-                    <!--<byl-input-formitem [controlName]="'standardTimeLength'" [labelCaption]="'标准工作时长'"-->
-                                        <!--[hostForm]="form" [controlPath]="'standardTimeLength'" [isRequired]="'true'"-->
-                                        <!--[placeHolder]="'请输入标准工作时长'"></byl-input-formitem>-->
-
-
-                    <!--<byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"-->
-                                        <!--[hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"-->
-                                        <!--[placeHolder]="'请输入备注'"></byl-input-formitem>-->
-
-                    <!--<byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>-->
-
-
-
-                    <!--<nz-form-item nz-row class="mb0">-->
-
-                        <!--<nz-form-control [nzSpan]="14" [nzOffset]="6">-->
-                            <!--<button nz-button [nzType]="'primary'"-->
-                                    <!--[disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>-->
-                            <!--<button nz-button (click)="resetButtonClick($event)">重置</button>-->
-
-                        <!--</nz-form-control>-->
-
-                    <!--</nz-form-item>-->
-
-                <!--</form>-->
             </span>
             <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
         </nz-tab>

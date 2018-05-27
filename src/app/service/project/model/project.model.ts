@@ -9,6 +9,8 @@ import {BylEmbeddableContactMethod} from '../../model/embeddable-contact-method.
 import {BylProjectManagerPool} from "./project-manager-pool.model";
 import {BylEntityReference} from "../../model/entity-reference.model";
 import {BylDatetimeUtils} from "../../utils/datetime.utils";
+import {BylMasterDataStatusManager} from "../../model/master-data-status.enum";
+import {BylProjectStatusManager} from "./project-status.enum";
 
 export class BylProject extends BylBaseModel {
     code: string;
@@ -16,12 +18,15 @@ export class BylProject extends BylBaseModel {
 
     address: BylEmbeddableAddress = new BylEmbeddableAddress(); // 项目所在地
 
-    manager: any ;
+    managerWidget: any ;
     managerId: string;
     managerCode: string;
     managerName: string;
 
     // contactMethod: BylEmbeddableContactMethod;
+
+    planBeginDateWidget: Date = null;
+    planEndDateWidget: Date = null ;
 
     planBeginDate: number;
     planEndDate: number;
@@ -33,7 +38,7 @@ export class BylProject extends BylBaseModel {
     status: number;
 
 
-    get fullAddress(): string {
+    get addressDisplay(): string {
 
         let result = '';
 
@@ -42,6 +47,10 @@ export class BylProject extends BylBaseModel {
         }
 
         return result;
+    }
+
+    set addressDisplay(value: string) {
+
     }
 
     // get fullContactMethod(): string {
@@ -55,23 +64,29 @@ export class BylProject extends BylBaseModel {
     //     return result;
     // }
 
-    get fullManager(): string {
-        let result = '';
-
-        if (this.managerCode) result = result + '/' + this.managerCode;
-        if (this.managerName) result = result + '/' + this.managerName;
-
-        return result;
-
+    get managerDisplay(): string {
+        if (this.managerId){
+            return this.managerName + "[" + this.managerCode + "]";
+        } else {
+            return null;
+        }
     }
+    set managerDisplay(value: string ){}
 
-    get planBeginDateDF(): Date{
-        return BylDatetimeUtils.convertMillsToDateTime(this.planBeginDate);
-
+    get planBeginDateDisplay(): string{
+        return BylDatetimeUtils.formatDate(this.planBeginDate);
     }
+    set planBeginDateDisplay(value: string){ }
 
-    get planEndDateDF(): Date{
-        return BylDatetimeUtils.convertMillsToDateTime(this.planEndDate);
+    get planEndDateDisplay(): string{
+        return BylDatetimeUtils.formatDate(this.planEndDate);
+    }
+    set planEndDateDisplay(value: string){ }
+
+    get statusDisplay(): string{
+        return BylProjectStatusManager.getCaption(this.status);
+    }
+    set statusDisplay(value: string){
 
     }
 

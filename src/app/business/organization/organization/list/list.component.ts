@@ -1,25 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import {BylListComponentBase} from "../../../common/list-component-base";
+import {Component, Input, OnInit , Injector} from '@angular/core';
 import {Router} from "@angular/router";
-import {NzMessageService, NzModalService} from "ng-zorro-antd";
+import {NzMessageService, NzModalRef, NzModalService} from "ng-zorro-antd";
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {BylOrganization} from "../../../../service/organization/model/organization.model";
 import {BylOrganizationService} from "../../../../service/organization/service/organization.service";
 import {BylOrganizationQuery} from "../../../../service/organization/query/organization-query.model";
-import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 import * as moment from "moment";
 import {SFSchema, SFUISchema} from "@delon/form";
+import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
+import {ACTION_MODIFY, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
+import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
+import {BylOrganizationAvailablePoolsInterface} from "../../../../service/organization/service/organization-available-pool.interface";
+import {BylResultBody} from "../../../../service/model/result-body.model";
+import {Observable} from "rxjs/Observable";
+import {BylPageResp} from "../../../../service/model/page-resp.model";
 
 @Component({
   selector: 'byl-organization-list',
   templateUrl: './list.component.html',
 })
-export class BylOrganizationListComponent extends BylListComponentBase<BylOrganization> {
+export class BylOrganizationListComponent extends BylListComponentBasePro<BylOrganization> {
+
+    @Input() functionMode: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
+    @Input() findAvailablePoolsService: BylOrganizationAvailablePoolsInterface; //调用方传入查询函数
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
+                public injector: Injector,
+                // public modalRef: NzModalRef,
                 public router: Router,
                 public organizationService: BylOrganizationService) {
         super(message, configService, modalService, router);
@@ -68,6 +78,58 @@ export class BylOrganizationListComponent extends BylListComponentBase<BylOrgani
 
         Object.assign(this.qData,q);
     }
+    /**
+     * 自定义查找，覆盖BylListComponentBase.search()
+     */
+    search() {
+        this.loading = true;
+
+        let queryResult: Observable<BylResultBody<BylPageResp<BylOrganization>>>;
+        if (this.functionMode === BylListFormFunctionModeEnum.SELECT) {
+
+            console.log(this.findAvailablePoolsService);
+
+            queryResult = this.findAvailablePoolsService.findAvailableOrganizationPoolsPage(this.genQueryModel(), this.page);
+        } else {
+            queryResult = this.organizationService.findPage(this.genQueryModel(), this.page);
+        }
+
+        queryResult.subscribe(
+            data => {
+                this.loading = false;
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                    // 正确获取数据
+                    this.total = data.data.total;
+                    console.log("in OrganizationListComponent:",data.data.rows);
+                    // this.listData = Array.from(data.data.rows);
+                    this.listData = this.genListData(Array.from(data.data.rows));
+
+                } else {
+                    console.error(data.msg);
+                    super.showMsg(data.msg);
+                }
+            },
+            err => {
+                this.loading = false;
+                console.error(err);
+                super.showMsg(err.toString());
+            }
+        );
+
+    }
+
+    batchSelect($event) {
+        //将数据传出，并退出界面
+        $event.preventDefault();
+        // this.functionSubject$.next(this.selectedRows);
+        // this.selectModalForm.destroy(this.selectedRows);
+
+        let modalRef: NzModalRef = this.injector.get(NzModalRef);
+        if (modalRef) {
+            modalRef.destroy(this.selectedRows);
+        }
+
+    }
 
     //#region 查询条件
     queryDefaultData: any = {
@@ -98,4 +160,20 @@ export class BylOrganizationListComponent extends BylListComponentBase<BylOrgani
         required: []
     };
 //#endregion
+
+    tableDefine:BylTableDefine ={
+        showCheckbox: true,
+        entityAction: [
+            {actionName: ACTION_MODIFY }
+        ],
+        columns:[
+            {label:"代码", fieldPath: "code" },
+            {label:"名称", fieldPath: "name" },
+            {label:"简称", fieldPath: "simpleName" },
+            {label:"法人代表", fieldPath: "legalPersonNameDisplay" },
+            {label:"组织类型", fieldPath: "OrganizationTypeDisplay" },
+            {label:"备注", fieldPath: "remarks" },
+            {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
+        ]};
+
 }

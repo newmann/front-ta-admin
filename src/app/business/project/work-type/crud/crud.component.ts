@@ -19,6 +19,7 @@ import {BylProject} from "../../../../service/project/model/project.model";
 import {map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {isEmpty} from "../../../../service/utils/string.utils";
+import {BylOrganizationTypeManager} from "../../../../service/organization/model/organization-type.enum";
 
 
 @Component({
@@ -127,15 +128,17 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
             }
         };
 
-        BylCheckTypeEnumManager.getArray().forEach((item) =>{
-            let option = {label: item.caption, value: item.value};
-            this.formSchema.properties['checkType'].enum.push(option);
-        });
-
-        // this.formSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
 
     }
+    /**
+     * 设置窗口定义的缺省值
+     */
+    setSchemaDefaultValue(){
 
+        this.formSchema.properties['checkType'].enum = [];//清空再赋值
+        this.formSchema.properties['checkType'].enum.push(...BylCheckTypeEnumManager.getSFSelectDataArray());
+        // this.formSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
+    };
     // defaultFormData: BylWorkType = new BylWorkType();
 
     // this.formUiSchema: SFUISchema = {};
@@ -162,10 +165,10 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
     //
     // }
     //
-    resetButtonClick($event: MouseEvent) {
-        $event.preventDefault();
-        this.reset();
-    }
+    // resetButtonClick($event: MouseEvent) {
+    //     $event.preventDefault();
+    //     this.reset();
+    // }
     //
     //
     // getFormData() {
@@ -194,45 +197,7 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
         }
 
     }
-    //
-    // get checkTypeOptions(){
-    //     let result =  [{value: "1", caption: "小时"},
-    //         {value: "2", caption: " 天"}];
-    //     return result;
-    //     // return BylCheckTypeEnumManager.getArray();
-    // }
-    //
-    // //#region get form fields
-    // get code() {
-    //     return this.form.controls.code;
-    // }
-    //
-    // get name() {
-    //     return this.form.controls.name;
-    // }
-    //
-    // get checkType() {
-    //     return this.form.controls.checkType;
-    // }
-    //
-    // get standardTimeLength() {
-    //     return this.form.controls.standardTimeLength;
-    // }
-    //
-    // get remarks() {
-    //     return this.form.controls.remarks;
-    // }
-    //
-    // //#endregion
 
-    // submit(value: any) {
-    //     console.log('submit', value);
-    // }
-    //
-    //
-    // change(value: any) {
-    //     console.log('change', value);
-    // }
 
     error(value: any) {
         console.log('error', value);

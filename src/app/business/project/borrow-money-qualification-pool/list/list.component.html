@@ -11,107 +11,13 @@
         <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" >
             <i class="anticon anticon-search"></i><span>查询</span>
         </button>
-        <!--<ng-container *ngIf="selectedRows.length > 0">-->
-        <!--<button nz-button [nzSize]="'large'" class="ml-sm">批量操作</button>-->
-        <!--<nz-dropdown [nzPlacement]="'bottomLeft'">-->
-        <!--<button nz-button nz-dropdown [nzSize]="'large'" class="ml-sm">-->
-        <!--更多操作 <i class="anticon anticon-down"></i>-->
-        <!--</button>-->
-        <!--<ul nz-menu>-->
-        <!--<li nz-menu-item (click)="batchDelete()">删除</li>-->
-        <!--<li nz-menu-item (click)="batchApproval()">批量审批</li>-->
-        <!--</ul>-->
-        <!--</nz-dropdown>-->
-        <!--</ng-container>-->
 
     </ng-template>
 </page-header>
 <byl-list-query-widget [defaultData]="queryDefaultData" [schema]="querySchema"
                        [uiSchema]="queryUiSchema" ></byl-list-query-widget>
 
-<!--<nz-card [nzBordered]="false">-->
-    <!--<form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">-->
-        <!--<div nz-row [nzGutter]="24">-->
-            <!--<div nz-col [nzSpan]="8" class="mb-md">-->
-                <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-caption><caption for="qType">类型</caption></div>-->
-                    <!--<div nz-form-control class="flex-1">-->
-                        <!--<nz-radio-group [(ngModel)]="qData.type"  name="qType" [nzSize]="'large'" nzId="'qType'" >-->
-                            <!--<caption nz-radio-button [nzValue]="1"><span>个体</span></caption>-->
-                            <!--<caption nz-radio-button [nzValue]="2"><span>组织</span></caption>-->
-                        <!--</nz-radio-group>-->
 
-                    <!--</div>-->
-
-                    <!--&lt;!&ndash;<div nz-form-control class="flex-1">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<nz-select [(ngModel)]="qData.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"&ndash;&gt;-->
-                    <!--&lt;!&ndash;[nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"&ndash;&gt;-->
-                    <!--&lt;!&ndash;[nzValue]="i.value"></nz-option>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</nz-select>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div nz-col [nzSpan]="8" class="mb-md">-->
-                <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-caption><caption for="qCode">代码类似于</caption></div>-->
-                    <!--<div nz-form-control class="flex-1">-->
-                        <!--<nz-input [(ngModel)]="qData.code" name="'qCode'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"-->
-                                  <!--nzId="'qCode'"></nz-input>-->
-                    <!--</div>-->
-
-                    <!--&lt;!&ndash;<div nz-form-control class="flex-1">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<nz-select [(ngModel)]="qData.status" name="'qStatus'" nzId="'qStatus'" [nzPlaceHolder]="'请选择'"&ndash;&gt;-->
-                    <!--&lt;!&ndash;[nzShowSearch]="true" [nzSize]="'large'" [nzMode]="'multiple'">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<nz-option *ngFor="let i of statusList; let idx = index" [nzLabel]="i.caption"&ndash;&gt;-->
-                    <!--&lt;!&ndash;[nzValue]="i.value"></nz-option>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</nz-select>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div nz-col [nzSpan]="8" class="mb-md">-->
-                <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-caption><caption for="qName">姓名类似于</caption></div>-->
-                    <!--<div nz-form-control class="flex-1">-->
-                        <!--<nz-input [(ngModel)]="qData.name" name="'qName'" [nzSize]="'large'" [nzPlaceHolder]="'请输入'"-->
-                                  <!--nzId="'qName'"></nz-input>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-
-            <!--<div *ngIf="expandQuery" nz-col [nzSpan]="8" class="mb-md">-->
-                <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-caption><caption for="qModifyDateBegin">最后修改起始日期</caption></div>-->
-                    <!--<div nz-form-control class="flex-1">-->
-                        <!--<nz-datepicker [(ngModel)]="qData.modifyDateBegin" name="'qModifyDateBegin" nzId="'qModifyDateBegin"-->
-                                       <!--[nzSize]="'large'" [nzPlaceHolder]="'起始日期'" class="d-block"></nz-datepicker>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-
-            <!--<div *ngIf="expandQuery" nz-col [nzSpan]="8" class="mb-md">-->
-                <!--<div nz-form-item class="d-flex">-->
-                    <!--<div nz-form-caption><caption for="qModifyDateEnd">最后修改截止日期</caption></div>-->
-                    <!--<div nz-form-control class="flex-1">-->
-                        <!--<nz-datepicker [(ngModel)]="qData.modifyDateEnd" name="qModifyDateEnd" nzId="qModifyDateEnd"-->
-                                       <!--[nzSize]="'large'" [nzPlaceHolder]="'截止日期'" class="d-block"></nz-datepicker>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-
-            <!--&lt;!&ndash;<div nz-col [nzSpan]="expandQuery ? 24 : 8" class="mb-md" [class.text-right]="expandQuery">&ndash;&gt;-->
-            <!--<div nz-col [nzSpan]="expandQuery ? 24 : 8" class="mb-md" [class.text-right]="true">-->
-                <!--&lt;!&ndash;<button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询&ndash;&gt;-->
-                <!--&lt;!&ndash;</button>&ndash;&gt;-->
-                <!--<button nz-button type="reset" (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>-->
-                <!--<a (click)="expandQuery =!expandQuery">-->
-                    <!--{{expandQuery ? '收起' : '展开'}}-->
-                    <!--<i class="anticon" [class.anticon-down]="!expandQuery" [class.anticon-up]="expandQuery"></i>-->
-                <!--</a>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</form>-->
-<!--</nz-card>-->
 <!--数据显示-->
 <byl-list-form-table-item [listData]="listData"  [total]="total" [loading]="loading"
                           [tableDefine]="tableDefine"
@@ -120,65 +26,4 @@
 
 ></byl-list-form-table-item>
 
-<!--<nz-card [nzBordered]="false">-->
-    <!--<nz-table #nzTable [nzData]="listData" [(nzPageSize)]="page.pageSize" [(nzPageIndex)]="page.page" [nzLoading]="loading"-->
-              <!--nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total"-->
-              <!--(nzPageIndexChange)="search()" (nzPageSizeChange)="pageSizeChange($event)">-->
-        <!--<thead >-->
-        <!--<tr>-->
-            <!--&lt;!&ndash;<th  [nzCheckbox]="true">&ndash;&gt;-->
-            <!--&lt;!&ndash;<caption nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"&ndash;&gt;-->
-            <!--&lt;!&ndash;(ngModelChange)="checkAll($event)"></caption>&ndash;&gt;-->
-            <!--&lt;!&ndash;</th>&ndash;&gt;-->
-            <!--<th ><span>类型</span></th>-->
-            <!--<th ><span>代码</span></th>-->
-            <!--<th ><span>姓名</span></th>-->
-            <!--<th >-->
-                <!--<span>更新时间</span>-->
-                <!--&lt;!&ndash;<nz-table-sort [(nzValue)]="sortMap.updatedAt"&ndash;&gt;-->
-                <!--&lt;!&ndash;(nzValueChange)="sort('updatedAt',$event)"></nz-table-sort>&ndash;&gt;-->
-            <!--</th>-->
 
-            <!--<th ><span>操作</span></th>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody >-->
-        <!--<tr  *ngFor="let i of nzTable.data">-->
-            <!--&lt;!&ndash;<td  [nzCheckbox]="true">&ndash;&gt;-->
-            <!--&lt;!&ndash;<caption nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"&ndash;&gt;-->
-            <!--&lt;!&ndash;(ngModelChange)="refreshStatus($event)">&ndash;&gt;-->
-            <!--&lt;!&ndash;</caption>&ndash;&gt;-->
-            <!--&lt;!&ndash;</td>&ndash;&gt;-->
-            <!--<td >{{i.item.type}}</td>-->
-
-            <!--<td >{{i.item.poolCode}}</td>-->
-            <!--<td >{{i.item.poolName}}</td>-->
-            <!--<td >{{i.item.modifyAction.modifyDateTime | _date}}</td>-->
-            <!--<td >-->
-                <!--&lt;!&ndash;<a [routerLink]="['/account/role/crud', i.id]" >修改</a>&ndash;&gt;-->
-                <!--<span>-->
-                    <!--<a (click)="modifyEntity(i.item.id)">修改</a>-->
-                    <!--&lt;!&ndash;<span nz-table-divider></span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<nz-dropdown>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a class="ant-dropdown-link" nz-dropdown>&ndash;&gt;-->
-                    <!--&lt;!&ndash;更多 <i class="anticon anticon-down"></i>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<ul nz-menu>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<li nz-menu-item>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a (click)="lockRole(i.item.id)">锁定</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;<li nz-menu-item>&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;<a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">2nd menu item</a>&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;</li>&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;<li nz-menu-item>&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;<a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">3rd menu item</a>&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;</li>&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;</ul>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</nz-dropdown>&ndash;&gt;-->
-                <!--</span>-->
-            <!--</td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-    <!--</nz-table>-->
-
-<!--</nz-card>-->

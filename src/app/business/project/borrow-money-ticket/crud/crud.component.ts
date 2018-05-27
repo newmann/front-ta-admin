@@ -202,7 +202,7 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.name;
+            this.reuseTabService.title = '编辑-' + this.businessData.billNo;
         }
 
 
@@ -289,54 +289,5 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
 
             );
     }
-    //#region get form fields
-    // get billNo() {
-    //     return this.form.controls.billNo;
-    // }
-    //
-    // get projectId() {
-    //     return this.form.controls.projectId;
-    // }
-    //
-    // get projectCode() {
-    //     return this.form.controls.projectCode;
-    // }
-    //
-    // get projectName() {
-    //     return this.form.controls.projectName;
-    // }
-    //
-    // get reason() {
-    //     return this.form.controls.reason;
-    // }
-    //
-    // get amount() {
-    //     return this.form.controls.amount;
-    // }
-    //
-    // get borrowType() {
-    //     return this.form.controls.borrowType;
-    // }
-    //
-    // get borrowId() {
-    //     return this.form.controls.borrowId;
-    // }
-    //
-    // get borrowCode() {
-    //     return this.form.controls.borrowCode;
-    // }
-    //
-    // get borrowName() {
-    //     return this.form.controls.borrowName;
-    // }
-    //
-    // get borrowDate() {
-    //     return this.form.controls.borrowDate;
-    // }
-    //
-    // get remarks() {
-    //     return this.form.controls.remarks;
-    // }
 
-    //#endregion
 }

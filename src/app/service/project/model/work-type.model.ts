@@ -15,15 +15,18 @@ export class BylWorkType extends BylBaseModel {
     checkType:number = BylCheckTypeEnum.DAY; //考情类型，1代表按天，2代表按小时。
     standardTimeLength: number; //标准工作时长，对应按小时核算的工种，比如一天10小时按一天核算，
     status: number;
-    get statusCaption(): string{
+    get statusDisplay(): string{
         return BylMasterDataStatusManager.getCaption(this.status);
     }
+    set statusDisplay(value: string){
 
-    get checkTypeCaption(): string{
+    }
+
+    get checkTypeDisplay(): string{
         return BylCheckTypeEnumManager.getCaption(this.checkType);
     }
+    set checkTypeDisplay(value: string){
 
-    get modifyDateTimeStr(): string{
-        return BylDatetimeUtils.formatDateTimeWeek(this.modifyAction.modifyDateTime);
     }
+
 }

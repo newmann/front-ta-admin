@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {BylListComponentBase} from "../../../common/list-component-base";
 import {Router} from "@angular/router";
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
 import {NzMessageService, NzModalService} from "ng-zorro-antd";
@@ -8,15 +7,14 @@ import {BylBorrowMoneyTicketService} from "../../../../service/project/service/b
 import {BylBorrowMoneyTicket} from "../../../../service/project/model/borrow-money-ticket.model";
 import {BylBorrowMoneyTicketQuery} from "../../../../service/project/query/borrow-money-ticket-query.model";
 import {BylIStatusItem} from '../../../../service/model/status.model';
-import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 import * as moment from "moment";
 import {SFSchema, SFUISchema} from "@delon/form";
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
 import {BylBorrowMoneyTicketStatusManager} from "../../../../service/project/model/borrow-money-ticket-status.enum";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
-import {BylPageReq} from "../../../../service/model/page-req.model";
 import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
-import {BylProject} from "../../../../service/project/model/project.model";
+import {BylResultBody} from "../../../../service/model/result-body.model";
+import {BylBorrowMoneyQualificationPool} from "../../../../service/project/model/borrow-money-qualification-pool.model";
 
 @Component({
   selector: 'byl-borrow-money-ticket-list',
@@ -125,37 +123,50 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
         ],
         columns:[
             {label:"单号", fieldPath: "billNo" },
-            {label:"所属项目", fieldPath: "projectInfo" },
+            {label:"所属项目", fieldPath: "projectDisplay" },
             {label:"借款原因", fieldPath: "reason" },
             {label:"借款金额", fieldPath: "amount" },
-            {label:"借款信息", fieldPath: "borrorActionInfo" },
-            {label:"审核信息", fieldPath: "checkActionInfo" },
-            {label:"收款信息", fieldPath: "receiveActionInfo" },
-            {label:"结算信息", fieldPath: "settlementInfo" },
+            {label:"借款信息", fieldPath: "borrorActionDisplay" },
+            {label:"审核信息", fieldPath: "checkActionDisplay" },
+            {label:"收款信息", fieldPath: "receiveActionDisplay" },
+            {label:"结算信息", fieldPath: "settlementDisplay" },
             {label:"备注", fieldPath: "remarks" },
             {label:"状态", fieldPath: "statusDisplay" },
             {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};
 
 
-    pageChange(item: BylPageReq){
-        this.page = item;
-        this.search();
+    // pageChange(item: BylPageReq){
+    //     this.page = item;
+    //     this.search();
+    // }
+    //
+    // selectedChange(data: BylListFormData<BylBorrowMoneyTicket>[]){
+    //     this.selectedRows = data;
+    //
+    // }
+    // entityAction(action: BylTableClickAction){
+    //     switch(action.actionName){
+    //         case ACTION_MODIFY:
+    //             this.modifyEntity(action.id);
+    //             break;
+    //         default:
+    //             console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+    //     }
+    //
+    // }
+
+    add(){
+        this.borrowMoneyTicketService.getNewTicket().subscribe((data) => {
+            if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                //调出新生成的单据进行修改和调整
+                this.router.navigate([this.crudUrl, data.data.id]);
+                } else {
+                    this.message.error(data.msg);
+
+                }
+        },err =>{
+            this.message.error(err);
+        });
     }
-
-    selectedChange(data: BylListFormData<BylBorrowMoneyTicket>[]){
-        this.selectedRows = data;
-
-    }
-    entityAction(action: BylTableClickAction){
-        switch(action.actionName){
-            case ACTION_MODIFY:
-                this.modifyEntity(action.id);
-                break;
-            default:
-                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-        }
-
-    }
-
 }

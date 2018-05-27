@@ -1,4 +1,4 @@
-import {OnInit} from '@angular/core';
+import {OnInit, ViewChild} from '@angular/core';
 import {BylPageReq} from '../../service/model/page-req.model';
 import {BylListFormData} from '../../service/model/list-form-data.model';
 import {NzMessageService, NzModalService} from 'ng-zorro-antd';
@@ -8,6 +8,14 @@ import {BylBaseService} from '../../service/service/base.service';
 import {BylCrudEvent} from './waiting/crud-waiting.component';
 import {BylResultBody} from '../../service/model/result-body.model';
 import {BylListFormFunctionModeEnum} from '../../service/model/list-form-function-mode.enum';
+import {SFComponent} from "@delon/form";
+import {
+    ACTION_DELETE,
+    ACTION_LOCK,
+    ACTION_MODIFY, ACTION_UNLOCK, BylListFormTableWidgetComponent,
+    BylTableClickAction
+} from "./list-form-table-item/table.formitem";
+import {BylPerson} from "../../service/person/model/person.model";
 
 /**
  * @Description: list组件的抽象类
@@ -19,6 +27,7 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
     LIST_MODE: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
     SELECT_MODE: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.SELECT;
 
+    @ViewChild(BylListFormTableWidgetComponent) listWidget: BylListFormTableWidgetComponent;
 
     public businessService: BylBaseService<T>;
     // public businessCrudComponent: any;
@@ -105,30 +114,18 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
             this.router.navigate([this.crudUrl, id]);
         }
 
-        // this.modifyForm = this.modalService.open({
-        //     title: '修改',
-        //     content: this.businessCrudComponent,
-        //     // onOk() {
-        //     //
-        //     // },
-        //     // onCancel() {
-        //     //     console.log('Click cancel');
-        //     // },
-        //     footer: false,
-        //     componentParams: {
-        //         _sourceId: id
-        //     },
-        //     maskClosable: false
-        // });
-        // //
-        // this.modifyForm.subscribe(result => {
-        //     console.log(result);
-        //     if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
-        //         //更新对应的数据
-        //         this.updateListData(result.data);
-        //
-        //     }
-        // });
+    }
+
+    deleteEntity(id: string) {
+        console.warn("应该自定义deleteEntity过程。");
+    }
+
+    lockEntity(id: string) {
+        console.warn("应该自定义lockEntity过程。");
+    }
+
+    unlockEntity(id: string) {
+        console.warn("应该自定义unlockEntity过程。");
     }
 
     /**
@@ -137,7 +134,7 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
     search() {
         this.loading = true;
 
-        // this.clearGrid();
+        this.listWidget.clearGrid();
 
         this.businessService.findPage(this.genQueryModel(), this.page).subscribe(
             data => {
@@ -203,4 +200,35 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
      */
     abstract setQDataDefaultValue();
 
+    pageChange(item: BylPageReq){
+        this.page = item;
+        this.search();
+    }
+
+    selectedChange(data: BylListFormData<T>[]){
+        this.selectedRows = data;
+
+    }
+    entityAction(action: BylTableClickAction){
+        switch(action.actionName){
+            case ACTION_DELETE:
+                this.deleteEntity(action.id);
+                break;
+
+            case ACTION_LOCK:
+                this.lockEntity(action.id);
+                break;
+
+            case ACTION_UNLOCK:
+                this.unlockEntity(action.id);
+                break;
+
+            case ACTION_MODIFY:
+                this.modifyEntity(action.id);
+                break;
+            default:
+                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+        }
+
+    }
 }

@@ -24,6 +24,8 @@ import {BylProjectManagerPoolSelectWidgetSFComponent} from "./common/select-widg
 import {BylOutsourcerSelectWidgetSFComponent} from "./common/select-widget-sf/select-outsourcer-sf.widget";
 import {BylNationSelectWidgetSFComponent} from "./common/select-widget-sf/select-nation-sf.widget";
 import {BylPoliticalStatusSelectWidgetSFComponent} from "./common/select-widget-sf/select-political-status-sf.widget";
+import {BylPersonSelectWidgetSFComponent} from "./common/select-widget-sf/select-person.widget";
+import {BylDateWidgetSFComponent} from "./common/date-widget-sf/date-sf.widget";
 
 
 @NgModule({
@@ -55,6 +57,8 @@ import {BylPoliticalStatusSelectWidgetSFComponent} from "./common/select-widget-
         BylOutsourcerSelectWidgetSFComponent
         ,BylNationSelectWidgetSFComponent
         ,BylPoliticalStatusSelectWidgetSFComponent
+        ,BylPersonSelectWidgetSFComponent
+        ,BylDateWidgetSFComponent
     ],
     exports: [
         BylPipeModule,
@@ -83,6 +87,8 @@ import {BylPoliticalStatusSelectWidgetSFComponent} from "./common/select-widget-
         BylOutsourcerSelectWidgetSFComponent
         ,BylNationSelectWidgetSFComponent
         ,BylPoliticalStatusSelectWidgetSFComponent
+        ,BylPersonSelectWidgetSFComponent
+        ,BylDateWidgetSFComponent
     ],
     entryComponents: [
         BylAccountListComponent,
@@ -95,6 +101,8 @@ import {BylPoliticalStatusSelectWidgetSFComponent} from "./common/select-widget-
         BylOutsourcerSelectWidgetSFComponent
         ,BylNationSelectWidgetSFComponent
         ,BylPoliticalStatusSelectWidgetSFComponent
+        ,BylPersonSelectWidgetSFComponent
+        ,BylDateWidgetSFComponent
     ]
     // ,
     // schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
@@ -106,5 +114,7 @@ export class BylBusinessSharedModule {
         widgetRegistry.register(BylOutsourcerSelectWidgetSFComponent.KEY, BylOutsourcerSelectWidgetSFComponent);
         widgetRegistry.register(BylNationSelectWidgetSFComponent.KEY, BylNationSelectWidgetSFComponent);
         widgetRegistry.register(BylPoliticalStatusSelectWidgetSFComponent.KEY, BylPoliticalStatusSelectWidgetSFComponent);
+        widgetRegistry.register(BylPersonSelectWidgetSFComponent.KEY, BylPersonSelectWidgetSFComponent);
+        widgetRegistry.register(BylDateWidgetSFComponent.KEY, BylDateWidgetSFComponent);
     }
 }

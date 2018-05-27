@@ -26,7 +26,7 @@ export class BylListFormTableWidgetComponent /*implements ControlValueAccessor *
     }
     private _listData: Array<BylListFormData<any>> = []; // 显示内容
 
-    @Output() selectedChange: EventEmitter<BylListFormData<any>> = new EventEmitter();
+    @Output() selectedChange: EventEmitter<Array<BylListFormData<any>>> = new EventEmitter();
     @Output() pageChange: EventEmitter<BylPageReq> = new EventEmitter();
 
     @Output() entityAction: EventEmitter<BylTableClickAction> = new EventEmitter();
@@ -62,6 +62,8 @@ export class BylListFormTableWidgetComponent /*implements ControlValueAccessor *
         this.allChecked = allChecked;
         this.indeterminate = (!allChecked) && (!allUnChecked);
         this.selectedRows = this.listData.filter(value => value.checked);
+
+        this.selectedChange.next(this.selectedRows);
         // this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
     }
 
@@ -73,7 +75,6 @@ export class BylListFormTableWidgetComponent /*implements ControlValueAccessor *
         this.selectedRows = [];
         this.indeterminate = false;
         this.allChecked = false;
-        // this._showDividerCount = 0;
 
     }
     pageIndexChange($event) {

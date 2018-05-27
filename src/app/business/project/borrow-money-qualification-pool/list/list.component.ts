@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import {BylListComponentBase} from "../../../common/list-component-base";
+import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {BylBorrowMoneyQualificationPool} from "../../../../service/project/model/borrow-money-qualification-pool.model";
-import {BylCrudEvent} from "../../../common/waiting/crud-waiting.component";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {Router} from "@angular/router";
 import {NzMessageService, NzModalRef, NzModalService} from "ng-zorro-antd";
@@ -11,23 +10,23 @@ import {BylConfigService} from "../../../../service/constant/config.service";
 import {BylBorrowMoneyQualificationPoolService} from "../../../../service/project/service/borrow-money-qualification-pool.service";
 import {BylPersonListComponent} from "../../../person/person/list/list.component";
 import {BylOrganizationListComponent} from "../../../organization/organization/list/list.component";
-import {BylProjectQuery} from "../../../../service/project/query/project-query.model";
 import {BylBorrowMoneyQualificationPoolQuery} from "../../../../service/project/query/borrow-money-qualification-pool-query.model";
 import * as moment from "moment";
 import {SFSchema, SFUISchema} from "@delon/form";
 import {BylIStatusItem} from "../../../../service/model/status.model";
-import {BylBusinessEntityTypeManager} from "../../../../service/model/business-entity-type.enum";
-import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {BylBusinessEntityTypeManager,BylBusinessEntityTypeEnum} from "../../../../service/model/business-entity-type.enum";
 import {BylPageReq} from "../../../../service/model/page-req.model";
-import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
-import {BylBorrowMoneyTicket} from "../../../../service/project/model/borrow-money-ticket.model";
+import {
+    ACTION_DELETE, ACTION_MODIFY, BylTableClickAction,
+    BylTableDefine
+} from "../../../common/list-form-table-item/table.formitem";
 import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
 
 @Component({
   selector: 'byl-borrow-money-qualification-pool-list',
   templateUrl: './list.component.html',
 })
-export class BylBorrowMoneyQualificationPoolListComponent extends BylListComponentBase<BylBorrowMoneyQualificationPool> {
+export class BylBorrowMoneyQualificationPoolListComponent extends BylListComponentBasePro<BylBorrowMoneyQualificationPool> {
     public addPoolReveal: NzModalRef; // 账户筛选窗口
 
     businessEntityType: BylIStatusItem[]; // 实体类型
@@ -66,8 +65,8 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
             // },
             nzComponentParams: {
                 functionMode: BylListFormFunctionModeEnum.SELECT,
-                findAvailablePoolsService: this.borrowMoneyQualificationPoolService,
-                selectModalForm: this.addPoolReveal
+                findAvailablePoolsService: this.borrowMoneyQualificationPoolService
+                // selectModalForm: this.addPoolReveal
             },
             nzMaskClosable: false
         });
@@ -127,7 +126,7 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
             //     console.log('Click cancel');
             // },
             nzComponentParams: {
-                functionMode: 'select',
+                functionMode: BylListFormFunctionModeEnum.SELECT,
                 findAvailablePoolsService: this.borrowMoneyQualificationPoolService
             },
             nzMaskClosable: false
@@ -173,6 +172,7 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
     genPoolItemFromPerson(item: any): BylBorrowMoneyQualificationPool {
 
         let result = new BylBorrowMoneyQualificationPool();
+        result.type = BylBusinessEntityTypeEnum.PERSON;
         result.poolId = item.item.id;
         result.poolName = item.item.name;
         result.poolCode = item.item.idCard;
@@ -183,6 +183,7 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
     genPoolItemFromOrganization(item: any): BylBorrowMoneyQualificationPool {
 
         let result = new BylBorrowMoneyQualificationPool();
+        result.type = BylBusinessEntityTypeEnum.ORGANIZATION;
         result.poolId = item.item.id;
         result.poolName = item.item.name;
         result.poolCode = item.item.code;
@@ -231,6 +232,29 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
         Object.assign(this.qData,q);
     }
 
+
+    deleteEntity(id: string){
+        //从数据库中删除
+        this.borrowMoneyQualificationPoolService.deleteById(id)
+            .subscribe(data => {
+                    this.loading = false;
+                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                        // 删除当前列表中的数据
+                        this.listData = this.listData.filter(item=> item.item.id !== id);
+
+                    } else {
+                        this.showMsg(data.msg);
+                    }
+                },
+                err => {
+                    this.loading = false;
+                    console.log(err);
+                    this.showMsg(err.toString());
+                }
+            );
+
+    }
+
     //#region 查询条件
     queryDefaultData: any = {
         modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
@@ -269,10 +293,10 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            // {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL }
+            {actionName: ACTION_DELETE }
         ],
         columns:[
-            {label:"类型", fieldPath: "type" },
+            {label:"类型", fieldPath: "typeDisplay" },
             {label:"代码", fieldPath: "poolCode" },
             {label:"姓名/名称", fieldPath: "poolName" },
             {label:"备注", fieldPath: "remarks" },
@@ -280,24 +304,24 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
         ]};
 
 
-    pageChange(item: BylPageReq){
-        this.page = item;
-        this.search();
-    }
-
-    selectedChange(data: BylListFormData<BylBorrowMoneyQualificationPool>[]){
-        this.selectedRows = data;
-
-    }
-    entityAction(action: BylTableClickAction){
-        switch(action.actionName){
-            case ACTION_MODIFY:
-                this.modifyEntity(action.id);
-                break;
-            default:
-                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-        }
-
-    }
+    // pageChange(item: BylPageReq){
+    //     this.page = item;
+    //     this.search();
+    // }
+    //
+    // selectedChange(data: BylListFormData<BylBorrowMoneyQualificationPool>[]){
+    //     this.selectedRows = data;
+    //
+    // }
+    // entityAction(action: BylTableClickAction){
+    //     switch(action.actionName){
+    //         case ACTION_DELETE:
+    //             this.deleteEntity(action.id);
+    //             break;
+    //         default:
+    //             console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+    //     }
+    //
+    // }
     //#endregion
 }

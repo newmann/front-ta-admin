@@ -2,118 +2,20 @@
 <nz-card [nzBordered]="false">
     <nz-tabset>
         <nz-tab [nzTitle]="'基本信息'">
-            <span>
-                <form nz-form [formGroup]="form"  role="form">
-                    <byl-input-formitem [controlName]="'code'" [labelCaption]="'代码'"
-                                        [hostForm]="form" [controlPath]="'code'" [isRequired]="'true'"
-                                        [placeHolder]="'请输入代码'"></byl-input-formitem>
-                    <!--<nz-form-item nz-row>-->
-                        <!--<nz-form-caption nz-col [nzSm]="4" [nzFor]="'code'" [nzRequired]>-->
-                                  <!--代码-->
-                        <!--</nz-form-caption>-->
-                        <!--<nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="code">-->
-                            <!--<input nz-input formControlName="code" placeHolder="代码" id="code" >-->
+          <sf  #sf [button]="null"
+               [schema]="emptyFormSchema"
+               [formData]="businessData"
+               mode="edit"
+               (formError)="error($event)">
+            <button type="submit" nz-button [disabled]="!sf.valid" (click)="submitForm()">提交</button>
+            <button (click)="reset()"  type="button" nz-button>重置</button>
 
-                            <!--<nz-form-explain *ngIf="code.dirty && code.touched">-->
-                                <!--<ng-container  *ngIf="code.hasError('required')">必须输入身份证号码</ng-container>-->
-                                <!--<ng-container  *ngIf="code.hasError('idCard')">输入身份证号码不正确</ng-container>-->
-                                <!--<ng-container  *ngIf="code.hasError('duplicate')">输入的身份证已经被使用</ng-container>-->
-                                <!--<ng-container  *ngIf="code.hasError('other')">验证出现异常：{{code.hasError('other')}}</ng-container>-->
-                                <!--&lt;!&ndash;<p nz-form-explain *ngIf="idCard.errors?.minlength">最少为一个字符</p>&ndash;&gt;-->
-                                <!--<ng-container  *ngIf="code.pending">验证中...</ng-container>-->
-                            <!--</nz-form-explain>-->
+          </sf>
+          <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
 
-                        <!--</nz-form-control>-->
-                    <!--</nz-form-item>-->
-                    <byl-input-formitem [controlName]="'name'" [labelCaption]="'名称'"
-                                        [hostForm]="form" [controlPath]="'name'" [isRequired]="'true'"
-                                        [placeHolder]="'请输入名称'"></byl-input-formitem>
+          <p>formdata:{{sfForm.value | json}}</p>
+          <p>businessData:{{businessData | json}}</p>
 
-                    <!--<nz-form-item nz-row>-->
-                        <!--<nz-form-caption nz-col [nzSm]="4" [nzFor]="'name'" [nzRequired]>-->
-                                        <!--名称-->
-                        <!--</nz-form-caption>-->
-                        <!--<nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="name">-->
-                            <!--<input nz-input formControlName="name" placeHolder="名称" id="name" >-->
-
-                            <!--<nz-form-explain *ngIf="name.dirty && name.errors">-->
-                              <!--<ng-container *ngIf="name.hasEerror('required')">必须输入姓名</ng-container>-->
-                                <!--<ng-container *ngIf="name.hasError('other')">验证出现异常：{{name.hasError('other')}}</ng-container>-->
-                                <!--<ng-container  *ngIf="name.pending">验证中...</ng-container>-->
-                            <!--</nz-form-explain>-->
-                        <!--</nz-form-control>-->
-                    <!--</nz-form-item>-->
-                    <byl-input-formitem [controlName]="'simpleName'" [labelCaption]="'简称'"
-                                        [hostForm]="form" [controlPath]="'simpleName'" [isRequired]="'false'"
-                                        [placeHolder]="'请输入简称'"></byl-input-formitem>
-
-                    <!--<nz-form-item nz-row>-->
-                        <!--<nz-form-caption nz-col [nzSm]="4" [nzFor]="'simpleName'" >-->
-                                        <!--简称-->
-                        <!--</nz-form-caption>-->
-                        <!--<nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="simpleName">-->
-                            <!--<input nz-input formControlName="simpleName" placeHolder="简称" id="simpleName" >-->
-
-                        <!--</nz-form-control>-->
-                    <!--</nz-form-item>-->
-                    <nz-form-item nz-row>
-                        <nz-form-label nz-col [nzSm]="4" [nzFor]="'legalPersonIdCard'" [nzRequired]>
-                                        法人代表
-                        </nz-form-label>
-                        <nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="legalPersonIdCard">
-
-                            <nz-input-group [nzSize]="'large'" nzCompact formGroupName="legalPerson">
-                                    <input formControlName="legalPersonId"  type="hidden" id="legalPersonId">
-                                    <input nz-input formControlName="legalPersonIdCard" placeHolder="身份证号码" style="width: 30%;" id="legalPersonIdCard">
-                                    <ng-container *ngIf="legalPersonIdCard.dirty && legalPersonIdCard.touched">
-                                        <p nz-form-explain *ngIf="legalPersonIdCard.hasError('required')">必须输入项目经理代码</p>
-                                        <p nz-form-explain *ngIf="legalPersonIdCard.hasError('other')">验证出现异常：{{legalPersonIdCard.hasError('other')}}</p>
-                                        <p nz-form-explain *ngIf="legalPersonIdCard.pending">验证中...</p>
-                                    </ng-container>
-
-                                    <input nz-input formControlName="legalPersonName" style="width: 60%;" disabled="true" id="legalPersonName">
-
-                                    <button nz-button [nzType]="'default'" [nzLoading]="loading"  (click)="searchLegalPerson($event)" style="width: 10%;" >
-                                        <i class="anticon anticon-search"></i>
-                                    </button>
-                            </nz-input-group>
-
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <byl-input-formitem [controlName]="'type'" [labelCaption]="'类型'"
-                                        [hostForm]="form" [controlPath]="'type'" [isRequired]="'false'"
-                                        [placeHolder]="'请输入类型'"></byl-input-formitem>
-                    <!--<nz-form-item nz-row>-->
-                        <!--<nz-form-caption nz-col [nzSm]="4" [nzFor]="'type'" >-->
-                                        <!--类型-->
-                        <!--</nz-form-caption>-->
-                        <!--<nz-form-control nz-col [nzSm]="20" nzHasFeedback [nzValidateStatus]="type">-->
-                            <!--<input nz-input formControlName="type" placeHolder="类型" id="type" >-->
-
-                        <!--</nz-form-control>-->
-                    <!--</nz-form-item>-->
-                    <byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"
-                                        [hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"
-                                        [placeHolder]="'请输入备注'"></byl-input-formitem>
-
-                    <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
-
-                    <nz-form-item nz-row class="mb0">
-
-                        <nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">
-                            <button nz-button [nzType]="'primary'" [nzSize]="'large'"
-                                    [disabled]="form.invalid || (!form.dirty)"
-                                (click)="submitForm()">保存</button>
-                            <button nz-button (click)="resetButtonClick($event)">重置</button>
-
-
-                        </nz-form-control>
-
-                    </nz-form-item>
-
-                </form>
-            </span>
         </nz-tab>
 
       <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">

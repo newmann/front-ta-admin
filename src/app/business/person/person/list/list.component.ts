@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {BylListComponentBase} from '../../../common/list-component-base';
+import {Component, Injector, Input, OnInit } from '@angular/core';
 import {BylPerson} from '../../../../service/person/model/person.model';
 import {Router} from '@angular/router';
 import {NzMessageService, NzModalRef, NzModalService} from 'ng-zorro-antd';
@@ -10,17 +9,13 @@ import {BylListFormData} from '../../../../service/model/list-form-data.model';
 import {BylPersonQuery} from '../../../../service/person/query/person-query.model';
 import {SFSchema, SFUISchema} from "@delon/form";
 import * as moment from "moment";
-import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
-import {BylPageReq} from "../../../../service/model/page-req.model";
 import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
 import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
-import {BylAccountAvailablePoolsInterface} from "../../../../service/account/service/account-related.interface";
 import {BylPersonAvailablePoolsInterface} from "../../../../service/person/service/person-available-pool.interface";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {BylPageResp} from "../../../../service/model/page-resp.model";
 import {Observable} from "rxjs/Observable";
-import {BylAccount} from "../../../../service/account/model/account.model";
 import {deepCopy, simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 
@@ -37,12 +32,14 @@ export class BylPersonListComponent extends BylListComponentBasePro<BylPerson> {
 
     @Input() functionMode: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
     @Input() findAvailablePoolsService: BylPersonAvailablePoolsInterface; //调用方传入查询函数
-    @Input() selectModalForm: NzModalRef;
+    // @Input() selectModalForm: NzModalRef;
 
     // statusList: BylIStatusItem[]; //状态
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
+                public injector: Injector,
+                // public modalRef: NzModalRef,
                 public router: Router,
                 public personService: BylPersonService) {
         super(message, configService, modalService, router);
@@ -135,7 +132,11 @@ export class BylPersonListComponent extends BylListComponentBasePro<BylPerson> {
         //将数据传出，并退出界面
         $event.preventDefault();
         // this.functionSubject$.next(this.selectedRows);
-        this.selectModalForm.destroy(this.selectedRows);
+        // this.selectModalForm.destroy(this.selectedRows);
+        let modalRef: NzModalRef = this.injector.get(NzModalRef);
+        if (modalRef) {
+            modalRef.destroy(this.selectedRows);
+        }
     }
     // modifyEntity(id:string){
     //     this.router.navigateByUrl("/person/person/crud/" + id);
@@ -191,24 +192,24 @@ export class BylPersonListComponent extends BylListComponentBasePro<BylPerson> {
         ]};
 
 
-    pageChange(item: BylPageReq){
-        this.page = item;
-        this.search();
-    }
-
-    selectedChange(data: BylListFormData<BylPerson>[]){
-        this.selectedRows = data;
-
-    }
-    entityAction(action: BylTableClickAction){
-        switch(action.actionName){
-            case ACTION_MODIFY:
-                this.modifyEntity(action.id);
-                break;
-            default:
-                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-        }
-
-    }
+    // pageChange(item: BylPageReq){
+    //     this.page = item;
+    //     this.search();
+    // }
+    //
+    // selectedChange(data: BylListFormData<BylPerson>[]){
+    //     this.selectedRows = data;
+    //
+    // }
+    // entityAction(action: BylTableClickAction){
+    //     switch(action.actionName){
+    //         case ACTION_MODIFY:
+    //             this.modifyEntity(action.id);
+    //             break;
+    //         default:
+    //             console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+    //     }
+    //
+    // }
 
 }

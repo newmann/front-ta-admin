@@ -21,7 +21,6 @@ import {BylEmployee} from "../../../../service/project/model/employee.model";
 import {BylEmployeeService} from "../../../../service/project/service/employee.service";
 import {parse} from "date-fns";
 import * as moment from 'moment';
-import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 
 
 @Component({
@@ -79,12 +78,20 @@ export class BylEmployeeCrudComponent extends BylCrudComponentBasePro<BylEmploye
                 "enterDateDF": {
                     "type": 'string',
                     "title": '入职日期',
-                    'format': 'date'
+                    'format': 'date',
+                    ui: {
+                        widget: 'date',
+                        placeholder: '请选择入职日期日期'
+                    }
                 },
                 "leaveDateDF": {
                     "type": 'string',
                     "title": '离职日期',
-                    'format': 'date'
+                    'format': 'date',
+                    ui: {
+                        widget: 'date',
+                        placeholder: '请选择离职日期日期'
+                    }
 
                 },
                 "remarks": {
@@ -103,6 +110,13 @@ export class BylEmployeeCrudComponent extends BylCrudComponentBasePro<BylEmploye
         // this.formSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
 
     }
+    /**
+     * 设置窗口定义的缺省值
+     */
+    setSchemaDefaultValue(){
+        // super.setSchemaDefaultValue();
+        // this.formSchema.properties.gender.enum.push(...BylGenderEnumManager.getSFSelectDataArray());
+    };
 
     // defaultFormData: BylEmployee = new BylEmployee();
 
@@ -130,10 +144,10 @@ export class BylEmployeeCrudComponent extends BylCrudComponentBasePro<BylEmploye
     //
     // }
     //
-    resetButtonClick($event: MouseEvent) {
-        $event.preventDefault();
-        this.reset();
-    }
+    // resetButtonClick($event: MouseEvent) {
+    //     $event.preventDefault();
+    //     this.reset();
+    // }
     //
     //
     getFormData() {
@@ -159,20 +173,6 @@ export class BylEmployeeCrudComponent extends BylCrudComponentBasePro<BylEmploye
      */
     reset() {
 
-        console.log('reset form', this.defaultBusinessData);
-        //只需要修改default值，因为在父类中会将default设置到当前值中去。
-        console.log('in EmployeeCRUD reset form enterdate:', this.defaultBusinessData.enterDate);
-        console.log('in EmployeeCRUD reset form enterdate moment:', moment(this.defaultBusinessData.enterDate).toDate());
-        console.log('in EmployeeCRUD reset form enterdate DF', BylDatetimeUtils.convertMillsToDateTime(this.defaultBusinessData.enterDate));
-
-
-        console.log('in EmployeeCRUD reset form leaveDate:', this.defaultBusinessData.leaveDate);
-        console.log('in EmployeeCRUD reset form leaveDate moment:', moment(this.defaultBusinessData.leaveDate).toDate());
-        console.log('in EmployeeCRUD reset form leaveDate DF', BylDatetimeUtils.convertMillsToDateTime(this.defaultBusinessData.leaveDate));
-
-        this.defaultBusinessData.enterDateDF = BylDatetimeUtils.convertMillsToDateTime(this.defaultBusinessData.enterDate);
-        this.defaultBusinessData.leaveDateDF = BylDatetimeUtils.convertMillsToDateTime(this.defaultBusinessData.leaveDate);
-
         super.reset();
         //设置可复用标签的名字：
         if (this.sourceId) {
@@ -181,45 +181,7 @@ export class BylEmployeeCrudComponent extends BylCrudComponentBasePro<BylEmploye
         }
 
     }
-    //
-    // get checkTypeOptions(){
-    //     let result =  [{value: "1", caption: "小时"},
-    //         {value: "2", caption: " 天"}];
-    //     return result;
-    //     // return BylCheckTypeEnumManager.getArray();
-    // }
-    //
-    // //#region get form fields
-    // get code() {
-    //     return this.form.controls.code;
-    // }
-    //
-    // get name() {
-    //     return this.form.controls.name;
-    // }
-    //
-    // get checkType() {
-    //     return this.form.controls.checkType;
-    // }
-    //
-    // get standardTimeLength() {
-    //     return this.form.controls.standardTimeLength;
-    // }
-    //
-    // get remarks() {
-    //     return this.form.controls.remarks;
-    // }
-    //
-    // //#endregion
 
-    // submit(value: any) {
-    //     console.log('submit', value);
-    // }
-    //
-    //
-    // change(value: any) {
-    //     console.log('change', value);
-    // }
 
     error(value: any) {
         console.log('error', value);

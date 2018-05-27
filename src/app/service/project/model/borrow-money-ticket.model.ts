@@ -12,10 +12,14 @@ import {BylEmbeddableCheckAction} from '../../model/embeddable-check-action.mode
 import {BylEmbeddableReceiveAction} from './embeddable-receive-action.model';
 import {BylEntityReference} from "../../model/entity-reference.model";
 import {BylBorrowMoneyQualificationPool} from "./borrow-money-qualification-pool.model";
+import {BylProjectStatusManager} from "./project-status.enum";
+import {BylBorrowMoneyTicketStatusManager} from "./borrow-money-ticket-status.enum";
+import {BylBusinessEntityTypeManager} from "../../model/business-entity-type.enum";
 
 export class BylBorrowMoneyTicket extends BylBaseModel {
     billNo: string;
     name: string;
+    projectWidget:any;
     project: BylEmbeddableProject = new BylEmbeddableProject();
 
     address: BylEmbeddableAddress = new BylEmbeddableAddress();
@@ -23,6 +27,7 @@ export class BylBorrowMoneyTicket extends BylBaseModel {
     reason: string;
     amount: number;
 
+    borrowerWidget:any;
     borrower: BylBorrowMoneyQualificationPool = new BylBorrowMoneyQualificationPool(); //界面用
 
     borrowAction: BylEmbeddableBorrowAction = new BylEmbeddableBorrowAction();
@@ -35,5 +40,26 @@ export class BylBorrowMoneyTicket extends BylBaseModel {
 
     status: number;
 
+    get projectDisplay(){
+        if(this.project){
+            return this.project.projectName + "[" + this.project.projectCode +']';
+        }
+    }
+    set projectDisplay(value: string){
 
+    }
+    get borrowerDisplay(){
+        if(this.borrower){
+            return BylBusinessEntityTypeManager.getCaption(this.borrower.type) + "-" + this.borrower.poolName +"[" + this.borrower.poolCode + "]";
+        }
+    }
+    set borrowerDisplay(value: string){
+
+    }
+    get statusDisplay(): string{
+        return BylBorrowMoneyTicketStatusManager.getCaption(this.status);
+    }
+    set statusDisplay(value: string){
+
+    }
 }

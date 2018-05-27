@@ -46,5 +46,15 @@
     </tr>
     </tbody>
   </nz-table>
-  <byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>
+  <ng-container *ngIf="selectedRows.length > 0">
+    <div class="mb-md">
+      <nz-alert [nzType]="'info'" [nzMessage]="selectMsg" [nzShowIcon]="true">
+        <ng-template #selectMsg >
+          已选择 <strong class="text-primary">{{selectedRows.length}}</strong> 项&nbsp;&nbsp;
+          <!--服务调用总计 <strong>{{totalCallNo}}</strong> 万-->
+          <!--<a *ngIf="totalCallNo > 0" (click)="clear()" class="ml-lg">清空</a>-->
+        </ng-template>
+      </nz-alert>
+    </div>
+  </ng-container>
 </nz-card>

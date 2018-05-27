@@ -15,17 +15,42 @@ export class BylEmployee extends BylBaseModel {
     code: string;
     name: string;
 
-    person: BylEmbeddablePerson;
+    person: BylEmbeddablePerson = new BylEmbeddablePerson();
 
     enterDate: number;
     leaveDate: number;
-    enterDateDF: Date;
-    leaveDateDF: Date;
 
     status: number;
 
-    get statusCaption(): string{
+    get statusDisplay(): string{
         return BylEmployeeStatusManager.getCaption(this.status);
+    }
+    set statusDisplay(value: string){  }
+
+    get enterDateDF(): Date{
+        return BylDatetimeUtils.convertMillsToDateTime(this.enterDate);
+    };
+    set enterDateDF(value: Date){ }
+
+    get leaveDateDF(): Date{
+        return BylDatetimeUtils.convertMillsToDateTime(this.leaveDate);
+    };
+    set leaveDateDF(value: Date){}
+
+    get enterDateDisplay() {
+        return BylDatetimeUtils.formatDateTime(this.enterDate);
+    }
+
+    set enterDateDisplay(value: string) {
+        //应付对象复制
+    }
+
+    get leaveDateDisplay() {
+        return BylDatetimeUtils.formatDateTime(this.leaveDate);
+    }
+
+    set leaveDateDisplay(value: string) {
+    //应付对象复制
     }
 
 }

@@ -183,7 +183,7 @@ export class BylOutsourceEmployeeListComponent extends BylListComponentBasePro<B
             {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.NORMAL }
         ],
         columns:[
-            {label:"所属外包商", fieldPath: "outsourcerCaption" },
+            {label:"所属外包商", fieldPath: "outsourcerDisplay" },
             {label:"代码", fieldPath: "code" },
             {label:"名称", fieldPath: "name" },
             {label:"状态", fieldPath: "statusDisplay" },
@@ -191,24 +191,24 @@ export class BylOutsourceEmployeeListComponent extends BylListComponentBasePro<B
         ]};
 
 
-    pageChange(item: BylPageReq){
-        this.page = item;
-        this.search();
-    }
-
-    selectedChange(data: BylListFormData<BylOutsourceEmployee>[]){
-        this.selectedRows = data;
-
-    }
-    entityAction(action: BylTableClickAction){
-        switch(action.actionName){
-            case ACTION_MODIFY:
-                this.modifyEntity(action.id);
-                break;
-            default:
-                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-        }
-
-    }
+    // pageChange(item: BylPageReq){
+    //     this.page = item;
+    //     this.search();
+    // }
+    //
+    // selectedChange(data: BylListFormData<BylOutsourceEmployee>[]){
+    //     this.selectedRows = data;
+    //
+    // }
+    // entityAction(action: BylTableClickAction){
+    //     switch(action.actionName){
+    //         case ACTION_MODIFY:
+    //             this.modifyEntity(action.id);
+    //             break;
+    //         default:
+    //             console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+    //     }
+    //
+    // }
 
 }

@@ -45,19 +45,6 @@ export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
     }
 
     defineForm(): void {
-        // // 绑定验证模式
-        // this.form = this.fb.group({
-        //     idCard: [null, Validators.compose([Validators.required, _Validators.idCard])],
-        //     name: [null, Validators.compose([Validators.required])],
-        //     gender: [null],
-        //     // birthYear: [null,Validators.compose([Validators.maxLength(4)])],
-        //     // birthMonth: [null,Validators.compose([Validators.maxLength(2)])],
-        //     // birthDay: [null,Validators.compose([Validators.maxLength(2)])],
-        //     nation: [null],
-        //     politicalStatus: [null],
-        //     nativePlace: [null],
-        //     remarks: [null]
-        // });
         this.formSchema = {
             properties: {
                 "idCard": {
@@ -104,7 +91,6 @@ export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
                 "nation": {
                     type: "string",
                     title: '民族',
-                    format: 'date',
                     "ui": {
                         widget: 'bylNationSelect',
                         placeholder: '请输入民族的代码或名称，系统自动查找',
@@ -116,7 +102,6 @@ export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
                 "politicalStatus": {
                     type: "string",
                     title: '政治面貌',
-                    format: 'date',
                     "ui": {
                         widget: 'bylPoliticalStatusSelect',
                         placeholder: '请输入政治面貌代码或名称，系统自动查找',
@@ -145,6 +130,7 @@ export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
      */
     setSchemaDefaultValue(){
         super.setSchemaDefaultValue();
+        this.formSchema.properties.gender.enum = [];
         this.formSchema.properties.gender.enum.push(...BylGenderEnumManager.getSFSelectDataArray());
     };
 
@@ -173,10 +159,10 @@ export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
     //     if ($event) this._searchData$.next($event);
     // }
 
-    resetButtonClick($event: MouseEvent) {
-        $event.preventDefault();
-        this.reset();
-    }
+    // resetButtonClick($event: MouseEvent) {
+    //     $event.preventDefault();
+    //     this.reset();
+    // }
 
     getFormData() {
         super.getFormData();

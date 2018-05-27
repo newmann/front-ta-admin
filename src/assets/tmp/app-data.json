@@ -3,6 +3,11 @@
     "name": "Beiyelin",
     "description": "基于ng-alain的前端框架"
   },
+  "user": {
+    "name": "Admin",
+    "avatar": "./assets/tmp/img/avatar.jpg",
+    "email": "cipchk@qq.com"
+  },
   "menu": [{
     "text": "主导航",
     "i18n": "main_navigation",

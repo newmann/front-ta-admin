@@ -12,6 +12,7 @@ import {BylBaseService} from '../../service/base.service';
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
 import {BylEmbeddableAddress} from "../../model/embeddable-address.model";
 import {BylEntityReference} from "../../model/entity-reference.model";
+import {BylProject} from "../../project/model/project.model";
 
 
 /**
@@ -49,6 +50,10 @@ export class BylPersonService extends BylBaseService<BylPerson>{
 
     fetchByIdCard(idcard: string): Observable<BylResultBody<BylPerson>> {
         return this.http.get<BylResultBody<BylPerson>>(this.BASE_API_URL + '/find-by-idcard/' + idcard);
+    }
+
+    fetchAvailableByIdCardOrName(searchstr : string): Observable < BylResultBody < Array<BylPerson> >> {
+        return this.http.get<BylResultBody<Array<BylPerson>>>(this.BASE_API_URL+"/fetch-available-by-idcard-or-name/" + searchstr);
     }
 
     //

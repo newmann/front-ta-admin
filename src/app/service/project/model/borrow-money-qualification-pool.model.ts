@@ -6,6 +6,7 @@
 import { BylBaseModel } from '../../model/base.model';
 import {BylEmbeddableAddress} from "../../model/embeddable-address.model";
 import {BylEmbeddableContactMethod} from "../../model/embeddable-contact-method.model";
+import {BylBusinessEntityTypeManager} from "../../model/business-entity-type.enum";
 
 export class BylBorrowMoneyQualificationPool extends BylBaseModel {
     type: number;
@@ -13,4 +14,11 @@ export class BylBorrowMoneyQualificationPool extends BylBaseModel {
     poolCode: string;
     poolName: string;
 
+    get typeDisplay(){
+        return BylBusinessEntityTypeManager.getCaption(this.type);
+    }
+
+    set typeDisplay(value: string){
+
+    }
 }

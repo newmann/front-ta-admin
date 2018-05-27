@@ -22,7 +22,7 @@ import {BylExpenseType} from "../../../../service/project/model/expense-type.mod
 export class BylExpenseTypeCrudComponent extends BylCrudComponentBasePro<BylExpenseType> {
     processType: string;
 
-    @ViewChild('sf') sf: SFComponent;
+    // @ViewChild('sf') sf: SFComponent;
 
     newBusinessData(): BylExpenseType {
         return new BylExpenseType();
@@ -52,7 +52,7 @@ export class BylExpenseTypeCrudComponent extends BylCrudComponentBasePro<BylExpe
                                         if (res.data) {
                                             return [];
                                         } else {
-                                            return ([{keyword: 'required', message: '工种代码'+ value + '已存在'}]);
+                                            return ([{keyword: 'required', message: '费用类型代码'+ value + '已存在'}]);
                                         }
 
                                     } else {
@@ -79,7 +79,15 @@ export class BylExpenseTypeCrudComponent extends BylCrudComponentBasePro<BylExpe
         // this.formSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
 
     }
+    /**
+     * 设置窗口定义的缺省值
+     */
+    setSchemaDefaultValue(){
 
+        // this.formSchema.properties['checkType'].enum = [];//清空再赋值
+        // this.formSchema.properties['checkType'].enum.push(...BylCheckTypeEnumManager.getSFSelectDataArray());
+        // this.formSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
+    };
     // defaultFormData: BylExpenseType = new BylExpenseType();
 
     // this.formUiSchema: SFUISchema = {};
@@ -98,19 +106,19 @@ export class BylExpenseTypeCrudComponent extends BylCrudComponentBasePro<BylExpe
 
     }
 
-    ngOnInit() {
-        console.log("执行ngOninit");
-
-        this.sfForm = this.sf;
-        super.ngOnInit();
-
-
-    }
+    // ngOnInit() {
+    //     console.log("执行ngOninit");
     //
-    resetButtonClick($event: MouseEvent) {
-        $event.preventDefault();
-        this.reset();
-    }
+    //     this.sfForm = this.sf;
+    //     super.ngOnInit();
+    //
+    //
+    // }
+    //
+    // resetButtonClick($event: MouseEvent) {
+    //     $event.preventDefault();
+    //     this.reset();
+    // }
 
     /**
      * 重置界面内容

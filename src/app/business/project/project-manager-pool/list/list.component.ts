@@ -75,8 +75,8 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBasePro<
             // },
             nzComponentParams: {
                 functionMode: BylListFormFunctionModeEnum.SELECT,
-                findAvailablePoolsService: this.projectManagerPoolService,
-                selectModalForm: this.accountReveal
+                findAvailablePoolsService: this.projectManagerPoolService
+                // selectModalForm: this.accountReveal
             },
             nzMaskClosable: false
         });
