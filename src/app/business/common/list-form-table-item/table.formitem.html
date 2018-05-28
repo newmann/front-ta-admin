@@ -38,7 +38,7 @@
         <!--<ng-container *ngIf="showAction(actionDefine, i.item)">-->
 
           <nz-divider  nzType="vertical" *ngIf=" ! isFirst"></nz-divider>
-          <a (click)="entityClick(i.item.id, actionName)">{{actionName}}</a>
+          <a (click)="entityClick(i.item, actionName)">{{actionName}}</a>
 
         <!--</ng-container>-->
       </span>

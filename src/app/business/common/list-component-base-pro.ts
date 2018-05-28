@@ -10,9 +10,10 @@ import {BylResultBody} from '../../service/model/result-body.model';
 import {BylListFormFunctionModeEnum} from '../../service/model/list-form-function-mode.enum';
 import {SFComponent} from "@delon/form";
 import {
+    ACTION_CANCEL, ACTION_CHECK,
     ACTION_DELETE,
     ACTION_LOCK,
-    ACTION_MODIFY, ACTION_UNLOCK, BylListFormTableWidgetComponent,
+    ACTION_MODIFY, ACTION_SUBMIT, ACTION_UNLOCK, BylListFormTableWidgetComponent,
     BylTableClickAction
 } from "./list-form-table-item/table.formitem";
 import {BylPerson} from "../../service/person/model/person.model";
@@ -109,25 +110,40 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
 
     }
 
-    modifyEntity(id: string) {
+    modifyEntity(entity: any) {
         if (this.crudUrl) {
-            this.router.navigate([this.crudUrl, id]);
+            this.router.navigate([this.crudUrl, entity.id]);
         }
 
     }
 
-    deleteEntity(id: string) {
+    deleteEntity(entity: any) {
         console.warn("应该自定义deleteEntity过程。");
     }
 
-    lockEntity(id: string) {
+    lockEntity(entity: any) {
         console.warn("应该自定义lockEntity过程。");
     }
 
-    unlockEntity(id: string) {
+    unlockEntity(entity: any) {
         console.warn("应该自定义unlockEntity过程。");
     }
 
+    submitEntity(entity: any) {
+        console.warn("应该自定义submitEntity过程。");
+    }
+
+    confirmEntity(entity: any) {
+        console.warn("应该自定义confirmEntity过程。");
+    }
+
+    checkEntity(entity: any) {
+        console.warn("应该自定义checkEntity过程。");
+    }
+
+    cancelEntity(entity: any) {
+        console.warn("应该自定义cancelEntity过程。");
+    }
     /**
      * 查找
      */
@@ -212,20 +228,30 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
     entityAction(action: BylTableClickAction){
         switch(action.actionName){
             case ACTION_DELETE:
-                this.deleteEntity(action.id);
+                this.deleteEntity(action.rowItem);
                 break;
 
             case ACTION_LOCK:
-                this.lockEntity(action.id);
+                this.lockEntity(action.rowItem);
                 break;
 
             case ACTION_UNLOCK:
-                this.unlockEntity(action.id);
+                this.unlockEntity(action.rowItem);
                 break;
 
             case ACTION_MODIFY:
-                this.modifyEntity(action.id);
+                this.modifyEntity(action.rowItem);
                 break;
+            case ACTION_SUBMIT:
+                this.submitEntity(action.rowItem);
+                break;
+            case ACTION_CANCEL:
+                this.cancelEntity(action.rowItem);
+                break;
+            case ACTION_CHECK:
+                this.checkEntity(action.rowItem);
+                break;
+
             default:
                 console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
         }

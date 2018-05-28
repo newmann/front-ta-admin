@@ -13,6 +13,7 @@ import {BylQueryReqBody} from '../../model/query-req-body.model';
 import {BylBorrowMoneyTicket} from '../model/borrow-money-ticket.model';
 import {BylBorrowMoneyTicketQuery} from '../query/borrow-money-ticket-query.model';
 import {BylBaseService} from '../../service/base.service';
+import {BylProject} from "../model/project.model";
 
 
 /**
@@ -67,16 +68,24 @@ export class BylBorrowMoneyTicketService  extends BylBaseService<BylBorrowMoneyT
         return this.http.get<BylResultBody<BylBorrowMoneyTicket>>(this.BASE_API_URL + '/new-ticket');
     }
 
-    //
-    // /**
-    //  * 按分页方式返回
-    //  * @returns {Observable<BylResultBody<>>}
-    //  */
-    // findPage(query: BylBorrowMoneyTicketQuery, page: BylPageReq): Observable<BylResultBody<BylPageResp<BylBorrowMoneyTicket>>> {
-    //     let queryModel = new BylQueryReqBody<BylBorrowMoneyTicketQuery>();
-    //     queryModel.pageReq = page;
-    //     queryModel.queryReq = query;
-    //
-    //     return this.http.post<BylResultBody<BylPageResp<BylBorrowMoneyTicket>>>(this.BASE_API_URL + '/find-page', queryModel);
-    // }
+    delete(updateItem: BylBorrowMoneyTicket): Observable<BylResultBody<boolean>> {
+        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/delete', updateItem);
+    }
+
+    cancel(updateItem: BylBorrowMoneyTicket): Observable<BylResultBody<BylBorrowMoneyTicket>> {
+        return this.http.post<BylResultBody<BylBorrowMoneyTicket>>(this.BASE_API_URL + '/cancel', updateItem);
+    }
+
+    check(updateItem: BylBorrowMoneyTicket): Observable<BylResultBody<BylBorrowMoneyTicket>> {
+        return this.http.post<BylResultBody<BylBorrowMoneyTicket>>(this.BASE_API_URL + '/check', updateItem);
+    }
+
+    submit(updateItem: BylBorrowMoneyTicket): Observable<BylResultBody<BylBorrowMoneyTicket>> {
+        return this.http.post<BylResultBody<BylBorrowMoneyTicket>>(this.BASE_API_URL + '/submit', updateItem);
+    }
+
+    confirm(updateItem: BylBorrowMoneyTicket): Observable<BylResultBody<BylBorrowMoneyTicket>> {
+        return this.http.post<BylResultBody<BylBorrowMoneyTicket>>(this.BASE_API_URL + '/confirm', updateItem);
+    }
+
 }

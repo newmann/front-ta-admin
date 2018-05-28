@@ -117,9 +117,9 @@ export class BylListFormTableWidgetComponent /*implements ControlValueAccessor *
         return result;
     }
 
-    entityClick(id: string, action: string){
+    entityClick(item: any, action: string){
 
-        let msg = {actionName: action, id : id};
+        let msg = {actionName: action, rowItem : item};
         this.entityAction.emit(msg);
 
 
@@ -173,11 +173,13 @@ export class BylTableActionDefine{
 
 export interface BylTableClickAction{
     actionName: string;
-    id: string;
+    rowItem: any;//当前行的数据
 }
 
 export const ACTION_MODIFY = "修改";
 export const ACTION_DELETE = "删除";
 export const ACTION_LOCK = "锁定";
 export const ACTION_UNLOCK = "解锁";
-
+export const ACTION_SUBMIT = "提交";
+export const ACTION_CANCEL = "作废";
+export const ACTION_CHECK = "审核";

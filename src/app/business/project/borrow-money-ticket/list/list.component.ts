@@ -10,7 +10,10 @@ import {BylIStatusItem} from '../../../../service/model/status.model';
 import * as moment from "moment";
 import {SFSchema, SFUISchema} from "@delon/form";
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
-import {BylBorrowMoneyTicketStatusManager} from "../../../../service/project/model/borrow-money-ticket-status.enum";
+import {
+    BylBorrowMoneyTicketStatusEnum,
+    BylBorrowMoneyTicketStatusManager
+} from "../../../../service/project/model/borrow-money-ticket-status.enum";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
 import {BylResultBody} from "../../../../service/model/result-body.model";
@@ -115,11 +118,25 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
         required: []
     };
 //#endregion
+    BORROW_MONEY_SUBMIT = "提交";
+    BORROW_MONEY_CHECK = "审核";
+    BORROW_MONEY_CONFIRM = "收款确认";
+    BORROW_MONEY_DELETE = "删除";
+    BORROW_MONEY_CANCEL = "作废";
 
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL }
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.UNSUBMITED },
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.SUBMITED },
+            {actionName: this.BORROW_MONEY_DELETE,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.UNSUBMITED },
+            {actionName: this.BORROW_MONEY_SUBMIT,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.UNSUBMITED },
+
+            {actionName: this.BORROW_MONEY_CHECK,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.SUBMITED },
+            {actionName: this.BORROW_MONEY_CANCEL,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.CHECKED },
+
+            {actionName: this.BORROW_MONEY_CONFIRM,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.CHECKED },
+            {actionName: this.BORROW_MONEY_CANCEL,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.CONFIRMED }
         ],
         columns:[
             {label:"单号", fieldPath: "billNo" },
@@ -136,6 +153,7 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
         ]};
 
 
+
     // pageChange(item: BylPageReq){
     //     this.page = item;
     //     this.search();
@@ -145,16 +163,43 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
     //     this.selectedRows = data;
     //
     // }
-    // entityAction(action: BylTableClickAction){
-    //     switch(action.actionName){
-    //         case ACTION_MODIFY:
-    //             this.modifyEntity(action.id);
-    //             break;
-    //         default:
-    //             console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-    //     }
-    //
-    // }
+
+    entityAction(action: BylTableClickAction){
+        switch(action.actionName){
+            case ACTION_MODIFY:
+                this.modifyEntity(action.rowItem.id);
+                break;
+            case this.BORROW_MONEY_DELETE:
+                this.deleteEntity(action.rowItem);
+                break;
+            case this.BORROW_MONEY_SUBMIT:
+                this.submitEntity(action.rowItem);
+                break;
+            case this.BORROW_MONEY_CONFIRM:
+                this.confirmEntity(action.rowItem);
+                break;
+            case this.BORROW_MONEY_CANCEL:
+                this.cancelEntity(action.rowItem);
+                break;
+
+            default:
+                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+        }
+
+    }
+
+    deleteEntity(entity: any){
+
+    }
+    submitEntity(entity: any){
+
+    }
+    confirmEntity(entity: any){
+
+    }
+    cancelEntity(entity: any){
+
+    }
 
     add(){
         this.borrowMoneyTicketService.getNewTicket().subscribe((data) => {

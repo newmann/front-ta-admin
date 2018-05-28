@@ -42,27 +42,21 @@ export class BylProjectService  extends BylBaseService<BylProject> {
         return this.http.get<BylResultBody<Array<BylProject>>>(this.BASE_API_URL+"/fetch-available-by-code-or-name/" + searchstr);
     }
 
-    // add(item: BylProject): Observable<BylResultBody<BylProject>> {
-    //     return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/add', item);
-    // }
-    //
-    // update(updateItem: BylProject): Observable<BylResultBody<BylProject>> {
-    //     return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/update', updateItem);
-    // }
-    //
-    //
-    // findById(id: string): Observable<BylResultBody<BylProject>> {
-    //     return this.http.get<BylResultBody<BylProject>>(this.BASE_API_URL + '/find-by-id/' + id);
-    // }
-    // /**
-    //  * 按分页方式返回
-    //  * @returns {Observable<BylResultBody<>>}
-    //  */
-    // findPage(query: BylProjectQuery, page: BylPageReq): Observable<BylResultBody<BylPageResp<BylProject>>> {
-    //     let queryModel = new BylQueryReqBody<BylProjectQuery>();
-    //     queryModel.pageReq = page;
-    //     queryModel.queryReq = query;
-    //
-    //     return this.http.post<BylResultBody<BylPageResp<BylProject>>>(this.BASE_API_URL + '/find-page', queryModel);
-    // }
+    delete(updateItem: BylProject): Observable<BylResultBody<boolean>> {
+        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/delete', updateItem);
+    }
+
+    cancel(updateItem: BylProject): Observable<BylResultBody<BylProject>> {
+        return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/cancel', updateItem);
+    }
+
+    submit(updateItem: BylProject): Observable<BylResultBody<BylProject>> {
+        return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/submit', updateItem);
+    }
+
+    running(updateItem: BylProject): Observable<BylResultBody<BylProject>> {
+        return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/running', updateItem);
+    }
+
+
 }

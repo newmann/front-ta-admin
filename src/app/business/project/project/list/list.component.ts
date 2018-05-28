@@ -8,14 +8,19 @@ import {BylProjectService} from '../../../../service/project/service/project.ser
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
 import {BylProjectQuery} from '../../../../service/project/query/project-query.model';
 import {BylIStatusItem} from '../../../../service/model/status.model';
-import {BylProjectStatusManager} from '../../../../service/project/model/project-status.enum';
+import {BylProjectStatusEnum, BylProjectStatusManager} from '../../../../service/project/model/project-status.enum';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import * as moment from 'moment';
 import {SFSchema, SFUISchema} from '@delon/form';
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 import {BylPageReq} from "../../../../service/model/page-req.model";
-import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
+import {
+    ACTION_CANCEL,
+    ACTION_DELETE, ACTION_MODIFY, ACTION_SUBMIT, BylTableClickAction,
+    BylTableDefine
+} from "../../../common/list-form-table-item/table.formitem";
+import {BylResultBody} from "../../../../service/model/result-body.model";
 
 @Component({
     selector: 'app-list',
@@ -137,10 +142,22 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
 //#endregion
 
 
+    PROJECT_RUN = "启动";
+    PROJECT_ACHIEVE = "完成";
+
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL }
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.UNSUBMITED },
+            {actionName: ACTION_DELETE,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.UNSUBMITED },
+
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.SUBMITED },
+            {actionName: this.PROJECT_RUN,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.SUBMITED },
+            {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.SUBMITED },
+
+            {actionName: this.PROJECT_ACHIEVE,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.RUNNING },
+            {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.RUNNING },
+
         ],
         columns:[
             {label:"代码", fieldPath: "code" },
@@ -155,23 +172,53 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
         ]};
 
 
-    pageChange(item: BylPageReq){
-        this.page = item;
-        this.search();
-    }
 
-    selectedChange(data: BylListFormData<BylProject>[]){
-        this.selectedRows = data;
-
-    }
     entityAction(action: BylTableClickAction){
+        super.entityAction(action);
+
         switch(action.actionName){
-            case ACTION_MODIFY:
-                this.modifyEntity(action.id);
+            case this.PROJECT_RUN:
+                this.runEntity(action.rowItem);
+                break;
+            case this.PROJECT_ACHIEVE:
+                this.achieveEntity(action.rowItem);
                 break;
             default:
                 console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
         }
+
+    }
+
+    deleteEntity(entity: BylProject){
+        this.projectService.delete(entity).subscribe(
+            data => {
+                // option.loading = false;
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                    //将显示界面中的数据删除掉
+                    this.listData = this.listData.filter(item =>{
+                        item.item.id !== entity.id;
+                    })
+
+                } else {
+                    this.message.error(data.msg);
+                }
+            },
+            err => {
+                // option.loading = false;
+                this.message.error(err.toString());
+            }
+        );
+    }
+    submitEntity(entity: BylProject){
+
+    }
+    runEntity(entity: BylProject){
+
+    }
+    cancelEntity(entity: BylProject){
+
+    }
+    achieveEntity(entity: BylProject){
 
     }
 
