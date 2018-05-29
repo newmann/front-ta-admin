@@ -193,8 +193,10 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
 
         }
         if (this.businessData.planBeginDateWidget) {
-            this.businessData.planBeginDate = BylDatetimeUtils.convertDateTimeToMills(this.businessData.planBeginDateWidget);
+            console.log("in ProjectCRUD getFormData,planBeginDateWidget:",this.businessData.planBeginDateWidget);
 
+            this.businessData.planBeginDate = BylDatetimeUtils.convertDateTimeToMills(this.businessData.planBeginDateWidget);
+            console.log("in ProjectCRUD getFormData, planBeginDate:",this.businessData.planBeginDate);
         }
         if (this.businessData.planEndDateWidget) {
             this.businessData.planEndDate = BylDatetimeUtils.convertDateTimeToMills(this.businessData.planEndDateWidget);

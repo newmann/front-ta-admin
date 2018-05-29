@@ -21,6 +21,7 @@ import {
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylResultBody} from "../../../../service/model/result-body.model";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 @Component({
     selector: 'app-list',
@@ -210,7 +211,26 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
         );
     }
     submitEntity(entity: BylProject){
+        this.projectService.submit(entity).subscribe(
+            data => {
+                // option.loading = false;
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                    //将显示界面中的数据修改
+                    this.listData.map(item =>{
+                        if (item.item.id === data.data.id){
+                            simpleDeepCopy(item.item,data.data);
+                        };
+                    })
 
+                } else {
+                    this.message.error(data.msg);
+                }
+            },
+            err => {
+                // option.loading = false;
+                this.message.error(err.toString());
+            }
+        );
     }
     runEntity(entity: BylProject){
 
