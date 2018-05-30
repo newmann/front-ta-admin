@@ -40,7 +40,7 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
     }
 
     defineForm(): void {
-        this.formSchema = {
+        this.newSchema = {
             properties: {
                 "code": {
                     "type": 'string',
@@ -135,9 +135,9 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
      */
     setSchemaDefaultValue(){
 
-        this.formSchema.properties['checkType'].enum = [];//清空再赋值
-        this.formSchema.properties['checkType'].enum.push(...BylCheckTypeEnumManager.getSFSelectDataArray());
-        // this.formSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
+        this.newSchema.properties['checkType'].enum = [];//清空再赋值
+        this.newSchema.properties['checkType'].enum.push(...BylCheckTypeEnumManager.getSFSelectDataArray());
+        // this.newSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
     };
     // defaultFormData: BylWorkType = new BylWorkType();
 

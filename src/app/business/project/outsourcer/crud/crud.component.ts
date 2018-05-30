@@ -32,7 +32,7 @@ export class BylOutsourcerCrudComponent extends BylCrudComponentBasePro<BylOutso
     }
 
     defineForm(): void {
-        this.formSchema = {
+        this.newSchema = {
             properties: {
                 "code": {
                     "type": 'string',
@@ -76,10 +76,10 @@ export class BylOutsourcerCrudComponent extends BylCrudComponentBasePro<BylOutso
 
         // BylCheckTypeEnumManager.getArray().forEach((item) =>{
         //     let option = {label: item.caption, value: item.value};
-        //     this.formSchema.properties['checkType'].enum.push(option);
+        //     this.newSchema.properties['checkType'].enum.push(option);
         // });
 
-        // this.formSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
+        // this.newSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
 
     }
     /**
@@ -88,7 +88,7 @@ export class BylOutsourcerCrudComponent extends BylCrudComponentBasePro<BylOutso
     setSchemaDefaultValue(){
 
 
-        // this.formSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
+        // this.newSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
     };
 
     // defaultFormData: BylOutsourcer = new BylOutsourcer();

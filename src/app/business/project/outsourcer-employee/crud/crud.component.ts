@@ -33,7 +33,7 @@ export class BylOutsourceEmployeeCrudComponent extends BylCrudComponentBasePro<B
     }
 
     defineForm(): void {
-        this.formSchema = {
+        this.newSchema = {
             properties: {
                 "outsourcerWidget":{
                     "type": 'string',
@@ -88,10 +88,10 @@ export class BylOutsourceEmployeeCrudComponent extends BylCrudComponentBasePro<B
 
         // BylCheckTypeEnumManager.getArray().forEach((item) =>{
         //     let option = {label: item.caption, value: item.value};
-        //     this.formSchema.properties['checkType'].enum.push(option);
+        //     this.newSchema.properties['checkType'].enum.push(option);
         // });
 
-        // this.formSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
+        // this.newSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
 
     }
 

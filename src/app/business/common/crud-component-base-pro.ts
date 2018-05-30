@@ -27,9 +27,12 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
         properties: {}
     };
 
-    public formSchema: SFSchema = {
+    public newSchema: SFSchema = {
         properties: {}
     };
+
+    public modifySchema: SFSchema = null;
+    public browseSchema: SFSchema = null;
 
     public loading = false;
     public errMsg = '';  // 保存时错误信息
@@ -53,7 +56,7 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
     ngOnInit() {
         // //刷新schema
         // this.setSchemaDefaultValue();
-        // this.sfForm.refreshSchema(this.formSchema);
+        // this.sfForm.refreshSchema(this.newSchema);
 
         //从list窗口调入修改单据时，载入数据
         console.log('执行base init');
@@ -214,15 +217,22 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
      * 重置界面内容
      */
     reset(): void {
-        //刷新schema
         this.setSchemaDefaultValue();
-        this.sfForm.refreshSchema(this.formSchema);
 
         if (this.processType === 'new') {
+            //刷新schema
+            this.sfForm.refreshSchema(this.newSchema);
             //新增界面
             this.businessData =  this.newBusinessData();
 
         } else {
+            //刷新schema
+            if (this.modifySchema){
+                this.sfForm.refreshSchema(this.modifySchema);
+            }else{
+                this.sfForm.refreshSchema(this.newSchema);
+            }
+
             //修改界面，保存当前值到缺省值
             this.defaultBusinessData = this.newBusinessData();
             simpleDeepCopy(this.defaultBusinessData, this.businessData);

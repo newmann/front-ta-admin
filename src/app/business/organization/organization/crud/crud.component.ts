@@ -44,7 +44,7 @@ export class BylOrganizationCrudComponent extends BylCrudComponentBasePro<BylOrg
     }
 
     defineForm(): void {
-        this.formSchema = {
+        this.newSchema = {
             properties: {
                 "code": {
                     "type": 'string',
@@ -117,9 +117,9 @@ export class BylOrganizationCrudComponent extends BylCrudComponentBasePro<BylOrg
      */
     setSchemaDefaultValue(){
 
-        this.formSchema.properties.type.enum = [];//清空再赋值
-        this.formSchema.properties.type.enum.push(...BylOrganizationTypeManager.getSFSelectDataArray());
-        // this.formSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
+        this.newSchema.properties.type.enum = [];//清空再赋值
+        this.newSchema.properties.type.enum.push(...BylOrganizationTypeManager.getSFSelectDataArray());
+        // this.newSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
     };
 
     constructor(public msgService: NzMessageService,

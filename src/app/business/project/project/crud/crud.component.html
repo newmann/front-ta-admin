@@ -7,7 +7,7 @@
                [formData]="businessData"
                mode="edit"
                (formError)="error($event)">
-            <button type="submit" nz-button [disabled]="!sf.valid" (click)="submitForm()">提交</button>
+            <button type="submit" nz-button [disabled]="!sf.valid" (click)="submitForm()">保存</button>
             <button (click)="reset()"  type="button" nz-button>重置</button>
 
           </sf>

@@ -34,7 +34,7 @@ export class BylExpenseTypeCrudComponent extends BylCrudComponentBasePro<BylExpe
     }
 
     defineForm(): void {
-        this.formSchema = {
+        this.newSchema = {
             properties: {
                 "code": {
                     "type": 'string',
@@ -76,7 +76,7 @@ export class BylExpenseTypeCrudComponent extends BylCrudComponentBasePro<BylExpe
             "required": ["code", "name"]
         };
 
-        // this.formSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
+        // this.newSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
 
     }
     /**
@@ -84,9 +84,9 @@ export class BylExpenseTypeCrudComponent extends BylCrudComponentBasePro<BylExpe
      */
     setSchemaDefaultValue(){
 
-        // this.formSchema.properties['checkType'].enum = [];//清空再赋值
-        // this.formSchema.properties['checkType'].enum.push(...BylCheckTypeEnumManager.getSFSelectDataArray());
-        // this.formSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
+        // this.newSchema.properties['checkType'].enum = [];//清空再赋值
+        // this.newSchema.properties['checkType'].enum.push(...BylCheckTypeEnumManager.getSFSelectDataArray());
+        // this.newSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
     };
     // defaultFormData: BylExpenseType = new BylExpenseType();
 

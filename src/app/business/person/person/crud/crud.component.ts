@@ -45,7 +45,7 @@ export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
     }
 
     defineForm(): void {
-        this.formSchema = {
+        this.newSchema = {
             properties: {
                 "idCard": {
                     "type": 'string',
@@ -130,8 +130,8 @@ export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
      */
     setSchemaDefaultValue(){
         super.setSchemaDefaultValue();
-        this.formSchema.properties.gender.enum = [];
-        this.formSchema.properties.gender.enum.push(...BylGenderEnumManager.getSFSelectDataArray());
+        this.newSchema.properties.gender.enum = [];
+        this.newSchema.properties.gender.enum.push(...BylGenderEnumManager.getSFSelectDataArray());
     };
 
     constructor(public msgService: NzMessageService,

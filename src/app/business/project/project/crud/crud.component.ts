@@ -20,11 +20,12 @@ import {map} from "rxjs/operators";
 import {BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
 import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylProjectManagerPoolService} from "../../../../service/project/service/project-manager-pool.service";
-import {SFComponent, SFSchemaEnumType} from "@delon/form";
+import {SFComponent, SFSchema, SFSchemaEnumType} from "@delon/form";
 import {BylProjectManagerPool} from "../../../../service/project/model/project-manager-pool.model";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {BylProjectStatusEnum} from "../../../../service/project/model/project-status.enum";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 
 @Component({
@@ -49,7 +50,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
     }
 
     defineForm(): void {
-        this.formSchema = {
+        this.newSchema = {
             properties: {
                 "code": {
                     "type": 'string',
@@ -141,11 +142,69 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                 "remarks": {
                     "type": 'string',
                     "title": '备注'
-                }
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+
             },
             "required": ["code", "name","managerWidget"]
 
         };
+
+        this.browseSchema = {
+            properties: {
+                "code": {
+                    "type": 'string',
+                    "title": '代码',
+                    "readOnly": true
+                },
+                "name": {
+                    "type": 'string',
+                    "title": '名称',
+                    "readOnly": true
+
+                },
+                "managerWidget": {
+                    "type": "string",
+                    "title": '项目经理',
+                    "readOnly": true,
+
+                },
+                "planBeginDateWidget": {
+                    type: "string",
+                    title: '计划开始日期',
+                    format: 'date',
+                    "readOnly": true
+                },
+                "planEndDateWidget": {
+                    "type": "string",
+                    "title": '计划结束日期',
+                    format: 'date',
+                    "readOnly": true
+                },
+                "remarks": {
+                    "type": 'string',
+                    "title": '备注',
+                    "readOnly": true
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+
+            },
+            "required": ["code", "name","managerWidget"]
+
+        };
+
     }
 
 
@@ -348,6 +407,38 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
     }
 
 
+    submitEntity(entity: BylProject){
+        this.projectService.submit(entity).subscribe(
+            data => {
+                // option.loading = false;
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                    //将显示界面中的数据修改
+                    // this.listData.map(item =>{
+                    //     if (item.item.id === data.data.id){
+                    //         simpleDeepCopy(item.item,data.data);
+                    //     };
+                    // })
+
+                } else {
+                    this.errMsg = data.msg;
+                }
+            },
+            err => {
+                // option.loading = false;
+                this.errMsg = err.toString();
+            }
+        );
+    }
+
+    runEntity(entity: BylProject){
+
+    }
+    cancelEntity(entity: BylProject){
+
+    }
+    achieveEntity(entity: BylProject){
+
+    }
 
     error(value: any) {
         console.log('error', value);
