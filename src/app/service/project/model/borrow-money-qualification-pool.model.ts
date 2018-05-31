@@ -21,4 +21,19 @@ export class BylBorrowMoneyQualificationPool extends BylBaseModel {
     set typeDisplay(value: string){
 
     }
+
+    get fullCaption(): string{
+        let result = "";
+        if (this.type) { result = result + BylBusinessEntityTypeManager.getCaption(this.type)};
+
+        if (this.poolId) {
+            result = result + "-" + this.poolName + "[" + this.poolCode + ']';
+        }
+
+        return result;
+    }
+    set fullCaption(value:string){
+
+    }
+
 }

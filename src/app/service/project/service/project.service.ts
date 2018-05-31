@@ -58,5 +58,9 @@ export class BylProjectService  extends BylBaseService<BylProject> {
         return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/running', updateItem);
     }
 
+    achieve(updateItem: BylProject): Observable<BylResultBody<BylProject>> {
+        return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/achieve', updateItem);
+    }
+
 
 }

@@ -82,6 +82,10 @@ export class BylBorrowMoneyQualificationPoolService  extends BylBaseService<BylB
         return this.http.delete(this.BASE_API_URL + '/delete-by-id/' + id);
     }
 
+    findByTypeAndPoolId(type: number, poolId: string): Observable<BylResultBody<BylBorrowMoneyQualificationPool>> {
+        return this.http.get<BylResultBody<BylBorrowMoneyQualificationPool>>(this.BASE_API_URL + '/find-by-type-and-poolid?type=' + type + '&poolid=' + poolId);
+    }
+
     // fetchAvailableDepartmentByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylBorrowMoneyQualificationPool> >> {
     //     return this.http.get<BylResultBody<Array<BylBorrowMoneyQualificationPool>>>(this.BASE_API_URL+"/fetch-available-BylBorrowMoneyQualificationPool-by-code-or-name/" + searchstr);
     // }

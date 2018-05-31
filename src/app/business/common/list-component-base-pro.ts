@@ -5,10 +5,8 @@ import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {BylConfigService} from '../../service/constant/config.service';
 import {BylBaseService} from '../../service/service/base.service';
-import {BylCrudEvent} from './waiting/crud-waiting.component';
 import {BylResultBody} from '../../service/model/result-body.model';
 import {BylListFormFunctionModeEnum} from '../../service/model/list-form-function-mode.enum';
-import {SFComponent} from "@delon/form";
 import {
     ACTION_CANCEL, ACTION_CHECK,
     ACTION_DELETE,
@@ -16,7 +14,7 @@ import {
     ACTION_MODIFY, ACTION_SUBMIT, ACTION_UNLOCK, BylListFormTableWidgetComponent,
     BylTableClickAction
 } from "./list-form-table-item/table.formitem";
-import {BylPerson} from "../../service/person/model/person.model";
+import {Observable} from "rxjs/Observable";
 
 /**
  * @Description: list组件的抽象类
@@ -117,30 +115,125 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
 
     }
 
+    showDeleteEntity(entity: any){
+        this.modalService.confirm({
+            nzTitle: '确认要进行删除操作吗?',
+            nzContent: '<b style="color: red;">删除之后不可恢复，请谨慎操作。</b>',
+            nzOkText: '删除',
+            nzOkType: 'danger',
+            nzOnOk: () => {
+                this.deleteEntity(entity);
+            },
+            nzCancelText: '取消',
+            nzOnCancel: () => console.log('showDeleteEntity Cancel')
+        });
+    }
+
     deleteEntity(entity: any) {
         console.warn("应该自定义deleteEntity过程。");
+    }
+
+    showLockEntity(entity: any){
+        this.modalService.confirm({
+            nzTitle: '确认要进行锁定操作吗?',
+            nzContent: '<b style="color: red;">锁定之后，该记录不能被正常使用，请谨慎操作。</b>',
+            nzOkText: '锁定',
+            nzOkType: 'primary',
+            nzOnOk: () => {
+                this.lockEntity(entity);
+            },
+            nzCancelText: '取消',
+            nzOnCancel: () => console.log('showLockEntity Cancel')
+        });
     }
 
     lockEntity(entity: any) {
         console.warn("应该自定义lockEntity过程。");
     }
 
+    showUnlockEntity(entity: any){
+        this.modalService.confirm({
+            nzTitle: '确认要进行解锁操作吗?',
+            nzContent: '<b style="color: red;">解锁之后，该记录可以被正常使用。</b>',
+            nzOkText: '锁定',
+            nzOkType: 'primary',
+            nzOnOk: () => {
+                this.unlockEntity(entity);
+            },
+            nzCancelText: '取消',
+            nzOnCancel: () => console.log('showUnlockEntity Cancel')
+        });
+    }
+
     unlockEntity(entity: any) {
         console.warn("应该自定义unlockEntity过程。");
     }
 
+    showSubmitEntity(entity: any){
+        this.modalService.confirm({
+            nzTitle: '确认要进行提交操作吗?',
+            nzContent: '<b style="color: red;">提交之后，该记录将永久保存在数据库中，不能被彻底删除。</b>',
+            nzOkText: '提交',
+            nzOkType: 'primary',
+            nzOnOk: () => {
+                this.submitEntity(entity);
+            },
+            nzCancelText: '取消',
+            nzOnCancel: () => console.log('showSubmitEntity Cancel')
+        });
+    }
     submitEntity(entity: any) {
         console.warn("应该自定义submitEntity过程。");
     }
 
-    confirmEntity(entity: any) {
-        console.warn("应该自定义confirmEntity过程。");
+    // showSubmitEntity(entity: any){
+    //     this.modalService.confirm({
+    //         nzTitle: '确认要进行提交操作吗?',
+    //         nzContent: '<b style="color: red;">提交之后，该记录将永久保存在数据库中，不能被彻底删除。</b>',
+    //         nzOkText: '提交',
+    //         nzOkType: 'primary',
+    //         nzOnOk: () => {
+    //             this.confirmEntity(entity);
+    //         },
+    //         nzCancelText: '取消',
+    //         nzOnCancel: () => console.log('showLockEntity Cancel')
+    //     });
+    // }
+    // confirmEntity(entity: any) {
+    //     console.warn("应该自定义confirmEntity过程。");
+    // }
+
+    showCheckEntity(entity: any){
+        this.modalService.confirm({
+            nzTitle: '确认要进行审核操作吗?',
+            nzContent: '<b style="color: red;">审核之后，该记录不能进行修改调整。</b>',
+            nzOkText: '审核',
+            nzOkType: 'primary',
+            nzOnOk: () => {
+                this.checkEntity(entity);
+            },
+            nzCancelText: '取消',
+            nzOnCancel: () => console.log('showCheckEntity Cancel')
+        });
     }
 
     checkEntity(entity: any) {
         console.warn("应该自定义checkEntity过程。");
     }
 
+    showCancelEntity(entity: any){
+        this.modalService.confirm({
+            nzTitle: '确认要进行作废操作吗?',
+            nzContent: '<b style="color: red;">作废之后，该记录将不能恢复，请谨慎操作。</b>',
+            nzOkText: '作废',
+            nzOkType: 'danger',
+            nzOnOk: () => {
+                this.cancelEntity(entity);
+            },
+            nzCancelText: '取消',
+            nzOnCancel: () => console.log('showCancelEntity Cancel')
+        });
+    }
     cancelEntity(entity: any) {
         console.warn("应该自定义cancelEntity过程。");
     }
@@ -228,28 +321,28 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
     entityAction(action: BylTableClickAction){
         switch(action.actionName){
             case ACTION_DELETE:
-                this.deleteEntity(action.rowItem);
+                this.showDeleteEntity(action.rowItem);
                 break;
 
             case ACTION_LOCK:
-                this.lockEntity(action.rowItem);
+                this.showLockEntity(action.rowItem);
                 break;
 
             case ACTION_UNLOCK:
-                this.unlockEntity(action.rowItem);
+                this.showUnlockEntity(action.rowItem);
                 break;
 
             case ACTION_MODIFY:
                 this.modifyEntity(action.rowItem);
                 break;
             case ACTION_SUBMIT:
-                this.submitEntity(action.rowItem);
+                this.showSubmitEntity(action.rowItem);
                 break;
             case ACTION_CANCEL:
-                this.cancelEntity(action.rowItem);
+                this.showCancelEntity(action.rowItem);
                 break;
             case ACTION_CHECK:
-                this.checkEntity(action.rowItem);
+                this.showCheckEntity(action.rowItem);
                 break;
 
             default:
@@ -257,4 +350,27 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
         }
 
     }
+
+    protected actionResult$: Observable<BylResultBody<T>>;
+
+    protected actionFollowProcess(result$: Observable<BylResultBody<T>> ){
+        result$.subscribe(
+            data => {
+                // this._loading = false;
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                    //将显示界面中的数据修改
+                    this.updateListData(data.data);
+
+                } else {
+
+                    this.message.error(data.msg);
+                }
+                this.loading = false;
+            },
+            err => {
+                this.message.error(err.toString());
+            }
+        );
+    }
+
 }

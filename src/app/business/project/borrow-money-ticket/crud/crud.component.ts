@@ -19,6 +19,13 @@ import {BylBorrowMoneyQualificationPool} from "../../../../service/project/model
 import {Observable} from "rxjs/Observable";
 import {BylBusinessEntityTypeEnum} from "../../../../service/model/business-entity-type.enum";
 import {BylBorrowMoneyQualificationPoolService} from "../../../../service/project/service/borrow-money-qualification-pool.service";
+import {SFSchema} from "@delon/form";
+import {map} from "rxjs/operators";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylProject} from "../../../../service/project/model/project.model";
+import {BylProjectStatusEnum} from "../../../../service/project/model/project-status.enum";
+import {BylBorrowMoneyTicketStatusEnum} from "../../../../service/project/model/borrow-money-ticket-status.enum";
+import {BylEmbeddableBorrowAction} from "../../../../service/project/model/embeddable-borrow-action.model";
 
 
 @Component({
@@ -26,10 +33,6 @@ import {BylBorrowMoneyQualificationPoolService} from "../../../../service/projec
     templateUrl: './crud.component.html',
 })
 export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<BylBorrowMoneyTicket> {
-    public borrowTypeOptions = [
-        {caption: '1', value: '个体'},
-        {caption: '2', value: '组织'}
-    ];
 
     @Input()
     set setSourceId(value: string) {
@@ -40,37 +43,161 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
         return new BylBorrowMoneyTicket();
     }
 
+    private _newSchema: SFSchema;
+    private _modifySchema: SFSchema;
+    private _browseSchema: SFSchema;
+
     projectList: BylEmbeddableProject[];
     borrowerList: BylBorrowMoneyQualificationPool[];
 
     defineForm(): void {
-        // 绑定验证模式
-        // this.form = this.fb.group({
-        //     billNo: [null, Validators.compose([Validators.required])],
-        //     borrowType: [null, Validators.compose([Validators.required])],
-        //
-        //     borrowId: [null],
-        //     borrowCode: [null, Validators.compose([Validators.required])],
-        //     borrowName: [null],
-        //
-        //     projectId: [null],
-        //     projectCode: [null, Validators.compose([Validators.required])],
-        //     projectName: [null],
-        //
-        //     reason: [null, Validators.compose([Validators.required])],
-        //     amount: [null, Validators.compose([Validators.required])],
-        //     borowDate: [null, Validators.compose([Validators.required])],
-        //
-        //     remarks: [null]
-        // });
+        this._modifySchema = {
+            properties: {
+                "billNo": {
+                    "type": 'string',
+                    "title": '单号',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "borrowerWidget": {
+                    "type": "string",
+                    "title": '借款人',
+                    "ui": {
+                        widget: 'bylBorrowMoneyQualificationPoolSelect',
+                        placeholder: '请输入借款人代码或名称，系统自动查找',
+                        allowClear: 'true',
+                        serverSearch: 'true',
+                        showSearch: 'true',
+
+                    }
+                },
+                "projectWidget": {
+                    type: "string",
+                    title: '所属项目',
+                    ui: {
+                        widget: 'bylProjectSelect',
+                        placeholder: '请输入项目代码或名称，系统自动查找',
+                        allowClear: 'true',
+                        serverSearch: 'true',
+                        showSearch: 'true',
+                    }
+                },
+
+                "reason": {
+                    "type": "string",
+                    "title": '借款原因'
+                },
+                "amount": {
+                    "type": "string",
+                    "title": '借款金额'
+                },
+                "borrowDateTimeWidget": {
+                    "type": "string",
+                    "title": '借款日期',
+                    format: 'date',
+                    ui: {
+                        format: BylDatetimeUtils.formatDateString,
+                        placeholder: '请借款日期'
+                    }
+
+                },
+
+                "remarks": {
+                    "type": 'string',
+                    "title": '备注'
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+
+            },
+            "required": ["borrowerWidget","projectWidget" ,"reason","borrowDateTimeWidget","amount"]
+
+        };
+
+        this._browseSchema = {
+            properties: {
+                "billNo": {
+                    "type": 'string',
+                    "title": '单号',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "borrowerDisplay": {
+                    "type": "string",
+                    "title": '借款人',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "projectDispaly": {
+                    type: "string",
+                    title: '所属项目',
+                    ui: {
+                        widget: 'text'
+                    }
+                },
+
+                "reason": {
+                    "type": "string",
+                    "title": '借款原因',
+                    ui: {
+                        widget: 'text'
+                    }
+
+                },
+                "amount": {
+                    "type": "string",
+                    "title": '借款金额',
+                    ui: {
+                        widget: 'text'
+                    }
+
+                },
+                "borrowDateTimeDisplay": {
+                    "type": "string",
+                    "title": '借款日期',
+                    ui: {
+                        widget: 'text'
+                    }
+
+                },
+
+                "remarks": {
+                    "type": 'string',
+                    "title": '备注',
+                    ui: {
+                        widget: 'text'
+                    }
+
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+
+            },
+            "required": ["borrowerWidget","projectWidget" ,"reason","borrowDateTimeWidget","amount"]
+
+        };
+
 
 
     }
 
     constructor(public msgService: NzMessageService,
                 public borrowMoneyTicketService: BylBorrowMoneyTicketService,
-                public projectService: BylProjectService,
-                public borrowMoneyQualificationPoolService: BylBorrowMoneyQualificationPoolService,
+                // public projectService: BylProjectService,
+                // public borrowMoneyQualificationPoolService: BylBorrowMoneyQualificationPoolService,
                 public configService: BylConfigService,
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
@@ -99,52 +226,32 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
     }
 
     getFormData() {
+        super.getFormData();
 
-        if (this.businessData.borrowAction.borrowDateTimeDateFormat) {
-            this.businessData.borrowAction.borrowDateTime =
-                BylDatetimeUtils.convertDateTimeToMills(this.businessData.borrowAction.borrowDateTimeDateFormat);
+        if (this.businessData.borrowerWidget) {
+            let ba = new BylEmbeddableBorrowAction();
+            ba.borrowType = this.businessData.borrowerWidget.type;
+            ba.borrowId = this.businessData.borrowerWidget.poolId;
+            ba.borrowCode = this.businessData.borrowerWidget.poolCode;
+            ba.borrowName = this.businessData.borrowerWidget.poolName;
+
+            this.businessData.borrowAction = ba;
+
         }
-        // for (const i in this.form.controls) {
-        //     this.form.controls[i].markAsDirty();
-        // }
-        //
-        // Object.assign(this.businessData, this.form.value);
 
-        // console.table(this.form.value);
-        // this.businessData.code = this.code.value;
-        // this.businessData.name = this.name.value;
-        // this.businessData.managerId = this.managerId.value;
-        // this.businessData.managerCode = this.managerCode.value;
-        // this.businessData.managerName = this.managerName.value;
-        //
-        // this.businessData.address.countryId = this.addressTreevalue[0].value;
-        // this.businessData.address.countryCode = this.addressTreevalue[0].value;
-        // this.businessData.address.countryName = this.addressTreevalue[0].caption;
-        //
-        // this.businessData.address.provinceId = this.addressTreevalue[1].value;
-        // this.businessData.address.provinceCode = this.addressTreevalue[1].value;
-        // this.businessData.address.provinceName = this.addressTreevalue[1].caption;
-        //
-        // this.businessData.address.cityId = this.addressTreevalue[2].value;
-        // this.businessData.address.cityCode = this.addressTreevalue[2].value;
-        // this.businessData.address.cityName = this.addressTreevalue[2].caption;
-        //
-        // this.businessData.address.detailAddress = this.detailAddress.value;
-        //
-        // if (this.zipCode.value) this.businessData.address.zipCode = this.zipCode.value;
-        //
-        // if (this.planBeginDate.value) {
-        //     this.businessData.planBeginDate = moment(this.planBeginDate.value).valueOf();
-        // }
-        // if (this.planEndDate.value) {
-        //     this.businessData.planEndDate = moment(this.planEndDate.value).valueOf();
-        // }
-        //
-        //
-        // if (this.remarks.value) {
-        //     this.businessData.remarks = this.remarks.value.toString();
-        // }
-        // console.table(this.businessData);
+        if (this.businessData.borrowDateTimeWidget) {
+            this.businessData.borrowAction.borrowDateTime =
+                BylDatetimeUtils.convertDateTimeToMills(this.businessData.borrowDateTimeWidget);
+        }
+
+        if (this.businessData.projectWidget) {
+            let p = new BylEmbeddableProject();
+            p.projectId = this.businessData.projectWidget.id;
+            p.projectCode = this.businessData.projectWidget.code;
+            p.projectName = this.businessData.projectWidget.name;
+
+            this.businessData.project = p ;
+        }
 
     }
     /**
@@ -153,51 +260,81 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
      */
     setFormData(data: BylBorrowMoneyTicket){
         super.setFormData(data);
-        this.projectList = [];
+        // this.projectList = [];
+        if (this.businessData.borrowAction) {
+            if ( this.businessData.borrowAction.borrowId){
+                let b = new BylBorrowMoneyQualificationPool();
+                b.type = this.businessData.borrowAction.borrowType;
+                b.poolId = this.businessData.borrowAction.borrowId;
+                b.poolCode = this.businessData.borrowAction.borrowCode;
+                b.poolName = this.businessData.borrowAction.borrowName;
+
+                this.businessData.borrowerWidget = b;
+                this.defaultBusinessData.borrowerWidget = b;
+
+            }
+
+            if (this.businessData.borrowAction.borrowDateTime) {
+                this.businessData.borrowDateTimeWidget = BylDatetimeUtils.convertMillsToDateTime(this.businessData.borrowAction.borrowDateTime);
+                this.defaultBusinessData.borrowDateTimeWidget = BylDatetimeUtils.convertMillsToDateTime(this.businessData.borrowAction.borrowDateTime);
+            }
+
+        }
 
         if (this.businessData.project) {
-            let p = new BylEmbeddableProject();
-            p.projectId = this.businessData.project.projectId;
-            p.projectCode = this.businessData.project.projectCode;
-            p.projectName = this.businessData.project.projectName;
+            if ( this.businessData.project.projectId){
+                let m = new BylEntityReference(this.businessData.project.projectId,
+                    this.businessData.project.projectCode,
+                    this.businessData.project.projectName);
 
-            console.log('in BorrowMoneyTicketCrud setFormDate',p.getFullCaption());
+                this.businessData.projectWidget = m;
+                this.defaultBusinessData.projectWidget = m;
 
-            this.projectList.push(p);
-        }
-
-
-        if (this.businessData.borrowAction.borrowDateTime){
-            this.businessData.borrowAction.borrowDateTimeDateFormat =
-                BylDatetimeUtils.convertMillsToDateTime(this.businessData.borrowAction.borrowDateTime);
+            }
 
         }
-        if (this.defaultBusinessData.borrowAction.borrowDateTime){
-            this.defaultBusinessData.borrowAction.borrowDateTimeDateFormat =
-                BylDatetimeUtils.convertMillsToDateTime(this.defaultBusinessData.borrowAction.borrowDateTime);
 
-        }
 
     }
 
-    compareFn = (o1: any, o2: any) => o1 && o2 ? o1.projectId === o2.projectId : o1 === o2;
+    // compareFn = (o1: any, o2: any) => o1 && o2 ? o1.projectId === o2.projectId : o1 === o2;
+    /**
+     * 设置窗口定义的缺省值
+     * 在reset内部首先调用
+     *
+     */
+    setSchemaDefaultValue(){
+        console.log("in setSchemaDefaultValue ");
+
+        if (this.processType === 'new') {
+            this.curSchema = simpleDeepCopy({},this._modifySchema);
+
+        }else{
+            //修改状态，需要根据单据的状态进一步判断
+            switch (this.businessData.status){
+                case BylBorrowMoneyTicketStatusEnum.UNSUBMITED:
+                    this.curSchema = simpleDeepCopy({},this._modifySchema);
+                    console.log(this.curSchema);
+                    break;
+
+                case  BylBorrowMoneyTicketStatusEnum.SUBMITED:
+                    this.curSchema = simpleDeepCopy({},this._modifySchema);
+                    console.log(this.curSchema);
+                    break;
+
+                default:
+                    this.curSchema = simpleDeepCopy({},this._browseSchema);
+
+            }
+        }
+
+    };
 
     /**
      * 重置界面内容
      */
     reset() {
-        // let country = {value: this.businessData.address.countryCode, caption: this.businessData.address.countryName};
-        // this.addressTreevalue[0] = country;
-        //
-        // let province = {value: this.businessData.address.provinceCode, caption: this.businessData.address.provinceName};
-        // this.addressTreevalue[1] = province;
-        //
-        // let city = {value: this.businessData.address.cityCode, caption: this.businessData.address.cityName};
-        // this.addressTreevalue[2] = city;
-        //
-        // this.form.reset(this.businessData, {onlySelf: true, emitEvent: false});
-
-        // super.reset();
+        super.reset();
 
         //设置可复用标签的名字：
         if (this.sourceId) {
@@ -205,89 +342,127 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
             this.reuseTabService.title = '编辑-' + this.businessData.billNo;
         }
 
-
-        // this.form.markAsPristine();
-        // // for (const key in this.form.controls) {
-        // //     this.form.controls[key].markAsPristine();
-        // // }
-        // this.logger.log('this.form.dirty' + this.form.dirty);
-        // this.logger.log('this.form.invalid' + this.form.invalid);
     }
 
-    searchProject(value: string): void {
-        if (isEmpty(value)) return;
-        this.isLoading = true;
-        this.projectService.fetchAvailableByCodeOrName(value)
-            .subscribe((data) => {
-                    console.log("in borrowMoneyTicketCrud searchProject:", data);
-                    this.projectList = [];
-                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                        if (data.data) {
-                            data.data.forEach(item => {
-                                let p: BylEmbeddableProject = new BylEmbeddableProject();
-                                p.projectId = item.id;
-                                p.projectCode = item.code;
-                                p.projectName = item.name;
-                                this.projectList.push(p);
-                            });
-                        }
+    /**
+     * 提交单据
+     */
+    submitEntity() {
+        this.loading = true;
+        this.errMsg = '';
 
-                    } else {
+        let saveResult$: Observable<BylResultBody<BylBorrowMoneyTicket>>;
 
-                        console.error(data.msg);
+        console.log('in ProjectCRUD ', this.businessData);
 
-                    }
-                    this.isLoading = false;
-                }
+        saveResult$ = this.borrowMoneyTicketService.submit(this.businessData);
 
-            );
+        this.followProcess(saveResult$);
     }
 
-    searchBorrower(value: string): void {
-        if (isEmpty(value)) return;
-        if (!(this.businessData.borrowAction.borrowType)) {
-            this.msgService.info("请先选择借款人类型。");
-            return;
-        }
 
-        this.isLoading = true;
+    /**
+     * 作废
+     * @param {BylBorrowMoneyTicket} entity
+     */
+    cancelEntity(entity: BylBorrowMoneyTicket) {
+        this.loading = true;
+        this.errMsg = '';
 
-        let query: Observable < BylResultBody < Array<BylBorrowMoneyQualificationPool> >>;
+        let saveResult$: Observable<BylResultBody<BylBorrowMoneyTicket>>;
 
-        switch (this.businessData.borrowAction.borrowType){
-            case BylBusinessEntityTypeEnum.PERSON:
-                query = this.borrowMoneyQualificationPoolService.fetchAvailablePersonByCodeOrName(value);
-                break;
-            case BylBusinessEntityTypeEnum.ORGANIZATION:
-                query = this.borrowMoneyQualificationPoolService.fetchAvailableOrgByCodeOrName(value);
-                break;
-            default:
-                this.msgService.warning("当前的借款人类型为" + this.businessData.borrowAction.borrowType+",是个未知类型。");
-                return;
-        }
+        console.log('in CrudBasePro submitform', this.businessData);
 
+        saveResult$ = this.borrowMoneyTicketService.cancel(this.businessData);
 
-        query.subscribe((data) => {
-                    console.log("in borrowMoneyTicketCrud searchProject:", data);
-                    this.projectList = [];
-                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                        if (data.data) {
-                            data.data.forEach(item => {
-                                let p: BylBorrowMoneyQualificationPool = new BylBorrowMoneyQualificationPool();
-                                Object.assign(p,item);
-                                this.borrowerList.push(p);
-                            });
-                        }
+        this.followProcess(saveResult$);
 
-                    } else {
+    }
 
-                        console.error(data.msg);
+    /**
+     * 审核借款单
+     * @param {BylBorrowMoneyTicket} entity
+     */
+    checkEntity(entity: BylBorrowMoneyTicket) {
+        this.loading = true;
+        this.errMsg = '';
 
-                    }
-                    this.isLoading = false;
+        let saveResult$: Observable<BylResultBody<BylBorrowMoneyTicket>>;
+
+        console.log('in BorrowMoneyTicketCrud ', this.businessData);
+
+        saveResult$ = this.borrowMoneyTicketService.check(this.businessData);
+
+        this.followProcess(saveResult$);
+
+    }
+
+    /**
+     * 确认借款单
+     * @param {BylBorrowMoneyTicket} entity
+     */
+    confirmEntity(entity: BylBorrowMoneyTicket) {
+        this.loading = true;
+        this.errMsg = '';
+
+        let saveResult$: Observable<BylResultBody<BylBorrowMoneyTicket>>;
+
+        console.log('in BorrowMoneyTicketCrud ', this.businessData);
+
+        saveResult$ = this.borrowMoneyTicketService.confirm(this.businessData);
+
+        this.followProcess(saveResult$);
+
+    }
+
+    private followProcess(call$: Observable<BylResultBody<BylBorrowMoneyTicket>> ){
+        call$.subscribe(
+            data => {
+                // this._loading = false;
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                    this.setFormData(data.data);
+                    this.reset(); //重置界面
+
+                } else {
+
+                    this.errMsg = data.msg;
                 }
+                this.loading = false;
+            },
+            err => {
+                this.errMsg = err.toString();
+                this.loading = false;
+            }
+        );
+    }
 
-            );
+    showSaveButton(): boolean{
+        return this.businessData.status === BylBorrowMoneyTicketStatusEnum.UNSUBMITED
+            || this.businessData.status == BylBorrowMoneyTicketStatusEnum.SUBMITED;
+    }
+
+    showSubmitButton():boolean{
+        return this.businessData.status === BylBorrowMoneyTicketStatusEnum.UNSUBMITED;
+    }
+
+    showCheckButton(): boolean{
+        return this.businessData.status === BylBorrowMoneyTicketStatusEnum.SUBMITED;
+    }
+
+    showConfirmButton(): boolean{
+        return this.businessData.status === BylBorrowMoneyTicketStatusEnum.CHECKED;
+    }
+
+    showCancelButton(): boolean{
+        return this.businessData.status === BylBorrowMoneyTicketStatusEnum.SUBMITED
+            || this.businessData.status === BylBorrowMoneyTicketStatusEnum.CHECKED
+            || this.businessData.status === BylBorrowMoneyTicketStatusEnum.CONFIRMED;
+    }
+
+
+
+    error(value: any) {
+        console.log('error', value);
     }
 
 }

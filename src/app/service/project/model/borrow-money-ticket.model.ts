@@ -15,6 +15,7 @@ import {BylBorrowMoneyQualificationPool} from "./borrow-money-qualification-pool
 import {BylProjectStatusManager} from "./project-status.enum";
 import {BylBorrowMoneyTicketStatusManager} from "./borrow-money-ticket-status.enum";
 import {BylBusinessEntityTypeManager} from "../../model/business-entity-type.enum";
+import {BylDatetimeUtils} from "../../utils/datetime.utils";
 
 export class BylBorrowMoneyTicket extends BylBaseModel {
     billNo: string;
@@ -27,8 +28,9 @@ export class BylBorrowMoneyTicket extends BylBaseModel {
     reason: string;
     amount: number;
 
-    borrowerWidget:any;
-    borrower: BylBorrowMoneyQualificationPool = new BylBorrowMoneyQualificationPool(); //界面用
+
+    borrowerWidget: BylBorrowMoneyQualificationPool = new BylBorrowMoneyQualificationPool(); //界面用
+    borrowDateTimeWidget: Date;
 
     borrowAction: BylEmbeddableBorrowAction = new BylEmbeddableBorrowAction();
     checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
@@ -49,13 +51,26 @@ export class BylBorrowMoneyTicket extends BylBaseModel {
 
     }
     get borrowerDisplay(){
-        if(this.borrower){
-            return BylBusinessEntityTypeManager.getCaption(this.borrower.type) + "-" + this.borrower.poolName +"[" + this.borrower.poolCode + "]";
+        if(this.borrowAction){
+            if(this.borrowAction.borrowId){
+                return BylBusinessEntityTypeManager.getCaption(this.borrowAction.borrowType) + "-"
+                    + this.borrowAction.borrowName +"[" + this.borrowAction.borrowCode + "]";
+            }
+
         }
     }
+
     set borrowerDisplay(value: string){
 
     }
+
+    get borrowDateTimeDisplay(){
+        return BylDatetimeUtils.formatDate(this.borrowAction.borrowDateTime);
+    }
+    set borrowDateTimeDisplay(value:string){
+
+    }
+
     get statusDisplay(): string{
         return BylBorrowMoneyTicketStatusManager.getCaption(this.status);
     }

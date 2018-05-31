@@ -5,13 +5,13 @@ import {ControlWidget, SFSchemaEnum, SFSchema, SFUISchemaItem, SFComponent, SFSc
 import {of, Observable} from 'rxjs';
 import {delay, flatMap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
-import {getData} from "@delon/form/src/src/utils";
-import {BylProjectManagerPoolService} from "../../../service/project/service/project-manager-pool.service";
 import {BylEntityReference} from "../../../service/model/entity-reference.model";
 import {BylResultBody} from "../../../service/model/result-body.model";
+import {BylPersonService} from "../../../service/person/service/person.service";
+import {BylProjectService} from "../../../service/project/service/project.service";
 
 @Component({
-    selector: 'byl-select-project-manager-pool',
+    selector: 'byl-select-project',
     template:
             `
         <sf-item-wrap [id]="id" [schema]="schema" [ui]="ui" [showError]="showError" [error]="error"
@@ -58,9 +58,9 @@ import {BylResultBody} from "../../../service/model/result-body.model";
     preserveWhitespaces: false,
 
 })
-export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget implements OnInit {
+export class BylProjectSelectWidgetSFComponent extends ControlWidget implements OnInit {
     /* 用于注册小部件 KEY 值 */
-    static readonly KEY = 'bylProjectManagerPoolSelect';
+    static readonly KEY = 'bylProjectSelect';
 
     i: any;
     data: SFSchemaEnum[];
@@ -69,7 +69,7 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
     constructor(@Inject(ChangeDetectorRef) public readonly cd: ChangeDetectorRef,
                 @Inject(SFComponent) public readonly sfComp: SFComponent,
                 public client: HttpClient,
-                public projectManagerPoolService: BylProjectManagerPoolService) {
+                public projectService: BylProjectService) {
         super(cd, sfComp);
     }
 
@@ -91,7 +91,7 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
         console.log("search for manager:", text);
         if ((text) && (text.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.projectManagerPoolService.fetchAvailableByCodeOrName(text)
+            return this.projectService.fetchAvailableByCodeOrName(text)
                 .toPromise().then(
                     (res) => {
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -99,9 +99,9 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
                                 let searchResult: SFSchemaEnumType[] = [];
 
                                 res.data.forEach(item => {
-                                    let v = new BylEntityReference(item.poolId,
-                                        item.poolCode,
-                                        item.poolName);
+                                    let v = new BylEntityReference(item.id,
+                                        item.code,
+                                        item.name);
 
                                     let i: SFSchemaEnumType = {};
                                     i.label = v.getFullCaption();
@@ -115,66 +115,43 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
                                 return [];
                             }
                         } else {
-                            console.error("获取项目经理资源出错：", res);
+                            console.error("获取项目信息出错：", res);
                             return ([]);
                         }
 
                     }
-                ).catch(error => (console.error("获取项目经理资源出错：", error)));
+                ).catch(error => (console.error("获取项目信息出错：", error)));
         }
 
     }
 
     getSelectDataById(id: string): Observable<SFSchemaEnum[]> {
-        // const domain = this.ui.domain;
-        // const url = `api/${domain}/search`;
-        // return this.client.get(url, {
-        //     params: {
-        //         keyword: text || '',
-        //         value: value
-        //     }
-        // }) as any;
-
         console.log("in BylSelect widget getSelectDataById text:", id);
         if ((id) && (id.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.projectManagerPoolService.findByPoolId(id)
+            return this.projectService.findById(id)
                 .map(
                     (res) => {
                         console.log("in BylSelect widget getSelectDataById res:", res);
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
                             if (res.data) {
                                 let searchResult: SFSchemaEnum[] = [];
-                                let v = new BylEntityReference(res.data.poolId,
-                                    res.data.poolCode,
-                                    res.data.poolName);
+                                let v = new BylEntityReference(res.data.id,
+                                    res.data.code,
+                                    res.data.name);
 
                                 let i: SFSchemaEnum = {};
                                 i.label = v.getFullCaption();
                                 i.value = v;
                                 searchResult.push(i);
 
-                                // res.data.forEach(item => {
-                                //     let v = new BylEntityReference();
-                                //     v.id = item.poolId;
-                                //     v.code = item.poolCode;
-                                //     v.name = item.poolName;
-                                //
-                                //     let i: SFSchemaEnum = {};
-                                //     i.label = v.getFullCaption();
-                                //     i.value = v;
-                                //     searchResult.push(i);
-                                // });
-
-
-                                console.log("in BylSelect widget getSelectDataById searchResult:", searchResult);
                                 return searchResult;
 
                             } else {
                                 return [];
                             }
                         } else {
-                            console.error("获取项目经理资源出错：", res);
+                            console.error("获取个体信息出错：", res);
                             return ([]);
                         }
 
@@ -182,7 +159,7 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
                 )
 
         } else {
-           return of([])
+            return of([])
         }
     }
 

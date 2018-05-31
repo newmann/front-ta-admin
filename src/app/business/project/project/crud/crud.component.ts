@@ -1,31 +1,32 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
-import {ActivatedRoute} from '@angular/router';
-import {BylConfigService} from '../../../../service/constant/config.service';
-import {FormBuilder, Validators} from '@angular/forms';
-import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
+import { ActivatedRoute } from '@angular/router';
+import { BylConfigService } from '../../../../service/constant/config.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { NzMessageService, NzModalService, NzModalRef } from 'ng-zorro-antd';
 
-import {BylProjectService} from '../../../../service/project/service/project.service';
-import {BylCrudComponentBase} from '../../../common/crud-component-base';
-import {BylProject} from '../../../../service/project/model/project.model';
-import {BylProvinceService} from '../../../../service/address/service/province.service';
-import {BylCountryService} from '../../../../service/address/service/country.service';
-import {ReuseTabService} from '@delon/abc';
-import {BylCityService} from '../../../../service/address/service/city.service';
-import {BylResultBody} from '../../../../service/model/result-body.model';
+import { BylProjectService } from '../../../../service/project/service/project.service';
+import { BylCrudComponentBase } from '../../../common/crud-component-base';
+import { BylProject } from '../../../../service/project/model/project.model';
+import { BylProvinceService } from '../../../../service/address/service/province.service';
+import { BylCountryService } from '../../../../service/address/service/country.service';
+import { ReuseTabService } from '@delon/abc';
+import { BylCityService } from '../../../../service/address/service/city.service';
+import { BylResultBody } from '../../../../service/model/result-body.model';
 import * as moment from 'moment';
-import {BylFetchProjectManagerWidgetComponent} from '../../fetch-project-manager-form-item/fetch-project-manager.formitem';
-import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
-import {map} from "rxjs/operators";
-import {BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
-import {isEmpty} from "../../../../service/utils/string.utils";
-import {BylProjectManagerPoolService} from "../../../../service/project/service/project-manager-pool.service";
-import {SFComponent, SFSchema, SFSchemaEnumType} from "@delon/form";
-import {BylProjectManagerPool} from "../../../../service/project/model/project-manager-pool.model";
-import {BylEntityReference} from "../../../../service/model/entity-reference.model";
-import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylProjectStatusEnum} from "../../../../service/project/model/project-status.enum";
-import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import { BylFetchProjectManagerWidgetComponent } from '../../fetch-project-manager-form-item/fetch-project-manager.formitem';
+import { BylCrudComponentBasePro } from "../../../common/crud-component-base-pro";
+import { map } from "rxjs/operators";
+import { BylCheckTypeEnumManager } from "../../../../service/project/model/check-type.enum";
+import { isEmpty } from "../../../../service/utils/string.utils";
+import { BylProjectManagerPoolService } from "../../../../service/project/service/project-manager-pool.service";
+import { SFComponent, SFSchema, SFSchemaEnumType } from "@delon/form";
+import { BylProjectManagerPool } from "../../../../service/project/model/project-manager-pool.model";
+import { BylEntityReference } from "../../../../service/model/entity-reference.model";
+import { BylDatetimeUtils } from "../../../../service/utils/datetime.utils";
+import { BylProjectStatusEnum } from "../../../../service/project/model/project-status.enum";
+import { simpleDeepCopy } from "../../../../service/utils/object.utils";
+import {Observable} from "rxjs/Observable";
 
 
 @Component({
@@ -39,6 +40,9 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
 
     // @ViewChild(BylFetchProjectManagerWidgetComponent)
     // private projectManagerWidget: BylFetchProjectManagerWidgetComponent;
+    private _newSchema: SFSchema;
+    private _modifySchema: SFSchema;
+    private _browseSchema: SFSchema;
 
     @Input()
     set setSourceId(value: string) {
@@ -50,7 +54,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
     }
 
     defineForm(): void {
-        this.newSchema = {
+        this._newSchema = {
             properties: {
                 "code": {
                     "type": 'string',
@@ -63,19 +67,19 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                                 return [];
                             }
 
-                            return this.projectService.checkCodeAvailable({data: value,id: this.sourceId}).pipe(
+                            return this.projectService.checkCodeAvailable({ data: value, id: this.sourceId }).pipe(
                                 map((res) => {
-                                        if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                                            if (res.data) {
-                                                return [];
-                                            } else {
-                                                return ([{keyword: 'required', message: '项目代码'+ value + '已存在'}]);
-                                            }
-
+                                    if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                                        if (res.data) {
+                                            return [];
                                         } else {
-                                            return ([{keyword: 'required', message: res.msg}]);
+                                            return ([{ keyword: 'required', message: '项目代码' + value + '已存在' }]);
                                         }
+
+                                    } else {
+                                        return ([{ keyword: 'required', message: res.msg }]);
                                     }
+                                }
                                 ));
                         }
                     }
@@ -85,25 +89,25 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                     "title": '名称',
                     "ui": {
                         placeholder: '请输入项目名称',
-                        "validator": (value: string) =>{
+                        "validator": (value: string) => {
                             if (isEmpty(value)) {
                                 console.log('check name:', value);
                                 return [];
                             }
 
-                            return this.projectService.checkNameAvailable({data: value,id: this.sourceId}).pipe(
+                            return this.projectService.checkNameAvailable({ data: value, id: this.sourceId }).pipe(
                                 map((res) => {
-                                        if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                                            if (res.data) {
-                                                return [];
-                                            } else {
-                                                return ([{keyword: 'required', message: '项目名称已存在。'}]);
-                                            }
-
+                                    if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                                        if (res.data) {
+                                            return [];
                                         } else {
-                                            return ([{keyword: 'required', message: res.msg}]);
+                                            return ([{ keyword: 'required', message: '项目名称已存在。' }]);
                                         }
+
+                                    } else {
+                                        return ([{ keyword: 'required', message: res.msg }]);
                                     }
+                                }
                                 ));
                         }
                     }
@@ -152,45 +156,56 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                 },
 
             },
-            "required": ["code", "name","managerWidget"]
+            "required": ["code", "name", "managerWidget"]
 
         };
 
-        this.browseSchema = {
+        this._browseSchema = {
             properties: {
                 "code": {
                     "type": 'string',
                     "title": '代码',
-                    "readOnly": true
+                    "ui": {
+                        widget: 'text'
+                    }
                 },
                 "name": {
                     "type": 'string',
                     "title": '名称',
-                    "readOnly": true
+                    "ui": {
+                        widget: 'text'
+                    }
 
                 },
-                "managerWidget": {
+                "managerDisplay": {
                     "type": "string",
                     "title": '项目经理',
-                    "readOnly": true,
+                    "ui": {
+                        widget: 'text'
+                    }
 
                 },
-                "planBeginDateWidget": {
+                "planBeginDateDisplay": {
                     type: "string",
                     title: '计划开始日期',
                     format: 'date',
-                    "readOnly": true
+                    "ui": {
+                        widget: 'text'
+                    }
                 },
-                "planEndDateWidget": {
+                "planEndDateDisplay": {
                     "type": "string",
                     "title": '计划结束日期',
-                    format: 'date',
-                    "readOnly": true
+                    "ui": {
+                        widget: 'text'
+                    }
                 },
                 "remarks": {
                     "type": 'string',
                     "title": '备注',
-                    "readOnly": true
+                    "ui": {
+                        widget: 'text'
+                    }
                 },
                 "statusDisplay": {
                     "type": 'number',
@@ -201,7 +216,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                 },
 
             },
-            "required": ["code", "name","managerWidget"]
+            "required": ["code", "name", "managerWidget"]
 
         };
 
@@ -209,17 +224,17 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
 
 
     constructor(public msgService: NzMessageService,
-                public projectService: BylProjectService,
-                public projectManagerPoolService: BylProjectManagerPoolService,
-                public countryService: BylCountryService,
-                public provinceService: BylProvinceService,
-                public cityService: BylCityService,
-                public configService: BylConfigService,
-                public modalService: NzModalService,
-                // public modalSubject: NzModalRef,
-                public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService,
-                public fb: FormBuilder) {
+        public projectService: BylProjectService,
+        public projectManagerPoolService: BylProjectManagerPoolService,
+        public countryService: BylCountryService,
+        public provinceService: BylProvinceService,
+        public cityService: BylCityService,
+        public configService: BylConfigService,
+        public modalService: NzModalService,
+        // public modalSubject: NzModalRef,
+        public activatedRoute: ActivatedRoute,
+        public reuseTabService: ReuseTabService,
+        public fb: FormBuilder) {
         // super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, fb);
 
         super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
@@ -245,17 +260,17 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
     getFormData() {
         super.getFormData();
 
-        if (this.businessData.managerWidget){
-            this.businessData.managerId  = this.businessData.managerWidget.id;
-            this.businessData.managerCode  = this.businessData.managerWidget.code;
-            this.businessData.managerName  = this.businessData.managerWidget.name;
+        if (this.businessData.managerWidget) {
+            this.businessData.managerId = this.businessData.managerWidget.id;
+            this.businessData.managerCode = this.businessData.managerWidget.code;
+            this.businessData.managerName = this.businessData.managerWidget.name;
 
         }
         if (this.businessData.planBeginDateWidget) {
-            console.log("in ProjectCRUD getFormData,planBeginDateWidget:",this.businessData.planBeginDateWidget);
+            console.log("in ProjectCRUD getFormData,planBeginDateWidget:", this.businessData.planBeginDateWidget);
 
             this.businessData.planBeginDate = BylDatetimeUtils.convertDateTimeToMills(this.businessData.planBeginDateWidget);
-            console.log("in ProjectCRUD getFormData, planBeginDate:",this.businessData.planBeginDate);
+            console.log("in ProjectCRUD getFormData, planBeginDate:", this.businessData.planBeginDate);
         }
         if (this.businessData.planEndDateWidget) {
             this.businessData.planEndDate = BylDatetimeUtils.convertDateTimeToMills(this.businessData.planEndDateWidget);
@@ -269,6 +284,29 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
 
     }
 
+
+    /**
+     * 设置窗口定义的缺省值
+     * 在reset内部首先调用
+     *
+     */
+    setSchemaDefaultValue(){
+        if (this.processType === 'new') {
+            this.curSchema = simpleDeepCopy({},this._newSchema);
+
+        }else{
+            //修改状态，需要根据单据的状态进一步判断
+            switch (this.businessData.status){
+                case BylProjectStatusEnum.UNSUBMITED, BylProjectStatusEnum.SUBMITED:
+                    this.curSchema = simpleDeepCopy({},this._newSchema);
+                    break;
+                default:
+                    this.curSchema = simpleDeepCopy({},this._browseSchema);
+
+            }
+        }
+
+    };
     /**
      * 重置界面内容
      */
@@ -290,11 +328,11 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
      *  在调出一张历史单据进行修改的时候调用
      *  个性化的处理
      */
-    setFormData(data: BylProject){
+    setFormData(data: BylProject) {
 
         super.setFormData(data);
 
-        if( this.businessData.managerId){
+        if (this.businessData.managerId) {
             let m = new BylEntityReference(this.businessData.managerId,
                 this.businessData.managerCode,
                 this.businessData.managerName);
@@ -304,12 +342,12 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
 
         }
 
-        if (this.businessData.planBeginDate){
+        if (this.businessData.planBeginDate) {
             this.businessData.planBeginDateWidget = BylDatetimeUtils.convertMillsToDateTime(this.businessData.planBeginDate);
             this.defaultBusinessData.planBeginDateWidget = BylDatetimeUtils.convertMillsToDateTime(this.businessData.planBeginDate);
         }
 
-        if (this.businessData.planEndDate){
+        if (this.businessData.planEndDate) {
             this.businessData.planEndDateWidget = BylDatetimeUtils.convertMillsToDateTime(this.businessData.planEndDate);
             this.defaultBusinessData.planEndDateWidget = BylDatetimeUtils.convertMillsToDateTime(this.businessData.planEndDate);
         }
@@ -320,7 +358,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
     selectAddressTree(e: { option: any, index: number }) {
         //保存option的value和label
 
-        let item = {label: e.option.label, value: e.option.value};
+        let item = { label: e.option.label, value: e.option.value };
         this.addressTreevalue[e.index] = item;
     }
 
@@ -336,7 +374,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                     if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                         // this.logger.log("countryService findall:",data.data);
                         let countrys = data.data.map(item => {
-                            return {value: item.code, label: item.name};
+                            return { value: item.code, label: item.name };
                         });
                         // this.logger.log("countrys:",countrys);
                         e.resolve(countrys);
@@ -362,7 +400,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                     if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                         // console.log('provinceService findByCountryId:', data.data);
                         let provinces = data.data.map(item => {
-                            return {value: item.code, label: item.name};
+                            return { value: item.code, label: item.name };
                         });
                         // console.log('provinces:', provinces);
                         e.resolve(provinces);
@@ -385,7 +423,7 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
                     if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                         // console.log('cityService findByProvinceId:', data.data);
                         let citys = data.data.map(item => {
-                            return {value: item.code, label: item.name, isLeaf: true};
+                            return { value: item.code, label: item.name, isLeaf: true };
                         });
                         // console.log('citys:', citys);
                         e.resolve(citys);
@@ -406,37 +444,116 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
 
     }
 
+    /**
+     * 提交单据
+     */
+    submitEntity() {
+        this.loading = true;
+        this.errMsg = '';
 
-    submitEntity(entity: BylProject){
-        this.projectService.submit(entity).subscribe(
+        let saveResult$: Observable<BylResultBody<BylProject>>;
+
+        console.log('in ProjectCRUD ', this.businessData);
+
+        saveResult$ = this.projectService.submit(this.businessData);
+
+        this.followProcess(saveResult$);
+    }
+
+    /**
+     * 启动项目
+     */
+    runEntity() {
+        this.loading = true;
+        this.errMsg = '';
+
+        let saveResult$: Observable<BylResultBody<BylProject>>;
+
+        console.log('in ProjectCRUD ', this.businessData);
+
+        saveResult$ = this.projectService.running(this.businessData);
+
+        this.followProcess(saveResult$);
+    }
+
+    /**
+     * 作废项目
+     * @param {BylProject} entity
+     */
+    cancelEntity(entity: BylProject) {
+        this.loading = true;
+        this.errMsg = '';
+
+        let saveResult$: Observable<BylResultBody<BylProject>>;
+
+        console.log('in CrudBasePro submitform', this.businessData);
+
+        saveResult$ = this.projectService.cancel(this.businessData);
+
+        this.followProcess(saveResult$);
+
+    }
+
+    /**
+     * 完成项目
+     * @param {BylProject} entity
+     */
+    achieveEntity(entity: BylProject) {
+        this.loading = true;
+        this.errMsg = '';
+
+        let saveResult$: Observable<BylResultBody<BylProject>>;
+
+        console.log('in CrudBasePro submitform', this.businessData);
+
+        saveResult$ = this.projectService.achieve(this.businessData);
+
+        this.followProcess(saveResult$);
+
+    }
+
+    private followProcess(call$: Observable<BylResultBody<BylProject>> ){
+        call$.subscribe(
             data => {
-                // option.loading = false;
+                // this._loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                    //将显示界面中的数据修改
-                    // this.listData.map(item =>{
-                    //     if (item.item.id === data.data.id){
-                    //         simpleDeepCopy(item.item,data.data);
-                    //     };
-                    // })
+                    // simpleDeepCopy(this.businessData,data.data);
+                    this.setFormData(data.data);
+                    this.reset(); //重置界面
 
                 } else {
+
                     this.errMsg = data.msg;
                 }
+                this.loading = false;
             },
             err => {
-                // option.loading = false;
                 this.errMsg = err.toString();
+                this.loading = false;
             }
         );
     }
 
-    runEntity(entity: BylProject){
-
+    showSaveButton(): boolean{
+        return this.businessData.status === BylProjectStatusEnum.UNSUBMITED
+            || this.businessData.status == BylProjectStatusEnum.SUBMITED;
     }
-    cancelEntity(entity: BylProject){
 
+    showSubmitButton():boolean{
+        return this.businessData.status === BylProjectStatusEnum.UNSUBMITED;
     }
-    achieveEntity(entity: BylProject){
+
+    showRunButton(): boolean{
+        return this.businessData.status === BylProjectStatusEnum.SUBMITED;
+    }
+
+    showCancelButton(): boolean{
+        return this.businessData.status === BylProjectStatusEnum.SUBMITED
+            || this.businessData.status === BylProjectStatusEnum.RUNNING;
+    }
+
+    showAchieveButton(): boolean{
+        return this.businessData.status === BylProjectStatusEnum.RUNNING;
 
     }
 

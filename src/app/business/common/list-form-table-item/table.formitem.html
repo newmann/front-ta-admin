@@ -38,6 +38,10 @@
         <!--<ng-container *ngIf="showAction(actionDefine, i.item)">-->
 
           <nz-divider  nzType="vertical" *ngIf=" ! isFirst"></nz-divider>
+          <!--<nz-popconfirm [nzTitle]="'要继续？'" [nzOkText]="'继续'" [nzCancelText]="'取消'"-->
+                         <!--(nzOnConfirm)="entityClick(i.item, actionName)" (nzOnCancel)="cancelConfirm()">-->
+            <!--<a nz-popconfirm>{{actionName}}</a>-->
+          <!--</nz-popconfirm>-->
           <a (click)="entityClick(i.item, actionName)">{{actionName}}</a>
 
         <!--</ng-container>-->

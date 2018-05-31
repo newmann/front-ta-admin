@@ -15,9 +15,19 @@ import {
     BylBorrowMoneyTicketStatusManager
 } from "../../../../service/project/model/borrow-money-ticket-status.enum";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
-import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
+import {
+    ACTION_CANCEL, ACTION_CHECK,
+    ACTION_DELETE,
+    ACTION_MODIFY,
+    ACTION_SUBMIT,
+    BylTableClickAction,
+    BylTableDefine
+} from "../../../common/list-form-table-item/table.formitem";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {BylBorrowMoneyQualificationPool} from "../../../../service/project/model/borrow-money-qualification-pool.model";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylProject} from "../../../../service/project/model/project.model";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'byl-borrow-money-ticket-list',
@@ -118,32 +128,29 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
         required: []
     };
 //#endregion
-    BORROW_MONEY_SUBMIT = "提交";
-    BORROW_MONEY_CHECK = "审核";
     BORROW_MONEY_CONFIRM = "收款确认";
-    BORROW_MONEY_DELETE = "删除";
-    BORROW_MONEY_CANCEL = "作废";
 
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
             {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.UNSUBMITED },
             {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.SUBMITED },
-            {actionName: this.BORROW_MONEY_DELETE,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.UNSUBMITED },
-            {actionName: this.BORROW_MONEY_SUBMIT,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.UNSUBMITED },
+            {actionName: ACTION_DELETE,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.UNSUBMITED },
+            {actionName: ACTION_SUBMIT,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.UNSUBMITED },
 
-            {actionName: this.BORROW_MONEY_CHECK,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.SUBMITED },
-            {actionName: this.BORROW_MONEY_CANCEL,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.CHECKED },
+            {actionName: ACTION_CHECK,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.SUBMITED },
+            {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.CHECKED },
 
             {actionName: this.BORROW_MONEY_CONFIRM,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.CHECKED },
-            {actionName: this.BORROW_MONEY_CANCEL,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.CONFIRMED }
+            {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylBorrowMoneyTicketStatusEnum.CONFIRMED }
         ],
         columns:[
             {label:"单号", fieldPath: "billNo" },
+            {label:"借款人", fieldPath: "borrowerDisplay" },
             {label:"所属项目", fieldPath: "projectDisplay" },
             {label:"借款原因", fieldPath: "reason" },
+            {label:"借款日期", fieldPath: "borrowDateTimeDisplay" },
             {label:"借款金额", fieldPath: "amount" },
-            {label:"借款信息", fieldPath: "borrorActionDisplay" },
             {label:"审核信息", fieldPath: "checkActionDisplay" },
             {label:"收款信息", fieldPath: "receiveActionDisplay" },
             {label:"结算信息", fieldPath: "settlementDisplay" },
@@ -165,22 +172,24 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
     // }
 
     entityAction(action: BylTableClickAction){
+        super.entityAction(action);
+
         switch(action.actionName){
-            case ACTION_MODIFY:
-                this.modifyEntity(action.rowItem.id);
-                break;
-            case this.BORROW_MONEY_DELETE:
-                this.deleteEntity(action.rowItem);
-                break;
-            case this.BORROW_MONEY_SUBMIT:
-                this.submitEntity(action.rowItem);
-                break;
+            // case ACTION_MODIFY:
+            //     this.modifyEntity(action.rowItem.id);
+            //     break;
+            // case ACTION_DELETE:
+            //     this.deleteEntity(action.rowItem);
+            //     break;
+            // case ACTION_SUBMIT:
+            //     this.submitEntity(action.rowItem);
+            //     break;
             case this.BORROW_MONEY_CONFIRM:
-                this.confirmEntity(action.rowItem);
+                this.showConfirmEntity(action.rowItem);
                 break;
-            case this.BORROW_MONEY_CANCEL:
-                this.cancelEntity(action.rowItem);
-                break;
+            // case ACTION_CANCEL:
+            //     this.cancelEntity(action.rowItem);
+            //     break;
 
             default:
                 console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
@@ -190,16 +199,98 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
 
     deleteEntity(entity: any){
 
+        this.borrowMoneyTicketService.delete(entity).subscribe(
+            data => {
+                // option.loading = false;
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+
+                    //将显示界面中的数据删除掉
+                    this.listData =this.listData.filter(item =>{
+                        return item.item.id !== entity.id
+                    });
+
+                    // console.log(filterData);
+
+                } else {
+                    this.message.error(data.msg);
+                }
+            },
+            err => {
+                // option.loading = false;
+                this.message.error(err.toString());
+            }
+        );
     }
+
     submitEntity(entity: any){
+        // let saveResult$: Observable<BylResultBody<BylBorrowMoneyTicket>>;
+        //
+        // saveResult$ = this.borrowMoneyTicketService.submit(entity);
+        // this.actionFollowProcess(saveResult$);
+
+        this.actionResult$ = this.borrowMoneyTicketService.submit(entity);
+        this.actionFollowProcess(this.actionResult$);
 
     }
-    confirmEntity(entity: any){
 
-    }
+
+
     cancelEntity(entity: any){
+        // let saveResult$: Observable<BylResultBody<BylBorrowMoneyTicket>>;
+        //
+        // saveResult$ = this.borrowMoneyTicketService.cancel(entity);
+        //
+        // this.actionFollowProcess(saveResult$);
+
+        this.actionResult$ = this.borrowMoneyTicketService.cancel(entity);
+        this.actionFollowProcess(this.actionResult$);
 
     }
+
+    showConfirmEntity(entity: any){
+        this.modalService.confirm({
+            nzTitle: '确认要进行确认操作吗?',
+            nzContent: '<b style="color: red;">一般在收到借款之后进行确认操作。</b>',
+            nzOkText: '提交',
+            nzOkType: 'primary',
+            nzOnOk: () => {
+                this.actionResult$ = this.borrowMoneyTicketService.confirm(entity);
+                this.actionFollowProcess(this.actionResult$);
+
+                // let saveResult$: Observable<BylResultBody<BylBorrowMoneyTicket>>;
+                //
+                // saveResult$ = this.borrowMoneyTicketService.confirm(entity);
+                //
+                // this.actionFollowProcess(saveResult$);
+
+            },
+            nzCancelText: '取消',
+            nzOnCancel: () => console.log('confirmEntity Cancel')
+        });
+
+    }
+
+
+    // private followProcess(call$: Observable<BylResultBody<BylBorrowMoneyTicket>> ){
+    //     call$.subscribe(
+    //         data => {
+    //             // this._loading = false;
+    //             if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+    //                 //将显示界面中的数据修改
+    //                 this.updateListData(data.data);
+    //
+    //             } else {
+    //
+    //                 this.message.error(data.msg);
+    //             }
+    //             this.loading = false;
+    //         },
+    //         err => {
+    //             this.message.error(err.toString());
+    //         }
+    //     );
+    // }
+
 
     add(){
         this.borrowMoneyTicketService.getNewTicket().subscribe((data) => {

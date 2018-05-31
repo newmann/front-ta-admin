@@ -7,8 +7,14 @@
                [formData]="businessData"
                mode="edit"
                (formError)="error($event)">
-            <button type="submit" nz-button [disabled]="!sf.valid" (click)="submitForm()">保存</button>
-            <button (click)="reset()"  type="button" nz-button>重置</button>
+            <button type="submit" nz-button [disabled]="!sf.valid"  (click)="submitForm()"
+                    *ngIf="showSaveButton()" [nzLoading]="loading">保存</button>
+            <button (click)="reset()"  type="button" nz-button *ngIf="showSaveButton()">重置</button>
+            <button nz-button [disabled]="!sf.valid" (click)="submitEntity()"
+                    *ngIf="showSubmitButton()" [nzLoading]="loading">提交</button>
+            <button nz-button (click)="runEntity()" *ngIf="showRunButton()" [nzLoading]="loading">启动</button>
+            <button nz-button (click)="achieveEntity()" *ngIf="showAchieveButton()" [nzLoading]="loading">完成</button>
+            <button nz-button (click)="cancelEntity()" *ngIf="showCancelButton()" [nzLoading]="loading">作废</button>
 
           </sf>
           <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>

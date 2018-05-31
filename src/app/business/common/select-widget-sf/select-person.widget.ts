@@ -180,7 +180,7 @@ export class BylPersonSelectWidgetSFComponent extends ControlWidget implements O
                 )
 
         } else {
-            of([])
+            return of([])
         }
     }
 

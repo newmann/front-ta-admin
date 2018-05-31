@@ -34,6 +34,8 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
     public modifySchema: SFSchema = null;
     public browseSchema: SFSchema = null;
 
+    public curSchema: SFSchema = null; //当前的显示格式，由子类来配置，在这个类中只是在reset中直接调用
+
     public loading = false;
     public errMsg = '';  // 保存时错误信息
     // public savingReveal: any;
@@ -140,7 +142,8 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
      * 保存
      */
     submitForm() {
-        const msgId = this.msgService.loading('正在保存..', {nzDuration: 0}).messageId;
+        this.loading = true
+        // const msgId = this.msgService.loading('正在保存..', {nzDuration: 0}).messageId;
         // this.showSavingReveal();
         // this._loading = true;
         this.errMsg = '';
@@ -162,6 +165,8 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
                 // this._loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
 
+                    //重新显示返回的数据，重点是保证最后修改时间的前后台的一致性
+                    this.setFormData(data.data);
                     this.reset(); //重置界面
 
                 } else {
@@ -171,8 +176,8 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
                     this.errMsg = data.msg;
                     // this.savingReveal.destroy(); //退出提示界面，原界面不动
                 }
-
-                this.msgService.remove(msgId);
+                this.loading = false;
+                // this.msgService.remove(msgId);
 
             },
             err => {
@@ -180,8 +185,8 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
                 // this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaveError]);
                 // this._loading = false;
                 this.errMsg = err.toString();
-
-                this.msgService.remove(msgId);
+                this.loading = false;
+                // this.msgService.remove(msgId);
                 // this.savingReveal.destroy(); //退出提示界面，原界面不动
             }
         );
@@ -218,24 +223,17 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
      */
     reset(): void {
         this.setSchemaDefaultValue();
+        if(this.curSchema) this.sfForm.refreshSchema(this.curSchema);
 
         if (this.processType === 'new') {
-            //刷新schema
-            this.sfForm.refreshSchema(this.newSchema);
             //新增界面
             this.businessData =  this.newBusinessData();
 
         } else {
-            //刷新schema
-            if (this.modifySchema){
-                this.sfForm.refreshSchema(this.modifySchema);
-            }else{
-                this.sfForm.refreshSchema(this.newSchema);
-            }
 
-            //修改界面，保存当前值到缺省值
-            this.defaultBusinessData = this.newBusinessData();
-            simpleDeepCopy(this.defaultBusinessData, this.businessData);
+            // //修改界面，保存当前值到缺省值
+            // this.defaultBusinessData = this.newBusinessData();
+            // simpleDeepCopy(this.defaultBusinessData, this.businessData);
             this.sfForm.reset();
         }
 

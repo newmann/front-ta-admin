@@ -149,6 +149,12 @@ export class BylListFormTableWidgetComponent /*implements ControlValueAccessor *
         return result;
     }
 
+    /**
+     * 确认窗口的取消按钮对应的处理过程。
+     */
+    cancelConfirm(){
+
+    }
     // showDivider(): boolean{
     //     return this._showDividerCount > 1;
     // }

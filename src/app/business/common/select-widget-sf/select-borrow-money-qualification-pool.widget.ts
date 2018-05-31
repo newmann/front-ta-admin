@@ -5,13 +5,15 @@ import {ControlWidget, SFSchemaEnum, SFSchema, SFUISchemaItem, SFComponent, SFSc
 import {of, Observable} from 'rxjs';
 import {delay, flatMap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
-import {getData} from "@delon/form/src/src/utils";
-import {BylProjectManagerPoolService} from "../../../service/project/service/project-manager-pool.service";
 import {BylEntityReference} from "../../../service/model/entity-reference.model";
 import {BylResultBody} from "../../../service/model/result-body.model";
+import {BylPersonService} from "../../../service/person/service/person.service";
+import {BylBorrowMoneyQualificationPoolService} from "../../../service/project/service/borrow-money-qualification-pool.service";
+import {BylBorrowMoneyQualificationPool} from "../../../service/project/model/borrow-money-qualification-pool.model";
+import {simpleDeepCopy} from "../../../service/utils/object.utils";
 
 @Component({
-    selector: 'byl-select-project-manager-pool',
+    selector: 'byl-select-borrow-money-qualification-pool',
     template:
             `
         <sf-item-wrap [id]="id" [schema]="schema" [ui]="ui" [showError]="showError" [error]="error"
@@ -58,9 +60,9 @@ import {BylResultBody} from "../../../service/model/result-body.model";
     preserveWhitespaces: false,
 
 })
-export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget implements OnInit {
+export class BylBorrowMoneyQualificationPoolSelectWidgetSFComponent extends ControlWidget implements OnInit {
     /* 用于注册小部件 KEY 值 */
-    static readonly KEY = 'bylProjectManagerPoolSelect';
+    static readonly KEY = 'bylBorrowMoneyQualificationPoolSelect';
 
     i: any;
     data: SFSchemaEnum[];
@@ -69,7 +71,7 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
     constructor(@Inject(ChangeDetectorRef) public readonly cd: ChangeDetectorRef,
                 @Inject(SFComponent) public readonly sfComp: SFComponent,
                 public client: HttpClient,
-                public projectManagerPoolService: BylProjectManagerPoolService) {
+                public borrowMoneyQualificationPoolService: BylBorrowMoneyQualificationPoolService) {
         super(cd, sfComp);
     }
 
@@ -88,10 +90,10 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
     }
 
     searchByCodeName(text: string) {
-        console.log("search for manager:", text);
+        console.log("search for pool:", text);
         if ((text) && (text.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.projectManagerPoolService.fetchAvailableByCodeOrName(text)
+            return this.borrowMoneyQualificationPoolService.fetchAvailableByCodeOrName(text)
                 .toPromise().then(
                     (res) => {
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -99,12 +101,11 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
                                 let searchResult: SFSchemaEnumType[] = [];
 
                                 res.data.forEach(item => {
-                                    let v = new BylEntityReference(item.poolId,
-                                        item.poolCode,
-                                        item.poolName);
+                                    let v = new BylBorrowMoneyQualificationPool();
+                                    simpleDeepCopy(v, item);
 
                                     let i: SFSchemaEnumType = {};
-                                    i.label = v.getFullCaption();
+                                    i.label = v.fullCaption;
                                     i.value = v;
                                     searchResult.push(i);
                                 });
@@ -115,66 +116,43 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
                                 return [];
                             }
                         } else {
-                            console.error("获取项目经理资源出错：", res);
+                            console.error("获取可借款资源信息出错：", res);
                             return ([]);
                         }
 
                     }
-                ).catch(error => (console.error("获取项目经理资源出错：", error)));
+                ).catch(error => (console.error("获取可借款信息出错：", error)));
         }
 
     }
 
-    getSelectDataById(id: string): Observable<SFSchemaEnum[]> {
-        // const domain = this.ui.domain;
-        // const url = `api/${domain}/search`;
-        // return this.client.get(url, {
-        //     params: {
-        //         keyword: text || '',
-        //         value: value
-        //     }
-        // }) as any;
-
-        console.log("in BylSelect widget getSelectDataById text:", id);
+    getSelectDataById(type: number,id: string): Observable<SFSchemaEnum[]> {
+        console.log("in BylBorrowMoneyQualificationPoolSelect widget getSelectDataById text:", type, id);
         if ((id) && (id.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.projectManagerPoolService.findByPoolId(id)
+            return this.borrowMoneyQualificationPoolService.findByTypeAndPoolId(type,id)
                 .map(
                     (res) => {
-                        console.log("in BylSelect widget getSelectDataById res:", res);
+                        console.log("in BylBorrowMoneyQualificationPoolSelect widget getSelectDataById res:", res);
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
                             if (res.data) {
                                 let searchResult: SFSchemaEnum[] = [];
-                                let v = new BylEntityReference(res.data.poolId,
-                                    res.data.poolCode,
-                                    res.data.poolName);
+                                let v = new BylBorrowMoneyQualificationPool();
+                                simpleDeepCopy(v, res.data);
 
-                                let i: SFSchemaEnum = {};
-                                i.label = v.getFullCaption();
+                                let i: SFSchemaEnumType = {};
+                                i.label = v.fullCaption;
                                 i.value = v;
                                 searchResult.push(i);
 
-                                // res.data.forEach(item => {
-                                //     let v = new BylEntityReference();
-                                //     v.id = item.poolId;
-                                //     v.code = item.poolCode;
-                                //     v.name = item.poolName;
-                                //
-                                //     let i: SFSchemaEnum = {};
-                                //     i.label = v.getFullCaption();
-                                //     i.value = v;
-                                //     searchResult.push(i);
-                                // });
 
-
-                                console.log("in BylSelect widget getSelectDataById searchResult:", searchResult);
                                 return searchResult;
 
                             } else {
                                 return [];
                             }
                         } else {
-                            console.error("获取项目经理资源出错：", res);
+                            console.error("获取可借款资源信息出错：", res);
                             return ([]);
                         }
 
@@ -182,14 +160,15 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
                 )
 
         } else {
-           return of([])
+            console.log("in BylBorrowMoneyQualificationPoolSelect widget getSelectDataById ，return empty array");
+            return of([])
         }
     }
 
     reset(value: any) {
         if (value) {
-            console.log('in BylSelect widget reset:', value);
-            this.getSelectDataById(value.id).subscribe(
+            console.log('in BylBorrowMoneyQualificationPoolSelect widget reset:', value);
+            this.getSelectDataById(value.type, value.poolId).subscribe(
                 list => {
                     this.data = list;
                     this.hasGroup = list.filter(w => w.group === true).length > 0;
@@ -198,6 +177,7 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
             );
 
         }
+
         // this.ui.onSearch = (text: string) => this.getSelectDataById(value);
         // getData(this.schema, this.ui, this.formProperty.formData).subscribe(
         //     list => {
@@ -208,7 +188,7 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
         // );
     }
 
-    compareFn = (o1: any, o2: any) => o1 && o2 ? o1.id === o2.id : o1 === o2;
+    compareFn = (o1: any, o2: any) => o1 && o2 ? (o1.poolId === o2.poolId) && (o1.type === o2.type) : o1 === o2;
 
     openChange(value: any) {
         if (this.ui.openChange) this.ui.openChange(value);
@@ -224,14 +204,7 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
         }
         this.detectChanges();
 
-        // if (this.ui.onSearch) {
-        //     this.ui.onSearch(text).subscribe((res: any[]) => {
-        //         this.data = res;
-        //         this.detectChanges();
-        //     });
-        //     return;
-        // }
-        // this.detectChanges();
+
     }
 
     scrollToBottom(value: any) {

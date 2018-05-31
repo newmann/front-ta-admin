@@ -25,7 +25,8 @@ import {BylOutsourcerSelectWidgetSFComponent} from "./common/select-widget-sf/se
 import {BylNationSelectWidgetSFComponent} from "./common/select-widget-sf/select-nation-sf.widget";
 import {BylPoliticalStatusSelectWidgetSFComponent} from "./common/select-widget-sf/select-political-status-sf.widget";
 import {BylPersonSelectWidgetSFComponent} from "./common/select-widget-sf/select-person.widget";
-import {BylDateWidgetSFComponent} from "./common/date-widget-sf/date-sf.widget";
+import {BylBorrowMoneyQualificationPoolSelectWidgetSFComponent} from "./common/select-widget-sf/select-borrow-money-qualification-pool.widget";
+import {BylProjectSelectWidgetSFComponent} from "./common/select-widget-sf/select-project.widget";
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import {BylDateWidgetSFComponent} from "./common/date-widget-sf/date-sf.widget";
         ,BylNationSelectWidgetSFComponent
         ,BylPoliticalStatusSelectWidgetSFComponent
         ,BylPersonSelectWidgetSFComponent
-        ,BylDateWidgetSFComponent
+        ,BylBorrowMoneyQualificationPoolSelectWidgetSFComponent
+        ,BylProjectSelectWidgetSFComponent
     ],
     exports: [
         BylPipeModule,
@@ -88,7 +90,8 @@ import {BylDateWidgetSFComponent} from "./common/date-widget-sf/date-sf.widget";
         ,BylNationSelectWidgetSFComponent
         ,BylPoliticalStatusSelectWidgetSFComponent
         ,BylPersonSelectWidgetSFComponent
-        ,BylDateWidgetSFComponent
+        ,BylBorrowMoneyQualificationPoolSelectWidgetSFComponent
+        ,BylProjectSelectWidgetSFComponent
     ],
     entryComponents: [
         BylAccountListComponent,
@@ -102,7 +105,8 @@ import {BylDateWidgetSFComponent} from "./common/date-widget-sf/date-sf.widget";
         ,BylNationSelectWidgetSFComponent
         ,BylPoliticalStatusSelectWidgetSFComponent
         ,BylPersonSelectWidgetSFComponent
-        ,BylDateWidgetSFComponent
+        ,BylBorrowMoneyQualificationPoolSelectWidgetSFComponent
+        ,BylProjectSelectWidgetSFComponent
     ]
     // ,
     // schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
@@ -115,6 +119,7 @@ export class BylBusinessSharedModule {
         widgetRegistry.register(BylNationSelectWidgetSFComponent.KEY, BylNationSelectWidgetSFComponent);
         widgetRegistry.register(BylPoliticalStatusSelectWidgetSFComponent.KEY, BylPoliticalStatusSelectWidgetSFComponent);
         widgetRegistry.register(BylPersonSelectWidgetSFComponent.KEY, BylPersonSelectWidgetSFComponent);
-        widgetRegistry.register(BylDateWidgetSFComponent.KEY, BylDateWidgetSFComponent);
+        widgetRegistry.register(BylBorrowMoneyQualificationPoolSelectWidgetSFComponent.KEY, BylBorrowMoneyQualificationPoolSelectWidgetSFComponent);
+        widgetRegistry.register(BylProjectSelectWidgetSFComponent.KEY, BylProjectSelectWidgetSFComponent);
     }
 }

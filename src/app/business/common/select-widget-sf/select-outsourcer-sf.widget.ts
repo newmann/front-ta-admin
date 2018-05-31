@@ -183,7 +183,7 @@ export class BylOutsourcerSelectWidgetSFComponent extends ControlWidget implemen
                 )
 
         } else {
-            of([])
+           return of([])
         }
     }
 

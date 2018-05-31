@@ -151,6 +151,7 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
         entityAction: [
             {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.UNSUBMITED },
             {actionName: ACTION_DELETE,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.UNSUBMITED },
+            {actionName: ACTION_SUBMIT,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.UNSUBMITED },
 
             {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.SUBMITED },
             {actionName: this.PROJECT_RUN,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.SUBMITED },
@@ -179,10 +180,10 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
 
         switch(action.actionName){
             case this.PROJECT_RUN:
-                this.runEntity(action.rowItem);
+                this.showRunEntity(action.rowItem);
                 break;
             case this.PROJECT_ACHIEVE:
-                this.achieveEntity(action.rowItem);
+                this.showAchieveEntity(action.rowItem);
                 break;
             default:
                 console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
@@ -197,7 +198,7 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     //将显示界面中的数据删除掉
                     this.listData = this.listData.filter(item =>{
-                        item.item.id !== entity.id;
+                        return item.item.id !== entity.id;
                     })
 
                 } else {
@@ -210,35 +211,114 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
             }
         );
     }
+
     submitEntity(entity: BylProject){
-        this.projectService.submit(entity).subscribe(
-            data => {
-                // option.loading = false;
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                    //将显示界面中的数据修改
-                    this.listData.map(item =>{
-                        if (item.item.id === data.data.id){
-                            simpleDeepCopy(item.item,data.data);
-                        };
-                    })
+        this.actionResult$ = this.projectService.submit(entity);
+        this.actionFollowProcess(this.actionResult$);
 
-                } else {
-                    this.message.error(data.msg);
-                }
-            },
-            err => {
-                // option.loading = false;
-                this.message.error(err.toString());
-            }
-        );
+        // this.projectService.submit(entity).subscribe(
+        //     data => {
+        //         // option.loading = false;
+        //         if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+        //             //将显示界面中的数据修改
+        //             this.updateListData(data.data);
+        //             // this.listData.map(item =>{
+        //             //     if (item.item.id === data.data.id){
+        //             //         simpleDeepCopy(item.item,data.data);
+        //             //     };
+        //             // })
+        //
+        //         } else {
+        //             this.message.error(data.msg);
+        //         }
+        //     },
+        //     err => {
+        //         // option.loading = false;
+        //         this.message.error(err.toString());
+        //     }
+        // );
     }
-    runEntity(entity: BylProject){
 
+    showRunEntity(entity: BylProject){
+        this.modalService.confirm({
+            nzTitle: '确认要进行完成操作吗?',
+            nzContent: '<b style="color: red;">项目在结束之后进行完成操作。</b>',
+            nzOkText: '完成',
+            nzOkType: 'primary',
+            nzOnOk: () => {
+                this.actionResult$ = this.projectService.running(entity);
+                this.actionFollowProcess(this.actionResult$);
+            },
+            nzCancelText: '取消',
+            nzOnCancel: () => console.log('confirmEntity Cancel')
+        });
+        // this.projectService.running(entity).subscribe(
+        //     data => {
+        //         // option.loading = false;
+        //         if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+        //             //将显示界面中的数据修改
+        //             this.updateListData(data.data);
+        //         } else {
+        //             this.message.error(data.msg);
+        //         }
+        //     },
+        //     err => {
+        //         // option.loading = false;
+        //         this.message.error(err.toString());
+        //     }
+        // );
     }
     cancelEntity(entity: BylProject){
+        this.actionResult$ = this.projectService.cancel(entity);
+        this.actionFollowProcess(this.actionResult$);
+
+        // this.projectService.cancel(entity).subscribe(
+        //     data => {
+        //         // option.loading = false;
+        //         if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+        //             //将显示界面中的数据修改
+        //             this.updateListData(data.data);
+        //         } else {
+        //             this.message.error(data.msg);
+        //         }
+        //     },
+        //     err => {
+        //         // option.loading = false;
+        //         this.message.error(err.toString());
+        //     }
+        // );
 
     }
-    achieveEntity(entity: BylProject){
+
+    showAchieveEntity(entity: BylProject){
+        this.modalService.confirm({
+            nzTitle: '确认要进行完成操作吗?',
+            nzContent: '<b style="color: red;">项目在结束之后进行完成操作。</b>',
+            nzOkText: '完成',
+            nzOkType: 'primary',
+            nzOnOk: () => {
+                this.actionResult$ = this.projectService.achieve(entity);
+                this.actionFollowProcess(this.actionResult$);
+            },
+            nzCancelText: '取消',
+            nzOnCancel: () => console.log('confirmEntity Cancel')
+        });
+
+        // this.projectService.achieve(entity).subscribe(
+        //     data => {
+        //         // option.loading = false;
+        //         if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+        //             //将显示界面中的数据修改
+        //             this.updateListData(data.data);
+        //         } else {
+        //             this.message.error(data.msg);
+        //         }
+        //     },
+        //     err => {
+        //         // option.loading = false;
+        //         this.message.error(err.toString());
+        //     }
+        // );
 
     }
 
