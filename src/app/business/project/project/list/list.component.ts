@@ -22,6 +22,7 @@ import {
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 
 @Component({
     selector: 'app-list',
@@ -29,9 +30,9 @@ import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 })
 export class BylProjectListComponent extends BylListComponentBasePro<BylProject> {
 
-    public statusList: BylIStatusItem[] = [];
+    // public statusList: BylIStatusItem[] = [];
 
-    public queryForm: FormGroup;
+    // public queryForm: FormGroup;
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
@@ -44,8 +45,8 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
         this.businessService = projectService;
         this.crudUrl = '/project/project/crud';
 
-        this.statusList = BylProjectStatusManager.getArray();
-        this.querySchema.properties['status'].enum.push(...this.statusList);
+        // this.statusList = BylProjectStatusManager.getArray();
+        this.querySchema.properties['status'].enum.push(...BylProjectStatusManager.getSFSelectDataArray());
 
         // this.defineQueryForm();
 
@@ -57,7 +58,7 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
         return findResult.map(data => {
             let item = new BylListFormData<BylProject>();
             item.checked = false;
-            // item.disabled = (data.status === BylRoleStatus.DELETED);
+            // item.disabled = (data.status === BylRoleStatus.SUBMITED_DELETED);
             item.item = new BylProject();
             Object.assign(item.item, data);
             return item;
@@ -70,11 +71,21 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
      */
     genQueryModel(): any {
         let result = new BylProjectQuery();
-        if (this.qData.code) result.code = this.qData.code;
-        if (this.qData.name) result.name = this.qData.name;
-        if (this.qData.modifyDateBegin) result.modifyDateBegin = moment(this.qData.modifyDateBegin).valueOf();
-        if (this.qData.modifyDateEnd) result.modifyDateEnd = moment(this.qData.modifyDateEnd).add(1, 'days').valueOf();//第二天的零点
-        if (this.qData.status) result.status = this.qData.status;
+
+        if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
+        if (this.listQuery.queryData.name) result.name = this.qData.name;
+        if (this.listQuery.queryData.modifyDateRange) {
+            if (this.listQuery.queryData.modifyDateRange.length>0){
+                result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
+                result.modifyDateEnd = moment(moment(this.listQuery.queryData.modifyDateRange[1]).format(BylDatetimeUtils.formatDateString))
+                    .add(1, 'days').valueOf();//第二天的零点
+            }
+        }
+        if (this.listQuery.queryData.status) {
+            result.status = [];
+            result.status.push(...this.listQuery.queryData.status);
+        }
+
         return result;
     }
 
@@ -85,29 +96,31 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
             });
     }
 
+    // setQDataDefaultValue() {
+    //
+    //     let q = new BylProjectQuery();
+    //     this.qData.name = q.name ? q.name : null;
+    //     this.qData.code = q.code ? q.code : null;
+    //     this.qData.modifyDateBegin = q.modifyDateBegin ? q.modifyDateBegin : null;
+    //     this.qData.modifyDateEnd = q.modifyDateEnd ? q.modifyDateEnd : null;
+    //     this.qData.status = q.status ? [...q.status] : null;
+    //
+    //     // console.log(this.qData);
+    //     // console.log(q);
+    //     // Object.assign(this.qData,q);
+    // }
+
+//#region 查询条件
     /**
      * 设置查询缺省值
      */
-    setQDataDefaultValue() {
 
-        let q = new BylProjectQuery();
-        this.qData.name = q.name ? q.name : null;
-        this.qData.code = q.code ? q.code : null;
-        this.qData.modifyDateBegin = q.modifyDateBegin ? q.modifyDateBegin : null;
-        this.qData.modifyDateEnd = q.modifyDateEnd ? q.modifyDateEnd : null;
-        this.qData.status = q.status ? [...q.status] : null;
-
-        // console.log(this.qData);
-        // console.log(q);
-        // Object.assign(this.qData,q);
-    }
-
-//#region 查询条件
     queryDefaultData: any = {
-        status: [2, 10],
-        modifyDateBegin: moment(moment.now()).subtract(6, 'month').format('YYYY-MM-DD'),
-        modifyDateEnd: moment(moment.now()).format('YYYY-MM-DD')
+        status: [2, 10, 20],
+        modifyDateRange: [moment(moment.now()).subtract(6, 'month').format('YYYY-MM-DD'),
+         moment(moment.now()).format('YYYY-MM-DD')]
     };
+
     queryUiSchema: SFUISchema = {};
     querySchema: SFSchema = {
         properties: {
@@ -127,18 +140,12 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
                     widget: 'tag'
                 }
             },
-            modifyDateBegin: {
+            modifyDateRange: {
                 type: 'string',
-                title: '最后修改日期大于等于',
-                ui: {widget: 'date'}
-            },
-            modifyDateEnd: {
-                type: 'string',
-                title: '最后修改日期小于等于',
-                ui: {widget: 'date'}
+                title: '最后修改日期',
+                ui: { widget: 'date', mode: 'range' }
             }
-        },
-        required: []
+        }
     };
 //#endregion
 
@@ -164,7 +171,7 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
         columns:[
             {label:"代码", fieldPath: "code" },
             {label:"名称", fieldPath: "name" },
-            {label:"地址", fieldPath: "addressDisplay" },
+            // {label:"地址", fieldPath: "addressDisplay" },
             {label:"项目经理", fieldPath: "managerDisplay" },
             {label:"联系方式", fieldPath: "fullContactMethod" },
             {label:"计划开始日期", fieldPath: "planBeginDateDisplay" },
@@ -304,7 +311,7 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
             nzOnCancel: () => console.log('confirmEntity Cancel')
         });
 
-        // this.projectService.achieve(entity).subscribe(
+        // this.projectService.confirm(entity).subscribe(
         //     data => {
         //         // option.loading = false;
         //         if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {

@@ -18,6 +18,7 @@ import {BylEntityRelations} from "../model/entity-relations.model";
 import {BylPageResp} from "../../model/page-resp.model";
 import {BylPageReq} from "../../model/page-req.model";
 import {BylEntityRelationAvailablePoolsQueryReqBody} from "../model/entity-relation-available-pools-query-req-body.model";
+import {BylMasterDataBaseService} from "../../service/master-data-base.service";
 
 
 /**
@@ -26,7 +27,7 @@ import {BylEntityRelationAvailablePoolsQueryReqBody} from "../model/entity-relat
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylDepartmentService  extends BylBaseService<BylDepartment>
+export class BylDepartmentService  extends BylMasterDataBaseService<BylDepartment>
     implements BylFindEntityAccountInterface
     ,BylSaveAccountRelationInterface
     ,BylAccountAvailablePoolsInterface{

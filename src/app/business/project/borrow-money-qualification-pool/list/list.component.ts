@@ -21,6 +21,7 @@ import {
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 
 @Component({
   selector: 'byl-borrow-money-qualification-pool-list',
@@ -29,7 +30,7 @@ import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-f
 export class BylBorrowMoneyQualificationPoolListComponent extends BylListComponentBasePro<BylBorrowMoneyQualificationPool> {
     public addPoolReveal: NzModalRef; // 账户筛选窗口
 
-    businessEntityType: BylIStatusItem[]; // 实体类型
+    // businessEntityType: BylIStatusItem[]; // 实体类型
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
@@ -40,8 +41,7 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
         this.businessService = borrowMoneyQualificationPoolService;
         this.crudUrl = '';
 
-        this.businessEntityType = BylBusinessEntityTypeManager.getArray();
-        this.querySchema.properties['type'].enum.push(...this.businessEntityType); //设置查询条件中的类型字段
+        this.querySchema.properties['type'].enum.push(...BylBusinessEntityTypeManager.getSFSelectDataArray()); //设置查询条件中的类型字段
         // this.businessCrudComponent = BylPersonCrudComponent;
     }
 
@@ -196,7 +196,7 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
         return findResult.map(data => {
             let item = new BylListFormData<BylBorrowMoneyQualificationPool>();
             item.checked = false;
-            // item.disabled = (data.status === BylRoleStatus.DELETED);
+            // item.disabled = (data.status === BylRoleStatus.SUBMITED_DELETED);
             item.item = new BylBorrowMoneyQualificationPool();
             Object.assign(item.item, data);
             return item;
@@ -204,7 +204,23 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
     }
 
     genQueryModel(): any {
-        let result = new BylProjectManagerPoolQuery();
+        let result = new BylBorrowMoneyQualificationPoolQuery();
+        if (this.listQuery.queryData.type) {
+            result.type = [];
+            result.type.push(...this.listQuery.queryData.type);
+        }
+
+        if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
+        if (this.listQuery.queryData.name) result.name = this.listQuery.queryData.name;
+
+
+        if (this.listQuery.queryData.modifyDateRange) {
+            if (this.listQuery.queryData.modifyDateRange.length>0){
+                result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
+                result.modifyDateEnd = moment(moment(this.listQuery.queryData.modifyDateRange[1]).format(BylDatetimeUtils.formatDateString))
+                    .add(1, 'days').valueOf();//第二天的零点
+            }
+        }
         // if (qData.name) result.name = qData.name;
         // if (qData.modifyDateBegin) result.modifyDateBegin = moment(qData.modifyDateBegin).valueOf();
         // if (qData.modifyDateEnd) result.modifyDateEnd = moment(qData.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
@@ -257,8 +273,10 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
 
     //#region 查询条件
     queryDefaultData: any = {
-        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
-        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+        type: [1,2]
+        // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
+    };
     queryUiSchema: SFUISchema = {};
     querySchema: SFSchema = {
         properties: {
@@ -276,13 +294,10 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
             name: { type: 'string',
                 title: '名称类似于'
             },
-            modifyDateBegin: { type: 'string',
+            modifyDateRange: {
+                type: 'string',
                 title: '最后修改日期大于等于',
-                ui: { widget: 'date' }
-            },
-            modifyDateEnd: { type: 'string',
-                title: '最后修改日期小于等于',
-                ui: { widget: 'date' }
+                ui: { widget: 'date', mode: 'range' }
             }
         },
         required: []

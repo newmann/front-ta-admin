@@ -3,6 +3,7 @@
 
 
 import {BylIStatusItem} from '../../model/status.model';
+import {BylSFRadioData} from "../../../business/common/sf-relative";
 
 export const enum BylBorrowMoneyTicketStatusEnum {
     UNSUBMITED = 1,
@@ -57,5 +58,19 @@ export class BylBorrowMoneyTicketStatusManager {
             {value: BylBorrowMoneyTicketStatusEnum.CHECKED_DELETED, caption: this.getCaption(BylBorrowMoneyTicketStatusEnum.CHECKED_DELETED)},
             {value: BylBorrowMoneyTicketStatusEnum.COMFIRMED_DELETED, caption: this.getCaption(BylBorrowMoneyTicketStatusEnum.COMFIRMED_DELETED)}
         ];
+    }
+    static getSFSelectDataArray(): BylSFRadioData[] {
+        return [
+            {value: BylBorrowMoneyTicketStatusEnum.UNSUBMITED, label: this.getCaption(BylBorrowMoneyTicketStatusEnum.UNSUBMITED)},
+            {value: BylBorrowMoneyTicketStatusEnum.SUBMITED, label: this.getCaption(BylBorrowMoneyTicketStatusEnum.SUBMITED)},
+            {value: BylBorrowMoneyTicketStatusEnum.CHECKED, label: this.getCaption(BylBorrowMoneyTicketStatusEnum.CHECKED)},
+            {value: BylBorrowMoneyTicketStatusEnum.CONFIRMED, label: this.getCaption(BylBorrowMoneyTicketStatusEnum.CONFIRMED)},
+            {value: BylBorrowMoneyTicketStatusEnum.SETTLED, label: this.getCaption(BylBorrowMoneyTicketStatusEnum.SETTLED)},
+            {value: BylBorrowMoneyTicketStatusEnum.DELETED, label: this.getCaption(BylBorrowMoneyTicketStatusEnum.DELETED)},
+            {value: BylBorrowMoneyTicketStatusEnum.SUBMITED_DELETED, label: this.getCaption(BylBorrowMoneyTicketStatusEnum.SUBMITED_DELETED)},
+            {value: BylBorrowMoneyTicketStatusEnum.CHECKED_DELETED, label: this.getCaption(BylBorrowMoneyTicketStatusEnum.CHECKED_DELETED)},
+            {value: BylBorrowMoneyTicketStatusEnum.COMFIRMED_DELETED, label: this.getCaption(BylBorrowMoneyTicketStatusEnum.COMFIRMED_DELETED)}
+        ];
+
     }
 }

@@ -171,7 +171,7 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
             item.id = item.item.id;
             item.name = mixCodeName(item.item.name, item.item.code);
             item.checked = false;
-            item.disableCheckbox = (data.status === BylMasterDataStatusEnum.DELETED);
+            item.disableCheckbox = (data.status === BylMasterDataStatusEnum.SUBMITED_DELETED);
             item.hasChildren = true;
             return item;
         });
@@ -303,7 +303,7 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
         return findResult.map(data => {
             let item = new BylListFormData<BylDepartment>();
             item.checked = false;
-            // item.disabled = (data.status === BylRoleStatus.DELETED);
+            // item.disabled = (data.status === BylRoleStatus.SUBMITED_DELETED);
             item.item = new BylDepartment();
             Object.assign(item.item, data);
             return item;

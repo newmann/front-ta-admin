@@ -28,6 +28,7 @@ import {BylBorrowMoneyQualificationPool} from "../../../../service/project/model
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylProject} from "../../../../service/project/model/project.model";
 import {Observable} from "rxjs/Observable";
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 
 @Component({
   selector: 'byl-borrow-money-ticket-list',
@@ -35,7 +36,7 @@ import {Observable} from "rxjs/Observable";
 })
 export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<BylBorrowMoneyTicket> {
 
-    statusList: BylIStatusItem[]; //状态
+    // statusList: BylIStatusItem[]; //状态
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
@@ -47,8 +48,7 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
         this.businessService = borrowMoneyTicketService;
         this.crudUrl = '/project/borrow-money-ticket/crud';
         // this.businessCrudComponent = BylPersonCrudComponent;
-        this.statusList = BylBorrowMoneyTicketStatusManager.getArray();
-        this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
+        this.querySchema.properties['status'].enum.push(...BylBorrowMoneyTicketStatusManager.getSFSelectDataArray()); //设置查询条件中的状态字段
     }
 
     genListData(findResult: Array<BylBorrowMoneyTicket>): Array<BylListFormData<BylBorrowMoneyTicket>> {
@@ -56,7 +56,7 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
         return findResult.map(data => {
             let item = new BylListFormData<BylBorrowMoneyTicket>();
             item.checked = false;
-            // item.disabled = (data.status === BylRoleStatus.DELETED);
+            // item.disabled = (data.status === BylRoleStatus.SUBMITED_DELETED);
             item.item = new BylBorrowMoneyTicket();
             Object.assign(item.item, data);
             return item;
@@ -65,6 +65,25 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
 
     genQueryModel(): any {
         let result = new BylBorrowMoneyTicketQuery();
+        if (this.listQuery.queryData.billNo) result.billNo = this.listQuery.queryData.billNo;
+        if (this.listQuery.queryData.reason) result.reason = this.listQuery.queryData.reason;
+
+        if (this.listQuery.queryData.project) {
+            result.projectId = this.listQuery.queryData.project.id;
+        }
+
+        if (this.listQuery.queryData.modifyDateRange) {
+            if (this.listQuery.queryData.modifyDateRange.length>0){
+                result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
+                result.modifyDateEnd = moment(moment(this.listQuery.queryData.modifyDateRange[1]).format(BylDatetimeUtils.formatDateString))
+                    .add(1, 'days').valueOf();//第二天的零点
+            }
+        }
+        if (this.listQuery.queryData.status) {
+            result.status = [];
+            result.status.push(...this.listQuery.queryData.status);
+        }
+
         // if (qData.name) result.name = qData.name;
         // if (qData.modifyDateBegin) result.modifyDateBegin = moment(qData.modifyDateBegin).valueOf();
         // if (qData.modifyDateEnd) result.modifyDateEnd = moment(qData.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
@@ -94,19 +113,32 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
     //#region 查询条件
     queryDefaultData: any = {
         status: [1,2, 10,20,30],
-        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
-        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+        modifyDateRange: [moment(moment.now()).subtract(6,"month").format(BylDatetimeUtils.formatDateString),
+             moment(moment.now()).format(BylDatetimeUtils.formatDateString)]
+    };
     queryUiSchema: SFUISchema = {};
     querySchema: SFSchema = {
         properties: {
-            billNo: { type: 'string',
+            billNo: {
+                type: 'string',
                 title: '单号类似于'
             },
-            reason: { type: 'string',
+            reason: {
+                type: 'string',
                 title: '借款原因类似于'
             },
-            project: { type: 'string',
-                title: '所属项目'
+            project: {
+                type: 'string',
+                title: '所属项目',
+                ui: {
+                    widget: 'bylProjectSelect',
+                    fetchAll: 'true',
+                    placeholder: '请输入项目代码或名称，系统自动查找',
+                    allowClear: 'true',
+                    serverSearch: 'true',
+                    showSearch: 'true',
+
+                }
             },
             status: {
                 type: 'string',
@@ -116,13 +148,10 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
                     widget: 'tag'
                 }
             },
-            modifyDateBegin: { type: 'string',
-                title: '最后修改日期大于等于',
-                ui: { widget: 'date' }
-            },
-            modifyDateEnd: { type: 'string',
-                title: '最后修改日期小于等于',
-                ui: { widget: 'date' }
+            modifyDateRange: {
+                type: 'string',
+                title: '最后修改日期',
+                ui: { widget: 'date', mode: 'range' }
             }
         },
         required: []

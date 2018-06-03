@@ -25,6 +25,8 @@ import {
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 import {BylPageReq} from "../../../../service/model/page-req.model";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 
 @Component({
     selector: 'byl-project-manager-pool-list',
@@ -133,15 +135,24 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBasePro<
         return findResult.map(data => {
             let item = new BylListFormData<BylProjectManagerPool>();
             item.checked = false;
-            // item.disabled = (data.status === BylRoleStatus.DELETED);
+            // item.disabled = (data.status === BylRoleStatus.SUBMITED_DELETED);
             item.item = new BylProjectManagerPool();
-            Object.assign(item.item, data);
+            simpleDeepCopy(item.item, data);
             return item;
         });
     }
 
     genQueryModel(): any {
         let result = new BylProjectManagerPoolQuery();
+        if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
+        if (this.listQuery.queryData.name) result.name = this.qData.name;
+        if (this.listQuery.queryData.modifyDateRange) {
+            if (this.listQuery.queryData.modifyDateRange.length>0){
+                result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
+                result.modifyDateEnd = moment(moment(this.listQuery.queryData.modifyDateRange[1]).format(BylDatetimeUtils.formatDateString))
+                    .add(1, 'days').valueOf();//第二天的零点
+            }
+        }
         // if (qData.name) result.name = qData.name;
         // if (qData.modifyDateBegin) result.modifyDateBegin = moment(qData.modifyDateBegin).valueOf();
         // if (qData.modifyDateEnd) result.modifyDateEnd = moment(qData.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
@@ -201,8 +212,8 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBasePro<
     }
     //#region 查询条件
     queryDefaultData: any = {
-        modifyDateBegin: moment(moment.now()).subtract(6, 'month').format('YYYY-MM-DD'),
-        modifyDateEnd: moment(moment.now()).format('YYYY-MM-DD')
+        // modifyDateBegin: moment(moment.now()).subtract(6, 'month').format('YYYY-MM-DD'),
+        // modifyDateEnd: moment(moment.now()).format('YYYY-MM-DD')
     };
     queryUiSchema: SFUISchema = {};
     querySchema: SFSchema = {
@@ -215,15 +226,10 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBasePro<
                 type: 'string',
                 title: '姓名类似于'
             },
-            modifyDateBegin: {
+            modifyDateRange: {
                 type: 'string',
                 title: '最后修改日期大于等于',
-                ui: {widget: 'date'}
-            },
-            modifyDateEnd: {
-                type: 'string',
-                title: '最后修改日期小于等于',
-                ui: {widget: 'date'}
+                ui: {widget: 'date',mode: 'range'}
             }
         },
         required: []

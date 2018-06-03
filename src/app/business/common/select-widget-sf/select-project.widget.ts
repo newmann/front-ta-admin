@@ -9,6 +9,7 @@ import {BylEntityReference} from "../../../service/model/entity-reference.model"
 import {BylResultBody} from "../../../service/model/result-body.model";
 import {BylPersonService} from "../../../service/person/service/person.service";
 import {BylProjectService} from "../../../service/project/service/project.service";
+import {BylProject} from "../../../service/project/model/project.model";
 
 @Component({
     selector: 'byl-select-project',
@@ -90,8 +91,14 @@ export class BylProjectSelectWidgetSFComponent extends ControlWidget implements 
     searchByCodeName(text: string) {
         console.log("search for manager:", text);
         if ((text) && (text.length > 0)) {
+            let call:Observable < BylResultBody < Array<BylProject> >>;
+            if (this.ui.fetchAll){
+                call = this.projectService.fetchByCodeOrName(text)
+            }else{
+                call = this.projectService.fetchAvailableByCodeOrName(text)
+            }
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.projectService.fetchAvailableByCodeOrName(text)
+            return call
                 .toPromise().then(
                     (res) => {
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {

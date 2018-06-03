@@ -136,7 +136,7 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
                         widget: 'text'
                     }
                 },
-                "projectDispaly": {
+                "projectDisplay": {
                     type: "string",
                     title: '所属项目',
                     ui: {

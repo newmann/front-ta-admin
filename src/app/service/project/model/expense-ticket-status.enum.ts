@@ -3,6 +3,7 @@
 
 
 import {BylIStatusItem} from '../../model/status.model';
+import {BylSFRadioData} from "../../../business/common/sf-relative";
 
 export const enum BylExpenseTicketStatusEnum {
     UNSUBMITED = 1,
@@ -61,5 +62,20 @@ export class BylExpenseTicketStatusManager {
             // {value: BylExpenseTicketStatusEnum.COMFIRMED_DELETED, caption: this.getCaption(BylExpenseTicketStatusEnum.COMFIRMED_DELETED)}
             {value: BylExpenseTicketStatusEnum.SETTLEED_DELETED, caption: this.getCaption(BylExpenseTicketStatusEnum.SETTLEED_DELETED)}
         ];
+    }
+    static getSFSelectDataArray(): BylSFRadioData[] {
+        return [
+            {value: BylExpenseTicketStatusEnum.UNSUBMITED, label: this.getCaption(BylExpenseTicketStatusEnum.UNSUBMITED)},
+            {value: BylExpenseTicketStatusEnum.SUBMITED, label: this.getCaption(BylExpenseTicketStatusEnum.SUBMITED)},
+            {value: BylExpenseTicketStatusEnum.CHECKED, label: this.getCaption(BylExpenseTicketStatusEnum.CHECKED)},
+            // {value: BylExpenseTicketStatusEnum.CONFIRMED, label: this.getCaption(BylExpenseTicketStatusEnum.CONFIRMED)},
+            {value: BylExpenseTicketStatusEnum.SETTLED, label: this.getCaption(BylExpenseTicketStatusEnum.SETTLED)},
+            {value: BylExpenseTicketStatusEnum.DELETED, label: this.getCaption(BylExpenseTicketStatusEnum.DELETED)},
+            {value: BylExpenseTicketStatusEnum.SUBMITED_DELETED, label: this.getCaption(BylExpenseTicketStatusEnum.SUBMITED_DELETED)},
+            {value: BylExpenseTicketStatusEnum.CHECKED_DELETED, label: this.getCaption(BylExpenseTicketStatusEnum.CHECKED_DELETED)},
+            // {value: BylExpenseTicketStatusEnum.COMFIRMED_DELETED, label: this.getCaption(BylExpenseTicketStatusEnum.COMFIRMED_DELETED)}
+            {value: BylExpenseTicketStatusEnum.SETTLEED_DELETED, label: this.getCaption(BylExpenseTicketStatusEnum.SETTLEED_DELETED)}
+        ];
+
     }
 }

@@ -187,5 +187,9 @@ export const ACTION_DELETE = "删除";
 export const ACTION_LOCK = "锁定";
 export const ACTION_UNLOCK = "解锁";
 export const ACTION_SUBMIT = "提交";
+export const ACTION_CONFIRM = "确认";
+export const ACTION_UNCONFIRM = "取消确认";
 export const ACTION_CANCEL = "作废";
+export const ACTION_BROWSE = "查看";
+
 export const ACTION_CHECK = "审核";

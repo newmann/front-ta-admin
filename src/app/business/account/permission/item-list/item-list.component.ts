@@ -269,7 +269,7 @@ export class BylPermissionItemListComponent implements OnInit  {
         // return findResult.map(data => {
         let item = new BylListFormData<BylPermission>();
         item.checked = false;
-        // item.disabled = (data.status === BylRoleStatus.DELETED);
+        // item.disabled = (data.status === BylRoleStatus.SUBMITED_DELETED);
         item.item = new BylPermission();
         Object.assign(item.item,data);
         return item;

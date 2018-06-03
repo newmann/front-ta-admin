@@ -19,6 +19,8 @@ import {
 import {BylPermission} from "../model/permission.model";
 import {BylEntityRelationAvailablePoolsQueryReqBody} from "../model/entity-relation-available-pools-query-req-body.model";
 import {BylEntityRelations} from "../model/entity-relations.model";
+import {BylMasterDataBaseService} from "../../service/master-data-base.service";
+import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
 
 
 
@@ -28,7 +30,7 @@ import {BylEntityRelations} from "../model/entity-relations.model";
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylAccountService  extends BylBaseService<BylAccount>
+export class BylAccountService  extends BylMasterDataBaseService<BylAccount>
 implements  BylPermissionAvailablePoolsInterface
             , BylSavePermissionRelationInterface
             , BylFindEntityPermissionInterface{
@@ -43,6 +45,9 @@ implements  BylPermissionAvailablePoolsInterface
         this.BASE_API_URL = 'api/account';
     }
 
+    checkUsernameAvailable(data: BylCheckAvailableReq): Observable<BylResultBody<boolean>> {
+        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/check-username-available', data);
+    }
     /**
      * 按分页方式返回
      * @returns {Observable<BylResultBody<>>}

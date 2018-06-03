@@ -178,7 +178,7 @@ export class BylDepartmentCrudComponent extends BylCrudComponentBase<BylDepartme
             this.businessData.remarks = this.remarks.value.toString();
         }
         //todo 设置保存的对象状态
-        this.businessData.status = BylMasterDataStatusEnum.NORMAL;
+        this.businessData.status = BylMasterDataStatusEnum.CONFIRMED;
     }
 
     /**

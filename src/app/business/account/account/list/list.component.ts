@@ -18,13 +18,16 @@ import {SFSchema, SFUISchema} from '@delon/form';
 import * as moment from "moment";
 import {BylPageReq} from "../../../../service/model/page-req.model";
 import {
+    ACTION_BROWSE,
+    ACTION_CONFIRM,
     ACTION_DELETE, ACTION_LOCK,
-    ACTION_MODIFY, ACTION_UNLOCK, BylTableClickAction, BylTableColumn,
+    ACTION_MODIFY, ACTION_SUBMIT, ACTION_UNCONFIRM, ACTION_UNLOCK, BylTableClickAction, BylTableColumn,
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
-import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 
 
 @Component({
@@ -32,7 +35,7 @@ import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
     templateUrl: './list.component.html',
 })
 export class BylAccountListComponent extends BylListComponentBasePro<BylAccount> {
-    // LIST_MODE:BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
+    // LIST_MODE:BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.CONFIRMED;
 
     @Input() masterId: string; //用户查询对应关系的界面，比如角色包含的用户等
 
@@ -57,6 +60,7 @@ export class BylAccountListComponent extends BylListComponentBasePro<BylAccount>
         this.businessService = accountService;
         this.crudUrl = '/account/account/crud';
         // this.businessCrudComponent = BylPersonCrudComponent;
+        this.querySchema.properties['status'].enum.push(...BylMasterDataStatusManager.getSFSelectDataArray()); //设置查询条件中的状态字段
     }
 
 
@@ -64,7 +68,7 @@ export class BylAccountListComponent extends BylListComponentBasePro<BylAccount>
         return findResult.map(data => {
             let item = new BylListFormData<BylAccount>();
             item.checked = false;
-            // item.disabled = (data.status === BylRoleStatus.DELETED);
+            // item.disabled = (data.status === BylRoleStatus.SUBMITED_DELETED);
             item.item = new BylAccount();
 
             simpleDeepCopy(item.item, data);
@@ -79,6 +83,21 @@ export class BylAccountListComponent extends BylListComponentBasePro<BylAccount>
         // if (qData.modifyDateBegin) result.modifyDateBegin = moment(qData.modifyDateBegin).valueOf();
         // if (qData.modifyDateEnd) result.modifyDateEnd = moment(qData.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
         // if (qData.status) result.status = qData.status;
+        if (this.listQuery.queryData.username) result.username = this.qData.username;
+        if (this.listQuery.queryData.fullName) result.fullName = this.qData.fullName;
+        if (this.listQuery.queryData.nickname) result.nickname = this.qData.nickname;
+        if (this.listQuery.queryData.modifyDateRange) {
+            if (this.listQuery.queryData.modifyDateRange.length>0){
+                result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
+                result.modifyDateEnd = moment(moment(this.listQuery.queryData.modifyDateRange[1]).format(BylDatetimeUtils.formatDateString))
+                    .add(1, 'days').valueOf();//第二天的零点
+            }
+        }
+        if (this.listQuery.queryData.status) {
+            result.status = [];
+            result.status.push(...this.listQuery.queryData.status);
+        }
+
         return result;
     }
 
@@ -106,65 +125,65 @@ export class BylAccountListComponent extends BylListComponentBasePro<BylAccount>
             modalRef.destroy(this.selectedRows);
         }
     }
-    /**
-     * 将当前记录锁定
-     * @param {string} id
-     */
-    lockEntity(id: string) {
-        let lockItem = new BylAccount();
-        this.listData.forEach(item => {
-            if (item.item.id === id) {
-                simpleDeepCopy(lockItem, item.item);
-            }
-        });
+    // /**
+    //  * 将当前记录锁定
+    //  * @param {string} id
+    //  */
+    // lockEntity(id: string) {
+    //     let lockItem = new BylAccount();
+    //     this.listData.forEach(item => {
+    //         if (item.item.id === id) {
+    //             simpleDeepCopy(lockItem, item.item);
+    //         }
+    //     });
+    //
+    //     if (!lockItem.id) return;
+    //
+    //     lockItem.status = BylMasterDataStatusEnum.LOCKED.valueOf();
+    //
+    //     this.updateAccount(lockItem);
+    // }
+    // /**
+    //  * 将当前记录锁定
+    //  * @param {string} id
+    //  */
+    // unlockEntity(id: string) {
+    //     let lockItem = new BylAccount();
+    //     this.listData.forEach(item => {
+    //         if (item.item.id === id) {
+    //             simpleDeepCopy(lockItem, item.item);
+    //         }
+    //     });
+    //
+    //     if (!lockItem.id) return;
+    //
+    //     lockItem.status = BylMasterDataStatusEnum.CONFIRMED.valueOf();
+    //
+    //     this.updateAccount(lockItem);
+    // }
 
-        if (!lockItem.id) return;
-
-        lockItem.status = BylMasterDataStatusEnum.LOCKED.valueOf();
-
-        this.updateAccount(lockItem);
-    }
-    /**
-     * 将当前记录锁定
-     * @param {string} id
-     */
-    unlockEntity(id: string) {
-        let lockItem = new BylAccount();
-        this.listData.forEach(item => {
-            if (item.item.id === id) {
-                simpleDeepCopy(lockItem, item.item);
-            }
-        });
-
-        if (!lockItem.id) return;
-
-        lockItem.status = BylMasterDataStatusEnum.NORMAL.valueOf();
-
-        this.updateAccount(lockItem);
-    }
-
-    updateAccount(item: BylAccount){
-        this.accountService.update(item).subscribe(
-            data => {
-                this.loading = false;
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-
-                    // this.listData = Array.from(data.data.rows);
-
-                    this.updateListData(data.data);
-
-                } else {
-                    this.showMsg(data.msg);
-                }
-            },
-            err => {
-                this.loading = false;
-                console.log(err);
-                this.showMsg(err.toString());
-            }
-        );
-
-    }
+    // updateAccount(item: BylAccount){
+    //     this.accountService.update(item).subscribe(
+    //         data => {
+    //             this.loading = false;
+    //             if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+    //
+    //                 // this.listData = Array.from(data.data.rows);
+    //
+    //                 this.updateListData(data.data);
+    //
+    //             } else {
+    //                 this.showMsg(data.msg);
+    //             }
+    //         },
+    //         err => {
+    //             this.loading = false;
+    //             console.log(err);
+    //             this.showMsg(err.toString());
+    //         }
+    //     );
+    //
+    // }
     /**
      * 自定义查找，覆盖BylListComponentBase.search()
      */
@@ -218,12 +237,14 @@ export class BylAccountListComponent extends BylListComponentBasePro<BylAccount>
     }
 //#region 查询条件
     queryDefaultData: any = {
-        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
-        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+        status:[BylMasterDataStatusEnum.CONFIRMED]
+        // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
+    };
     queryUiSchema: SFUISchema = {};
     querySchema: SFSchema = {
         properties: {
-            code: { type: 'string',
+            username: { type: 'string',
                 title: '代码类似于'
                 },
             fullName: { type: 'string',
@@ -232,13 +253,18 @@ export class BylAccountListComponent extends BylListComponentBasePro<BylAccount>
             nickname: { type: 'string',
                 title: '昵称类似于'
                 },
-            modifyDateBegin: { type: 'string',
+            status: {
+                type: 'string',
+                title: '状态',
+                enum: [],
+                ui: {
+                    widget: 'tag'
+                }
+            },
+            modifyDateRange: {
+                type: 'string',
                 title: '最后修改日期大于等于',
-                ui: { widget: 'date' }
-                },
-            modifyDateEnd: { type: 'string',
-                title: '最后修改日期小于等于',
-                ui: { widget: 'date' }
+                ui: { widget: 'date', mode:'range' }
                 }
         },
         required: []
@@ -249,9 +275,17 @@ export class BylAccountListComponent extends BylListComponentBasePro<BylAccount>
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL },
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.SUBMITED },
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
+            {actionName: ACTION_SUBMIT,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
+            {actionName: ACTION_CONFIRM,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.SUBMITED },
+            {actionName: ACTION_UNCONFIRM,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED },
             {actionName: ACTION_UNLOCK,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.LOCKED },
-            {actionName: ACTION_LOCK,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL }
+            {actionName: ACTION_LOCK,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.LOCKED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.SUBMITED_DELETED }
+
             ],
         columns:[
         {label:"代码", fieldPath: "username" },

@@ -7,7 +7,7 @@ import {BylMasterDataStatusEnum} from "../../model/master-data-status.enum";
 
 export class BylRoleQuery{
     name:string;
-    status: Array<number> = [BylMasterDataStatusEnum.NORMAL];
+    status: Array<number> = [BylMasterDataStatusEnum.CONFIRMED];
     modifyDateBegin: number;
     modifyDateEnd: number;
 }

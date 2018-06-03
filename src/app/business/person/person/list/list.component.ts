@@ -57,7 +57,7 @@ export class BylPersonListComponent extends BylListComponentBasePro<BylPerson> {
             let item = new BylListFormData<BylPerson>();
 
             item.checked = false;
-            // item.disabled = (data.status === BylRoleStatus.DELETED);
+            // item.disabled = (data.status === BylRoleStatus.SUBMITED_DELETED);
             console.log("in PersonList genListData data", data);
 
             item.item = new BylPerson();

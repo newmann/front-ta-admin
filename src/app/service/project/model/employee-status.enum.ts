@@ -3,6 +3,7 @@
 
 
 import {BylIStatusItem} from '../../model/status.model';
+import {BylSFRadioData} from "../../../business/common/sf-relative";
 
 export const enum BylEmployeeStatusEnum {
     NORMAL = 1,
@@ -34,5 +35,14 @@ export class BylEmployeeStatusManager {
             {value: BylEmployeeStatusEnum.LOCKED, caption: this.getCaption(BylEmployeeStatusEnum.LOCKED)}
 
         ];
+    }
+    static getSFSelectDataArray(): BylSFRadioData[] {
+        return [
+            {value: BylEmployeeStatusEnum.NORMAL, label: this.getCaption(BylEmployeeStatusEnum.NORMAL)},
+            {value: BylEmployeeStatusEnum.LEAVE, label: this.getCaption(BylEmployeeStatusEnum.LEAVE)},
+            {value: BylEmployeeStatusEnum.LOCKED, label: this.getCaption(BylEmployeeStatusEnum.LOCKED)}
+
+        ];
+
     }
 }

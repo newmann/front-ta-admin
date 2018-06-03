@@ -10,7 +10,10 @@
 </nz-card>
 
 <ng-template #msgBody>
-  <div nz-row>{{queryMessage}}</div>
+  <!--<div nz-row>{{queryMessage}}</div>-->
+  <div>
+    <nz-tag [nzColor]="'blue'" *ngFor="let item of queryDataDisplayArray ">{{item}}</nz-tag>
+  </div>
   <div nz-row nzType="flex" nzJustify="end">
       <a (click)="showQueryForm()" >重新设置</a>
   </div>

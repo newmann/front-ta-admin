@@ -42,6 +42,10 @@ export class BylProjectService  extends BylBaseService<BylProject> {
         return this.http.get<BylResultBody<Array<BylProject>>>(this.BASE_API_URL+"/fetch-available-by-code-or-name/" + searchstr);
     }
 
+    fetchByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylProject> >> {
+        return this.http.get<BylResultBody<Array<BylProject>>>(this.BASE_API_URL+"/fetch-by-code-or-name/" + searchstr);
+    }
+
     delete(updateItem: BylProject): Observable<BylResultBody<boolean>> {
         return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/delete', updateItem);
     }
@@ -59,7 +63,7 @@ export class BylProjectService  extends BylBaseService<BylProject> {
     }
 
     achieve(updateItem: BylProject): Observable<BylResultBody<BylProject>> {
-        return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/achieve', updateItem);
+        return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/confirm', updateItem);
     }
 
 

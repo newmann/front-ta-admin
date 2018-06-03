@@ -297,7 +297,8 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
         }else{
             //修改状态，需要根据单据的状态进一步判断
             switch (this.businessData.status){
-                case BylProjectStatusEnum.UNSUBMITED, BylProjectStatusEnum.SUBMITED:
+                case BylProjectStatusEnum.UNSUBMITED:
+                case BylProjectStatusEnum.SUBMITED:
                     this.curSchema = simpleDeepCopy({},this._newSchema);
                     break;
                 default:

@@ -19,6 +19,7 @@ import {BylOutsourcer} from '../../../../service/project/model/outsourcer.model'
 import {BylEmployeeStatusEnum, BylEmployeeStatusManager} from "../../../../service/project/model/employee-status.enum";
 import {BylOutsourcerService} from "../../../../service/project/service/outsourcer.service";
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 
 @Component({
     selector: 'byl-oursourcer-list',
@@ -27,7 +28,7 @@ import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../s
 export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutsourcer> {
 
 
-    statusList: BylIStatusItem[]; //状态
+    // statusList: BylIStatusItem[]; //状态
 
 
     constructor(public message: NzMessageService,
@@ -41,8 +42,8 @@ export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutso
         this.crudUrl = '/project/outsourcer/crud';
         // this.businessCrudComponent = BylPersonCrudComponent;
 
-        this.statusList = BylEmployeeStatusManager.getArray();
-        this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
+
+        this.querySchema.properties['status'].enum.push(...BylEmployeeStatusManager.getSFSelectDataArray()); //设置查询条件中的状态字段
     }
 
     /**
@@ -68,10 +69,24 @@ export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutso
      */
     genQueryModel(): any {
         let result = new BylWorkTypeQuery();
-        if (this.qData.name) result.name = this.qData.name;
-        if (this.qData.modifyDateBegin) result.modifyDateBegin = moment(this.qData.modifyDateBegin).valueOf();
-        if (this.qData.modifyDateEnd) result.modifyDateEnd = moment(this.qData.modifyDateEnd).add(1, 'days').valueOf(); // 第二天的零点
-        if (this.qData.status) result.status = this.qData.status;
+        if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
+        if (this.listQuery.queryData.name) result.name = this.qData.name;
+        if (this.listQuery.queryData.modifyDateRange) {
+            if (this.listQuery.queryData.modifyDateRange.length>0){
+                result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
+                result.modifyDateEnd = moment(moment(this.listQuery.queryData.modifyDateRange[1]).format(BylDatetimeUtils.formatDateString))
+                    .add(1, 'days').valueOf();//第二天的零点
+            }
+        }
+        if (this.listQuery.queryData.status) {
+            result.status = [];
+            result.status.push(...this.listQuery.queryData.status);
+        }
+
+        // if (this.qData.name) result.name = this.qData.name;
+        // if (this.qData.modifyDateBegin) result.modifyDateBegin = moment(this.qData.modifyDateBegin).valueOf();
+        // if (this.qData.modifyDateEnd) result.modifyDateEnd = moment(this.qData.modifyDateEnd).add(1, 'days').valueOf(); // 第二天的零点
+        // if (this.qData.status) result.status = this.qData.status;
         return result;
     }
 
@@ -144,8 +159,9 @@ export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutso
 
     //#region 查询条件
     queryDefaultData: any = {
-        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
-        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+        // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
+    };
     queryUiSchema: SFUISchema = {};
     querySchema: SFSchema = {
         properties: {
@@ -163,13 +179,10 @@ export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutso
                     widget: 'tag'
                 }
             },
-            modifyDateBegin: { type: 'string',
+            modifyDateRange: {
+                type: 'string',
                 title: '最后修改日期大于等于',
-                ui: { widget: 'date' }
-            },
-            modifyDateEnd: { type: 'string',
-                title: '最后修改日期小于等于',
-                ui: { widget: 'date' }
+                ui: { widget: 'date',mode: 'range' }
             }
         },
         required: []
@@ -179,7 +192,7 @@ export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutso
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL }
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED }
         ],
         columns:[
             {label:"代码", fieldPath: "code" },

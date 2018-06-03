@@ -15,6 +15,7 @@ import {
     BylTableClickAction
 } from "./list-form-table-item/table.formitem";
 import {Observable} from "rxjs/Observable";
+import {BylListQueryWidgetComponent} from "./list-query-widget/list-query.widget";
 
 /**
  * @Description: list组件的抽象类
@@ -27,6 +28,8 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
     SELECT_MODE: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.SELECT;
 
     @ViewChild(BylListFormTableWidgetComponent) listWidget: BylListFormTableWidgetComponent;
+
+    @ViewChild(BylListQueryWidgetComponent) listQuery: BylListQueryWidgetComponent;
 
     public businessService: BylBaseService<T>;
     // public businessCrudComponent: any;
@@ -63,8 +66,8 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
 
     ngOnInit() {
         //设置查询条件的缺省值
-        this.setQDataDefaultValue();
-        console.log(this.qData);
+        // this.setQDataDefaultValue();
+        // console.log(this.qData);
     }
 
     // checkAll(value: boolean) {
@@ -90,11 +93,11 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
     /**
      * 重置查询条件
      */
-    resetQuery() {
-        this.setQDataDefaultValue();
-
-        console.log(this.qData);
-    }
+    // resetQuery() {
+    //     this.setQDataDefaultValue();
+    //
+    //     console.log(this.qData);
+    // }
 
     /**
      * 显示新增界面
@@ -307,7 +310,7 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
     /**
      * 设置查询条件为缺省值
      */
-    abstract setQDataDefaultValue();
+    // abstract setQDataDefaultValue();
 
     pageChange(item: BylPageReq){
         this.page = item;

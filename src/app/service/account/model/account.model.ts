@@ -8,8 +8,9 @@ import { BylPermission } from 'app/service/account/model/permission.model';
 import {BylRole} from "./role.model";
 import {BylMasterDataStatusManager} from "../../model/master-data-status.enum";
 import {BylDatetimeUtils} from "../../utils/datetime.utils";
+import {BylMasterDataBaseModel} from "../../model/master-data-base.model";
 
-export class BylAccount extends BylBaseModel {
+export class BylAccount extends BylMasterDataBaseModel {
     username: string;
     fullName: string;
     email: string;
@@ -19,20 +20,10 @@ export class BylAccount extends BylBaseModel {
     passwordResetDuration: number;
     passwordResetDate: number;
     expiredDate: number;
-    status: number;
+
 
     permissionList: Set<BylPermission>;
     roleList: Set<BylRole>;
 
-    get statusDisplay(): string{
-        return BylMasterDataStatusManager.getCaption(this.status);
-    }
 
-    set statusDisplay(value: string){
-        //应付对象复制
-    }
-
-    // get modifyDateTimeStr(): string{
-    //     return BylDatetimeUtils.formatDateTimeWeek(this.modifyAction.modifyDateTime);
-    // }
 }

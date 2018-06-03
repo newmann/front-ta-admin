@@ -7,13 +7,21 @@ import {BylBaseModel} from "../../model/base.model";
 import {BylPermission} from "./permission.model";
 import {BylDefineStatus, BylIStatusItem} from "../../model/status.model";
 import {Injectable} from "@angular/core";
+import {BylMasterDataStatusManager} from "../../model/master-data-status.enum";
+import {BylMasterDataBaseModel} from "../../model/master-data-base.model";
 
-export class BylRole extends BylBaseModel{
+export class BylRole extends BylMasterDataBaseModel{
     name: string;
-    status: number;
+    // status: number;
     permissionList: Set<BylPermission>;
     accountList: Set<Account>;
 
+    // get statusDisplay(): string{
+    //     return BylMasterDataStatusManager.getCaption(this.status);
+    // }
+    // set statusDisplay(value: string){
+    //
+    // }
 }
 
 

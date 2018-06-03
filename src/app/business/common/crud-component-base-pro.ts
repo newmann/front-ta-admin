@@ -142,7 +142,7 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
      * 保存
      */
     submitForm() {
-        this.loading = true
+        this.loading = true;
         // const msgId = this.msgService.loading('正在保存..', {nzDuration: 0}).messageId;
         // this.showSavingReveal();
         // this._loading = true;

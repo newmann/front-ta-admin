@@ -10,13 +10,19 @@ import {BylRole} from '../../../../service/account/model/role.model';
 import {ActivatedRoute} from '@angular/router';
 import {BylCrudComponentBase} from '../../../common/crud-component-base';
 import {ReuseTabService} from "@delon/abc";
+import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {isEmpty} from "../../../../service/utils/string.utils";
+import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {SFSchema} from "@delon/form";
 
 
 @Component({
     selector: 'byl-role-crud',
-    templateUrl: './crud.component.html',
+    templateUrl: './crud.component.html'
 })
-export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
+
+export class BylRoleCrudComponent extends BylMasterDataCrudComponentBasePro<BylRole> {
     // public clientBrowserType: any;
 
     //调用BylPermissionItemListComponet时传入的参数
@@ -39,6 +45,10 @@ export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
      */
     // private _savingReveal: any;
 
+    private _newSchema: SFSchema;
+    private _modifySchema: SFSchema;
+    private _browseSchema: SFSchema;
+
     @Input()
     set setSourceId(value: string) {
         this.sourceId = value;
@@ -49,14 +59,105 @@ export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
         return new BylRole();
     }
     defineForm(): void {
-        // 绑定验证模式
-        this.form = this.fb.group({
-            name: [null, Validators.compose([Validators.required, Validators.minLength(2)]), this.nameValidator],
-            remarks: [null]
-        });
+        this._newSchema = {
+            properties: {
+                "name": {
+                    "type": 'string',
+                    "title": '名称',
+                    "ui": {
+                        placeholder: '请输入角色代码',
+                        validator: (value: string) => {
+                            if (isEmpty(value)) {
+                                console.log('check code:', value);
+                                return [];
+                            }
+                            return this.roleService.checkNameAvailable({ data: value, id: this.sourceId }).pipe(
+                                map((res) => {
+                                        if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                                            if (res.data) {
+                                                return [];
+                                            } else {
+                                                return ([{ keyword: 'required', message: '角色名称' + value + '已存在' }]);
+                                            }
 
+                                        } else {
+                                            return ([{ keyword: 'required', message: res.msg }]);
+                                        }
+                                    }
+                                ));
+                        }
+                    }
+                },
+                "remarks": {
+                    "type": 'string',
+                    "title": '备注'
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+
+            },
+            "required": ["name"]
+        };
+
+        this._browseSchema = {
+            properties: {
+                "name": {
+                    "type": 'string',
+                    "title": '名称',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "remarks": {
+                    "type": 'string',
+                    "title": '备注',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+
+            },
+            "required": ["username"]
+
+        };
 
     }
+
+    /**
+     * 设置窗口定义的缺省值
+     * 在reset内部首先调用
+     *
+     */
+    setSchemaDefaultValue(){
+        if (this.processType === 'new') {
+            this.curSchema = simpleDeepCopy({},this._newSchema);
+
+        }else{
+            //修改状态，需要根据单据的状态进一步判断
+            switch (this.businessData.status){
+                case BylMasterDataStatusEnum.UNSUBMITED:
+                case BylMasterDataStatusEnum.SUBMITED:
+                    this.curSchema = simpleDeepCopy({},this._newSchema);
+                    break;
+                default:
+                    this.curSchema = simpleDeepCopy({},this._browseSchema);
+
+            }
+        }
+
+    };
     constructor(public msgService: NzMessageService,
                 public roleService: BylRoleService,
                 public configService: BylConfigService,
@@ -65,52 +166,12 @@ export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, fb);
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
 
         this.businessService = roleService;
 
     }
 
-    // constructor(public msgService: NzMessageService,
-    //             public roleService: BylRoleService,
-    //             public configService: BylConfigService,
-    //             public modalService: NzModalService,
-    //             public modalSubject: NzModalSubject,
-    //             public reuseTabService: ReuseTabService,
-    //             private activatedRoute: ActivatedRoute,
-    //             private logger: BylLoggerService,
-    //             public fb: FormBuilder) {
-    //     // 绑定验证模式
-    //     this.form = this.fb.group({
-    //         name: [null, Validators.compose([Validators.required, Validators.minLength(2)]), this.nameValidator],
-    //         remarks: [null]
-    //     });
-    //
-    //
-    //     this.activatedRoute
-    //         .paramMap
-    //         .subscribe(params => {
-    //             console.log(params);
-    //             console.log(params.get('type'));
-    //             this.processType = params.get('type') || '';
-    //
-    //         });
-    //
-    // }
-
-    // ngOnInit() {
-    //     super.ngOnInit();
-    //
-    //     //在从list窗口调入的情况下，载入数据
-    //     //在从list窗口调入的情况下，载入数据
-    //     console.info('_sourceId', this._sourceId);
-    //     if (this._sourceId) {
-    //         this.loadData(this._sourceId);
-    //     } else {
-    //         //界面显示
-    //         this.reset();
-    //     }
-    // }
 
 
     resetButtonClick($event: MouseEvent) {
@@ -123,12 +184,12 @@ export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
      * 重置界面内容
      */
     reset() {
-        this.form.reset({
-            name: this.businessData.name,
-            remarks: this.businessData.remarks
-        }, {onlySelf: true, emitEvent: false});
+        // this.form.reset({
+        //     name: this.businessData.name,
+        //     remarks: this.businessData.remarks
+        // }, {onlySelf: true, emitEvent: false});
 
-        this.form.markAsPristine();
+        // this.form.markAsPristine();
         // for (const key in this.form.controls) {
         //     this.form.controls[key].markAsPristine();
         // }
@@ -144,66 +205,18 @@ export class BylRoleCrudComponent extends BylCrudComponentBase<BylRole> {
         }
 
     }
-    getFormData() {
-        for (const i in this.form.controls) {
-            this.form.controls[i].markAsDirty();
-        }
-        console.table(this.form.value);
-        Object.assign(this.businessData, this.form.value);
-
-
-    }
-    /**
-     * 验证角色名称是否重复
-     * @param {FormControl} control
-     * @returns {Observable<any>}
-     */
-    nameValidator = (control: FormControl): Observable<any> => {
-        return control.valueChanges.pipe(
-            debounceTime(1000),
-            distinctUntilChanged(),
-            flatMap((value) => {
-
-                    console.log(value);
-                    return this.roleService.checkNameAvailable(value);
-                }
-            ),
-            map((data) => {
-                    console.log(data);
-                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                        if (data.data) {
-                            return null;
-                        } else {
-                            return ({duplicate: true});
-                        }
-
-                    } else {
-
-                        return ({other: true, msg: data.msg});
-
-                    }
-
-                },
-            ),
-            // catchError((err) => {
-            //     console.log(err);
-            //     return({other: true })
-            // }),
-
-            first()
-        );
-    }
+    // getFormData() {
+    //     // for (const i in this.form.controls) {
+    //     //     this.form.controls[i].markAsDirty();
+    //     // }
+    //     // console.table(this.form.value);
+    //     // Object.assign(this.businessData, this.form.value);
+    //
+    //
+    // }
 
 
 
-    //#region get form fields
-    get name() {
-        return this.form.controls.name;
-    }
 
-    get remarks() {
-        return this.form.controls.remarks;
-    }
 
-    //#endregion
 }

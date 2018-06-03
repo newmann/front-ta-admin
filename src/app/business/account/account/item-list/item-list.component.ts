@@ -232,7 +232,7 @@ export class BylAccountItemListComponent implements OnInit {
         // return findResult.map(data => {
         let item = new BylListFormData<BylAccount>();
         item.checked = false;
-        // item.disabled = (data.status === BylRoleStatus.DELETED);
+        // item.disabled = (data.status === BylRoleStatus.SUBMITED_DELETED);
         item.item = new BylAccount();
         Object.assign(item.item, data);
         return item;

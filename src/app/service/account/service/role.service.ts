@@ -24,6 +24,8 @@ import {
     BylSavePermissionRelationInterface
 } from "./permission-related.interface";
 import {BylPermission} from "../model/permission.model";
+import {BylMasterDataBaseService} from "../../service/master-data-base.service";
+import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
 
 /**
  * @Description: 角色管理service
@@ -31,7 +33,7 @@ import {BylPermission} from "../model/permission.model";
  * @Date: Created in 2018-03-03 21:31
  **/
 @Injectable()
-export class BylRoleService extends BylBaseService<BylRole>
+export class BylRoleService extends BylMasterDataBaseService<BylRole>
     implements BylAccountAvailablePoolsInterface
         , BylSaveAccountRelationInterface
         , BylFindEntityAccountInterface
@@ -88,9 +90,12 @@ export class BylRoleService extends BylBaseService<BylRole>
         return this.http.get<BylResultBody<Array<BylPermission>>>(this.BASE_API_URL + '/fetch-permissions-by-roleid/' + roleId);
     }
 
-    checkNameAvailable(name: string): Observable<BylResultBody<boolean>> {
-        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/check-name-available', name);
-
+    // checkNameAvailable(name: string): Observable<BylResultBody<boolean>> {
+    //     return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/check-name-available', name);
+    //
+    // }
+    checkNameAvailable(data: BylCheckAvailableReq): Observable<BylResultBody<boolean>> {
+        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/check-name-available', data);
     }
 
     batchAddPermission(items: Array<BylRolePermission>): Observable<BylResultBody<Array<BylRolePermission>>> {

@@ -30,6 +30,10 @@ export class BylBaseService<T> {
         return this.http.post<BylResultBody<T>>(this.BASE_API_URL + '/update', updateItem);
     }
 
+    delete(item: T): Observable<BylResultBody<boolean>> {
+        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/delete', item);
+    }
+
     findById(id: string): Observable<BylResultBody<T>> {
         return this.http.get<BylResultBody<T>>(this.BASE_API_URL + '/find-by-id/' + id);
     }

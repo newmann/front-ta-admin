@@ -20,6 +20,7 @@ import {BylEmployeeStatusEnum, BylEmployeeStatusManager} from "../../../../servi
 import {BylOutsourcerService} from "../../../../service/project/service/outsourcer.service";
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
 import {BylOutsourceEmployeeService} from "../../../../service/project/service/outsource-employee.service";
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 
 @Component({
     selector: 'byl-oursourcer-employee-list',
@@ -28,7 +29,7 @@ import {BylOutsourceEmployeeService} from "../../../../service/project/service/o
 export class BylOutsourceEmployeeListComponent extends BylListComponentBasePro<BylOutsourceEmployee> {
 
 
-    statusList: BylIStatusItem[]; //状态
+    // statusList: BylIStatusItem[]; //状态
 
 
     constructor(public message: NzMessageService,
@@ -42,8 +43,8 @@ export class BylOutsourceEmployeeListComponent extends BylListComponentBasePro<B
         this.crudUrl = '/project/outsource-employee/crud';
         // this.businessCrudComponent = BylPersonCrudComponent;
 
-        this.statusList = BylEmployeeStatusManager.getArray();
-        this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
+        // this.statusList = BylEmployeeStatusManager.getArray();
+        this.querySchema.properties['status'].enum.push(...BylEmployeeStatusManager.getSFSelectDataArray()); //设置查询条件中的状态字段
     }
 
     /**
@@ -69,10 +70,25 @@ export class BylOutsourceEmployeeListComponent extends BylListComponentBasePro<B
      */
     genQueryModel(): any {
         let result = new BylWorkTypeQuery();
-        if (this.qData.name) result.name = this.qData.name;
-        if (this.qData.modifyDateBegin) result.modifyDateBegin = moment(this.qData.modifyDateBegin).valueOf();
-        if (this.qData.modifyDateEnd) result.modifyDateEnd = moment(this.qData.modifyDateEnd).add(1, 'days').valueOf(); // 第二天的零点
-        if (this.qData.status) result.status = this.qData.status;
+        if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
+        if (this.listQuery.queryData.name) result.name = this.qData.name;
+        if (this.listQuery.queryData.modifyDateRange) {
+            if (this.listQuery.queryData.modifyDateRange.length>0){
+                result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
+                result.modifyDateEnd = moment(moment(this.listQuery.queryData.modifyDateRange[1]).format(BylDatetimeUtils.formatDateString))
+                    .add(1, 'days').valueOf();//第二天的零点
+            }
+        }
+        // if (this.listQuery.queryData.modifyDateBegin) result.modifyDateBegin = moment(this.listQuery.queryData.modifyDateBegin).valueOf();
+        // if (this.listQuery.queryData.modifyDateEnd) result.modifyDateEnd = moment(this.listQuery.queryData.modifyDateEnd).add(1, 'days').valueOf();//第二天的零点
+        if (this.listQuery.queryData.status) {
+            result.status = [];
+            result.status.push(...this.listQuery.queryData.status);
+        }
+        // if (this.qData.name) result.name = this.qData.name;
+        // if (this.qData.modifyDateBegin) result.modifyDateBegin = moment(this.qData.modifyDateBegin).valueOf();
+        // if (this.qData.modifyDateEnd) result.modifyDateEnd = moment(this.qData.modifyDateEnd).add(1, 'days').valueOf(); // 第二天的零点
+        // if (this.qData.status) result.status = this.qData.status;
         return result;
     }
 
@@ -145,8 +161,11 @@ export class BylOutsourceEmployeeListComponent extends BylListComponentBasePro<B
 
     //#region 查询条件
     queryDefaultData: any = {
-        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
-        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+        status: [1]
+        // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
+
+    };
     queryUiSchema: SFUISchema = {};
     querySchema: SFSchema = {
         properties: {
@@ -164,13 +183,10 @@ export class BylOutsourceEmployeeListComponent extends BylListComponentBasePro<B
                     widget: 'tag'
                 }
             },
-            modifyDateBegin: { type: 'string',
-                title: '最后修改日期大于等于',
-                ui: { widget: 'date' }
-            },
-            modifyDateEnd: { type: 'string',
-                title: '最后修改日期小于等于',
-                ui: { widget: 'date' }
+            modifyDateRange: {
+                type: 'string',
+                title: '最后修改日期',
+                ui: { widget: 'date', mode: 'range' }
             }
         },
         required: []

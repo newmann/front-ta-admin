@@ -17,6 +17,7 @@ import {BylPageReq} from "../../../../service/model/page-req.model";
 import {BylExpenseType} from "../../../../service/project/model/expense-type.model";
 import {BylExpenseTypeService} from "../../../../service/project/service/expense-type.service";
 import {BylExpenseTypeQuery} from "../../../../service/project/query/expense-type-query.model";
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 
 @Component({
     selector: 'byl-expense-type-list',
@@ -25,9 +26,9 @@ import {BylExpenseTypeQuery} from "../../../../service/project/query/expense-typ
 export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpenseType> {
 
 
-    statusList: BylIStatusItem[]; //状态
+    // statusList: BylIStatusItem[]; //状态
 
-    public normalWorkTypeStatus: number = BylMasterDataStatusEnum.NORMAL;
+    public normalWorkTypeStatus: number = BylMasterDataStatusEnum.CONFIRMED;
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
@@ -40,8 +41,8 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
         this.crudUrl = '/project/expense-type/crud';
         // this.businessCrudComponent = BylPersonCrudComponent;
 
-        this.statusList = BylMasterDataStatusManager.getArray();
-        this.querySchema.properties['status'].enum.push(...this.statusList); //设置查询条件中的状态字段
+        // this.statusList = BylMasterDataStatusManager.getArray();
+        this.querySchema.properties['status'].enum.push(...BylMasterDataStatusManager.getSFSelectDataArray()); //设置查询条件中的状态字段
     }
 
     /**
@@ -53,7 +54,7 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
         return findResult.map(data => {
             let item = new BylListFormData<BylExpenseType>();
             item.checked = false;
-            item.disabled = (data.status === BylMasterDataStatusEnum.DELETED);
+            item.disabled = (data.status === BylMasterDataStatusEnum.SUBMITED_DELETED);
             item.item = new BylExpenseType();
             Object.assign(item.item, data);
             return item;
@@ -67,10 +68,24 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
      */
     genQueryModel(): any {
         let result = new BylExpenseTypeQuery();
-        if (this.qData.name) result.name = this.qData.name;
-        if (this.qData.modifyDateBegin) result.modifyDateBegin = moment(this.qData.modifyDateBegin).valueOf();
-        if (this.qData.modifyDateEnd) result.modifyDateEnd = moment(this.qData.modifyDateEnd).add(1, 'days').valueOf(); // 第二天的零点
-        if (this.qData.status) result.status = this.qData.status;
+        if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
+        if (this.listQuery.queryData.name) result.name = this.qData.name;
+        if (this.listQuery.queryData.modifyDateRange) {
+            if (this.listQuery.queryData.modifyDateRange.length>0){
+                result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
+                result.modifyDateEnd = moment(moment(this.listQuery.queryData.modifyDateRange[1]).format(BylDatetimeUtils.formatDateString))
+                    .add(1, 'days').valueOf();//第二天的零点
+            }
+        }
+        if (this.listQuery.queryData.status) {
+            result.status = [];
+            result.status.push(...this.listQuery.queryData.status);
+        }
+
+        // if (this.qData.name) result.name = this.qData.name;
+        // if (this.qData.modifyDateBegin) result.modifyDateBegin = moment(this.qData.modifyDateBegin).valueOf();
+        // if (this.qData.modifyDateEnd) result.modifyDateEnd = moment(this.qData.modifyDateEnd).add(1, 'days').valueOf(); // 第二天的零点
+        // if (this.qData.status) result.status = this.qData.status;
         return result;
     }
 
@@ -143,8 +158,9 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
 
     //#region 查询条件
     queryDefaultData: any = {
-        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
-        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+        // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
+    };
     queryUiSchema: SFUISchema = {};
     querySchema: SFSchema = {
         properties: {
@@ -162,13 +178,10 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
                     widget: 'tag'
                 }
             },
-            modifyDateBegin: { type: 'string',
+            modifyDateRange: {
+                type: 'string',
                 title: '最后修改日期大于等于',
-                ui: { widget: 'date' }
-            },
-            modifyDateEnd: { type: 'string',
-                title: '最后修改日期小于等于',
-                ui: { widget: 'date' }
+                ui: { widget: 'date',mode: 'range' }
             }
         },
         required: []
@@ -178,7 +191,7 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.NORMAL }
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED }
         ],
         columns:[
             {label:"代码", fieldPath: "code" },
