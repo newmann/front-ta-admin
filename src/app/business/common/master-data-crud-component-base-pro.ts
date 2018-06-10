@@ -24,6 +24,12 @@ import {BylMasterDataBaseService} from "../../service/service/master-data-base.s
 
 export abstract class BylMasterDataCrudComponentBasePro<T extends BylMasterDataBaseModel>
     extends BylCrudComponentBasePro<T>{
+    submitLoading: boolean = false;
+    cancelLoading: boolean = false;
+    lockLoading: boolean = false;
+    unlockLoading: boolean =false;
+    confirmLoading: boolean = false;
+    unconfirmLoading: boolean = false;
 
     public businessService: BylMasterDataBaseService<T>;
 
@@ -38,12 +44,14 @@ export abstract class BylMasterDataCrudComponentBasePro<T extends BylMasterDataB
 
     }
 
+
     /**
      * 提交实体
      */
     submitEntity() {
-        this.loading = true;
+        this.submitLoading = true;
         this.errMsg = '';
+        this.getFormData();
 
         let saveResult$: Observable<BylResultBody<T>>;
 
@@ -60,7 +68,7 @@ export abstract class BylMasterDataCrudComponentBasePro<T extends BylMasterDataB
      *
      */
     cancelEntity() {
-        this.loading = true;
+        this.cancelLoading = true;
         this.errMsg = '';
 
         let saveResult$: Observable<BylResultBody<T>>;
@@ -78,7 +86,7 @@ export abstract class BylMasterDataCrudComponentBasePro<T extends BylMasterDataB
      *
      */
     lockEntity() {
-        this.loading = true;
+        this.lockLoading = true;
         this.errMsg = '';
 
         let saveResult$: Observable<BylResultBody<T>>;
@@ -95,7 +103,7 @@ export abstract class BylMasterDataCrudComponentBasePro<T extends BylMasterDataB
      *
      */
     unlockEntity() {
-        this.loading = true;
+        this.unlockLoading = true;
         this.errMsg = '';
 
         let saveResult$: Observable<BylResultBody<T>>;
@@ -113,7 +121,7 @@ export abstract class BylMasterDataCrudComponentBasePro<T extends BylMasterDataB
      *
      */
     confirmEntity() {
-        this.loading = true;
+        this.confirmLoading = true;
         this.errMsg = '';
 
         let saveResult$: Observable<BylResultBody<T>>;
@@ -129,7 +137,7 @@ export abstract class BylMasterDataCrudComponentBasePro<T extends BylMasterDataB
      * 取消确认，返回到提交状态
      */
     unconfirmEntity() {
-        this.loading = true;
+        this.unconfirmLoading = true;
         this.errMsg = '';
 
         let saveResult$: Observable<BylResultBody<T>>;
@@ -141,7 +149,7 @@ export abstract class BylMasterDataCrudComponentBasePro<T extends BylMasterDataB
         this.followProcess(saveResult$);
     }
 
-    private followProcess(call$: Observable<BylResultBody<T>> ){
+    protected followProcess(call$: Observable<BylResultBody<T>> ){
         call$.subscribe(
             data => {
                 // this._loading = false;
@@ -154,13 +162,25 @@ export abstract class BylMasterDataCrudComponentBasePro<T extends BylMasterDataB
 
                     this.errMsg = data.msg;
                 }
-                this.loading = false;
+                this.setLoadingFalse();
+                // this.loading = false;
+                // this.submitLoading = false;
             },
             err => {
                 this.errMsg = err.toString();
-                this.loading = false;
+                this.setLoadingFalse();
+                // this.loading = false;
             }
         );
+    }
+
+    setLoadingFalse(){
+        this.submitLoading= false;
+        this.unconfirmLoading = false;
+        this.confirmLoading = false;
+        this.lockLoading =false;
+        this.unlockLoading =false;
+        this.cancelLoading = false;
     }
 
     showSaveButton(): boolean{

@@ -21,15 +21,25 @@ import {BylEmployee} from "../../../../service/project/model/employee.model";
 import {BylEmployeeService} from "../../../../service/project/service/employee.service";
 import {parse} from "date-fns";
 import * as moment from 'moment';
+import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {Observable} from "rxjs/Observable";
+import {BylProjectStatusEnum} from "../../../../service/project/model/project-status.enum";
+import {BylEmployeeStatusEnum} from "../../../../service/project/model/employee-status.enum";
 
 
 @Component({
     selector: 'byl-employee-crud',
     templateUrl: './crud.component.html',
 })
-export class BylEmployeeCrudComponent extends BylCrudComponentBasePro<BylEmployee> {
-    processType: string;
+export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<BylEmployee> {
+    // processType: string;
+    leaveLoading: boolean =false;
 
+    private _newSchema: SFSchema;
+    private _modifySchema: SFSchema;
+    private _browseSchema: SFSchema;
 
     newBusinessData(): BylEmployee {
         return new BylEmployee();
@@ -41,7 +51,7 @@ export class BylEmployeeCrudComponent extends BylCrudComponentBasePro<BylEmploye
     }
 
     defineForm(): void {
-        this.newSchema = {
+        this._newSchema = {
             properties: {
                 "code": {
                     "type": 'string',
@@ -97,11 +107,68 @@ export class BylEmployeeCrudComponent extends BylCrudComponentBasePro<BylEmploye
                 "remarks": {
                     "type": 'string',
                     "title": '备注'
-                }
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
             },
             "required": ["code", "name"]
         };
+        this._browseSchema = {
+            properties: {
+                "code": {
+                    "type": 'string',
+                    "title": '代码',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "name": {
+                    "type": 'string',
+                    "title": '姓名',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
 
+                "enterDateDisplay": {
+                    "type": 'string',
+                    "title": '入职日期',
+                    'format': 'date',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "leaveDateDisplay": {
+                    "type": 'string',
+                    "title": '离职日期',
+                    'format': 'date',
+                    "ui": {
+                        widget: 'text'
+                    }
+
+                },
+                "remarks": {
+                    "type": 'string',
+                    "title": '备注',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+            },
+            "required": ["code", "name"]
+        };
         // BylCheckTypeEnumManager.getArray().forEach((item) =>{
         //     let option = {label: item.caption, value: item.value};
         //     this.newSchema.properties['checkType'].enum.push(option);
@@ -114,6 +181,21 @@ export class BylEmployeeCrudComponent extends BylCrudComponentBasePro<BylEmploye
      * 设置窗口定义的缺省值
      */
     setSchemaDefaultValue(){
+        if (this.processType === 'new') {
+            this.curSchema = simpleDeepCopy({},this._newSchema);
+
+        }else{
+            //修改状态，需要根据单据的状态进一步判断
+            switch (this.businessData.status){
+                case BylMasterDataStatusEnum.UNSUBMITED:
+                case BylMasterDataStatusEnum.SUBMITED:
+                    this.curSchema = simpleDeepCopy({},this._newSchema);
+                    break;
+                default:
+                    this.curSchema = simpleDeepCopy({},this._browseSchema);
+
+            }
+        }
         // super.setSchemaDefaultValue();
         // this.newSchema.properties.gender.enum.push(...BylGenderEnumManager.getSFSelectDataArray());
     };
@@ -135,21 +217,7 @@ export class BylEmployeeCrudComponent extends BylCrudComponentBasePro<BylEmploye
 
 
     }
-    //
-    // ngOnInit() {
-    //     console.log("执行ngOninit");
-    //
-    //     super.ngOnInit();
-    //
-    //
-    // }
-    //
-    // resetButtonClick($event: MouseEvent) {
-    //     $event.preventDefault();
-    //     this.reset();
-    // }
-    //
-    //
+
     getFormData() {
         // for (const i in this.form.controls) {
         //     this.form.controls[i].markAsDirty();
@@ -187,6 +255,37 @@ export class BylEmployeeCrudComponent extends BylCrudComponentBasePro<BylEmploye
         console.log('error', value);
     }
 
+    setLoadingFalse(){
+        this.leaveLoading =false;
+        super.setLoadingFalse();
 
+    }
+    /**
+     * 员工离职
+     */
+    leaveEntity() {
+        this.leaveLoading = true;
+        this.errMsg = '';
+
+        let saveResult$: Observable<BylResultBody<BylEmployee>>;
+
+        console.log('in EmployeeCRUD ', this.businessData);
+
+        saveResult$ = this.employeeService.leave(this.businessData);
+
+        this.followProcess(saveResult$);
+    }
+
+    showLeaveButton(): boolean{
+        return this.businessData.status === BylEmployeeStatusEnum.LEAVE;
+    }
+
+    showBrowseButton(): boolean{
+        return this.businessData.status === BylEmployeeStatusEnum.CONFIRMED
+            || this.businessData.status === BylEmployeeStatusEnum.LOCKED
+            || this.businessData.status === BylEmployeeStatusEnum.SUBMITED_DELETED
+            || this.businessData.status === BylEmployeeStatusEnum.LEAVE;
+
+    }
 }
 

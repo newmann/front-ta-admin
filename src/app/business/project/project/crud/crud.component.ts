@@ -27,13 +27,15 @@ import { BylDatetimeUtils } from "../../../../service/utils/datetime.utils";
 import { BylProjectStatusEnum } from "../../../../service/project/model/project-status.enum";
 import { simpleDeepCopy } from "../../../../service/utils/object.utils";
 import {Observable} from "rxjs/Observable";
+import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 
 
 @Component({
     selector: 'byl-project-crud',
     templateUrl: './crud.component.html',
 })
-export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject> {
+export class BylProjectCrudComponent extends BylMasterDataCrudComponentBasePro<BylProject> {
     // public managerPoolReveal: any; // 项目经理筛选窗口
 
     public addressTreevalue: any[] = [null, null, null]; // 初始化为空数组
@@ -43,6 +45,9 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
     private _newSchema: SFSchema;
     private _modifySchema: SFSchema;
     private _browseSchema: SFSchema;
+
+    runningLoading: boolean = false;
+    achieveLoading: boolean = false;
 
     @Input()
     set setSourceId(value: string) {
@@ -445,27 +450,32 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
 
     }
 
-    /**
-     * 提交单据
-     */
-    submitEntity() {
-        this.loading = true;
-        this.errMsg = '';
+    // /**
+    //  * 提交单据
+    //  */
+    // submitEntity() {
+    //     this.loading = true;
+    //     this.errMsg = '';
+    //
+    //     let saveResult$: Observable<BylResultBody<BylProject>>;
+    //
+    //     console.log('in ProjectCRUD ', this.businessData);
+    //
+    //     saveResult$ = this.projectService.submit(this.businessData);
+    //
+    //     this.followProcess(saveResult$);
+    // }
+    setLoadingFalse(){
+        this.runningLoading =false;
+        this.achieveLoading =false;
+        super.setLoadingFalse();
 
-        let saveResult$: Observable<BylResultBody<BylProject>>;
-
-        console.log('in ProjectCRUD ', this.businessData);
-
-        saveResult$ = this.projectService.submit(this.businessData);
-
-        this.followProcess(saveResult$);
     }
-
     /**
      * 启动项目
      */
     runEntity() {
-        this.loading = true;
+        this.runningLoading = true;
         this.errMsg = '';
 
         let saveResult$: Observable<BylResultBody<BylProject>>;
@@ -477,30 +487,30 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
         this.followProcess(saveResult$);
     }
 
-    /**
-     * 作废项目
-     * @param {BylProject} entity
-     */
-    cancelEntity(entity: BylProject) {
-        this.loading = true;
-        this.errMsg = '';
-
-        let saveResult$: Observable<BylResultBody<BylProject>>;
-
-        console.log('in CrudBasePro submitform', this.businessData);
-
-        saveResult$ = this.projectService.cancel(this.businessData);
-
-        this.followProcess(saveResult$);
-
-    }
+    // /**
+    //  * 作废项目
+    //  * @param {BylProject} entity
+    //  */
+    // cancelEntity(entity: BylProject) {
+    //     this.loading = true;
+    //     this.errMsg = '';
+    //
+    //     let saveResult$: Observable<BylResultBody<BylProject>>;
+    //
+    //     console.log('in CrudBasePro submitform', this.businessData);
+    //
+    //     saveResult$ = this.projectService.cancel(this.businessData);
+    //
+    //     this.followProcess(saveResult$);
+    //
+    // }
 
     /**
      * 完成项目
      * @param {BylProject} entity
      */
     achieveEntity(entity: BylProject) {
-        this.loading = true;
+        this.achieveLoading = true;
         this.errMsg = '';
 
         let saveResult$: Observable<BylResultBody<BylProject>>;
@@ -513,49 +523,43 @@ export class BylProjectCrudComponent extends BylCrudComponentBasePro<BylProject>
 
     }
 
-    private followProcess(call$: Observable<BylResultBody<BylProject>> ){
-        call$.subscribe(
-            data => {
-                // this._loading = false;
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                    // simpleDeepCopy(this.businessData,data.data);
-                    this.setFormData(data.data);
-                    this.reset(); //重置界面
 
-                } else {
-
-                    this.errMsg = data.msg;
-                }
-                this.loading = false;
-            },
-            err => {
-                this.errMsg = err.toString();
-                this.loading = false;
-            }
-        );
-    }
-
-    showSaveButton(): boolean{
-        return this.businessData.status === BylProjectStatusEnum.UNSUBMITED
-            || this.businessData.status == BylProjectStatusEnum.SUBMITED;
-    }
-
-    showSubmitButton():boolean{
-        return this.businessData.status === BylProjectStatusEnum.UNSUBMITED;
-    }
+    // showSaveButton(): boolean{
+    //     return this.businessData.status === BylProjectStatusEnum.UNSUBMITED
+    //         || this.businessData.status == BylProjectStatusEnum.SUBMITED;
+    // }
+    //
+    // showSubmitButton():boolean{
+    //     return this.businessData.status === BylProjectStatusEnum.UNSUBMITED;
+    // }
 
     showRunButton(): boolean{
-        return this.businessData.status === BylProjectStatusEnum.SUBMITED;
+        return this.businessData.status === BylProjectStatusEnum.CONFIRMED;
     }
 
-    showCancelButton(): boolean{
-        return this.businessData.status === BylProjectStatusEnum.SUBMITED
-            || this.businessData.status === BylProjectStatusEnum.RUNNING;
-    }
+    // showCancelButton(): boolean{
+    //     return this.businessData.status === BylProjectStatusEnum.SUBMITED
+    //         || this.businessData.status === BylProjectStatusEnum.RUNNING;
+    // }
 
     showAchieveButton(): boolean{
         return this.businessData.status === BylProjectStatusEnum.RUNNING;
 
+    }
+
+    showBrowseButton(): boolean{
+        return this.businessData.status === BylProjectStatusEnum.CONFIRMED
+            || this.businessData.status === BylProjectStatusEnum.CONFIRMED_DELETED
+            || this.businessData.status === BylProjectStatusEnum.LOCKED
+            || this.businessData.status === BylProjectStatusEnum.SUBMITED_DELETED
+            || this.businessData.status === BylProjectStatusEnum.RUNNING
+            || this.businessData.status === BylProjectStatusEnum.RUNNING_DELETED
+            || this.businessData.status === BylProjectStatusEnum.ACHIEVEMENT;
+
+    }
+    showCancelButton(): boolean{
+        return this.businessData.status === BylProjectStatusEnum.SUBMITED
+            || this.businessData.status === BylProjectStatusEnum.RUNNING;
     }
 
     error(value: any) {

@@ -8,6 +8,7 @@ import {Observable} from "rxjs/Observable";
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
 import {BylResultBody} from "../../model/result-body.model";
 import {BylProjectManagerPool} from "../model/project-manager-pool.model";
+import {BylMasterDataBaseService} from "../../service/master-data-base.service";
 
 
 
@@ -17,7 +18,7 @@ import {BylProjectManagerPool} from "../model/project-manager-pool.model";
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylProjectService  extends BylBaseService<BylProject> {
+export class BylProjectService  extends BylMasterDataBaseService<BylProject> {
 
 
     constructor(protected http: _HttpClient,
@@ -50,13 +51,13 @@ export class BylProjectService  extends BylBaseService<BylProject> {
         return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/delete', updateItem);
     }
 
-    cancel(updateItem: BylProject): Observable<BylResultBody<BylProject>> {
-        return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/cancel', updateItem);
-    }
-
-    submit(updateItem: BylProject): Observable<BylResultBody<BylProject>> {
-        return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/submit', updateItem);
-    }
+    // cancel(updateItem: BylProject): Observable<BylResultBody<BylProject>> {
+    //     return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/cancel', updateItem);
+    // }
+    //
+    // submit(updateItem: BylProject): Observable<BylResultBody<BylProject>> {
+    //     return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/submit', updateItem);
+    // }
 
     running(updateItem: BylProject): Observable<BylResultBody<BylProject>> {
         return this.http.post<BylResultBody<BylProject>>(this.BASE_API_URL + '/running', updateItem);

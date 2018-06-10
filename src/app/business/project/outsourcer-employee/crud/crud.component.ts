@@ -13,16 +13,23 @@ import {BylOutsourceEmployee} from "../../../../service/project/model/outsource-
 import {BylOutsourceEmployeeService} from "../../../../service/project/service/outsource-employee.service";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {BylProject} from "../../../../service/project/model/project.model";
+import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {SFSchema} from "@delon/form";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {BylEmployeeStatusEnum} from "../../../../service/project/model/employee-status.enum";
 
 
 @Component({
     selector: 'byl-outsource-employee-crud',
     templateUrl: './crud.component.html',
 })
-export class BylOutsourceEmployeeCrudComponent extends BylCrudComponentBasePro<BylOutsourceEmployee> {
-    processType: string;
+export class BylOutsourceEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<BylOutsourceEmployee> {
+    // processType: string;
 
-
+    private _newSchema: SFSchema;
+    private _modifySchema: SFSchema;
+    private _browseSchema: SFSchema;
     newBusinessData(): BylOutsourceEmployee {
         return new BylOutsourceEmployee();
     }
@@ -33,7 +40,7 @@ export class BylOutsourceEmployeeCrudComponent extends BylCrudComponentBasePro<B
     }
 
     defineForm(): void {
-        this.newSchema = {
+        this._newSchema = {
             properties: {
                 "outsourcerWidget":{
                     "type": 'string',
@@ -81,11 +88,58 @@ export class BylOutsourceEmployeeCrudComponent extends BylCrudComponentBasePro<B
                 "remarks": {
                     "type": 'string',
                     "title": '备注'
-                }
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
             },
             "required": ["outsourcerWidget", "code", "name"]
         };
+        this._browseSchema = {
+            properties: {
+                "outsourcerWidget":{
+                    "type": 'string',
+                    "title": '所属外包商',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "code": {
+                    "type": 'string',
+                    "title": '员工编号',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "name": {
+                    "type": 'string',
+                    "title": '姓名',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
 
+                "remarks": {
+                    "type": 'string',
+                    "title": '备注',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+            },
+            "required": ["outsourcerWidget", "code", "name"]
+        };
         // BylCheckTypeEnumManager.getArray().forEach((item) =>{
         //     let option = {label: item.caption, value: item.value};
         //     this.newSchema.properties['checkType'].enum.push(option);
@@ -94,7 +148,28 @@ export class BylOutsourceEmployeeCrudComponent extends BylCrudComponentBasePro<B
         // this.newSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
 
     }
+    /**
+     * 设置窗口定义的缺省值
+     */
+    setSchemaDefaultValue(){
+        if (this.processType === 'new') {
+            this.curSchema = simpleDeepCopy({},this._newSchema);
 
+        }else{
+            //修改状态，需要根据单据的状态进一步判断
+            switch (this.businessData.status){
+                case BylEmployeeStatusEnum.UNSUBMITED:
+                case BylEmployeeStatusEnum.SUBMITED:
+                    this.curSchema = simpleDeepCopy({},this._newSchema);
+                    break;
+                default:
+                    this.curSchema = simpleDeepCopy({},this._browseSchema);
+
+            }
+        }
+
+        // this.newSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
+    };
     // defaultFormData: BylOutsourceEmployee = new BylOutsourceEmployee();
 
     // this.formUiSchema: SFUISchema = {};

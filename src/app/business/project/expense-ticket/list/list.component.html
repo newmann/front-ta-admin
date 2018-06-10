@@ -1,0 +1,41 @@
+<!--region 页面头 -->
+<page-header [title]="'费用单'" >
+    <ng-template #action>
+      <ng-container *ngIf="selectedRows.length > 0">
+
+
+        <button nz-button class="ml-sm">批量操作</button>
+
+        <nz-dropdown [nzPlacement]="'bottomLeft'">
+          <button nz-button nz-dropdown class="ml-sm">
+            更多操作 <i class="anticon anticon-down"></i>
+          </button>
+          <ul nz-menu>
+            <li nz-menu-item (click)="batchDelete()">删除</li>
+            <li nz-menu-item (click)="batchApproval()">批量审批</li>
+          </ul>
+        </nz-dropdown>
+      </ng-container>
+
+        <button nz-button (click)="add()" [nzType]="'default'" >
+            <i class="anticon anticon-plus"></i><span>新建</span>
+        </button>
+        <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" >
+            <i class="anticon anticon-search"></i><span>查询</span>
+        </button>
+
+    </ng-template>
+</page-header>
+<!--endregion -->
+
+<!--查询条件-->
+<byl-list-query-widget [defaultData]="queryDefaultData" [schema]="querySchema"
+                       [uiSchema]="queryUiSchema" ></byl-list-query-widget>
+
+<!--数据显示-->
+<byl-list-form-table-item [listData]="listData"  [total]="total" [loading]="loading"
+                          [tableDefine]="tableDefine"
+                          (pageChange)="pageChange($event)" (entityAction)="entityAction($event)"
+                          (selectedChange)="selectedChange($event)"
+
+></byl-list-form-table-item>

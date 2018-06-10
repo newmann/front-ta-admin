@@ -11,7 +11,9 @@ import {SFSchema, SFUISchema} from "@delon/form";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {BylWorkTypeQuery} from "../../../../service/project/query/work-type-query.model";
 import {
-    ACTION_DELETE, ACTION_MODIFY, BylTableClickAction,
+    ACTION_BROWSE,
+    ACTION_CONFIRM,
+    ACTION_DELETE, ACTION_LOCK, ACTION_MODIFY, ACTION_SUBMIT, ACTION_UNCONFIRM, ACTION_UNLOCK, BylTableClickAction,
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylPageReq} from "../../../../service/model/page-req.model";
@@ -20,12 +22,13 @@ import {BylEmployeeStatusEnum, BylEmployeeStatusManager} from "../../../../servi
 import {BylOutsourcerService} from "../../../../service/project/service/outsourcer.service";
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
 
 @Component({
     selector: 'byl-oursourcer-list',
     templateUrl: './list.component.html',
 })
-export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutsourcer> {
+export class BylOutsourcerListComponent extends BylMasterDataListComponentBasePro<BylOutsourcer> {
 
 
     // statusList: BylIStatusItem[]; //状态
@@ -43,7 +46,7 @@ export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutso
         // this.businessCrudComponent = BylPersonCrudComponent;
 
 
-        this.querySchema.properties['status'].enum.push(...BylEmployeeStatusManager.getSFSelectDataArray()); //设置查询条件中的状态字段
+        this.querySchema.properties['status'].enum.push(...BylMasterDataStatusManager.getSFSelectDataArray()); //设置查询条件中的状态字段
     }
 
     /**
@@ -55,7 +58,7 @@ export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutso
         return findResult.map(data => {
             let item = new BylListFormData<BylOutsourcer>();
             item.checked = false;
-            item.disabled = (data.status !== BylEmployeeStatusEnum.NORMAL);
+            // item.disabled = (data.status !== BylEmployeeStatusEnum.NORMAL);
             item.item = new BylOutsourcer();
             Object.assign(item.item, data);
             return item;
@@ -99,44 +102,6 @@ export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutso
 
     }
 
-
-    /**
-     * 将当前记录锁定
-     * @param {string} id
-     */
-    lockRole(id: string) {
-        let lockItem = new BylOutsourcer();
-        this.listData.forEach(item => {
-            if (item.item.id === id) {
-                Object.assign(lockItem, item.item);
-            }
-        });
-
-        console.log('lockItem: ' + lockItem);
-        if (!lockItem) return;
-
-        lockItem.status = BylMasterDataStatusEnum.LOCKED.valueOf();
-
-        this.outsourcerService.update(lockItem).subscribe(
-            data => {
-                this.loading = false;
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-
-                    // this.listData = Array.from(data.data.rows);
-                    this.updateListData(data.data);
-
-                } else {
-                    this.showMsg(data.msg);
-                }
-            },
-            err => {
-                this.loading = false;
-                console.log(err);
-                this.showMsg(err.toString());
-            }
-        );
-    }
-
     updateListData(newData: BylOutsourcer) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
@@ -159,6 +124,7 @@ export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutso
 
     //#region 查询条件
     queryDefaultData: any = {
+        status:[BylMasterDataStatusEnum.UNSUBMITED,BylMasterDataStatusEnum.SUBMITED,BylMasterDataStatusEnum.CONFIRMED]
         // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
         // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
     };
@@ -192,7 +158,17 @@ export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutso
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED }
+            {actionName: ACTION_DELETE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.SUBMITED },
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
+            {actionName: ACTION_SUBMIT,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
+            {actionName: ACTION_CONFIRM,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.SUBMITED },
+            {actionName: ACTION_UNCONFIRM,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED },
+            {actionName: ACTION_UNLOCK,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.LOCKED },
+            {actionName: ACTION_LOCK,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.LOCKED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.SUBMITED_DELETED },
         ],
         columns:[
             {label:"代码", fieldPath: "code" },
@@ -202,24 +178,5 @@ export class BylOutsourcerListComponent extends BylListComponentBasePro<BylOutso
         ]};
 
 
-    // pageChange(item: BylPageReq){
-    //     this.page = item;
-    //     this.search();
-    // }
-    //
-    // selectedChange(data: BylListFormData<BylOutsourcer>[]){
-    //     this.selectedRows = data;
-    //
-    // }
-    // entityAction(action: BylTableClickAction){
-    //     switch(action.actionName){
-    //         case ACTION_MODIFY:
-    //             this.modifyEntity(action.id);
-    //             break;
-    //         default:
-    //             console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-    //     }
-    //
-    // }
 
 }

@@ -18,7 +18,7 @@ export class BylEntityReference{
 
 
     getFullCaption() {
-        if ((this.code) && (this.name)) {
+        if (this.id) {
             return this.name +"[" + this.code +"]";
         }else{
             return "[]";

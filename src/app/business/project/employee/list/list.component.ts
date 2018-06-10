@@ -11,7 +11,9 @@ import {SFSchema, SFUISchema} from "@delon/form";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {BylWorkTypeQuery} from "../../../../service/project/query/work-type-query.model";
 import {
-    ACTION_DELETE, ACTION_MODIFY, BylTableClickAction,
+    ACTION_BROWSE,
+    ACTION_CANCEL,
+    ACTION_DELETE, ACTION_MODIFY, ACTION_SUBMIT, BylTableClickAction,
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylPageReq} from "../../../../service/model/page-req.model";
@@ -19,12 +21,15 @@ import {BylEmployeeService} from "../../../../service/project/service/employee.s
 import {BylEmployee} from '../../../../service/project/model/employee.model';
 import {BylEmployeeStatusEnum, BylEmployeeStatusManager} from "../../../../service/project/model/employee-status.enum";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
+import {BylProjectStatusEnum} from "../../../../service/project/model/project-status.enum";
+import {BylProject} from "../../../../service/project/model/project.model";
 
 @Component({
     selector: 'byl-empoloyee-list',
     templateUrl: './list.component.html',
 })
-export class BylEmployeeListComponent extends BylListComponentBasePro<BylEmployee> {
+export class BylEmployeeListComponent extends BylMasterDataListComponentBasePro<BylEmployee> {
 
 
 
@@ -51,7 +56,7 @@ export class BylEmployeeListComponent extends BylListComponentBasePro<BylEmploye
         return findResult.map(data => {
             let item = new BylListFormData<BylEmployee>();
             item.checked = false;
-            item.disabled = (data.status !== BylEmployeeStatusEnum.NORMAL);
+            // item.disabled = (data.status !== BylEmployeeStatusEnum.NORMAL);
             item.item = new BylEmployee();
             Object.assign(item.item, data);
             return item;
@@ -96,43 +101,6 @@ export class BylEmployeeListComponent extends BylListComponentBasePro<BylEmploye
     }
 
 
-    /**
-     * 将当前记录锁定
-     * @param {string} id
-     */
-    lockRole(id: string) {
-        let lockItem = new BylEmployee();
-        this.listData.forEach(item => {
-            if (item.item.id === id) {
-                Object.assign(lockItem, item.item);
-            }
-        });
-
-        console.log('lockItem: ' + lockItem);
-        if (!lockItem) return;
-
-        lockItem.status = BylEmployeeStatusEnum.LOCKED.valueOf();
-
-        this.employeeService.update(lockItem).subscribe(
-            data => {
-                this.loading = false;
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-
-                    // this.listData = Array.from(data.data.rows);
-                    this.updateListData(data.data);
-
-                } else {
-                    this.showMsg(data.msg);
-                }
-            },
-            err => {
-                this.loading = false;
-                console.log(err);
-                this.showMsg(err.toString());
-            }
-        );
-    }
-
     updateListData(newData: BylEmployee) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
@@ -147,15 +115,15 @@ export class BylEmployeeListComponent extends BylListComponentBasePro<BylEmploye
     /**
      * 设置查询缺省值
      */
-    setQDataDefaultValue(){
-        let q = new BylWorkTypeQuery();
-
-        Object.assign(this.qData,q);
-    }
+    // setQDataDefaultValue(){
+    //     let q = new BylWorkTypeQuery();
+    //
+    //     Object.assign(this.qData,q);
+    // }
 
     //#region 查询条件
     queryDefaultData: any = {
-        status:[]
+        status:[BylEmployeeStatusEnum.UNSUBMITED,BylEmployeeStatusEnum.SUBMITED,BylEmployeeStatusEnum.CONFIRMED]
         // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
         // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
     };
@@ -185,11 +153,28 @@ export class BylEmployeeListComponent extends BylListComponentBasePro<BylEmploye
         required: []
     };
 //#endregion
+    EMPLOYEE_LEAVE = "离职";
 
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.NORMAL }
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.UNSUBMITED },
+            {actionName: ACTION_DELETE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.UNSUBMITED },
+            {actionName: ACTION_SUBMIT,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.UNSUBMITED },
+
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.SUBMITED },
+            {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.SUBMITED },
+
+            {actionName: this.EMPLOYEE_LEAVE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.CONFIRMED },
+
+            {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.CONFIRMED },
+
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.CONFIRMED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.LOCKED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.SUBMITED_DELETED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.LEAVE },
+
+            // {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.NORMAL }
         ],
         columns:[
             {label:"代码", fieldPath: "code" },
@@ -201,24 +186,32 @@ export class BylEmployeeListComponent extends BylListComponentBasePro<BylEmploye
         ]};
 
 
-    // pageChange(item: BylPageReq){
-    //     this.page = item;
-    //     this.search();
-    // }
-    //
-    // selectedChange(data: BylListFormData<BylEmployee>[]){
-    //     this.selectedRows = data;
-    //
-    // }
-    // entityAction(action: BylTableClickAction){
-    //     switch(action.actionName){
-    //         case ACTION_MODIFY:
-    //             this.modifyEntity(action.id);
-    //             break;
-    //         default:
-    //             console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-    //     }
-    //
-    // }
+    entityAction(action: BylTableClickAction){
+        super.entityAction(action);
 
+        switch(action.actionName){
+            case this.EMPLOYEE_LEAVE:
+                this.showLeaveEntity(action.rowItem);
+                break;
+            default:
+                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+        }
+
+    }
+
+    showLeaveEntity(entity: BylEmployee){
+        this.modalService.confirm({
+            nzTitle: '确认要进行离职操作吗?',
+            nzContent: '<b style="color: red;">员工在正式离开之后再完成离职操作。</b>',
+            nzOkText: '离职',
+            nzOkType: 'primary',
+            nzOnOk: () => {
+                this.actionResult$ = this.employeeService.leave(entity);
+                this.actionFollowProcess(this.actionResult$);
+            },
+            nzCancelText: '取消',
+            nzOnCancel: () => console.log('confirmEntity Cancel')
+        });
+
+    }
 }

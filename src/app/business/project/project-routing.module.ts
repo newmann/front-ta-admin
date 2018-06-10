@@ -16,6 +16,8 @@ import {BylOutsourcerCrudComponent} from "./outsourcer/crud/crud.component";
 import {BylOutsourcerListComponent} from "./outsourcer/list/list.component";
 import {BylOutsourceEmployeeCrudComponent} from "./outsourcer-employee/crud/crud.component";
 import {BylOutsourceEmployeeListComponent} from "./outsourcer-employee/list/list.component";
+import {BylExpenseTicketListComponent} from "./expense-ticket/list/list.component";
+import {BylExpenseTicketCrudComponent} from "./expense-ticket/crud/crud.component";
 
 
 
@@ -33,6 +35,8 @@ const routes: Routes = [
     { path: 'work-type/crud/:type', component: BylWorkTypeCrudComponent,data: {reuse: true}  },
     { path: 'expense-type/list', component: BylExpenseTypeListComponent },
     { path: 'expense-type/crud/:type', component: BylExpenseTypeCrudComponent,data: {reuse: true}  },
+    { path: 'expense-ticket/list', component: BylExpenseTicketListComponent },
+    { path: 'expense-ticket/crud/:type', component: BylExpenseTicketCrudComponent,data: {reuse: true}  },
     { path: 'employee/list', component: BylEmployeeListComponent },
     { path: 'employee/crud/:type', component: BylEmployeeCrudComponent,data: {reuse: true}  },
     { path: 'outsourcer/list', component: BylOutsourcerListComponent },

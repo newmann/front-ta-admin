@@ -6,15 +6,17 @@ import {BylConfigService} from "../../service/constant/config.service";
 import {BylCrudEvent} from "./waiting/crud-waiting.component";
 import {BylResultBody} from "../../service/model/result-body.model";
 import {BylItemBaseService} from "../../service/service/item-base.service";
+import {BylBaseItemModal} from "../../service/model/base-item.model";
 
 /**
  * @Description: Master-detail模型中detail list组件的抽象类
  * @Author: newmannhu@qq.com
  * @Date: Created in 2018-04-15 9:22
  **/
-export abstract class BylItemListComponentBase<T> implements OnInit {
+export abstract class BylItemListComponentBase<T extends BylBaseItemModal> implements OnInit {
 
-    public masterId:string;
+    public masterId:string; //单据头的id
+    public masterModifyDateTime:number;//单据头的最后修改时间
 
     public businessService: BylItemBaseService<T>;
     public businessCrudComponent: any;
@@ -80,15 +82,20 @@ export abstract class BylItemListComponentBase<T> implements OnInit {
                 nzComponentParams: {
                     sourceId: null,
                     masterId: this.masterId,
+                    masterModifyDateTime: this.masterModifyDateTime
                 },
+                nzFooter: null,
                 nzMaskClosable: false
             });
             //
-            this.modifyForm.destroy(result => {
+            this.modifyForm.afterClose.subscribe(result => {
                 console.log(result);
-                if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
-                    //更新对应的数据
-                    this.listData.push(this.genListData(result.data));
+                if(result){
+                    if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
+                        //更新对应的数据
+                        this.listData.push(this.genListData(result.data));
+                    }
+
                 }
             });
         // }
@@ -109,15 +116,20 @@ export abstract class BylItemListComponentBase<T> implements OnInit {
             nzComponentParams: {
                 sourceId: id,
                 masterId: this.masterId,
+                masterModifyDateTime: this.masterModifyDateTime
             },
+            nzFooter: null,
             nzMaskClosable: false
         });
         //
-        this.modifyForm.destroy(result => {
+        this.modifyForm.afterClose.subscribe(result => {
             console.log(result);
-            if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
-                //更新对应的数据
-                this.updateListData(result.data);
+            if(result){
+                if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
+                    //更新对应的数据
+                    this.updateListData(result.data);
+                }
+
             }
         });
     }

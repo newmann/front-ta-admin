@@ -128,43 +128,6 @@ export class BylRoleListComponent extends BylMasterDataListComponentBasePro<BylR
     }
 
 
-    /**
-     * 将当前记录锁定
-     * @param {string} id
-     */
-    // lockRole(id: string) {
-    //     let lockItem = new BylRole();
-    //     this.listData.forEach(item => {
-    //         if (item.item.id === id) {
-    //             Object.assign(lockItem, item.item);
-    //         }
-    //     });
-    //
-    //     console.log('lockItem: ' + lockItem);
-    //     if (!lockItem) return;
-    //
-    //     lockItem.status = BylMasterDataStatusEnum.LOCKED.valueOf();
-    //
-    //     this.roleService.update(lockItem).subscribe(
-    //         data => {
-    //             this.loading = false;
-    //             if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-    //
-    //                 // this.listData = Array.from(data.data.rows);
-    //                 this.updateListData(data.data);
-    //
-    //             } else {
-    //                 this.showMsg(data.msg);
-    //             }
-    //         },
-    //         err => {
-    //             this.loading = false;
-    //             console.log(err);
-    //             this.showMsg(err.toString());
-    //         }
-    //     );
-    // }
-
     updateListData(newData: BylRole) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {

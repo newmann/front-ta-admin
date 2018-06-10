@@ -6,9 +6,10 @@
 import {BylBaseModel} from '../../model/base.model';
 import {BylEmbeddableOrganization} from "../../organization/model/embeddable-organization.model";
 import {BylMasterDataStatusManager} from "../../model/master-data-status.enum";
+import {BylMasterDataBaseModel} from "../../model/master-data-base.model";
 
 
-export class BylOutsourcer extends BylBaseModel {
+export class BylOutsourcer extends BylMasterDataBaseModel {
     code: string;
     name: string;
 
@@ -16,13 +17,13 @@ export class BylOutsourcer extends BylBaseModel {
 
     organization: BylEmbeddableOrganization = new BylEmbeddableOrganization();
 
-    status: number;
-
-    get statusDisplay(): string{
-        return BylMasterDataStatusManager.getCaption(this.status);
-    }
-    set statusDisplay(value: string){
-
-    }
+    // status: number;
+    //
+    // get statusDisplay(): string{
+    //     return BylMasterDataStatusManager.getCaption(this.status);
+    // }
+    // set statusDisplay(value: string){
+    //
+    // }
 
 }

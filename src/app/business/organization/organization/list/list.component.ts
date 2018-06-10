@@ -171,7 +171,7 @@ export class BylOrganizationListComponent extends BylListComponentBasePro<BylOrg
             {label:"名称", fieldPath: "name" },
             {label:"简称", fieldPath: "simpleName" },
             {label:"法人代表", fieldPath: "legalPersonNameDisplay" },
-            {label:"组织类型", fieldPath: "OrganizationTypeDisplay" },
+            {label:"组织类型", fieldPath: "typeDisplay" },
             {label:"备注", fieldPath: "remarks" },
             {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};

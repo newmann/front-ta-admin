@@ -27,6 +27,7 @@ import {BylPoliticalStatusSelectWidgetSFComponent} from "./common/select-widget-
 import {BylPersonSelectWidgetSFComponent} from "./common/select-widget-sf/select-person.widget";
 import {BylBorrowMoneyQualificationPoolSelectWidgetSFComponent} from "./common/select-widget-sf/select-borrow-money-qualification-pool.widget";
 import {BylProjectSelectWidgetSFComponent} from "./common/select-widget-sf/select-project.widget";
+import {BylExpenseTypeSelectWidgetSFComponent} from "./common/select-widget-sf/select-expense-type-sf.widget";
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import {BylProjectSelectWidgetSFComponent} from "./common/select-widget-sf/selec
         ,BylPersonSelectWidgetSFComponent
         ,BylBorrowMoneyQualificationPoolSelectWidgetSFComponent
         ,BylProjectSelectWidgetSFComponent
+        ,BylExpenseTypeSelectWidgetSFComponent
     ],
     exports: [
         BylPipeModule,
@@ -92,6 +94,7 @@ import {BylProjectSelectWidgetSFComponent} from "./common/select-widget-sf/selec
         ,BylPersonSelectWidgetSFComponent
         ,BylBorrowMoneyQualificationPoolSelectWidgetSFComponent
         ,BylProjectSelectWidgetSFComponent
+        ,BylExpenseTypeSelectWidgetSFComponent
     ],
     entryComponents: [
         BylAccountListComponent,
@@ -107,6 +110,7 @@ import {BylProjectSelectWidgetSFComponent} from "./common/select-widget-sf/selec
         ,BylPersonSelectWidgetSFComponent
         ,BylBorrowMoneyQualificationPoolSelectWidgetSFComponent
         ,BylProjectSelectWidgetSFComponent
+        ,BylExpenseTypeSelectWidgetSFComponent
     ]
     // ,
     // schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
@@ -121,5 +125,6 @@ export class BylBusinessSharedModule {
         widgetRegistry.register(BylPersonSelectWidgetSFComponent.KEY, BylPersonSelectWidgetSFComponent);
         widgetRegistry.register(BylBorrowMoneyQualificationPoolSelectWidgetSFComponent.KEY, BylBorrowMoneyQualificationPoolSelectWidgetSFComponent);
         widgetRegistry.register(BylProjectSelectWidgetSFComponent.KEY, BylProjectSelectWidgetSFComponent);
+        widgetRegistry.register(BylExpenseTypeSelectWidgetSFComponent.KEY, BylExpenseTypeSelectWidgetSFComponent);
     }
 }

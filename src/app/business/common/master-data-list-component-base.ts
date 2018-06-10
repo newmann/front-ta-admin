@@ -188,7 +188,7 @@ export abstract class BylMasterDataListComponentBasePro<T extends BylMasterDataB
         });
     }
     cancelEntity(entity: any) {
-        this.actionResult$ = this.businessService.confirm(entity);
+        this.actionResult$ = this.businessService.cancel(entity);
         this.actionFollowProcess(this.actionResult$);
     }
 

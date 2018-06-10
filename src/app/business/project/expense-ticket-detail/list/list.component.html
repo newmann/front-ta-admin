@@ -1,0 +1,66 @@
+<div >
+    <button nz-button (click)="add()" [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mb-sm">
+        <i class="anticon anticon-plus"></i><span>添加</span>
+    </button>
+    <button nz-button (click)="search()" [nzType]="'primary'" [nzSize]="'large'" class="ant-btn__block mb-sm">
+        <i class="anticon anticon-search"></i><span>查询</span>
+    </button>
+    <nz-table #nzTable [nzData]="listData"  [nzLoading]="loading"
+              [nzShowPagination]="false">
+        <thead >
+        <tr>
+            <!--<th  [nzCheckbox]="true">-->
+            <!--<caption nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
+            <!--(ngModelChange)="checkAll($event)"></caption>-->
+            <!--</th>-->
+            <th ><span>行号</span></th>
+            <th ><span>费用类型</span></th>
+            <th ><span>金额</span></th>
+            <th >
+                <span>备注</span>
+            </th>
+            <!--<th >-->
+            <!--<span>更新时间</span>-->
+            <!--</th>-->
+
+            <th ><span>操作</span></th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr  *ngFor="let i of nzTable.data">
+            <!--<td  [nzCheckbox]="true">-->
+            <!--<caption nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
+            <!--(ngModelChange)="refreshStatus($event)">-->
+            <!--</caption>-->
+            <!--</td>-->
+            <td >{{i.item.lineNo}}</td>
+            <td >{{i.item.expenseTypeDisplay}}</td>
+            <td >{{i.item.amount}}</td>
+            <td >{{i.item.remarks}}</td>
+            <!--<td >{{i.item.modifyAction.modifyDateTime | _date}}</td>-->
+            <td >
+                <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
+                <span>
+                        <a (click)="modifyEntity(i.item.id)">修改</a>
+                    </span>
+                <span nz-table-divider></span>
+                <span>
+                        <a (click)="delete(i.item.item.id)">删除</a>
+                    </span>
+              <span nz-table-divider></span>
+              <span>
+                        <a (click)="moveUp(i.item.item.lineNo)">上移</a>
+                    </span>
+              <span nz-table-divider></span>
+              <span>
+                        <a (click)="moveDown(i.item.item.lineNo)">下移</a>
+                    </span>
+
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+
+
+
+</div>

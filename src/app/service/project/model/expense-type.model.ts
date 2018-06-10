@@ -5,18 +5,19 @@
  */
 import {BylBaseModel} from '../../model/base.model';
 import {BylMasterDataStatusManager} from "../../model/master-data-status.enum";
+import {BylMasterDataBaseModel} from "../../model/master-data-base.model";
 
 
-export class BylExpenseType extends BylBaseModel {
+export class BylExpenseType extends BylMasterDataBaseModel {
     code: string;
     name: string;
-    status: number;
-
-    get statusDisplay(): string{
-        return BylMasterDataStatusManager.getCaption(this.status);
-    }
-    set statusDisplay(value: string){
-
-    }
+    // status: number;
+    //
+    // get statusDisplay(): string{
+    //     return BylMasterDataStatusManager.getCaption(this.status);
+    // }
+    // set statusDisplay(value: string){
+    //
+    // }
 
 }

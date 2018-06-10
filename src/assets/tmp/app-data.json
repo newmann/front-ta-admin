@@ -236,6 +236,16 @@
           "link": "/project/expense-type/crud/new",
           "i18n": "expense_type_new"
         }
+        ,{
+            "text": "费用单管理",
+            "link": "/project/expense-ticket/list",
+            "i18n": "expense_ticket_list"
+          }
+        ,{
+            "text": "费用单新增",
+            "link": "/project/expense-ticket/crud/new",
+            "i18n": "expense_ticket_new"
+          }
         ]
       },{
         "text": "员工设置",

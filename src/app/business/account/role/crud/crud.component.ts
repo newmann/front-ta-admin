@@ -65,7 +65,7 @@ export class BylRoleCrudComponent extends BylMasterDataCrudComponentBasePro<BylR
                     "type": 'string',
                     "title": '名称',
                     "ui": {
-                        placeholder: '请输入角色代码',
+                        placeholder: '请输入角色名称',
                         validator: (value: string) => {
                             if (isEmpty(value)) {
                                 console.log('check code:', value);

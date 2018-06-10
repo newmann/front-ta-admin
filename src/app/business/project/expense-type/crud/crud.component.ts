@@ -13,16 +13,22 @@ import {BylResultBody} from "../../../../service/model/result-body.model";
 import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylExpenseTypeService} from "../../../../service/project/service/expense-type.service";
 import {BylExpenseType} from "../../../../service/project/model/expense-type.model";
+import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 
 
 @Component({
     selector: 'byl-expense-type-crud',
     templateUrl: './crud.component.html',
 })
-export class BylExpenseTypeCrudComponent extends BylCrudComponentBasePro<BylExpenseType> {
-    processType: string;
+export class BylExpenseTypeCrudComponent extends BylMasterDataCrudComponentBasePro<BylExpenseType> {
+    // processType: string;
 
     // @ViewChild('sf') sf: SFComponent;
+    private _newSchema: SFSchema;
+    private _modifySchema: SFSchema;
+    private _browseSchema: SFSchema;
 
     newBusinessData(): BylExpenseType {
         return new BylExpenseType();
@@ -34,7 +40,7 @@ export class BylExpenseTypeCrudComponent extends BylCrudComponentBasePro<BylExpe
     }
 
     defineForm(): void {
-        this.newSchema = {
+        this._newSchema = {
             properties: {
                 "code": {
                     "type": 'string',
@@ -71,7 +77,49 @@ export class BylExpenseTypeCrudComponent extends BylCrudComponentBasePro<BylExpe
                 "remarks": {
                     "type": 'string',
                     "title": '备注'
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
                 }
+            },
+            "required": ["code", "name"]
+        };
+        this._browseSchema = {
+            properties: {
+                "code": {
+                    "type": 'string',
+                    "title": '代码',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "name": {
+                    "type": 'string',
+                    "title": '名称',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+
+                "remarks": {
+                    "type": 'string',
+                    "title": '备注',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                }
+
             },
             "required": ["code", "name"]
         };
@@ -83,10 +131,21 @@ export class BylExpenseTypeCrudComponent extends BylCrudComponentBasePro<BylExpe
      * 设置窗口定义的缺省值
      */
     setSchemaDefaultValue(){
+        if (this.processType === 'new') {
+            this.curSchema = simpleDeepCopy({},this._newSchema);
 
-        // this.newSchema.properties['checkType'].enum = [];//清空再赋值
-        // this.newSchema.properties['checkType'].enum.push(...BylCheckTypeEnumManager.getSFSelectDataArray());
-        // this.newSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
+        }else{
+            //修改状态，需要根据单据的状态进一步判断
+            switch (this.businessData.status){
+                case BylMasterDataStatusEnum.UNSUBMITED:
+                case BylMasterDataStatusEnum.SUBMITED:
+                    this.curSchema = simpleDeepCopy({},this._newSchema);
+                    break;
+                default:
+                    this.curSchema = simpleDeepCopy({},this._browseSchema);
+
+            }
+        }
     };
     // defaultFormData: BylExpenseType = new BylExpenseType();
 

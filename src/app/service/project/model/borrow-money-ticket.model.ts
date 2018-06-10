@@ -16,9 +16,10 @@ import {BylProjectStatusManager} from "./project-status.enum";
 import {BylBorrowMoneyTicketStatusManager} from "./borrow-money-ticket-status.enum";
 import {BylBusinessEntityTypeManager} from "../../model/business-entity-type.enum";
 import {BylDatetimeUtils} from "../../utils/datetime.utils";
+import {BylTicketBaseModal} from "../../model/base-ticket.model";
 
-export class BylBorrowMoneyTicket extends BylBaseModel {
-    billNo: string;
+export class BylBorrowMoneyTicket extends BylTicketBaseModal {
+    // billNo: string;
     name: string;
     projectWidget:any;
     project: BylEmbeddableProject = new BylEmbeddableProject();
@@ -40,7 +41,7 @@ export class BylBorrowMoneyTicket extends BylBaseModel {
     settlementTicketId: string;
     settlementTicketNo: string;
 
-    status: number;
+    // status: number;
 
     get projectDisplay(){
         if(this.project){

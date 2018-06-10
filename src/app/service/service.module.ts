@@ -34,6 +34,8 @@ import {BylOutsourcerService} from "./project/service/outsourcer.service";
 import {BylOutsourceEmployeeService} from "./project/service/outsource-employee.service";
 import {BylExpenseTypeService} from "./project/service/expense-type.service";
 import {BylEmployeeService} from "./project/service/employee.service";
+import {BylExpenseTicketService} from "./project/service/expense-ticket.service";
+import {BylExpenseDetailService} from "./project/service/expense-detail.service";
 
 
 
@@ -75,6 +77,8 @@ import {BylEmployeeService} from "./project/service/employee.service";
         BylOutsourceEmployeeService,
         BylExpenseTypeService,
         BylEmployeeService,
+        BylExpenseTicketService,
+        BylExpenseDetailService,
 
         ChatService,
         CustomStompRService,

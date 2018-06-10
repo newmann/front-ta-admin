@@ -20,15 +20,21 @@ import {map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylOrganizationTypeManager} from "../../../../service/organization/model/organization-type.enum";
+import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 
 
 @Component({
     selector: 'byl-work-type-crud',
     templateUrl: './crud.component.html',
 })
-export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkType> {
+export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<BylWorkType> {
     processType: string;
 
+    private _newSchema: SFSchema;
+    private _modifySchema: SFSchema;
+    private _browseSchema: SFSchema;
 
     newBusinessData(): BylWorkType {
         return new BylWorkType();
@@ -40,7 +46,7 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
     }
 
     defineForm(): void {
-        this.newSchema = {
+        this._newSchema = {
             properties: {
                 "code": {
                     "type": 'string',
@@ -114,6 +120,13 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
                 "remarks": {
                     "type": 'string',
                     "title": '备注'
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
                 }
             },
             "required": ["code", "name", "checkType"],
@@ -128,6 +141,65 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
             }
         };
 
+        this._browseSchema = {
+            properties: {
+                "code": {
+                    "type": 'string',
+                    "title": '代码',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "name": {
+                    "type": 'string',
+                    "title": '名称',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+
+                "checkType": {
+                    "type": 'string',
+                    "title": '考勤类型',
+                    "enum": [],
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "standardTimeLength": {
+                    "type": 'integer',
+                    "title": '标准工作时长',
+                    "default": 10,
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "remarks": {
+                    "type": 'string',
+                    "title": '备注',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                }
+            },
+            "required": ["code", "name", "checkType"],
+            "if": {
+                "properties": {"checkType": {"enum": [10]}}
+            },
+            "then": {
+                "required": ["standardTimeLength"]
+            },
+            "else": {
+                "required": []
+            }
+        };
 
     }
     /**
@@ -135,8 +207,25 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
      */
     setSchemaDefaultValue(){
 
-        this.newSchema.properties['checkType'].enum = [];//清空再赋值
-        this.newSchema.properties['checkType'].enum.push(...BylCheckTypeEnumManager.getSFSelectDataArray());
+        this._newSchema.properties['checkType'].enum = [];//清空再赋值
+        this._newSchema.properties['checkType'].enum.push(...BylCheckTypeEnumManager.getSFSelectDataArray());
+
+        if (this.processType === 'new') {
+            this.curSchema = simpleDeepCopy({},this._newSchema);
+
+        }else{
+            //修改状态，需要根据单据的状态进一步判断
+            switch (this.businessData.status){
+                case BylMasterDataStatusEnum.UNSUBMITED:
+                case BylMasterDataStatusEnum.SUBMITED:
+                    this.curSchema = simpleDeepCopy({},this._newSchema);
+                    break;
+                default:
+                    this.curSchema = simpleDeepCopy({},this._browseSchema);
+
+            }
+        }
+
         // this.newSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
     };
     // defaultFormData: BylWorkType = new BylWorkType();
@@ -156,32 +245,6 @@ export class BylWorkTypeCrudComponent extends BylCrudComponentBasePro<BylWorkTyp
 
 
     }
-    //
-    // ngOnInit() {
-    //     console.log("执行ngOninit");
-    //
-    //     super.ngOnInit();
-    //
-    //
-    // }
-    //
-    // resetButtonClick($event: MouseEvent) {
-    //     $event.preventDefault();
-    //     this.reset();
-    // }
-    //
-    //
-    // getFormData() {
-    //     // for (const i in this.form.controls) {
-    //     //     this.form.controls[i].markAsDirty();
-    //     // }
-    //
-    //     Object.assign(this.businessData, this.sfForm.value);
-    //
-    //     console.table(this.businessData);
-    //
-    // }
-    //
     /**
      * 重置界面内容
      */

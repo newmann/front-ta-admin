@@ -13,17 +13,20 @@ import {BylWorkTypeService} from "../../../../service/project/service/work-type.
 import {BylWorkType} from "../../../../service/project/model/work-type.model";
 import {BylWorkTypeQuery} from "../../../../service/project/query/work-type-query.model";
 import {
-    ACTION_DELETE, ACTION_MODIFY, BylTableClickAction,
+    ACTION_BROWSE,
+    ACTION_CONFIRM,
+    ACTION_DELETE, ACTION_LOCK, ACTION_MODIFY, ACTION_SUBMIT, ACTION_UNCONFIRM, ACTION_UNLOCK, BylTableClickAction,
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
 
 
 @Component({
     selector: 'byl-work-type-list',
     templateUrl: './list.component.html',
 })
-export class BylWorkTypeListComponent extends BylListComponentBasePro<BylWorkType> {
+export class BylWorkTypeListComponent extends BylMasterDataListComponentBasePro<BylWorkType> {
 
 
     statusList: BylIStatusItem[]; //状态
@@ -98,43 +101,6 @@ export class BylWorkTypeListComponent extends BylListComponentBasePro<BylWorkTyp
     }
 
 
-    /**
-     * 将当前记录锁定
-     * @param {string} id
-     */
-    lockRole(id: string) {
-        let lockItem = new BylWorkType();
-        this.listData.forEach(item => {
-            if (item.item.id === id) {
-                Object.assign(lockItem, item.item);
-            }
-        });
-
-        console.log('lockItem: ' + lockItem);
-        if (!lockItem) return;
-
-        lockItem.status = BylMasterDataStatusEnum.LOCKED.valueOf();
-
-        this.workTypeService.update(lockItem).subscribe(
-            data => {
-                this.loading = false;
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-
-                    // this.listData = Array.from(data.data.rows);
-                    this.updateListData(data.data);
-
-                } else {
-                    this.showMsg(data.msg);
-                }
-            },
-            err => {
-                this.loading = false;
-                console.log(err);
-                this.showMsg(err.toString());
-            }
-        );
-    }
-
     updateListData(newData: BylWorkType) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
@@ -157,7 +123,7 @@ export class BylWorkTypeListComponent extends BylListComponentBasePro<BylWorkTyp
 
     //#region 查询条件
     queryDefaultData: any = {
-        status:[1]
+        status:[BylMasterDataStatusEnum.UNSUBMITED,BylMasterDataStatusEnum.SUBMITED,BylMasterDataStatusEnum.CONFIRMED]
         // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
         // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
     };
@@ -191,7 +157,18 @@ export class BylWorkTypeListComponent extends BylListComponentBasePro<BylWorkTyp
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED }
+            {actionName: ACTION_DELETE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.SUBMITED },
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
+            {actionName: ACTION_SUBMIT,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
+            {actionName: ACTION_CONFIRM,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.SUBMITED },
+            {actionName: ACTION_UNCONFIRM,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED },
+            {actionName: ACTION_UNLOCK,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.LOCKED },
+            {actionName: ACTION_LOCK,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.LOCKED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.SUBMITED_DELETED },
+
         ],
         columns:[
             {label:"代码", fieldPath: "code" },

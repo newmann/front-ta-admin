@@ -25,12 +25,18 @@ import {
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {BylPerson} from "../../../../service/person/model/person.model";
 import {BylEmbeddableLegalPerson} from "../../../../service/organization/model/embeddable-legal-person.model";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {SFSchema} from "@delon/form";
 
 @Component({
   selector: 'byl-organization-crud',
   templateUrl: './crud.component.html',
 })
 export class BylOrganizationCrudComponent extends BylCrudComponentBasePro<BylOrganization> {
+    private _newSchema: SFSchema;
+    private _modifySchema: SFSchema;
+    private _browseSchema: SFSchema;
 
     @Input()
     set setSourceId(value: string) {
@@ -44,7 +50,7 @@ export class BylOrganizationCrudComponent extends BylCrudComponentBasePro<BylOrg
     }
 
     defineForm(): void {
-        this.newSchema = {
+        this._newSchema = {
             properties: {
                 "code": {
                     "type": 'string',
@@ -114,13 +120,40 @@ export class BylOrganizationCrudComponent extends BylCrudComponentBasePro<BylOrg
     }
     /**
      * 设置窗口定义的缺省值
+     * 在reset内部首先调用
+     *
      */
     setSchemaDefaultValue(){
+        this._newSchema.properties.type.enum = [];//清空再赋值
+        this._newSchema.properties.type.enum.push(...BylOrganizationTypeManager.getSFSelectDataArray());
 
-        this.newSchema.properties.type.enum = [];//清空再赋值
-        this.newSchema.properties.type.enum.push(...BylOrganizationTypeManager.getSFSelectDataArray());
-        // this.newSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
+        if (this.processType === 'new') {
+            this.curSchema = simpleDeepCopy({},this._newSchema);
+
+        }else{
+            this.curSchema = simpleDeepCopy({},this._newSchema);
+            // //修改状态，需要根据单据的状态进一步判断
+            // switch (this.businessData.status){
+            //     case BylMasterDataStatusEnum.UNSUBMITED:
+            //     case BylMasterDataStatusEnum.SUBMITED:
+            //         this.curSchema = simpleDeepCopy({},this._newSchema);
+            //         break;
+            //     default:
+            //         this.curSchema = simpleDeepCopy({},this._browseSchema);
+            //
+            // }
+        }
+
     };
+    // /**
+    //  * 设置窗口定义的缺省值
+    //  */
+    // setSchemaDefaultValue(){
+    //
+    //     this.newSchema.properties.type.enum = [];//清空再赋值
+    //     this.newSchema.properties.type.enum.push(...BylOrganizationTypeManager.getSFSelectDataArray());
+    //     // this.newSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
+    // };
 
     constructor(public msgService: NzMessageService,
                 public organizationService: BylOrganizationService,

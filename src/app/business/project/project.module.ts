@@ -23,6 +23,10 @@ import {BylOutsourcerListComponent} from "./outsourcer/list/list.component";
 import {BylOutsourcerCrudComponent} from "./outsourcer/crud/crud.component";
 import {BylOutsourceEmployeeCrudComponent} from "./outsourcer-employee/crud/crud.component";
 import {BylOutsourceEmployeeListComponent} from "./outsourcer-employee/list/list.component";
+import {BylExpenseTicketListComponent} from "./expense-ticket/list/list.component";
+import {BylExpenseTicketCrudComponent} from "./expense-ticket/crud/crud.component";
+import {BylExpenseTicketDetailListComponent} from "./expense-ticket-detail/list/list.component";
+import {BylExpenseTicketDetailCrudComponent} from "./expense-ticket-detail/crud/crud.component";
 
 
 @NgModule({
@@ -57,10 +61,15 @@ import {BylOutsourceEmployeeListComponent} from "./outsourcer-employee/list/list
         BylOutsourcerCrudComponent,
         BylOutsourceEmployeeListComponent,
         BylOutsourceEmployeeCrudComponent,
+        BylExpenseTicketListComponent,
+        BylExpenseTicketCrudComponent,
+        BylExpenseTicketDetailListComponent,
+        BylExpenseTicketDetailCrudComponent,
 
     ],
     entryComponents: [
-        BylProjectManagerPoolListComponent
+        BylProjectManagerPoolListComponent,
+        BylExpenseTicketDetailCrudComponent
         // BylRoleCrudComponent,
         // BylDepartmentCrudComponent
     ]

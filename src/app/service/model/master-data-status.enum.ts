@@ -9,7 +9,8 @@ export const enum BylMasterDataStatusEnum {
     CONFIRMED= 10,
     LOCKED = 20,
     DELETED = -1,
-    SUBMITED_DELETED = -2
+    SUBMITED_DELETED = -2,
+    CONFIRMED_DELETED = -10
 }
 
 export class BylMasterDataStatusManager {
@@ -21,13 +22,15 @@ export class BylMasterDataStatusManager {
             case BylMasterDataStatusEnum.SUBMITED:
                 return '提交';
             case BylMasterDataStatusEnum.CONFIRMED:
-                return '正常';
+                return '已确认';
             case BylMasterDataStatusEnum.LOCKED:
                 return '锁定';
             case BylMasterDataStatusEnum.DELETED:
                 return '删除';
             case BylMasterDataStatusEnum.SUBMITED_DELETED:
                 return '提交后作废';
+            case BylMasterDataStatusEnum.CONFIRMED_DELETED:
+                return '确认后作废';
             default:
                 return 'unknown';
 
@@ -41,7 +44,8 @@ export class BylMasterDataStatusManager {
             {value: BylMasterDataStatusEnum.SUBMITED, caption: this.getCaption(BylMasterDataStatusEnum.SUBMITED)},
             {value: BylMasterDataStatusEnum.CONFIRMED, caption: this.getCaption(BylMasterDataStatusEnum.CONFIRMED)},
             {value: BylMasterDataStatusEnum.LOCKED, caption: this.getCaption(BylMasterDataStatusEnum.LOCKED)},
-            {value: BylMasterDataStatusEnum.SUBMITED_DELETED, caption: this.getCaption(BylMasterDataStatusEnum.SUBMITED_DELETED)}
+            {value: BylMasterDataStatusEnum.SUBMITED_DELETED, caption: this.getCaption(BylMasterDataStatusEnum.SUBMITED_DELETED)},
+            {value: BylMasterDataStatusEnum.CONFIRMED_DELETED, caption: this.getCaption(BylMasterDataStatusEnum.CONFIRMED_DELETED)}
         ];
     }
 
@@ -51,7 +55,8 @@ export class BylMasterDataStatusManager {
             {value: BylMasterDataStatusEnum.SUBMITED, label: this.getCaption(BylMasterDataStatusEnum.SUBMITED)},
             {value: BylMasterDataStatusEnum.CONFIRMED, label: this.getCaption(BylMasterDataStatusEnum.CONFIRMED)},
             {value: BylMasterDataStatusEnum.LOCKED, label: this.getCaption(BylMasterDataStatusEnum.LOCKED)},
-            {value: BylMasterDataStatusEnum.SUBMITED_DELETED, label: this.getCaption(BylMasterDataStatusEnum.SUBMITED_DELETED)}
+            {value: BylMasterDataStatusEnum.SUBMITED_DELETED, label: this.getCaption(BylMasterDataStatusEnum.SUBMITED_DELETED)},
+            {value: BylMasterDataStatusEnum.CONFIRMED_DELETED, label: this.getCaption(BylMasterDataStatusEnum.CONFIRMED_DELETED)}
         ];
 
     }

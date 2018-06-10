@@ -7,6 +7,7 @@ import {BylWorkType} from "../model/work-type.model";
 import {Observable} from "rxjs/Observable";
 import {BylResultBody} from "../../model/result-body.model";
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
+import {BylMasterDataBaseService} from "../../service/master-data-base.service";
 
 
 
@@ -16,7 +17,7 @@ import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylWorkTypeService  extends BylBaseService<BylWorkType> {
+export class BylWorkTypeService  extends BylMasterDataBaseService<BylWorkType> {
 
 
     constructor(protected http: _HttpClient,

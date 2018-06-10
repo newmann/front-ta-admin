@@ -43,7 +43,7 @@ export class BylUserLoginComponent implements OnDestroy {
             // userName: [null, [Validators.required, Validators.minLength(5)]],
             // password: [null, Validators.required],
             userName: ['admin', [Validators.required, Validators.minLength(5)]],
-            password: ['Kidson100', Validators.required],
+            password: ['Admin2018', Validators.required],
 
             mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
             captcha: [null, [Validators.required]],

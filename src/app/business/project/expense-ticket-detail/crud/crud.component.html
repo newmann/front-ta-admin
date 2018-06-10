@@ -1,0 +1,21 @@
+<page-header [title]="'费用单明细维护'" *ngIf="processType.length > 0 "></page-header>
+<nz-card [nzBordered]="false">
+      <span>
+        <sf  #sf [button]="null"
+             [schema]="emptyFormSchema"
+             [ui]="formUiSchema"
+             [formData]="businessData"
+             mode="edit"
+             (formError)="error($event)">
+          <button type="submit" nz-button [disabled]="!sf.valid" (click)="submitEntity()">保存</button>
+          <button (click)="reset()"  type="button" nz-button>重置</button>
+
+        </sf>
+
+      </span>
+
+      <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
+
+
+</nz-card>
+

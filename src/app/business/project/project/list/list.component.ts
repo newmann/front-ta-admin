@@ -16,6 +16,7 @@ import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 import {BylPageReq} from "../../../../service/model/page-req.model";
 import {
+    ACTION_BROWSE,
     ACTION_CANCEL,
     ACTION_DELETE, ACTION_MODIFY, ACTION_SUBMIT, BylTableClickAction,
     BylTableDefine
@@ -23,12 +24,13 @@ import {
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
 
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
 })
-export class BylProjectListComponent extends BylListComponentBasePro<BylProject> {
+export class BylProjectListComponent extends BylMasterDataListComponentBasePro<BylProject> {
 
     // public statusList: BylIStatusItem[] = [];
 
@@ -116,7 +118,7 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
      */
 
     queryDefaultData: any = {
-        status: [2, 10, 20],
+        status: [BylProjectStatusEnum.SUBMITED, BylProjectStatusEnum.CONFIRMED, BylProjectStatusEnum.RUNNING],
         modifyDateRange: [moment(moment.now()).subtract(6, 'month').format('YYYY-MM-DD'),
          moment(moment.now()).format('YYYY-MM-DD')]
     };
@@ -167,6 +169,12 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
             {actionName: this.PROJECT_ACHIEVE,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.RUNNING },
             {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.RUNNING },
 
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.CONFIRMED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.LOCKED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.SUBMITED_DELETED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.RUNNING },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.RUNNING_DELETED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylProjectStatusEnum.ACHIEVEMENT },
         ],
         columns:[
             {label:"代码", fieldPath: "code" },
@@ -198,53 +206,53 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
 
     }
 
-    deleteEntity(entity: BylProject){
-        this.projectService.delete(entity).subscribe(
-            data => {
-                // option.loading = false;
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                    //将显示界面中的数据删除掉
-                    this.listData = this.listData.filter(item =>{
-                        return item.item.id !== entity.id;
-                    })
+    // deleteEntity(entity: BylProject){
+    //     this.projectService.delete(entity).subscribe(
+    //         data => {
+    //             // option.loading = false;
+    //             if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+    //                 //将显示界面中的数据删除掉
+    //                 this.listData = this.listData.filter(item =>{
+    //                     return item.item.id !== entity.id;
+    //                 })
+    //
+    //             } else {
+    //                 this.message.error(data.msg);
+    //             }
+    //         },
+    //         err => {
+    //             // option.loading = false;
+    //             this.message.error(err.toString());
+    //         }
+    //     );
+    // }
 
-                } else {
-                    this.message.error(data.msg);
-                }
-            },
-            err => {
-                // option.loading = false;
-                this.message.error(err.toString());
-            }
-        );
-    }
-
-    submitEntity(entity: BylProject){
-        this.actionResult$ = this.projectService.submit(entity);
-        this.actionFollowProcess(this.actionResult$);
-
-        // this.projectService.submit(entity).subscribe(
-        //     data => {
-        //         // option.loading = false;
-        //         if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-        //             //将显示界面中的数据修改
-        //             this.updateListData(data.data);
-        //             // this.listData.map(item =>{
-        //             //     if (item.item.id === data.data.id){
-        //             //         simpleDeepCopy(item.item,data.data);
-        //             //     };
-        //             // })
-        //
-        //         } else {
-        //             this.message.error(data.msg);
-        //         }
-        //     },
-        //     err => {
-        //         // option.loading = false;
-        //         this.message.error(err.toString());
-        //     }
-        // );
-    }
+    // submitEntity(entity: BylProject){
+    //     this.actionResult$ = this.projectService.submit(entity);
+    //     this.actionFollowProcess(this.actionResult$);
+    //
+    //     // this.projectService.submit(entity).subscribe(
+    //     //     data => {
+    //     //         // option.loading = false;
+    //     //         if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+    //     //             //将显示界面中的数据修改
+    //     //             this.updateListData(data.data);
+    //     //             // this.listData.map(item =>{
+    //     //             //     if (item.item.id === data.data.id){
+    //     //             //         simpleDeepCopy(item.item,data.data);
+    //     //             //     };
+    //     //             // })
+    //     //
+    //     //         } else {
+    //     //             this.message.error(data.msg);
+    //     //         }
+    //     //     },
+    //     //     err => {
+    //     //         // option.loading = false;
+    //     //         this.message.error(err.toString());
+    //     //     }
+    //     // );
+    // }
 
     showRunEntity(entity: BylProject){
         this.modalService.confirm({
@@ -259,43 +267,12 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
             nzCancelText: '取消',
             nzOnCancel: () => console.log('confirmEntity Cancel')
         });
-        // this.projectService.running(entity).subscribe(
-        //     data => {
-        //         // option.loading = false;
-        //         if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-        //             //将显示界面中的数据修改
-        //             this.updateListData(data.data);
-        //         } else {
-        //             this.message.error(data.msg);
-        //         }
-        //     },
-        //     err => {
-        //         // option.loading = false;
-        //         this.message.error(err.toString());
-        //     }
-        // );
-    }
-    cancelEntity(entity: BylProject){
-        this.actionResult$ = this.projectService.cancel(entity);
-        this.actionFollowProcess(this.actionResult$);
-
-        // this.projectService.cancel(entity).subscribe(
-        //     data => {
-        //         // option.loading = false;
-        //         if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-        //             //将显示界面中的数据修改
-        //             this.updateListData(data.data);
-        //         } else {
-        //             this.message.error(data.msg);
-        //         }
-        //     },
-        //     err => {
-        //         // option.loading = false;
-        //         this.message.error(err.toString());
-        //     }
-        // );
 
     }
+    // cancelEntity(entity: BylProject){
+    //     this.actionResult$ = this.projectService.cancel(entity);
+    //     this.actionFollowProcess(this.actionResult$);
+    // }
 
     showAchieveEntity(entity: BylProject){
         this.modalService.confirm({
@@ -311,21 +288,6 @@ export class BylProjectListComponent extends BylListComponentBasePro<BylProject>
             nzOnCancel: () => console.log('confirmEntity Cancel')
         });
 
-        // this.projectService.confirm(entity).subscribe(
-        //     data => {
-        //         // option.loading = false;
-        //         if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-        //             //将显示界面中的数据修改
-        //             this.updateListData(data.data);
-        //         } else {
-        //             this.message.error(data.msg);
-        //         }
-        //     },
-        //     err => {
-        //         // option.loading = false;
-        //         this.message.error(err.toString());
-        //     }
-        // );
 
     }
 

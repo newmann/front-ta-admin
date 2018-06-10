@@ -110,6 +110,7 @@ export class BylUserRegisterComponent implements OnDestroy {
         if (this.form.invalid) return;
 
         this.loading = true;
+        console.log("begin to registering..");
         // this.auth.emailRegister(this.mail.value, this.password.value, this.mobile.value).subscribe(
         this.auth.codeRegister(this.code.value, this.password.value, this.mobile.value).subscribe(
             data => {

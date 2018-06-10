@@ -7,6 +7,7 @@ import {BylOutsourceEmployee} from "../model/outsource-employee.model";
 import {BylResultBody} from "../../model/result-body.model";
 import {Observable} from "rxjs/Observable";
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
+import {BylMasterDataBaseService} from "../../service/master-data-base.service";
 
 
 
@@ -16,7 +17,7 @@ import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylOutsourceEmployeeService  extends BylBaseService<BylOutsourceEmployee> {
+export class BylOutsourceEmployeeService  extends BylMasterDataBaseService<BylOutsourceEmployee> {
 
 
     constructor(protected http: _HttpClient,

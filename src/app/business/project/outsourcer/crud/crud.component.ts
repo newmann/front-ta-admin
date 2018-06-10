@@ -12,15 +12,21 @@ import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylOutsourcer} from "../../../../service/project/model/outsourcer.model";
 import {BylOutsourcerService} from "../../../../service/project/service/outsourcer.service";
 import {BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
+import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {SFSchema} from "@delon/form";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 
 
 @Component({
     selector: 'byl-outsourcer-crud',
     templateUrl: './crud.component.html',
 })
-export class BylOutsourcerCrudComponent extends BylCrudComponentBasePro<BylOutsourcer> {
-    processType: string;
-
+export class BylOutsourcerCrudComponent extends BylMasterDataCrudComponentBasePro<BylOutsourcer> {
+    // processType: string;
+    private _newSchema: SFSchema;
+    private _modifySchema: SFSchema;
+    private _browseSchema: SFSchema;
 
     newBusinessData(): BylOutsourcer {
         return new BylOutsourcer();
@@ -32,7 +38,7 @@ export class BylOutsourcerCrudComponent extends BylCrudComponentBasePro<BylOutso
     }
 
     defineForm(): void {
-        this.newSchema = {
+        this._newSchema = {
             properties: {
                 "code": {
                     "type": 'string',
@@ -69,24 +75,73 @@ export class BylOutsourcerCrudComponent extends BylCrudComponentBasePro<BylOutso
                 "remarks": {
                     "type": 'string',
                     "title": '备注'
-                }
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+            },
+            "required": ["code", "name"]
+        };
+        this._browseSchema = {
+            properties: {
+                "code": {
+                    "type": 'string',
+                    "title": '代码',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "name": {
+                    "type": 'string',
+                    "title": '名称',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+
+                "remarks": {
+                    "type": 'string',
+                    "title": '备注',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
+                "statusDisplay": {
+                    "type": 'number',
+                    "title": '状态',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
             },
             "required": ["code", "name"]
         };
 
-        // BylCheckTypeEnumManager.getArray().forEach((item) =>{
-        //     let option = {label: item.caption, value: item.value};
-        //     this.newSchema.properties['checkType'].enum.push(option);
-        // });
-
-        // this.newSchema.properties['checkType'].default = BylCheckTypeEnum.DAY;
 
     }
     /**
      * 设置窗口定义的缺省值
      */
     setSchemaDefaultValue(){
+        if (this.processType === 'new') {
+            this.curSchema = simpleDeepCopy({},this._newSchema);
 
+        }else{
+            //修改状态，需要根据单据的状态进一步判断
+            switch (this.businessData.status){
+                case BylMasterDataStatusEnum.UNSUBMITED:
+                case BylMasterDataStatusEnum.SUBMITED:
+                    this.curSchema = simpleDeepCopy({},this._newSchema);
+                    break;
+                default:
+                    this.curSchema = simpleDeepCopy({},this._browseSchema);
+
+            }
+        }
 
         // this.newSchema.properties.type.default = BylOrganizationTypeManager.getCaption(BylOrganizationTypeEnum.UNKNOWN);
     };
@@ -149,10 +204,6 @@ export class BylOutsourcerCrudComponent extends BylCrudComponentBasePro<BylOutso
             this.reuseTabService.title = '编辑-' + this.businessData.name;
         }
 
-    }
-
-    error(value: any) {
-        console.log('error', value);
     }
 
 

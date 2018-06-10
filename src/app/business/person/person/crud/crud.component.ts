@@ -25,6 +25,8 @@ import {isEmpty} from "../../../../service/utils/string.utils";
 import {map} from "rxjs/operators";
 import {BylProject} from "../../../../service/project/model/project.model";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
+import {SFSchema} from "@delon/form";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 
 @Component({
@@ -32,6 +34,9 @@ import {BylEntityReference} from "../../../../service/model/entity-reference.mod
     templateUrl: './crud.component.html',
 })
 export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
+    private _newSchema: SFSchema;
+    private _modifySchema: SFSchema;
+    private _browseSchema: SFSchema;
 
     @Input()
     set setSourceId(value: string) {
@@ -45,7 +50,7 @@ export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
     }
 
     defineForm(): void {
-        this.newSchema = {
+        this._newSchema = {
             properties: {
                 "idCard": {
                     "type": 'string',
@@ -129,9 +134,16 @@ export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
      * 设置窗口定义的缺省值
      */
     setSchemaDefaultValue(){
-        super.setSchemaDefaultValue();
-        this.newSchema.properties.gender.enum = [];
-        this.newSchema.properties.gender.enum.push(...BylGenderEnumManager.getSFSelectDataArray());
+        // super.setSchemaDefaultValue();
+        this._newSchema.properties.gender.enum = [];
+        this._newSchema.properties.gender.enum.push(...BylGenderEnumManager.getSFSelectDataArray());
+
+        if (this.processType === 'new') {
+            this.curSchema = simpleDeepCopy({},this._newSchema);
+
+        }else{
+            this.curSchema = simpleDeepCopy({},this._newSchema);
+        }
     };
 
     constructor(public msgService: NzMessageService,

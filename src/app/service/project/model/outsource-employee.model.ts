@@ -8,9 +8,10 @@ import {BylEmbeddableOrganization} from "../../organization/model/embeddable-org
 import {BylEmbeddableOutsourcer} from "./embeddable-outsourcer.model";
 import {BylEmbeddablePerson} from "../../person/model/embeddable-person.model";
 import {BylEmployeeStatusManager} from "./employee-status.enum";
+import {BylMasterDataBaseModel} from "../../model/master-data-base.model";
 
 
-export class BylOutsourceEmployee extends BylBaseModel {
+export class BylOutsourceEmployee extends BylMasterDataBaseModel {
     code: string; //员工编号
     name: string;
 
@@ -20,7 +21,7 @@ export class BylOutsourceEmployee extends BylBaseModel {
     personWidget: any;
     person: BylEmbeddablePerson = new BylEmbeddablePerson();
 
-    status: number;
+    // status: number;
 
     get statusDisplay(): string{
         return BylEmployeeStatusManager.getCaption(this.status);

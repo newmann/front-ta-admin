@@ -11,6 +11,7 @@ import {Observable} from "rxjs/Observable";
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
 import {BylProject} from "../model/project.model";
 import {BylResultBody} from "../../model/result-body.model";
+import {BylMasterDataBaseService} from "../../service/master-data-base.service";
 
 
 
@@ -20,7 +21,7 @@ import {BylResultBody} from "../../model/result-body.model";
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylEmployeeService  extends BylBaseService<BylEmployee> {
+export class BylEmployeeService  extends BylMasterDataBaseService<BylEmployee> {
 
 
     constructor(protected http: _HttpClient,
@@ -40,4 +41,9 @@ export class BylEmployeeService  extends BylBaseService<BylEmployee> {
     fetchAvailableByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylEmployee> >> {
         return this.http.get<BylResultBody<Array<BylEmployee>>>(this.BASE_API_URL+"/fetch-available-by-code-or-name/" + searchstr);
     }
+
+    leave(item: BylEmployee): Observable<BylResultBody<BylEmployee>> {
+        return this.http.post<BylResultBody<BylEmployee>>(this.BASE_API_URL + '/leave', item);
+    }
+
 }

@@ -10,7 +10,9 @@ import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from '../../../../s
 import {SFSchema, SFUISchema} from "@delon/form";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {
-    ACTION_DELETE, ACTION_MODIFY, BylTableClickAction,
+    ACTION_BROWSE,
+    ACTION_CONFIRM,
+    ACTION_DELETE, ACTION_LOCK, ACTION_MODIFY, ACTION_SUBMIT, ACTION_UNCONFIRM, ACTION_UNLOCK, BylTableClickAction,
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylPageReq} from "../../../../service/model/page-req.model";
@@ -18,12 +20,13 @@ import {BylExpenseType} from "../../../../service/project/model/expense-type.mod
 import {BylExpenseTypeService} from "../../../../service/project/service/expense-type.service";
 import {BylExpenseTypeQuery} from "../../../../service/project/query/expense-type-query.model";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
 
 @Component({
     selector: 'byl-expense-type-list',
     templateUrl: './list.component.html',
 })
-export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpenseType> {
+export class BylExpenseTypeListComponent extends BylMasterDataListComponentBasePro<BylExpenseType> {
 
 
     // statusList: BylIStatusItem[]; //状态
@@ -99,43 +102,6 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
     }
 
 
-    /**
-     * 将当前记录锁定
-     * @param {string} id
-     */
-    lockRole(id: string) {
-        let lockItem = new BylExpenseType();
-        this.listData.forEach(item => {
-            if (item.item.id === id) {
-                Object.assign(lockItem, item.item);
-            }
-        });
-
-        console.log('lockItem: ' + lockItem);
-        if (!lockItem) return;
-
-        lockItem.status = BylMasterDataStatusEnum.LOCKED.valueOf();
-
-        this.expenseTypeService.update(lockItem).subscribe(
-            data => {
-                this.loading = false;
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-
-                    // this.listData = Array.from(data.data.rows);
-                    this.updateListData(data.data);
-
-                } else {
-                    this.showMsg(data.msg);
-                }
-            },
-            err => {
-                this.loading = false;
-                console.log(err);
-                this.showMsg(err.toString());
-            }
-        );
-    }
-
     updateListData(newData: BylExpenseType) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
@@ -191,7 +157,18 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED }
+            {actionName: ACTION_DELETE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.SUBMITED },
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
+            {actionName: ACTION_SUBMIT,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
+            {actionName: ACTION_CONFIRM,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.SUBMITED },
+            {actionName: ACTION_UNCONFIRM,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED },
+            {actionName: ACTION_UNLOCK,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.LOCKED },
+            {actionName: ACTION_LOCK,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.CONFIRMED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.LOCKED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.SUBMITED_DELETED },
+
         ],
         columns:[
             {label:"代码", fieldPath: "code" },
@@ -199,26 +176,5 @@ export class BylExpenseTypeListComponent extends BylListComponentBasePro<BylExpe
             {label:"状态", fieldPath: "statusDisplay" },
             {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};
-
-
-    // pageChange(item: BylPageReq){
-    //     this.page = item;
-    //     this.search();
-    // }
-    //
-    // selectedChange(data: BylListFormData<BylExpenseType>[]){
-    //     this.selectedRows = data;
-    //
-    // }
-    // entityAction(action: BylTableClickAction){
-    //     switch(action.actionName){
-    //         case ACTION_MODIFY:
-    //             this.modifyEntity(action.id);
-    //             break;
-    //         default:
-    //             console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-    //     }
-    //
-    // }
 
 }

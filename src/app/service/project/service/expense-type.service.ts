@@ -8,6 +8,8 @@ import {BylExpenseType} from "../model/expense-type.model";
 import {Observable} from "rxjs/Observable";
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
 import {BylResultBody} from "../../model/result-body.model";
+import {BylMasterDataBaseService} from "../../service/master-data-base.service";
+import {BylProject} from "../model/project.model";
 
 
 
@@ -17,7 +19,7 @@ import {BylResultBody} from "../../model/result-body.model";
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylExpenseTypeService  extends BylBaseService<BylExpenseType> {
+export class BylExpenseTypeService  extends BylMasterDataBaseService<BylExpenseType> {
 
 
     constructor(protected http: _HttpClient,
@@ -34,6 +36,9 @@ export class BylExpenseTypeService  extends BylBaseService<BylExpenseType> {
 
     }
 
+    fetchAvailableByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylExpenseType> >> {
+        return this.http.get<BylResultBody<Array<BylExpenseType>>>(this.BASE_API_URL+"/fetch-available-by-code-or-name/" + searchstr);
+    }
     // checkNameAvailable(data: BylCheckAvailableReq): Observable<BylResultBody<boolean>> {
     //     return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/check-name-available', data);
     // }

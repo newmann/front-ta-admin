@@ -11,7 +11,9 @@ import {SFSchema, SFUISchema} from "@delon/form";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {BylWorkTypeQuery} from "../../../../service/project/query/work-type-query.model";
 import {
-    ACTION_DELETE, ACTION_MODIFY, BylTableClickAction,
+    ACTION_BROWSE,
+    ACTION_CONFIRM,
+    ACTION_DELETE, ACTION_LOCK, ACTION_MODIFY, ACTION_SUBMIT, ACTION_UNCONFIRM, ACTION_UNLOCK, BylTableClickAction,
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylPageReq} from "../../../../service/model/page-req.model";
@@ -21,12 +23,13 @@ import {BylOutsourcerService} from "../../../../service/project/service/outsourc
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
 import {BylOutsourceEmployeeService} from "../../../../service/project/service/outsource-employee.service";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
 
 @Component({
     selector: 'byl-oursourcer-employee-list',
     templateUrl: './list.component.html',
 })
-export class BylOutsourceEmployeeListComponent extends BylListComponentBasePro<BylOutsourceEmployee> {
+export class BylOutsourceEmployeeListComponent extends BylMasterDataListComponentBasePro<BylOutsourceEmployee> {
 
 
     // statusList: BylIStatusItem[]; //状态
@@ -56,7 +59,7 @@ export class BylOutsourceEmployeeListComponent extends BylListComponentBasePro<B
         return findResult.map(data => {
             let item = new BylListFormData<BylOutsourceEmployee>();
             item.checked = false;
-            item.disabled = (data.status !== BylEmployeeStatusEnum.NORMAL);
+            // item.disabled = (data.status !== BylEmployeeStatusEnum.NORMAL);
             item.item = new BylOutsourceEmployee();
             Object.assign(item.item, data);
             return item;
@@ -102,43 +105,6 @@ export class BylOutsourceEmployeeListComponent extends BylListComponentBasePro<B
     }
 
 
-    /**
-     * 将当前记录锁定
-     * @param {string} id
-     */
-    lockRole(id: string) {
-        let lockItem = new BylOutsourceEmployee();
-        this.listData.forEach(item => {
-            if (item.item.id === id) {
-                Object.assign(lockItem, item.item);
-            }
-        });
-
-        console.log('lockItem: ' + lockItem);
-        if (!lockItem) return;
-
-        lockItem.status = BylMasterDataStatusEnum.LOCKED.valueOf();
-
-        this.outsourceEmployeeService.update(lockItem).subscribe(
-            data => {
-                this.loading = false;
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-
-                    // this.listData = Array.from(data.data.rows);
-                    this.updateListData(data.data);
-
-                } else {
-                    this.showMsg(data.msg);
-                }
-            },
-            err => {
-                this.loading = false;
-                console.log(err);
-                this.showMsg(err.toString());
-            }
-        );
-    }
-
     updateListData(newData: BylOutsourceEmployee) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
@@ -161,7 +127,7 @@ export class BylOutsourceEmployeeListComponent extends BylListComponentBasePro<B
 
     //#region 查询条件
     queryDefaultData: any = {
-        status: [1]
+        status: [BylEmployeeStatusEnum.UNSUBMITED,BylEmployeeStatusEnum.SUBMITED,BylEmployeeStatusEnum.CONFIRMED]
         // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
         // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
 
@@ -196,7 +162,18 @@ export class BylOutsourceEmployeeListComponent extends BylListComponentBasePro<B
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.NORMAL }
+            {actionName: ACTION_DELETE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.UNSUBMITED },
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.SUBMITED },
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.UNSUBMITED },
+            {actionName: ACTION_SUBMIT,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.UNSUBMITED },
+            {actionName: ACTION_CONFIRM,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.SUBMITED },
+            {actionName: ACTION_UNCONFIRM,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.CONFIRMED },
+            {actionName: ACTION_UNLOCK,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.LOCKED },
+            {actionName: ACTION_LOCK,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.CONFIRMED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.CONFIRMED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.LOCKED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.SUBMITED_DELETED },
+
         ],
         columns:[
             {label:"所属外包商", fieldPath: "outsourcerDisplay" },

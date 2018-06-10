@@ -10,8 +10,9 @@ import {BylEmbeddablePerson} from "../../person/model/embeddable-person.model";
 import {BylMasterDataStatusManager} from "../../model/master-data-status.enum";
 import {BylEmployeeStatusManager} from "./employee-status.enum";
 import {BylDatetimeUtils} from "../../utils/datetime.utils";
+import {BylMasterDataBaseModel} from "../../model/master-data-base.model";
 
-export class BylEmployee extends BylBaseModel {
+export class BylEmployee extends BylMasterDataBaseModel {
     code: string;
     name: string;
 
@@ -20,7 +21,7 @@ export class BylEmployee extends BylBaseModel {
     enterDate: number;
     leaveDate: number;
 
-    status: number;
+    // status: number;
 
     get statusDisplay(): string{
         return BylEmployeeStatusManager.getCaption(this.status);

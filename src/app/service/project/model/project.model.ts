@@ -11,8 +11,9 @@ import {BylEntityReference} from "../../model/entity-reference.model";
 import {BylDatetimeUtils} from "../../utils/datetime.utils";
 import {BylMasterDataStatusManager} from "../../model/master-data-status.enum";
 import {BylProjectStatusManager} from "./project-status.enum";
+import {BylMasterDataBaseModel} from "../../model/master-data-base.model";
 
-export class BylProject extends BylBaseModel {
+export class BylProject extends BylMasterDataBaseModel {
     code: string;
     name: string;
 
@@ -35,7 +36,7 @@ export class BylProject extends BylBaseModel {
     progressAssessAmount: number; //实际进展评估额
     borrowedAmount: number; //预借款总额
     settleedAmount: number; //结算总额
-    status: number;
+    // status: number;
 
 
     get addressDisplay(): string {

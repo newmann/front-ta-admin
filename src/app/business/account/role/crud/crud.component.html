@@ -11,12 +11,12 @@
                     *ngIf="showSaveButton()" [nzLoading]="loading">保存</button>
             <button (click)="reset()"  type="button" nz-button *ngIf="showSaveButton()">重置</button>
             <button nz-button [disabled]="!sf.valid" (click)="submitEntity()"
-                    *ngIf="showSubmitButton()" [nzLoading]="loading">提交</button>
-            <button nz-button (click)="lockEntity()" *ngIf="showLockButton()" [nzLoading]="loading">锁定</button>
-            <button nz-button (click)="unlockEntity()" *ngIf="showUnlockButton()" [nzLoading]="loading">解锁</button>
-            <button nz-button (click)="confirmEntity()" *ngIf="showConfirmButton()" [nzLoading]="loading">确认</button>
-            <button nz-button (click)="unconfirmEntity()" *ngIf="showUnconfirmButton()" [nzLoading]="loading">取消确认</button>
-            <button nz-button (click)="cancelEntity()" *ngIf="showCancelButton()" [nzLoading]="loading">作废</button>
+                    *ngIf="showSubmitButton()" [nzLoading]="submitLoading">提交</button>
+            <button nz-button (click)="lockEntity()" *ngIf="showLockButton()" [nzLoading]="lockLoading">锁定</button>
+            <button nz-button (click)="unlockEntity()" *ngIf="showUnlockButton()" [nzLoading]="unlockLoading">解锁</button>
+            <button nz-button (click)="confirmEntity()" [disabled]="!sf.valid" *ngIf="showConfirmButton()" [nzLoading]="confirmLoading">确认</button>
+            <button nz-button (click)="unconfirmEntity()" *ngIf="showUnconfirmButton()" [nzLoading]="unconfirmLoading">取消确认</button>
+            <button nz-button (click)="cancelEntity()" *ngIf="showCancelButton()" [nzLoading]="cancelLoading">作废</button>
           </sf>
           <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
 

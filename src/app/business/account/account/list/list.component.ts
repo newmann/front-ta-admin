@@ -28,13 +28,14 @@ import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../s
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
 
 
 @Component({
     selector: 'byl-account-list',
     templateUrl: './list.component.html',
 })
-export class BylAccountListComponent extends BylListComponentBasePro<BylAccount> {
+export class BylAccountListComponent extends BylMasterDataListComponentBasePro<BylAccount> {
     // LIST_MODE:BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.CONFIRMED;
 
     @Input() masterId: string; //用户查询对应关系的界面，比如角色包含的用户等
@@ -209,6 +210,8 @@ export class BylAccountListComponent extends BylListComponentBasePro<BylAccount>
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     // 正确获取数据
                     this.total = data.data.total;
+
+                    console.log("in AccountList Component:", data.data);
 
                     // this.listData = Array.from(data.data.rows);
                     this.listData = this.genListData(Array.from(data.data.rows));
