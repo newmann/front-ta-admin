@@ -56,11 +56,4 @@ export class BylPersonCertificateListComponent extends BylItemListComponentBase<
             })
     }
 
-    /**
-     * 删除明细
-     * @param {string} id
-     */
-    delete(id:string){
-
-    }
 }

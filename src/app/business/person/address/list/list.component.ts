@@ -56,11 +56,5 @@ export class BylPersonAddressListComponent extends BylItemListComponentBase<BylP
             })
     }
 
-    /**
-     * 删除明细
-     * @param {string} id
-     */
-    delete(id:string){
 
-    }
 }

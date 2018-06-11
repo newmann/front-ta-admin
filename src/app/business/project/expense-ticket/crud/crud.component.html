@@ -25,7 +25,9 @@
         </nz-tab>
 
       <nz-tab [nzDisabled]="!sourceId" [nzTitle]="'单据明细'">
-        <byl-expense-ticket-detail-list [setMasterId]="businessData.id" [setModifyDateTime]="businessData.modifyAction.modifyDateTime" ></byl-expense-ticket-detail-list>
+        <byl-expense-ticket-detail-list [setMasterId]="businessData.id"
+                                        [setModifyDateTime]="businessData.modifyAction.modifyDateTime"
+        (changeModifyDateTime)="getModifyDateTimeChange($event)"></byl-expense-ticket-detail-list>
       </nz-tab>
 
         <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">

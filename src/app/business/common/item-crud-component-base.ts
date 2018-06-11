@@ -61,28 +61,32 @@ export abstract class BylTicketDetailCrudComponentBasePro<T extends BylBaseItemM
 
         let saveResult$: Observable<BylResultBody<BylDetailItemAddModel<T>>>;
 
-        console.log('in BylItemCrudComponentBase ', this.businessData);
+        this.getFormData();
+
 
         let data = new BylDetailItemAddModel<T>();
 
         data.masterId = this.masterId;
         data.modifyDateTime = this.masterModifyDateTime;
         data.lineNo = this.lineNo;
+        data.item = simpleDeepCopy({},this.businessData);
 
+        console.log('in ItemCrud submitEntity:', data);
 
         saveResult$ = this.businessService.addDetail(data);
 
         saveResult$.subscribe(
-            data => {
+            saveData => {
                 // this._loading = false;
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                if (saveData.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     // simpleDeepCopy(this.businessData,data.data);
                     //退出界面
                     //将保存到后台的数据回传到调用方
-                    this.modalSubject.destroy(data.data.item);
+                    console.log("in ItemCrud submitEntity: ", saveData.data);
+                    this.modalSubject.destroy(saveData.data);
                 } else {
 
-                    this.errMsg = data.msg;
+                    this.errMsg = saveData.msg;
                 }
                 this.loading = false;
             },

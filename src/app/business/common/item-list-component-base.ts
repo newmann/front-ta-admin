@@ -1,4 +1,4 @@
-import {OnInit} from "@angular/core";
+import {EventEmitter, OnInit, Output} from "@angular/core";
 import {BylListFormData} from "../../service/model/list-form-data.model";
 import {NzMessageService, NzModalService, NzModalRef} from "ng-zorro-antd";
 import {Router} from "@angular/router";
@@ -7,6 +7,10 @@ import {BylCrudEvent} from "./waiting/crud-waiting.component";
 import {BylResultBody} from "../../service/model/result-body.model";
 import {BylItemBaseService} from "../../service/service/item-base.service";
 import {BylBaseItemModal} from "../../service/model/base-item.model";
+import {BylDetailItemAddModel} from "../../service/model/detail-item-add.model";
+import {BylExpenseDetail} from "../../service/project/model/expense-detail.model";
+import {BylDetailItemDeleteModel} from "../../service/model/detail-item-delete.model";
+import {simpleDeepCopy} from "../../service/utils/object.utils";
 
 /**
  * @Description: Master-detail模型中detail list组件的抽象类
@@ -22,6 +26,8 @@ export abstract class BylItemListComponentBase<T extends BylBaseItemModal> imple
     public businessCrudComponent: any;
 
     // public crudUrl: string; //新增对象的url
+    @Output()
+    changeModifyDateTime: EventEmitter<number> = new EventEmitter<number>();
 
     public listData : Array<BylListFormData<T>> = []; // 显示内容
 
@@ -91,10 +97,11 @@ export abstract class BylItemListComponentBase<T extends BylBaseItemModal> imple
             this.modifyForm.afterClose.subscribe(result => {
                 console.log(result);
                 if(result){
-                    if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
-                        //更新对应的数据
-                        this.listData.push(this.genListData(result.data));
-                    }
+                    this.processAddItemResult(result);
+                    // if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
+                    //     //更新对应的数据
+                    //     this.listData.push(this.genListData(result.data));
+                    // }
 
                 }
             });
@@ -125,13 +132,46 @@ export abstract class BylItemListComponentBase<T extends BylBaseItemModal> imple
         this.modifyForm.afterClose.subscribe(result => {
             console.log(result);
             if(result){
-                if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
-                    //更新对应的数据
-                    this.updateListData(result.data);
-                }
+                this.processModifyItemResult(result);
+                // if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
+                //     //更新对应的数据
+                //     this.updateListData(result.data);
+                // }
 
             }
         });
+    }
+    /**
+     * 删除明细
+     * @param {string} id
+     */
+    delete(deleteItem: T) {
+        this.loading = true;
+        let item: BylDetailItemDeleteModel<T> = new BylDetailItemDeleteModel();
+        item.masterId = this.masterId;
+        item.modifyDateTime = this.masterModifyDateTime;
+        item.item = simpleDeepCopy({}, deleteItem);
+
+        this.businessService.deleteDetail(item)
+            .subscribe(data => {
+                    // this._loading = false;
+                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                        //删除完成后，刷新一次
+                        this.masterModifyDateTime = data.data.modifyDateTime;
+                        this.changeModifyDateTime.emit(this.masterModifyDateTime);
+
+                        this.search();
+
+                    } else {
+
+                        this.message.error(data.msg);
+                    }
+                    this.loading = false;
+                },
+                err => {
+                    this.message.error(err.toString());
+                    this.loading = false;
+                });
     }
     /**
      * 查找
@@ -175,6 +215,24 @@ export abstract class BylItemListComponentBase<T extends BylBaseItemModal> imple
     }
 
 
+
+    processAddItemResult(addResult: BylDetailItemAddModel<T>){
+        this.masterModifyDateTime = addResult.modifyDateTime;
+
+        console.log("in ExpenseTicketDetail list processAddItemResult: ", addResult);
+        this.listData.push(this.genListData(addResult.item));
+        console.log("in ExpenseTicketDetail list processAddItemResult: ", this.listData);
+        this.changeModifyDateTime.emit(this.masterModifyDateTime);
+
+    };
+
+    processModifyItemResult(modifyResult: BylDetailItemAddModel<T>){
+        this.masterModifyDateTime = modifyResult.modifyDateTime;
+        this.updateListData( modifyResult.item);
+
+        this.changeModifyDateTime.emit(this.masterModifyDateTime);
+
+    };
 
     /**
      * 根据查询的结果，生成界面显示的内容，重点是处理好checkec和disabled字段的值。

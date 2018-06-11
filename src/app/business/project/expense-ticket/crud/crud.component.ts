@@ -85,6 +85,13 @@ export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro
                     "type": 'string',
                     "title": '备注'
                 },
+                "modifyDateTimeDisplay": {
+                    "type": 'string',
+                    "title": '最后修改时间',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
                 "statusDisplay": {
                     "type": 'number',
                     "title": '状态',
@@ -147,6 +154,13 @@ export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro
                         widget: 'text'
                     }
 
+                },
+                "modifyDateTimeDisplay": {
+                    "type": 'string',
+                    "title": '最后修改时间',
+                    "ui": {
+                        widget: 'text'
+                    }
                 },
                 "statusDisplay": {
                     "type": 'number',
@@ -310,6 +324,13 @@ export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro
     //
     //     this.followProcess(saveResult$);
     // }
+
+    getModifyDateTimeChange(value: number){
+        console.log("in ExpenseTicket Crud getModifyDateTimeChange, value ", value);
+        this.businessData.modifyAction.modifyDateTime = value;
+        this.defaultBusinessData.modifyAction.modifyDateTime = value;
+        this.reset();
+    };
 
     error(value: any) {
         console.log('error', value);

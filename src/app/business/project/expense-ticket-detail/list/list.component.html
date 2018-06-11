@@ -43,15 +43,15 @@
                 <span>
                         <a (click)="modifyEntity(i.item.id)">修改</a>
                     </span>
-                <span nz-table-divider></span>
+              <nz-divider nzType="vertical"></nz-divider>
                 <span>
-                        <a (click)="delete(i.item.item.id)">删除</a>
+                        <a (click)="delete(i.item.item)">删除</a>
                     </span>
-              <span nz-table-divider></span>
+              <nz-divider nzType="vertical"></nz-divider>
               <span>
                         <a (click)="moveUp(i.item.item.lineNo)">上移</a>
                     </span>
-              <span nz-table-divider></span>
+              <nz-divider nzType="vertical"></nz-divider>
               <span>
                         <a (click)="moveDown(i.item.item.lineNo)">下移</a>
                     </span>
