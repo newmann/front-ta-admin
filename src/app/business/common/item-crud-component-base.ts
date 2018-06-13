@@ -16,18 +16,19 @@ import {BylMasterDataBaseModel} from "../../service/model/master-data-base.model
 import {BylMasterDataStatusEnum} from "../../service/model/master-data-status.enum";
 import {BylAccount} from "../../service/account/model/account.model";
 import {BylMasterDataBaseService} from "../../service/service/master-data-base.service";
-import {BylTicketBaseModal} from "../../service/model/base-ticket.model";
+import {BylTicketBaseModal} from "../../service/model/ticket-base.model";
 import {BylTicketBaseService} from "../../service/service/ticket-base.service";
-import {BylBaseItemModal} from "../../service/model/base-item.model";
+import {BylItemBaseModal} from "../../service/model/item-base.model";
 import {BylItemBaseService} from "../../service/service/item-base.service";
-import {BylDetailItemAddModel} from "../../service/model/detail-item-add.model";
+import {BylItemAddModel} from "../../service/model/item-add.model";
+import {BylItemUpdateModel} from "../../service/model/item-update.model";
 /**
  * @Description: master-detail对象的detail类crud的抽象类
  * @Author: newmannhu@qq.com
  * @Date: Created in 2018-03-31 9:46
  **/
 
-export abstract class BylTicketDetailCrudComponentBasePro<T extends BylBaseItemModal>
+export abstract class BylTicketDetailCrudComponentBasePro<T extends BylItemBaseModal>
     extends BylCrudComponentBasePro<T>{
 
     @Input()
@@ -59,21 +60,35 @@ export abstract class BylTicketDetailCrudComponentBasePro<T extends BylBaseItemM
         this.loading = true;
         this.errMsg = '';
 
-        let saveResult$: Observable<BylResultBody<BylDetailItemAddModel<T>>>;
+        let saveResult$: Observable<BylResultBody<any>>;
 
         this.getFormData();
 
+        if (this.sourceId){
+            //修改单据明细
+            let updateData = new BylItemUpdateModel<T>();
 
-        let data = new BylDetailItemAddModel<T>();
+            updateData.masterId = this.masterId;
+            updateData.modifyDateTime = this.masterModifyDateTime;
+            updateData.item = simpleDeepCopy({},this.businessData);
 
-        data.masterId = this.masterId;
-        data.modifyDateTime = this.masterModifyDateTime;
-        data.lineNo = this.lineNo;
-        data.item = simpleDeepCopy({},this.businessData);
+            console.log('in ItemCrud submitEntity,updateData:', updateData);
 
-        console.log('in ItemCrud submitEntity:', data);
+            saveResult$ = this.businessService.updateDetail(updateData);
 
-        saveResult$ = this.businessService.addDetail(data);
+        }else{
+            //新增单据明细
+            let data = new BylItemAddModel<T>();
+
+            data.masterId = this.masterId;
+            data.modifyDateTime = this.masterModifyDateTime;
+            data.lineNo = this.lineNo;
+            data.item = simpleDeepCopy({},this.businessData);
+
+            console.log('in ItemCrud submitEntity,data:', data);
+
+            saveResult$ = this.businessService.addDetail(data);
+        }
 
         saveResult$.subscribe(
             saveData => {

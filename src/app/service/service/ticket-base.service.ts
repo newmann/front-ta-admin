@@ -7,13 +7,13 @@ import {BylQueryReqBody} from '../model/query-req-body.model';
 import {BylPageReq} from '../model/page-req.model';
 import {BylPageResp} from '../model/page-resp.model';
 import {BylBaseService} from "./base.service";
-import {BylTicketBaseModal} from "../model/base-ticket.model";
+import {BylTicketBaseModal} from "../model/ticket-base.model";
 import {BylExpenseTicket} from "../project/model/expense-ticket.model";
-import {BylDetailItemMoveModel} from "../model/detail-item-move.model";
-import {BylDetailItemDeleteModel} from "../model/detail-item-delete.model";
-import {BylDetailItemAddModel} from "../model/detail-item-add.model";
+import {BylItemMoveModel} from "../model/item-move.model";
+import {BylItemDeleteModel} from "../model/item-delete.model";
+import {BylItemAddModel} from "../model/item-add.model";
 import {BylExpenseDetail} from "../project/model/expense-detail.model";
-import {BylBaseItemModal} from "../model/base-item.model";
+import {BylItemBaseModal} from "../model/item-base.model";
 
 
 /**

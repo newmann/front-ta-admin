@@ -1,34 +1,31 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
-import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
+import {NzMessageService} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
 
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {BylCheckTypeEnum, BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
-import {ErrorData, SFComponent, SFSchema, SFUISchema} from "@delon/form";
-import {BylExpenseTicket} from "../../../../service/project/model/expense-ticket.model";
-import {BylExpenseTicketService} from "../../../../service/project/service/expense-ticket.service";
-import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {SFSchema} from "@delon/form";
 import {BylEmbeddableProject} from "../../../../service/model/embeddable-project.model";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylExpenseTicketStatusEnum} from "../../../../service/project/model/expense-ticket-status.enum";
 import {BylTicketCrudComponentBasePro} from "../../../common/ticket-crud-component-base-pro";
-import {BylEmbeddableOperationPeriod} from "../../../../service/project/model/embeddable-operation-period.model";
+import {BylWorkloadTicket} from "../../../../service/project/model/workload-ticket.model";
+import {BylWorkloadTicketService} from "../../../../service/project/service/workload-ticket.service";
+import {BylWorkloadTicketStatusEnum} from "../../../../service/project/model/workload-ticket-status.enum";
 
 
 @Component({
-    selector: 'byl-expense-type-crud',
+    selector: 'byl-workload-ticket-crud',
     templateUrl: './crud.component.html',
 })
-export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro<BylExpenseTicket> {
+export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePro<BylWorkloadTicket> {
     processType: string;
 
     // @ViewChild('sf') sf: SFComponent;
 
-    newBusinessData(): BylExpenseTicket {
-        return new BylExpenseTicket();
+    newBusinessData(): BylWorkloadTicket {
+        return new BylWorkloadTicket();
     }
     private _newSchema: SFSchema;
     private _modifySchema: SFSchema;
@@ -68,6 +65,17 @@ export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro
                     ui: {
                         widget: 'bylOperationPeriodSelect',
                         placeholder: '请输入业务期间的代码或名称，系统自动查找',
+                        allowClear: 'true',
+                        serverSearch: 'true',
+                        showSearch: 'true',
+                    }
+                },
+                "outsourcerWidget": {
+                    type: "string",
+                    title: '外包团队',
+                    ui: {
+                        widget: 'bylOutsourcerSelect',
+                        placeholder: '请输入外包团队的代码或名称，系统自动查找',
                         allowClear: 'true',
                         serverSearch: 'true',
                         showSearch: 'true',
@@ -141,6 +149,13 @@ export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro
                         widget: 'text'
                     }
                 },
+                "outsourcerDisplay":{
+                    "type": "string",
+                    "title": '外包团队',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
                 // "beginDateDisplay": {
                 //     "type": "string",
                 //     "title": '开始日期',
@@ -202,7 +217,7 @@ export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro
     // this.formUiSchema: SFUISchema = {};
 
     constructor(public msgService: NzMessageService,
-                public expenseTicketService: BylExpenseTicketService,
+                public workloadTicketService: BylWorkloadTicketService,
                 public configService: BylConfigService,
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
@@ -210,7 +225,7 @@ export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro
                 public reuseTabService: ReuseTabService) {
         super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
         //
-        this.businessService = expenseTicketService;
+        this.businessService = workloadTicketService;
 
 
     }
@@ -280,7 +295,7 @@ export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro
      *  在调出一张历史单据进行修改的时候调用，
      *  可能需要一些个性化的处理
      */
-    setFormData(data: BylExpenseTicket){
+    setFormData(data: BylWorkloadTicket){
         super.setFormData(data);
         // this.projectList = [];
 
@@ -332,8 +347,8 @@ export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro
         }else{
             //修改状态，需要根据单据的状态进一步判断
             switch (this.businessData.status){
-                case BylExpenseTicketStatusEnum.UNSUBMITED:
-                case  BylExpenseTicketStatusEnum.SUBMITED:
+                case BylWorkloadTicketStatusEnum.UNSUBMITED:
+                case  BylWorkloadTicketStatusEnum.SUBMITED:
                     this.curSchema = simpleDeepCopy({},this._modifySchema);
                     console.log(this.curSchema);
                     break;
@@ -353,7 +368,7 @@ export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro
     //     this.loading = true;
     //     this.errMsg = '';
     //
-    //     let saveResult$: Observable<BylResultBody<BylExpenseTicket>>;
+    //     let saveResult$: Observable<BylResultBody<BylWorkloadTicket>>;
     //
     //     console.log('in ProjectCRUD ', this.businessData);
     //

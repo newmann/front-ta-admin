@@ -21,7 +21,7 @@ import {BylListComponentBasePro} from "./list-component-base-pro";
 import {BylMasterDataBaseService} from "../../service/service/master-data-base.service";
 import {BylMasterDataBaseModel} from "../../service/model/master-data-base.model";
 import {BylTicketBaseService} from "../../service/service/ticket-base.service";
-import {BylTicketBaseModal} from "../../service/model/base-ticket.model";
+import {BylTicketBaseModal} from "../../service/model/ticket-base.model";
 
 /**
  * @Description: 单据类list组件的抽象类

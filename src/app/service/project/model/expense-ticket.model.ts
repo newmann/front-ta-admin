@@ -16,20 +16,24 @@ import {BylProjectStatusManager} from "./project-status.enum";
 import {BylBorrowMoneyTicketStatusManager} from "./borrow-money-ticket-status.enum";
 import {BylBusinessEntityTypeManager} from "../../model/business-entity-type.enum";
 import {BylDatetimeUtils} from "../../utils/datetime.utils";
-import {BylTicketBaseModal} from "../../model/base-ticket.model";
+import {BylTicketBaseModal} from "../../model/ticket-base.model";
 import {BylExpenseTicketStatusEnum, BylExpenseTicketStatusManager} from "./expense-ticket-status.enum";
+import {BylEmbeddableOperationPeriod} from "./embeddable-operation-period.model";
 
 export class BylExpenseTicket extends BylTicketBaseModal {
 
     projectWidget:any;
     project: BylEmbeddableProject = new BylEmbeddableProject();
 
+    operationPeriodWidget: any;
+    operationPeriod: BylEmbeddableOperationPeriod = new BylEmbeddableOperationPeriod();
 
-    beginDateWidget:any;
-    endDateWidget:any;
 
-    beginDate: number;
-    endDate: number;
+    // beginDateWidget:any;
+    // endDateWidget:any;
+    //
+    // beginDate: number;
+    // endDate: number;
 
     amount: number;
 
@@ -46,19 +50,32 @@ export class BylExpenseTicket extends BylTicketBaseModal {
 
     }
 
-    get beginDateDisplay(){
-        return BylDatetimeUtils.formatDate(this.beginDate);
+    get operationPeriodDisplay(){
+        if(this.operationPeriod){
+            return this.operationPeriod.operatonPeriodName + "["
+                + BylDatetimeUtils.formatDate(this.operationPeriod.operatonPeriodBeginDate)
+                + ' - '
+                + BylDatetimeUtils.formatDate(this.operationPeriod.operatonPeriodEndDate)
+            + ']';
+        }
     }
-    set beginDateDisplay(value:string){
+    set operationPeriodDisplay(value:string){
 
     }
 
-    get endDateDisplay(){
-        return BylDatetimeUtils.formatDate(this.endDate);
-    }
-    set endDateDisplay(value:string){
-
-    }
+    // get beginDateDisplay(){
+    //     return BylDatetimeUtils.formatDate(this.beginDate);
+    // }
+    // set beginDateDisplay(value:string){
+    //
+    // }
+    //
+    // get endDateDisplay(){
+    //     return BylDatetimeUtils.formatDate(this.endDate);
+    // }
+    // set endDateDisplay(value:string){
+    //
+    // }
     get statusDisplay(): string{
         return BylExpenseTicketStatusManager.getCaption(this.status);
     }

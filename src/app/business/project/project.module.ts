@@ -27,6 +27,10 @@ import {BylExpenseTicketListComponent} from "./expense-ticket/list/list.componen
 import {BylExpenseTicketCrudComponent} from "./expense-ticket/crud/crud.component";
 import {BylExpenseTicketDetailListComponent} from "./expense-ticket-detail/list/list.component";
 import {BylExpenseTicketDetailCrudComponent} from "./expense-ticket-detail/crud/crud.component";
+import {BylOperationPeriodListComponent} from "./operation-period/list/list.component";
+import {BylOperationPeriodCrudComponent} from "./operation-period/crud/crud.component";
+import {BylWorkloadTicketListComponent} from "./workload-ticket/list/list.component";
+import {BylWorkloadTicketCrudComponent} from "./workload-ticket/crud/crud.component";
 
 
 @NgModule({
@@ -65,6 +69,10 @@ import {BylExpenseTicketDetailCrudComponent} from "./expense-ticket-detail/crud/
         BylExpenseTicketCrudComponent,
         BylExpenseTicketDetailListComponent,
         BylExpenseTicketDetailCrudComponent,
+        BylOperationPeriodListComponent,
+        BylOperationPeriodCrudComponent,
+        BylWorkloadTicketListComponent,
+        BylWorkloadTicketCrudComponent
 
     ],
     entryComponents: [

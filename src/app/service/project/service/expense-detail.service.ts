@@ -11,10 +11,10 @@ import {I18NService} from 'app/core/i18n/i18n.service';
 
 import {BylBaseService} from '../../service/base.service';
 import {BylExpenseTicket} from "../model/expense-ticket.model";
-import {BylDetailItemAddModel} from "../../model/detail-item-add.model";
+import {BylItemAddModel} from "../../model/item-add.model";
 import {BylExpenseDetail} from "../model/expense-detail.model";
-import {BylDetailItemDeleteModel} from "../../model/detail-item-delete.model";
-import {BylDetailItemMoveModel} from "../../model/detail-item-move.model";
+import {BylItemDeleteModel} from "../../model/item-delete.model";
+import {BylItemMoveModel} from "../../model/item-move.model";
 import {BylTicketBaseService} from "../../service/ticket-base.service";
 import {BylItemBaseService} from "../../service/item-base.service";
 
@@ -66,16 +66,16 @@ export class BylExpenseDetailService extends BylItemBaseService<BylExpenseDetail
     //     return this.http.post<BylResultBody<BylExpenseTicket>>(this.BASE_API_URL + '/submit', updateItem);
     // }
 
-    // addDetail(item: BylDetailItemAddModel<BylExpenseDetail>) {
-    //     return this.http.post<BylResultBody<BylDetailItemAddModel<BylExpenseDetail>>>(this.BASE_API_URL + '/add-detail', item);
+    // addDetail(item: BylItemAddModel<BylExpenseDetail>) {
+    //     return this.http.post<BylResultBody<BylItemAddModel<BylExpenseDetail>>>(this.BASE_API_URL + '/add-detail', item);
     // };
     //
-    // deleteDetail(item: BylDetailItemDeleteModel<BylExpenseDetail>) {
-    //     return this.http.post<BylResultBody<BylDetailItemDeleteModel<BylExpenseDetail>>>(this.BASE_API_URL + '/delete-detail', item);
+    // deleteDetail(item: BylItemDeleteModel<BylExpenseDetail>) {
+    //     return this.http.post<BylResultBody<BylItemDeleteModel<BylExpenseDetail>>>(this.BASE_API_URL + '/delete-detail', item);
     // };
     //
-    // moveDetail(item: BylDetailItemMoveModel) {
-    //     return this.http.post<BylResultBody<BylDetailItemMoveModel>>(this.BASE_API_URL + '/move-detail', item);
+    // moveDetail(item: BylItemMoveModel) {
+    //     return this.http.post<BylResultBody<BylItemMoveModel>>(this.BASE_API_URL + '/move-detail', item);
     // };
     //
     // fetchDetailByMasterID(masterId: string) {

@@ -1,34 +1,27 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
-import { ActivatedRoute } from '@angular/router';
-import { BylConfigService } from '../../../../service/constant/config.service';
-import { FormBuilder, Validators } from '@angular/forms';
-import { NzMessageService, NzModalService, NzModalRef } from 'ng-zorro-antd';
+import {ActivatedRoute} from '@angular/router';
+import {BylConfigService} from '../../../../service/constant/config.service';
+import {FormBuilder} from '@angular/forms';
+import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 
-import { BylProjectService } from '../../../../service/project/service/project.service';
-import { BylCrudComponentBase } from '../../../common/crud-component-base';
-import { BylProject } from '../../../../service/project/model/project.model';
-import { BylProvinceService } from '../../../../service/address/service/province.service';
-import { BylCountryService } from '../../../../service/address/service/country.service';
-import { ReuseTabService } from '@delon/abc';
-import { BylCityService } from '../../../../service/address/service/city.service';
-import { BylResultBody } from '../../../../service/model/result-body.model';
-import * as moment from 'moment';
-import { BylFetchProjectManagerWidgetComponent } from '../../fetch-project-manager-form-item/fetch-project-manager.formitem';
-import { BylCrudComponentBasePro } from "../../../common/crud-component-base-pro";
-import { map } from "rxjs/operators";
-import { BylCheckTypeEnumManager } from "../../../../service/project/model/check-type.enum";
-import { isEmpty } from "../../../../service/utils/string.utils";
-import { BylProjectManagerPoolService } from "../../../../service/project/service/project-manager-pool.service";
-import { SFComponent, SFSchema, SFSchemaEnumType } from "@delon/form";
-import { BylProjectManagerPool } from "../../../../service/project/model/project-manager-pool.model";
-import { BylEntityReference } from "../../../../service/model/entity-reference.model";
-import { BylDatetimeUtils } from "../../../../service/utils/datetime.utils";
-import { BylProjectStatusEnum } from "../../../../service/project/model/project-status.enum";
-import { simpleDeepCopy } from "../../../../service/utils/object.utils";
+import {BylProjectService} from '../../../../service/project/service/project.service';
+import {BylProject} from '../../../../service/project/model/project.model';
+import {BylProvinceService} from '../../../../service/address/service/province.service';
+import {BylCountryService} from '../../../../service/address/service/country.service';
+import {ReuseTabService} from '@delon/abc';
+import {BylCityService} from '../../../../service/address/service/city.service';
+import {BylResultBody} from '../../../../service/model/result-body.model';
+import {map} from "rxjs/operators";
+import {isEmpty} from "../../../../service/utils/string.utils";
+import {BylProjectManagerPoolService} from "../../../../service/project/service/project-manager-pool.service";
+import {SFSchema} from "@delon/form";
+import {BylEntityReference} from "../../../../service/model/entity-reference.model";
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {BylProjectStatusEnum} from "../../../../service/project/model/project-status.enum";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {Observable} from "rxjs/Observable";
 import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
-import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 
 
 @Component({

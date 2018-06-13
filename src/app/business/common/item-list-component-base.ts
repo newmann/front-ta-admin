@@ -6,18 +6,20 @@ import {BylConfigService} from "../../service/constant/config.service";
 import {BylCrudEvent} from "./waiting/crud-waiting.component";
 import {BylResultBody} from "../../service/model/result-body.model";
 import {BylItemBaseService} from "../../service/service/item-base.service";
-import {BylBaseItemModal} from "../../service/model/base-item.model";
-import {BylDetailItemAddModel} from "../../service/model/detail-item-add.model";
+import {BylItemBaseModal} from "../../service/model/item-base.model";
+import {BylItemAddModel} from "../../service/model/item-add.model";
 import {BylExpenseDetail} from "../../service/project/model/expense-detail.model";
-import {BylDetailItemDeleteModel} from "../../service/model/detail-item-delete.model";
+import {BylItemDeleteModel} from "../../service/model/item-delete.model";
 import {simpleDeepCopy} from "../../service/utils/object.utils";
+import {BylItemMoveModel} from "../../service/model/item-move.model";
+import {BylItemUpdateModel} from "../../service/model/item-update.model";
 
 /**
  * @Description: Master-detail模型中detail list组件的抽象类
  * @Author: newmannhu@qq.com
  * @Date: Created in 2018-04-15 9:22
  **/
-export abstract class BylItemListComponentBase<T extends BylBaseItemModal> implements OnInit {
+export abstract class BylItemListComponentBase<T extends BylItemBaseModal> implements OnInit {
 
     public masterId:string; //单据头的id
     public masterModifyDateTime:number;//单据头的最后修改时间
@@ -95,7 +97,7 @@ export abstract class BylItemListComponentBase<T extends BylBaseItemModal> imple
             });
             //
             this.modifyForm.afterClose.subscribe(result => {
-                console.log(result);
+                console.log("in Item List add, result:", result);
                 if(result){
                     this.processAddItemResult(result);
                     // if (result.type === BylCrudEvent[BylCrudEvent.bylUpdate]) {
@@ -146,11 +148,13 @@ export abstract class BylItemListComponentBase<T extends BylBaseItemModal> imple
      * @param {string} id
      */
     delete(deleteItem: T) {
+        console.log("in Item List delete, deleteItem:", deleteItem);
         this.loading = true;
-        let item: BylDetailItemDeleteModel<T> = new BylDetailItemDeleteModel();
+        let item: BylItemDeleteModel<T> = new BylItemDeleteModel();
         item.masterId = this.masterId;
         item.modifyDateTime = this.masterModifyDateTime;
         item.item = simpleDeepCopy({}, deleteItem);
+        console.log("in Item List delete, item:", item);
 
         this.businessService.deleteDetail(item)
             .subscribe(data => {
@@ -161,6 +165,7 @@ export abstract class BylItemListComponentBase<T extends BylBaseItemModal> imple
                         this.changeModifyDateTime.emit(this.masterModifyDateTime);
 
                         this.search();
+                        // this.listData = this.listData.filter(value=> value.item.id !== deleteItem.id);
 
                     } else {
 
@@ -216,17 +221,18 @@ export abstract class BylItemListComponentBase<T extends BylBaseItemModal> imple
 
 
 
-    processAddItemResult(addResult: BylDetailItemAddModel<T>){
+    processAddItemResult(addResult: BylItemAddModel<T>){
         this.masterModifyDateTime = addResult.modifyDateTime;
 
         console.log("in ExpenseTicketDetail list processAddItemResult: ", addResult);
-        this.listData.push(this.genListData(addResult.item));
+        this.listData=[...this.listData,this.genListData(addResult.item)];
+
         console.log("in ExpenseTicketDetail list processAddItemResult: ", this.listData);
         this.changeModifyDateTime.emit(this.masterModifyDateTime);
 
     };
 
-    processModifyItemResult(modifyResult: BylDetailItemAddModel<T>){
+    processModifyItemResult(modifyResult: BylItemUpdateModel<T>){
         this.masterModifyDateTime = modifyResult.modifyDateTime;
         this.updateListData( modifyResult.item);
 
@@ -252,4 +258,46 @@ export abstract class BylItemListComponentBase<T extends BylBaseItemModal> imple
      */
     abstract updateListData(newData:T);
 
+    moveUp(lineNo: number) {
+        this.moveAction(lineNo,lineNo -1);
+
+    }
+
+    moveDown(lineNo: number) {
+        this.moveAction(lineNo,lineNo +1);
+    }
+
+
+    moveAction(fromLineNo: number, toLineNo: number){
+        let moveItem : BylItemMoveModel = new BylItemMoveModel();
+        moveItem.masterId = this.masterId;
+        moveItem.modifyDateTime = this.masterModifyDateTime;
+        moveItem.fromLineNo = fromLineNo;
+        moveItem.toLineNo = toLineNo;
+        if (moveItem.toLineNo<=0) return; //出错了，直接返回
+        console.log("in Item List moveAction:", moveItem);
+
+        this.businessService.moveDetail(moveItem)
+            .subscribe(data => {
+                    // this._loading = false;
+                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                        //删除完成后，刷新一次
+                        this.masterModifyDateTime = data.data.modifyDateTime;
+                        this.changeModifyDateTime.emit(this.masterModifyDateTime);
+
+                        this.search();
+                        // this.listData = this.listData.filter(value=> value.item.id !== deleteItem.id);
+
+                    } else {
+
+                        this.message.error(data.msg);
+                    }
+                    this.loading = false;
+                },
+                err => {
+                    this.message.error(err.toString());
+                    this.loading = false;
+                });
+
+    }
 }

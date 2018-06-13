@@ -18,6 +18,10 @@ import {BylOutsourceEmployeeCrudComponent} from "./outsourcer-employee/crud/crud
 import {BylOutsourceEmployeeListComponent} from "./outsourcer-employee/list/list.component";
 import {BylExpenseTicketListComponent} from "./expense-ticket/list/list.component";
 import {BylExpenseTicketCrudComponent} from "./expense-ticket/crud/crud.component";
+import {BylOperationPeriodListComponent} from "./operation-period/list/list.component";
+import {BylOperationPeriodCrudComponent} from "./operation-period/crud/crud.component";
+import {BylWorkloadTicketListComponent} from "./workload-ticket/list/list.component";
+import {BylWorkloadTicketCrudComponent} from "./workload-ticket/crud/crud.component";
 
 
 
@@ -42,7 +46,11 @@ const routes: Routes = [
     { path: 'outsourcer/list', component: BylOutsourcerListComponent },
     { path: 'outsourcer/crud/:type', component: BylOutsourcerCrudComponent,data: {reuse: true}  },
     { path: 'outsource-employee/list', component: BylOutsourceEmployeeListComponent },
-    { path: 'outsource-employee/crud/:type', component: BylOutsourceEmployeeCrudComponent,data: {reuse: true}  }
+    { path: 'outsource-employee/crud/:type', component: BylOutsourceEmployeeCrudComponent,data: {reuse: true}  },
+    { path: 'operation-period/list', component: BylOperationPeriodListComponent },
+    { path: 'operation-period/crud/:type', component: BylOperationPeriodCrudComponent,data: {reuse: true}  },
+    { path: 'workload-ticket/list', component: BylWorkloadTicketListComponent },
+    { path: 'workload-ticket/crud/:type', component: BylWorkloadTicketCrudComponent,data: {reuse: true}  }
 
     ];
 

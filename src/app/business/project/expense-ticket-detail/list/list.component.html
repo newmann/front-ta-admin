@@ -27,7 +27,7 @@
         </tr>
         </thead>
         <tbody >
-        <tr  *ngFor="let i of nzTable.data">
+        <tr  *ngFor="let i of nzTable.data; first as isFirst; last as isLast">
             <!--<td  [nzCheckbox]="true">-->
             <!--<caption nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
             <!--(ngModelChange)="refreshStatus($event)">-->
@@ -45,15 +45,15 @@
                     </span>
               <nz-divider nzType="vertical"></nz-divider>
                 <span>
-                        <a (click)="delete(i.item.item)">删除</a>
+                        <a (click)="delete(i.item)">删除</a>
                     </span>
-              <nz-divider nzType="vertical"></nz-divider>
-              <span>
-                        <a (click)="moveUp(i.item.item.lineNo)">上移</a>
+              <nz-divider nzType="vertical" *ngIf="isFirst === false"></nz-divider>
+              <span *ngIf="isFirst === false">
+                        <a (click)="moveUp(i.item.lineNo)">上移</a>
                     </span>
-              <nz-divider nzType="vertical"></nz-divider>
-              <span>
-                        <a (click)="moveDown(i.item.item.lineNo)">下移</a>
+              <nz-divider nzType="vertical" *ngIf="isLast ===false "></nz-divider>
+              <span *ngIf="isLast === false">
+                        <a (click)="moveDown(i.item.lineNo)">下移</a>
                     </span>
 
             </td>

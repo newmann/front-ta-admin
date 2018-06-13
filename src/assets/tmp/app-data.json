@@ -196,6 +196,20 @@
         }
         ]
       },{
+        "text": "业务期间管理",
+        "i18n": "operation-period",
+        "icon": "icon-speedometer",
+        "children": [{
+          "text": "业务期间管理",
+          "link": "/project/operation-period/list",
+          "i18n": "project_operation_period_list"
+        },{
+          "text": "业务期间新增",
+          "link": "/project/operaiton_period/new",
+          "i18n": "borrow_operation_period_new"
+        }
+        ]
+      },{
         "text": "借款单管理",
         "i18n": "borrow-money",
         "icon": "icon-speedometer",
@@ -245,6 +259,21 @@
             "text": "费用单新增",
             "link": "/project/expense-ticket/crud/new",
             "i18n": "expense_ticket_new"
+          }
+        ]
+      },{
+        "text": "考勤登记",
+        "i18n": "workload-ticket",
+        "icon": "icon-speedometer",
+        "children": [{
+            "text": "费用登记单管理",
+            "link": "/project/workload-ticket/list",
+            "i18n": "workload_ticket_list"
+          }
+        ,{
+            "text": "费用登记单新增",
+            "link": "/project/workload-ticket/crud/new",
+            "i18n": "workload_ticket_new"
           }
         ]
       },{

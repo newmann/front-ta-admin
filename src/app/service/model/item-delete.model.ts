@@ -8,14 +8,13 @@
 import {BylEmbeddableCreateAction} from "./embeddable-create-action.model";
 import {BylEmbeddableModifyAction} from "./embeddable-modify-action.model";
 import {BylDatetimeUtils} from "../utils/datetime.utils";
-import {BylBaseItemModal} from "./base-item.model";
+import {BylItemBaseModal} from "./item-base.model";
 
 
-export class BylDetailItemMoveModel {
+export class BylItemDeleteModel<T extends BylItemBaseModal> {
     masterId: string;
     modifyDateTime: number;
-    fromLineNo: number;
-    toLineNo: number;
+    item: T;
 
     get modifyDateTimeDisplay() {
         return BylDatetimeUtils.formatDateTime(this.modifyDateTime);

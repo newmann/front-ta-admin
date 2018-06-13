@@ -1,0 +1,76 @@
+<page-header [title]="'业务期间维护'" *ngIf="processType.length > 0 "></page-header>
+<nz-card [nzBordered]="false">
+    <nz-tabset>
+        <nz-tab [nzTitle]="'基本信息'">
+            <span>
+              <sf  #sf [button]="null"
+                   [schema]="emptyFormSchema"
+                   [ui]="formUiSchema"
+                   [formData]="businessData"
+                   mode="edit"
+                   (formError)="error($event)">
+
+                  <button type="submit" nz-button [disabled]="!sf.valid"  (click)="submitForm()"
+                          *ngIf="showSaveButton()" [nzLoading]="loading">保存</button>
+                  <button (click)="reset()"  type="button" nz-button *ngIf="showSaveButton()">重置</button>
+                  <button nz-button [disabled]="!sf.valid" (click)="submitEntity()"
+                          *ngIf="showSubmitButton()" [nzLoading]="submitLoading">提交</button>
+                  <button nz-button (click)="lockEntity()" *ngIf="showLockButton()" [nzLoading]="lockLoading">锁定</button>
+                  <button nz-button (click)="unlockEntity()" *ngIf="showUnlockButton()" [nzLoading]="unlockLoading">解锁</button>
+                  <button nz-button (click)="confirmEntity()" [disabled]="!sf.valid" *ngIf="showConfirmButton()" [nzLoading]="confirmLoading">确认</button>
+                  <button nz-button (click)="unconfirmEntity()" *ngIf="showUnconfirmButton()" [nzLoading]="unconfirmLoading">取消确认</button>
+                  <button nz-button (click)="cancelEntity()" *ngIf="showCancelButton()" [nzLoading]="cancelLoading">作废</button>
+
+
+              </sf>
+                <!--<form nz-form [formGroup]="form"  role="form">-->
+                    <!--<byl-input-formitem [controlName]="'code'" [labelCaption]="'代码'"-->
+                                        <!--[hostForm]="form" [controlPath]="'code'" [isRequired]="'true'"-->
+                                        <!--[placeHolder]="'请输入代码'"></byl-input-formitem>-->
+
+                    <!--<byl-input-formitem [controlName]="'name'" [labelCaption]="'名称'"-->
+                                        <!--[hostForm]="form" [controlPath]="'name'" [isRequired]="'true'"-->
+                                        <!--[placeHolder]="'请输入名称'"></byl-input-formitem>-->
+
+                    <!--<byl-radio-formitem [controlName]="'checkType'" [labelCaption]="'考情类型'"-->
+                                        <!--[hostForm]="form" [controlPath]="'checkType'" [isRequired]="'true'"-->
+                                        <!--[selectOptions]="checkTypeOptions"></byl-radio-formitem>-->
+
+                    <!--<byl-input-formitem [controlName]="'standardTimeLength'" [labelCaption]="'标准工作时长'"-->
+                                        <!--[hostForm]="form" [controlPath]="'standardTimeLength'" [isRequired]="'true'"-->
+                                        <!--[placeHolder]="'请输入标准工作时长'"></byl-input-formitem>-->
+
+
+                    <!--<byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"-->
+                                        <!--[hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"-->
+                                        <!--[placeHolder]="'请输入备注'"></byl-input-formitem>-->
+
+                    <!--<byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>-->
+
+
+
+                    <!--<nz-form-item nz-row class="mb0">-->
+
+                        <!--<nz-form-control [nzSpan]="14" [nzOffset]="6">-->
+                            <!--<button nz-button [nzType]="'primary'"-->
+                                    <!--[disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>-->
+                            <!--<button nz-button (click)="resetButtonClick($event)">重置</button>-->
+
+                        <!--</nz-form-control>-->
+
+                    <!--</nz-form-item>-->
+
+                <!--</form>-->
+            </span>
+            <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
+        </nz-tab>
+
+
+        <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">
+          <byl-entity-logger [entityId]="sourceId"></byl-entity-logger>
+        </nz-tab>
+
+    </nz-tabset>
+
+</nz-card>
+

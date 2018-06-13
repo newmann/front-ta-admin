@@ -8,7 +8,7 @@ import {BylExpenseDetailService} from "../../../../service/project/service/expen
 import {BylExpenseDetail} from "../../../../service/project/model/expense-detail.model";
 import {BylExpenseTicketDetailCrudComponent} from "../crud/crud.component";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylDetailItemDeleteModel} from "../../../../service/model/detail-item-delete.model";
+import {BylItemDeleteModel} from "../../../../service/model/item-delete.model";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 
 
@@ -63,12 +63,6 @@ export class BylExpenseTicketDetailListComponent extends BylItemListComponentBas
 
 
 
-    moveUp(lineNo: number) {
 
-    }
-
-    moveDown(lineNo: number) {
-
-    }
 
 }

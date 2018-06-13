@@ -36,6 +36,8 @@ import {BylExpenseTypeService} from "./project/service/expense-type.service";
 import {BylEmployeeService} from "./project/service/employee.service";
 import {BylExpenseTicketService} from "./project/service/expense-ticket.service";
 import {BylExpenseDetailService} from "./project/service/expense-detail.service";
+import {BylOperationPeriodService} from "./project/service/operation-period.service";
+import {BylWorkloadTicketService} from "./project/service/workload-ticket.service";
 
 
 
@@ -79,6 +81,8 @@ import {BylExpenseDetailService} from "./project/service/expense-detail.service"
         BylEmployeeService,
         BylExpenseTicketService,
         BylExpenseDetailService,
+        BylOperationPeriodService,
+        BylWorkloadTicketService,
 
         ChatService,
         CustomStompRService,

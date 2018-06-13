@@ -8,7 +8,7 @@ import {BylResultBody} from '../../service/model/result-body.model';
 import {ReuseTabService} from '@delon/abc';
 import {Observable} from 'rxjs/Observable';
 import {BylCrudComponentBasePro} from "./crud-component-base-pro";
-import {BylTicketBaseModal} from "../../service/model/base-ticket.model";
+import {BylTicketBaseModal} from "../../service/model/ticket-base.model";
 import {BylTicketBaseService} from "../../service/service/ticket-base.service";
 import {BylTicketStatusEnum} from "../../service/model/ticket-status.enum";
 /**
@@ -69,7 +69,7 @@ export abstract class BylTicketCrudComponentBasePro<T extends BylTicketBaseModal
     submitEntity() {
         this.submitLoading = true;
         this.errMsg = '';
-
+        this.getFormData();
         let saveResult$: Observable<BylResultBody<T>>;
 
         console.log('in BylTicketCrudComponentBasePro ', this.businessData);

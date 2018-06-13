@@ -1,5 +1,5 @@
 /**
- * @Description: 借款单
+ * @Description: 考情登记单
  * @Author: newmann
  * @Date: Created in 21:05 2018-01-22
  */
@@ -17,31 +17,34 @@ import {BylBorrowMoneyTicketStatusManager} from "./borrow-money-ticket-status.en
 import {BylBusinessEntityTypeManager} from "../../model/business-entity-type.enum";
 import {BylDatetimeUtils} from "../../utils/datetime.utils";
 import {BylTicketBaseModal} from "../../model/ticket-base.model";
+import {BylExpenseTicketStatusEnum, BylExpenseTicketStatusManager} from "./expense-ticket-status.enum";
+import {BylEmbeddableOutsourcer} from "./embeddable-outsourcer.model";
 
-export class BylBorrowMoneyTicket extends BylTicketBaseModal {
-    // billNo: string;
-    name: string;
+export class BylWorkloadTicket extends BylTicketBaseModal {
+
     projectWidget:any;
     project: BylEmbeddableProject = new BylEmbeddableProject();
 
-    address: BylEmbeddableAddress = new BylEmbeddableAddress();
+    outsourcerWidget:any;
+    oursourcer: BylEmbeddableOutsourcer = new BylEmbeddableOutsourcer();
 
-    reason: string;
-    amount: number;
-
-
-    borrowerWidget: BylBorrowMoneyQualificationPool = new BylBorrowMoneyQualificationPool(); //界面用
-    borrowDateTimeWidget: Date;
-
-    borrowAction: BylEmbeddableBorrowAction = new BylEmbeddableBorrowAction();
     checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
-    receiveAction: BylEmbeddableReceiveAction =new BylEmbeddableReceiveAction();
 
-    settlementDateTime: number;
-    settlementTicketId: string;
-    settlementTicketNo: string;
+    beginDateWidget:any;
+    endDateWidget:any;
 
-    // status: number;
+    beginDate: number;
+    endDate: number;
+
+   // status: number;
+    get outsourcerDisplay(){
+        if(this.oursourcer){
+            return this.oursourcer.outsourcerName + "[" + this.oursourcer.outsourcerCode +']';
+        }
+    }
+    set outsourcerDisplay(value: string){
+
+    }
 
     get projectDisplay(){
         if(this.project){
@@ -51,29 +54,22 @@ export class BylBorrowMoneyTicket extends BylTicketBaseModal {
     set projectDisplay(value: string){
 
     }
-    get borrowerDisplay(){
-        if(this.borrowAction){
-            if(this.borrowAction.borrowId){
-                return BylBusinessEntityTypeManager.getCaption(this.borrowAction.borrowType) + "-"
-                    + this.borrowAction.borrowName +"[" + this.borrowAction.borrowCode + "]";
-            }
 
-        }
+    get beginDateDisplay(){
+        return BylDatetimeUtils.formatDate(this.beginDate);
     }
-
-    set borrowerDisplay(value: string){
+    set beginDateDisplay(value:string){
 
     }
 
-    get borrowDateTimeDisplay(){
-        return BylDatetimeUtils.formatDate(this.borrowAction.borrowDateTime);
+    get endDateDisplay(){
+        return BylDatetimeUtils.formatDate(this.endDate);
     }
-    set borrowDateTimeDisplay(value:string){
+    set endDateDisplay(value:string){
 
     }
-
     get statusDisplay(): string{
-        return BylBorrowMoneyTicketStatusManager.getCaption(this.status);
+        return BylExpenseTicketStatusManager.getCaption(this.status);
     }
     set statusDisplay(value: string){
 

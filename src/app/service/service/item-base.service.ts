@@ -7,10 +7,11 @@ import {BylQueryReqBody} from '../model/query-req-body.model';
 import {BylPageReq} from '../model/page-req.model';
 import {BylPageResp} from '../model/page-resp.model';
 import {BylBaseService} from "./base.service";
-import {BylDetailItemMoveModel} from "../model/detail-item-move.model";
-import {BylDetailItemDeleteModel} from "../model/detail-item-delete.model";
-import {BylDetailItemAddModel} from "../model/detail-item-add.model";
-import {BylBaseItemModal} from "../model/base-item.model";
+import {BylItemMoveModel} from "../model/item-move.model";
+import {BylItemDeleteModel} from "../model/item-delete.model";
+import {BylItemAddModel} from "../model/item-add.model";
+import {BylItemBaseModal} from "../model/item-base.model";
+import {BylItemUpdateModel} from "../model/item-update.model";
 
 
 /**
@@ -19,7 +20,7 @@ import {BylBaseItemModal} from "../model/base-item.model";
  *  @Date: Created in  14:00 2018/4/13.
  */
 
-export class BylItemBaseService<T extends BylBaseItemModal> extends BylBaseService<T>{
+export class BylItemBaseService<T extends BylItemBaseModal> extends BylBaseService<T>{
     protected BASE_API_URL = 'api/';
 
     constructor(protected http: _HttpClient,
@@ -33,16 +34,20 @@ export class BylItemBaseService<T extends BylBaseItemModal> extends BylBaseServi
         return this.http.get<BylResultBody<Array<T>>>(this.BASE_API_URL + '/find-by-masterid/' + masterid);
     }
 
-    addDetail(item: BylDetailItemAddModel<T>) {
-        return this.http.post<BylResultBody<BylDetailItemAddModel<T>>>(this.BASE_API_URL + '/add-detail', item);
+    addDetail(item: BylItemAddModel<T>) {
+        return this.http.post<BylResultBody<BylItemAddModel<T>>>(this.BASE_API_URL + '/add-detail', item);
     };
 
-    deleteDetail(item: BylDetailItemDeleteModel<T>) {
-        return this.http.post<BylResultBody<BylDetailItemDeleteModel<T>>>(this.BASE_API_URL + '/delete-detail', item);
+    updateDetail(item: BylItemUpdateModel<T>) {
+        return this.http.post<BylResultBody<BylItemUpdateModel<T>>>(this.BASE_API_URL + '/update-detail', item);
     };
 
-    moveDetail(item: BylDetailItemMoveModel) {
-        return this.http.post<BylResultBody<BylDetailItemMoveModel>>(this.BASE_API_URL + '/move-detail', item);
+    deleteDetail(item: BylItemDeleteModel<T>) {
+        return this.http.post<BylResultBody<BylItemDeleteModel<T>>>(this.BASE_API_URL + '/delete-detail', item);
+    };
+
+    moveDetail(item: BylItemMoveModel) {
+        return this.http.post<BylResultBody<BylItemMoveModel>>(this.BASE_API_URL + '/move-detail', item);
     };
 
     fetchDetailByMasterID(masterId: string) {
