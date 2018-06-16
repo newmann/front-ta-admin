@@ -17,7 +17,8 @@ import {BylMasterDataBaseService} from "../../service/master-data-base.service";
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylOutsourceEmployeeService  extends BylMasterDataBaseService<BylOutsourceEmployee> {
+export class BylOutsourceEmployeeService
+    extends BylMasterDataBaseService<BylOutsourceEmployee> {
 
 
     constructor(protected http: _HttpClient,

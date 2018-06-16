@@ -9,6 +9,11 @@ import {BylProjectStatusEnum} from "../model/project-status.enum";
 export class BylOutsourceEmployeeQuery {
     code: string;
     name: string;
+
+    outsourcerWidget: any;
+
+    outsourcerId: string;
+
     status: Array<number>;
     modifyDateBegin: number;
     modifyDateEnd: number;

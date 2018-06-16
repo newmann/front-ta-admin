@@ -1,48 +1,73 @@
-import {Component} from '@angular/core';
-import {NzMessageService, NzModalService} from 'ng-zorro-antd';
+import {Component, Input} from '@angular/core';
+import {NzMessageService, NzModalRef, NzModalService} from 'ng-zorro-antd';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {Router} from '@angular/router';
 import * as moment from 'moment';
-import {BylListFormData} from '../../../../service/model/list-form-data.model';
-
-import {SFSchema, SFUISchema} from "@delon/form";
 import {
-    ACTION_BROWSE,
-    ACTION_CANCEL, ACTION_CONFIRM,
-    ACTION_DELETE, ACTION_LOCK,
-    ACTION_MODIFY,
-    ACTION_SUBMIT, ACTION_UNCONFIRM, ACTION_UNLOCK,
-    BylTableClickAction,
-    BylTableDefine
-} from "../../../common/list-form-table-item/table.formitem";
-import {BylEmployeeService} from "../../../../service/project/service/employee.service";
-import {BylEmployee} from '../../../../service/project/model/employee.model';
+    BylAccountAvailablePoolsInterface,
+    BylFindEntityAccountInterface,
+    BylSaveAccountRelationInterface
+} from '../../../../service/account/service/account-related.interface';
+import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
+import {BylEmployee} from "../../../../service/project/model/employee.model";
+import {SFSchema, SFUISchema} from "@delon/form";
+import {BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
 import {BylEmployeeStatusEnum, BylEmployeeStatusManager} from "../../../../service/project/model/employee-status.enum";
+import {BylEmployeeService} from "../../../../service/project/service/employee.service";
+import {BylWorkTypeQuery} from "../../../../service/project/query/work-type-query.model";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
+import {BylListFormData} from "../../../../service/model/list-form-data.model";
 import {BylEmployeeQuery} from "../../../../service/project/query/employee-query.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylEmployeeAvailablePoolsInterface} from "../../../../service/project/service/employee-related.interface";
+import {BylResultBody} from "../../../../service/model/result-body.model";
+
+// export const enum AccountEntityTypeEnum{
+//     ROLE = 1,
+//     DEPARTMENT = 2
+// }
 
 @Component({
-    selector: 'byl-empoloyee-list',
-    templateUrl: './list.component.html',
+    selector: 'byl-Employee-item-list',
+    templateUrl: './item-list.component.html',
 })
-export class BylEmployeeListComponent extends BylMasterDataListComponentBasePro<BylEmployee> {
+export class BylEmployeeItemListComponent
+    extends BylListComponentBasePro<BylEmployee>{
+
+    private _masterId: string;
+    @Input()
+    set masterId(value: string) {
+        this._masterId = value;
+    }
+
+    @Input() findAvailablePoolsService: BylEmployeeAvailablePoolsInterface; //调用方，用户调出选择添加账户的窗口
+    //
+    // @Input() saveAccountRelationService: BylSaveAccountRelationInterface; //调用方传入查询函数
+    // @Input() findEntityAccountService: BylFindEntityAccountInterface; //调用方传入查询已经对应的账户
+
+    // public listData: Array<BylListFormData<BylAccount>> = []; // 显示内容
+    //
+    // public selectedRows: Array<BylListFormData<BylAccount>> = []; //被选中的数据
+    // public indeterminate = false;
+    // public allChecked = false; //是否全部选中
 
 
+    // public addForm: NzModalRef; //维护界面
+    //
+    // public loading = false;
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
                 public router: Router,
-                public employeeService: BylEmployeeService) {
-        super(message, configService, modalService, router);
-
+                public employeeService: BylEmployeeService,
+                public modalRef: NzModalRef
+    ) {
+        super(message,configService,modalService,router);
         this.businessService = employeeService;
-        this.crudUrl = '/project/employee/crud';
-        // this.businessCrudComponent = BylPersonCrudComponent;
-
-        this.querySchema.properties['status'].enum.push(...BylEmployeeStatusManager.getSFSelectDataArray()); //设置查询条件中的状态字段
+        this.querySchema.properties['status'].enum.push(
+            {value: BylEmployeeStatusEnum.CONFIRMED, label: BylEmployeeStatusManager.getCaption(BylEmployeeStatusEnum.CONFIRMED)}
+        ); //设置查询条件中的状态字段
     }
 
     /**
@@ -89,16 +114,6 @@ export class BylEmployeeListComponent extends BylMasterDataListComponentBasePro<
         return result;
     }
 
-
-    batchDelete() {
-
-    }
-
-    batchApproval() {
-
-    }
-
-
     updateListData(newData: BylEmployee) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
@@ -106,22 +121,39 @@ export class BylEmployeeListComponent extends BylMasterDataListComponentBasePro<
             });
     }
 
-    // getStatusCaption(status: number): string {
-    //     return BylEmployeeStatusEnum.getCaption(status);
-    // }
-
     /**
-     * 设置查询缺省值
+     * 查找
      */
-    // setQDataDefaultValue(){
-    //     let q = new BylWorkTypeQuery();
-    //
-    //     Object.assign(this.qData,q);
-    // }
+    search() {
+        this.loading = true;
+
+        this.listWidget.clearGrid();
+
+        this.findAvailablePoolsService.findAvailableEmployeePoolsPage(this.genQueryModel(), this.page, this._masterId).subscribe(
+            data => {
+                this.loading = false;
+                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                    // 正确获取数据
+                    this.total = data.data.total;
+
+                    // this.listData = Array.from(data.data.rows);
+                    this.listData = this.genListData(Array.from(data.data.rows));
+
+                } else {
+                    this.showMsg(data.msg);
+                }
+            },
+            err => {
+                this.loading = false;
+                console.log(err);
+                this.showMsg(err.toString());
+            }
+        );
+    }
 
     //#region 查询条件
     queryDefaultData: any = {
-        status:[BylEmployeeStatusEnum.UNSUBMITED,BylEmployeeStatusEnum.SUBMITED,BylEmployeeStatusEnum.CONFIRMED]
+        status:[BylEmployeeStatusEnum.CONFIRMED]
         // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
         // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
     };
@@ -151,31 +183,10 @@ export class BylEmployeeListComponent extends BylMasterDataListComponentBasePro<
         required: []
     };
 //#endregion
-    EMPLOYEE_LEAVE = "离职";
 
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.UNSUBMITED },
-            {actionName: ACTION_DELETE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.UNSUBMITED },
-            {actionName: ACTION_SUBMIT,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.UNSUBMITED },
-
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.SUBMITED },
-            {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.SUBMITED },
-            {actionName: ACTION_CONFIRM,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.SUBMITED },
-
-            {actionName: this.EMPLOYEE_LEAVE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.CONFIRMED },
-
-            {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.CONFIRMED },
-            {actionName: ACTION_UNCONFIRM,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.CONFIRMED },
-            {actionName: ACTION_LOCK,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.CONFIRMED },
-            {actionName: ACTION_UNLOCK,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.LOCKED },
-
-            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.CONFIRMED },
-            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.LOCKED },
-            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.SUBMITED_DELETED },
-            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.LEAVE },
-
             // {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylEmployeeStatusEnum.NORMAL }
         ],
         columns:[
@@ -188,33 +199,11 @@ export class BylEmployeeListComponent extends BylMasterDataListComponentBasePro<
             {label:"最后修改时间", fieldPath: "modifyDateTimeDisplay" }
         ]};
 
+    addSelected(){
+        let  result:Array<BylEmployee>;
+        result = this.selectedRows.map(item => item.item);
 
-    entityAction(action: BylTableClickAction){
-        super.entityAction(action);
-
-        switch(action.actionName){
-            case this.EMPLOYEE_LEAVE:
-                this.showLeaveEntity(action.rowItem);
-                break;
-            default:
-                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-        }
-
-    }
-
-    showLeaveEntity(entity: BylEmployee){
-        this.modalService.confirm({
-            nzTitle: '确认要进行离职操作吗?',
-            nzContent: '<b style="color: red;">员工在正式离开之后再完成离职操作。</b>',
-            nzOkText: '离职',
-            nzOkType: 'primary',
-            nzOnOk: () => {
-                this.actionResult$ = this.employeeService.leave(entity);
-                this.actionFollowProcess(this.actionResult$);
-            },
-            nzCancelText: '取消',
-            nzOnCancel: () => console.log('confirmEntity Cancel')
-        });
+        this.modalRef.destroy(result);
 
     }
 }

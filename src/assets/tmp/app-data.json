@@ -235,6 +235,14 @@
           "text": "工种新增",
           "link": "/project/work-type/crud/new",
           "i18n": "work_type_new"
+        },{
+          "text": "工种配置管理",
+          "link": "/project/work-type-config-ticket/list",
+          "i18n": "work_type_config_ticket_list"
+        },{
+          "text": "工种配置新增",
+          "link": "/project/work-type-config-ticket/crud/new",
+          "i18n": "work_type_config_ticket_new"
         }
         ]
       },{

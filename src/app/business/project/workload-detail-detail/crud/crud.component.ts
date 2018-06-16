@@ -404,7 +404,7 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
     // }
 
     getModifyDateTimeChange(value: number){
-        console.log("in WorkloadTicket Crud getModifyDateTimeChange, value ", value);
+        console.log("in ExpenseTicket Crud getModifyDateTimeChange, value ", value);
         this.businessData.modifyAction.modifyDateTime = value;
         this.defaultBusinessData.modifyAction.modifyDateTime = value;
         this.reset();

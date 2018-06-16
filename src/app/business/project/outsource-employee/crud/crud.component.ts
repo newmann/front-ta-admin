@@ -101,7 +101,7 @@ export class BylOutsourceEmployeeCrudComponent extends BylMasterDataCrudComponen
         };
         this._browseSchema = {
             properties: {
-                "outsourcerWidget":{
+                "outsourcerDisplay":{
                     "type": 'string',
                     "title": '所属外包商',
                     "ui": {
@@ -138,7 +138,7 @@ export class BylOutsourceEmployeeCrudComponent extends BylMasterDataCrudComponen
                     }
                 },
             },
-            "required": ["outsourcerWidget", "code", "name"]
+            "required": ["outsourcerDisplay", "code", "name"]
         };
         // BylCheckTypeEnumManager.getArray().forEach((item) =>{
         //     let option = {label: item.caption, value: item.value};
@@ -249,7 +249,7 @@ export class BylOutsourceEmployeeCrudComponent extends BylMasterDataCrudComponen
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.person.personName;
+            this.reuseTabService.title = '编辑-' + this.businessData.name;
         }
 
     }

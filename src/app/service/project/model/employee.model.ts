@@ -11,6 +11,7 @@ import {BylMasterDataStatusManager} from "../../model/master-data-status.enum";
 import {BylEmployeeStatusManager} from "./employee-status.enum";
 import {BylDatetimeUtils} from "../../utils/datetime.utils";
 import {BylMasterDataBaseModel} from "../../model/master-data-base.model";
+import {BylEmbeddableWorkType} from "./embeddable-work-type.model";
 
 export class BylEmployee extends BylMasterDataBaseModel {
     code: string;
@@ -20,6 +21,19 @@ export class BylEmployee extends BylMasterDataBaseModel {
 
     enterDate: number;
     leaveDate: number;
+
+    workType: BylEmbeddableWorkType = new BylEmbeddableWorkType();
+
+    get workTypeDisplay(): string{
+        if( this.workType){
+            if ( this.workType.workTypeId){
+                return this.workType.workTypeName + "[" + this.workType.workTypeCode + "]";
+            }
+        }
+
+    }
+
+    set workTypeDisplay(value: string){  }
 
     // status: number;
 
@@ -39,7 +53,7 @@ export class BylEmployee extends BylMasterDataBaseModel {
     set leaveDateDF(value: Date){}
 
     get enterDateDisplay() {
-        return BylDatetimeUtils.formatDateTime(this.enterDate);
+        return BylDatetimeUtils.formatDate(this.enterDate);
     }
 
     set enterDateDisplay(value: string) {
@@ -47,7 +61,7 @@ export class BylEmployee extends BylMasterDataBaseModel {
     }
 
     get leaveDateDisplay() {
-        return BylDatetimeUtils.formatDateTime(this.leaveDate);
+        return BylDatetimeUtils.formatDate(this.leaveDate);
     }
 
     set leaveDateDisplay(value: string) {

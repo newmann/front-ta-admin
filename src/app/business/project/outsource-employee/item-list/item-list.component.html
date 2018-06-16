@@ -1,0 +1,28 @@
+<div >
+    <button nz-button (click)="addSelected()" [nzType]="'dashed'" class="ant-btn__block mb-sm">
+        <i class="anticon anticon-plus"></i><span>添加</span>
+    </button>
+
+    <button nz-button (click)="search()" [nzType]="'primary'"  class="ant-btn__block mb-sm">
+        <i class="anticon anticon-search"></i><span>查询</span>
+    </button>
+
+      <!--<button nz-button (click)="batchDelete()" [nzType]="'danger'"-->
+              <!--[nzSize]="'large'" class="ant-btn__block mb-sm" *ngIf="selectedRows.length > 0" >-->
+        <!--<i class="anticon anticon-delete"></i><span>批量删除</span>-->
+      <!--</button>-->
+
+    <!--<byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>-->
+
+  <byl-list-query-widget [defaultData]="queryDefaultData" [schema]="querySchema"
+                         [uiSchema]="queryUiSchema" ></byl-list-query-widget>
+
+  <!--数据显示-->
+  <byl-list-form-table-item [listData]="listData"  [total]="total" [loading]="loading"
+                            [tableDefine]="tableDefine"
+                            (pageChange)="pageChange($event)" (entityAction)="entityAction($event)"
+                            (selectedChange)="selectedChange($event)"
+  ></byl-list-form-table-item>
+
+
+</div>

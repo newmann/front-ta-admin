@@ -6,26 +6,27 @@ import {ActivatedRoute} from '@angular/router';
 
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {SFSchema} from "@delon/form";
-import {BylEmbeddableProject} from "../../../../service/model/embeddable-project.model";
-import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylTicketCrudComponentBasePro} from "../../../common/ticket-crud-component-base-pro";
-import {BylWorkloadTicket} from "../../../../service/project/model/workload-ticket.model";
-import {BylWorkloadTicketService} from "../../../../service/project/service/workload-ticket.service";
-import {BylWorkloadTicketStatusEnum} from "../../../../service/project/model/workload-ticket-status.enum";
+import {BylWorkTypeConfigTicket} from "../../../../service/project/model/work-type-config-ticket.model";
+import {BylWorkTypeConfigTicketService} from "../../../../service/project/service/work-type-config-ticket.service";
+import {BylWorkTypeConfigTicketStatusEnum} from "../../../../service/project/model/work-type-config-ticket-status.enum";
+import {BylEmbeddableOutsourcer} from "../../../../service/project/model/embeddable-outsourcer.model";
+import {BylEntityReference} from "../../../../service/model/entity-reference.model";
+import {BylEmbeddableWorkType} from "../../../../service/project/model/embeddable-work-type.model";
 
 
 @Component({
-    selector: 'byl-workload-ticket-crud',
+    selector: 'byl-work-type-config-ticket-crud',
     templateUrl: './crud.component.html',
 })
-export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePro<BylWorkloadTicket> {
+export class BylWorkTypeConfigTicketCrudComponent extends BylTicketCrudComponentBasePro<BylWorkTypeConfigTicket> {
     processType: string;
 
     // @ViewChild('sf') sf: SFComponent;
 
-    newBusinessData(): BylWorkloadTicket {
-        return new BylWorkloadTicket();
+    newBusinessData(): BylWorkTypeConfigTicket {
+        return new BylWorkTypeConfigTicket();
     }
     private _newSchema: SFSchema;
     private _modifySchema: SFSchema;
@@ -44,30 +45,6 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
                     "title": '单号',
                     "ui": {
                         widget: 'text'
-                    }
-                },
-
-                "projectWidget": {
-                    type: "string",
-                    title: '所属项目',
-                    ui: {
-                        widget: 'bylProjectSelect',
-                        placeholder: '请输入项目代码或名称，系统自动查找',
-                        allowClear: 'true',
-                        serverSearch: 'true',
-                        showSearch: 'true',
-                    }
-                },
-
-                "operationPeriod": {
-                    type: "string",
-                    title: '业务期间',
-                    ui: {
-                        widget: 'bylOperationPeriodSelect',
-                        placeholder: '请输入业务期间的代码或名称，系统自动查找',
-                        allowClear: 'true',
-                        serverSearch: 'true',
-                        showSearch: 'true',
                     }
                 },
                 "insider": {
@@ -91,26 +68,17 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
                         showSearch: 'true',
                     }
                 },
-                // "beginDateWidget": {
-                //     "type": "string",
-                //     "title": '开始日期',
-                //     format: 'date',
-                //     ui: {
-                //         format: BylDatetimeUtils.formatDateString,
-                //         placeholder: '开始日期'
-                //     }
-                //
-                // },
-                // "endDateWidget": {
-                //     "type": "string",
-                //     "title": '截止日期',
-                //     format: 'date',
-                //     ui: {
-                //         format: BylDatetimeUtils.formatDateString,
-                //         placeholder: '截止日期'
-                //     }
-                //
-                // },
+                "workTypeWidget": {
+                    type: "string",
+                    title: '目标工种',
+                    ui: {
+                        widget: 'bylWorkTypeSelect',
+                        placeholder: '请输入工种的代码或名称，系统自动查找',
+                        allowClear: 'true',
+                        serverSearch: 'true',
+                        showSearch: 'true',
+                    }
+                },
 
                 "remarks": {
                     "type": 'string',
@@ -132,7 +100,7 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
                 },
 
             },
-            "required": ["projectWidget" , "operationPeriod", "insider"],
+            "required": ["insider","workTypeWidget"],
             if: {
                 properties: { insider: { enum: [false] } }
             },
@@ -142,7 +110,6 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
             else: {
                 required: [ ]
             }
-
         };
 
         this._browseSchema = {
@@ -154,20 +121,6 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
                         widget: 'text'
                     }
                 },
-                "projectDisplay": {
-                    "type": "string",
-                    "title": '所属项目',
-                    "ui": {
-                        widget: 'text'
-                    }
-                },
-                "operationPeriodDisplay":{
-                    "type": "string",
-                    "title": '业务期间',
-                    "ui": {
-                        widget: 'text'
-                    }
-                },
                 "insiderDisplay": {
                     "type": 'string',
                     "title": '是否内部员工',
@@ -175,6 +128,7 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
                         widget: 'text'
                     }
                 },
+
                 "outsourcerDisplay":{
                     "type": "string",
                     "title": '外包团队',
@@ -182,31 +136,13 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
                         widget: 'text'
                     }
                 },
-                // "beginDateDisplay": {
-                //     "type": "string",
-                //     "title": '开始日期',
-                //     ui: {
-                //         widget: 'text'
-                //     }
-                //
-                // },
-                // "endDateDisplay": {
-                //     "type": "string",
-                //     "title": '截止日期',
-                //     ui: {
-                //         widget: 'text'
-                //     }
-                //
-                // },
-                "amount": {
+                "workTypeDisplay":{
                     "type": "string",
-                    "title": '金额',
-                    ui: {
+                    "title": '目标工种',
+                    "ui": {
                         widget: 'text'
                     }
-
                 },
-
 
                 "remarks": {
                     "type": 'string',
@@ -232,7 +168,7 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
                 },
 
             },
-            "required": ["projectDisplay" ,"operationPeriodDisplay","insiderDisplay"]
+            "required": ["insiderDisplay", "workTypeDisplay"]
 
         };
 
@@ -243,7 +179,7 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
     // this.formUiSchema: SFUISchema = {};
 
     constructor(public msgService: NzMessageService,
-                public workloadTicketService: BylWorkloadTicketService,
+                public workTypeConfigTicketService: BylWorkTypeConfigTicketService,
                 public configService: BylConfigService,
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
@@ -251,7 +187,7 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
                 public reuseTabService: ReuseTabService) {
         super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
         //
-        this.businessService = workloadTicketService;
+        this.businessService = workTypeConfigTicketService;
 
 
     }
@@ -287,15 +223,23 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
     }
     getFormData() {
         super.getFormData();
-        if (this.businessData.projectWidget) {
-            let p = new BylEmbeddableProject();
-            p.projectId = this.businessData.projectWidget.id;
-            p.projectCode = this.businessData.projectWidget.code;
-            p.projectName = this.businessData.projectWidget.name;
+        if (this.businessData.outsourcerWidget) {
+            let p = new BylEmbeddableOutsourcer();
+            p.outsourcerId = this.businessData.outsourcerWidget.id;
+            p.outsourcerCode = this.businessData.outsourcerWidget.code;
+            p.outsourcerName = this.businessData.outsourcerWidget.name;
 
-            this.businessData.project = p ;
+            this.businessData.outsourcer = p ;
         }
 
+        if (this.businessData.workTypeWidget) {
+            let p = new BylEmbeddableWorkType();
+            p.workTypeId = this.businessData.workTypeWidget.id;
+            p.workTypeCode = this.businessData.workTypeWidget.code;
+            p.workTypeName = this.businessData.workTypeWidget.name;
+
+            this.businessData.workType = p ;
+        }
         // if (this.businessData.operationPeriodWidget) {
         //     let p = new BylEmbeddableOperationPeriod();
         //
@@ -321,7 +265,7 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
      *  在调出一张历史单据进行修改的时候调用，
      *  可能需要一些个性化的处理
      */
-    setFormData(data: BylWorkloadTicket){
+    setFormData(data: BylWorkTypeConfigTicket){
         super.setFormData(data);
         // this.projectList = [];
 
@@ -334,14 +278,26 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
         //     this.businessData.endDateWidget = BylDatetimeUtils.convertMillsToDateTime(this.businessData.endDate);
         //     this.defaultBusinessData.endDateWidget = BylDatetimeUtils.convertMillsToDateTime(this.businessData.endDate);
         // }
-        if (this.businessData.project) {
-            if ( this.businessData.project.projectId){
-                let m = new BylEntityReference(this.businessData.project.projectId,
-                    this.businessData.project.projectCode,
-                    this.businessData.project.projectName);
+        if (this.businessData.outsourcer) {
+            if ( this.businessData.outsourcer.outsourcerId){
+                let m = new BylEntityReference(this.businessData.outsourcer.outsourcerId,
+                    this.businessData.outsourcer.outsourcerCode,
+                    this.businessData.outsourcer.outsourcerName);
 
-                this.businessData.projectWidget = m;
-                this.defaultBusinessData.projectWidget = m;
+                this.businessData.outsourcerWidget = m;
+                this.defaultBusinessData.outsourcerWidget = m;
+
+            }
+
+        }
+        if (this.businessData.workType) {
+            if ( this.businessData.workType.workTypeId){
+                let m = new BylEntityReference(this.businessData.workType.workTypeId,
+                    this.businessData.workType.workTypeCode,
+                    this.businessData.workType.workTypeName);
+
+                this.businessData.workTypeWidget = m;
+                this.defaultBusinessData.workTypeWidget = m;
 
             }
 
@@ -373,8 +329,8 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
         }else{
             //修改状态，需要根据单据的状态进一步判断
             switch (this.businessData.status){
-                case BylWorkloadTicketStatusEnum.UNSUBMITED:
-                case  BylWorkloadTicketStatusEnum.SUBMITED:
+                case BylWorkTypeConfigTicketStatusEnum.UNSUBMITED:
+                case  BylWorkTypeConfigTicketStatusEnum.SUBMITED:
                     this.curSchema = simpleDeepCopy({},this._modifySchema);
                     console.log(this.curSchema);
                     break;
@@ -394,7 +350,7 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
     //     this.loading = true;
     //     this.errMsg = '';
     //
-    //     let saveResult$: Observable<BylResultBody<BylWorkloadTicket>>;
+    //     let saveResult$: Observable<BylResultBody<BylWorkTypeConfigTicket>>;
     //
     //     console.log('in ProjectCRUD ', this.businessData);
     //
@@ -404,7 +360,7 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
     // }
 
     getModifyDateTimeChange(value: number){
-        console.log("in WorkloadTicket Crud getModifyDateTimeChange, value ", value);
+        console.log("in ExpenseTicket Crud getModifyDateTimeChange, value ", value);
         this.businessData.modifyAction.modifyDateTime = value;
         this.defaultBusinessData.modifyAction.modifyDateTime = value;
         this.reset();

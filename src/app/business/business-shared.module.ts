@@ -29,6 +29,7 @@ import {BylBorrowMoneyQualificationPoolSelectWidgetSFComponent} from "./common/s
 import {BylProjectSelectWidgetSFComponent} from "./common/select-widget-sf/select-project.widget";
 import {BylExpenseTypeSelectWidgetSFComponent} from "./common/select-widget-sf/select-expense-type-sf.widget";
 import {BylOperationPeriodSelectWidgetSFComponent} from "./common/select-widget-sf/select-operation-peroid-sf.widget";
+import {BylWorkTypeSelectWidgetSFComponent} from "./common/select-widget-sf/select-work-type-sf.widget";
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import {BylOperationPeriodSelectWidgetSFComponent} from "./common/select-widget-
         ,BylProjectSelectWidgetSFComponent
         ,BylExpenseTypeSelectWidgetSFComponent
         ,BylOperationPeriodSelectWidgetSFComponent
+        ,BylWorkTypeSelectWidgetSFComponent
     ],
     exports: [
         BylPipeModule,
@@ -98,6 +100,7 @@ import {BylOperationPeriodSelectWidgetSFComponent} from "./common/select-widget-
         ,BylProjectSelectWidgetSFComponent
         ,BylExpenseTypeSelectWidgetSFComponent
         ,BylOperationPeriodSelectWidgetSFComponent
+        ,BylWorkTypeSelectWidgetSFComponent
     ],
     entryComponents: [
         BylAccountListComponent,
@@ -115,6 +118,7 @@ import {BylOperationPeriodSelectWidgetSFComponent} from "./common/select-widget-
         ,BylProjectSelectWidgetSFComponent
         ,BylExpenseTypeSelectWidgetSFComponent
         ,BylOperationPeriodSelectWidgetSFComponent
+        ,BylWorkTypeSelectWidgetSFComponent
     ]
     // ,
     // schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
@@ -131,5 +135,6 @@ export class BylBusinessSharedModule {
         widgetRegistry.register(BylProjectSelectWidgetSFComponent.KEY, BylProjectSelectWidgetSFComponent);
         widgetRegistry.register(BylExpenseTypeSelectWidgetSFComponent.KEY, BylExpenseTypeSelectWidgetSFComponent);
         widgetRegistry.register(BylOperationPeriodSelectWidgetSFComponent.KEY, BylOperationPeriodSelectWidgetSFComponent);
+        widgetRegistry.register(BylWorkTypeSelectWidgetSFComponent.KEY, BylWorkTypeSelectWidgetSFComponent);
     }
 }

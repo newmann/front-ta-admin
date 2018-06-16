@@ -19,27 +19,46 @@ import {BylDatetimeUtils} from "../../utils/datetime.utils";
 import {BylTicketBaseModal} from "../../model/ticket-base.model";
 import {BylExpenseTicketStatusEnum, BylExpenseTicketStatusManager} from "./expense-ticket-status.enum";
 import {BylEmbeddableOutsourcer} from "./embeddable-outsourcer.model";
+import {BylWorkloadTicketStatusManager} from "./workload-ticket-status.enum";
+import {BylEmbeddableOperationPeriod} from "./embeddable-operation-period.model";
 
 export class BylWorkloadTicket extends BylTicketBaseModal {
 
     projectWidget:any;
     project: BylEmbeddableProject = new BylEmbeddableProject();
 
+    insider: boolean;
+
     outsourcerWidget:any;
     oursourcer: BylEmbeddableOutsourcer = new BylEmbeddableOutsourcer();
 
     checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
 
-    beginDateWidget:any;
-    endDateWidget:any;
+    operationPeriod: BylEmbeddableOperationPeriod = new BylEmbeddableOperationPeriod();
 
-    beginDate: number;
-    endDate: number;
+    // beginDateWidget:any;
+    // endDateWidget:any;
+    //
+    // beginDate: number;
+    // endDate: number;
 
+    get insiderDisplay(){
+        if(this.insider){
+            return "是";
+        }else{
+            return "否";
+        }
+    }
+    set insiderDisplay(value: string){
+
+    }
    // status: number;
     get outsourcerDisplay(){
         if(this.oursourcer){
-            return this.oursourcer.outsourcerName + "[" + this.oursourcer.outsourcerCode +']';
+            if(this.oursourcer.outsourcerId){
+                return this.oursourcer.outsourcerName + "[" + this.oursourcer.outsourcerCode +']';
+            }
+
         }
     }
     set outsourcerDisplay(value: string){
@@ -48,28 +67,31 @@ export class BylWorkloadTicket extends BylTicketBaseModal {
 
     get projectDisplay(){
         if(this.project){
-            return this.project.projectName + "[" + this.project.projectCode +']';
+            if(this.project.projectId){
+                return this.project.projectName + "[" + this.project.projectCode +']';
+            }
+
         }
     }
     set projectDisplay(value: string){
 
     }
 
-    get beginDateDisplay(){
-        return BylDatetimeUtils.formatDate(this.beginDate);
-    }
-    set beginDateDisplay(value:string){
-
-    }
-
-    get endDateDisplay(){
-        return BylDatetimeUtils.formatDate(this.endDate);
-    }
-    set endDateDisplay(value:string){
-
-    }
+    // get beginDateDisplay(){
+    //     return BylDatetimeUtils.formatDate(this.beginDate);
+    // }
+    // set beginDateDisplay(value:string){
+    //
+    // }
+    //
+    // get endDateDisplay(){
+    //     return BylDatetimeUtils.formatDate(this.endDate);
+    // }
+    // set endDateDisplay(value:string){
+    //
+    // }
     get statusDisplay(): string{
-        return BylExpenseTicketStatusManager.getCaption(this.status);
+        return BylWorkloadTicketStatusManager.getCaption(this.status);
     }
     set statusDisplay(value: string){
 

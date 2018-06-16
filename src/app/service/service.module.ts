@@ -38,6 +38,10 @@ import {BylExpenseTicketService} from "./project/service/expense-ticket.service"
 import {BylExpenseDetailService} from "./project/service/expense-detail.service";
 import {BylOperationPeriodService} from "./project/service/operation-period.service";
 import {BylWorkloadTicketService} from "./project/service/workload-ticket.service";
+import {BylWorkTypeConfigTicketService} from "./project/service/work-type-config-ticket.service";
+import {BylWorkTypeConfigDetailService} from "./project/service/work-type-config-detail.service";
+import {BylWorkloadDetailService} from "./project/service/workload-detail.service";
+import {BylWorkloadDetailDetailService} from "./project/service/workload-detail-detail.service";
 
 
 
@@ -75,6 +79,9 @@ import {BylWorkloadTicketService} from "./project/service/workload-ticket.servic
         BylBorrowMoneyTicketService,
         BylBorrowMoneyQualificationPoolService,
         BylWorkTypeService,
+        BylWorkTypeConfigTicketService,
+        BylWorkTypeConfigDetailService,
+
         BylOutsourcerService,
         BylOutsourceEmployeeService,
         BylExpenseTypeService,
@@ -83,6 +90,9 @@ import {BylWorkloadTicketService} from "./project/service/workload-ticket.servic
         BylExpenseDetailService,
         BylOperationPeriodService,
         BylWorkloadTicketService,
+        BylWorkloadDetailService,
+        BylWorkloadDetailDetailService,
+
 
         ChatService,
         CustomStompRService,

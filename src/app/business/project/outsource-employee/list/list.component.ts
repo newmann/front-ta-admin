@@ -24,6 +24,7 @@ import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../s
 import {BylOutsourceEmployeeService} from "../../../../service/project/service/outsource-employee.service";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
+import {BylOutsourceEmployeeQuery} from "../../../../service/project/query/outsource-employee-query.model";
 
 @Component({
     selector: 'byl-oursourcer-employee-list',
@@ -72,7 +73,11 @@ export class BylOutsourceEmployeeListComponent extends BylMasterDataListComponen
      * @returns {BylWorkTypeQuery}
      */
     genQueryModel(): any {
-        let result = new BylWorkTypeQuery();
+        let result = new BylOutsourceEmployeeQuery();
+        if (this.listQuery.queryData.outsourcerWidget)
+            result.outsourcerId = this.listQuery.queryData.outsourcerWidget.id;
+
+
         if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
         if (this.listQuery.queryData.name) result.name = this.qData.name;
         if (this.listQuery.queryData.modifyDateRange) {
@@ -135,6 +140,17 @@ export class BylOutsourceEmployeeListComponent extends BylMasterDataListComponen
     queryUiSchema: SFUISchema = {};
     querySchema: SFSchema = {
         properties: {
+            "outsourcerWidget":{
+                "type": 'string',
+                "title": '所属外包商',
+                "ui": {
+                    widget: 'bylOutsourcerSelect',
+                    placeholder: '请输入外包商的代码或名称，系统自动查找',
+                    allowClear: 'true',
+                    serverSearch: 'true',
+                    showSearch: 'true'
+                }
+            },
             code: { type: 'string',
                 title: '代码类似于'
             },

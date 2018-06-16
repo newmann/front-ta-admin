@@ -21,8 +21,8 @@ import {BylEmployeeListComponent} from "./employee/list/list.component";
 import {BylEmployeeCrudComponent} from "./employee/crud/crud.component";
 import {BylOutsourcerListComponent} from "./outsourcer/list/list.component";
 import {BylOutsourcerCrudComponent} from "./outsourcer/crud/crud.component";
-import {BylOutsourceEmployeeCrudComponent} from "./outsourcer-employee/crud/crud.component";
-import {BylOutsourceEmployeeListComponent} from "./outsourcer-employee/list/list.component";
+import {BylOutsourceEmployeeCrudComponent} from "./outsource-employee/crud/crud.component";
+import {BylOutsourceEmployeeListComponent} from "./outsource-employee/list/list.component";
 import {BylExpenseTicketListComponent} from "./expense-ticket/list/list.component";
 import {BylExpenseTicketCrudComponent} from "./expense-ticket/crud/crud.component";
 import {BylExpenseTicketDetailListComponent} from "./expense-ticket-detail/list/list.component";
@@ -31,6 +31,13 @@ import {BylOperationPeriodListComponent} from "./operation-period/list/list.comp
 import {BylOperationPeriodCrudComponent} from "./operation-period/crud/crud.component";
 import {BylWorkloadTicketListComponent} from "./workload-ticket/list/list.component";
 import {BylWorkloadTicketCrudComponent} from "./workload-ticket/crud/crud.component";
+import {BylWorkloadDetailListComponent} from "./workload-detail/list/list.component";
+import {BylEmployeeItemListComponent} from "./employee/item-list/item-list.component";
+import {BylWorkTypeConfigTicketCrudComponent} from "./work-type-config-ticket/crud/crud.component";
+import {BylWorkTypeConfigTicketListComponent} from "./work-type-config-ticket/list/list.component";
+import {BylWorkTypeConfigDetailListComponent} from "./work-type-config-detail/list/list.component";
+import {BylOutsourceEmployeeItemListComponent} from "./outsource-employee/item-list/item-list.component";
+import {BylWorkloadDetailDetailBrowserComponent} from "./workload-detail-detail/list/list.component";
 
 
 @NgModule({
@@ -57,14 +64,22 @@ import {BylWorkloadTicketCrudComponent} from "./workload-ticket/crud/crud.compon
         BylFetchProjectManagerWidgetComponent,
         BylWorkTypeListComponent,
         BylWorkTypeCrudComponent,
+        BylWorkTypeConfigTicketCrudComponent,
+        BylWorkTypeConfigTicketListComponent,
+        BylWorkTypeConfigDetailListComponent,
+
         BylExpenseTypeListComponent,
         BylExpenseTypeCrudComponent,
         BylEmployeeListComponent,
         BylEmployeeCrudComponent,
+        BylEmployeeItemListComponent,
         BylOutsourcerListComponent,
         BylOutsourcerCrudComponent,
         BylOutsourceEmployeeListComponent,
         BylOutsourceEmployeeCrudComponent,
+        BylOutsourceEmployeeItemListComponent,
+
+
         BylExpenseTicketListComponent,
         BylExpenseTicketCrudComponent,
         BylExpenseTicketDetailListComponent,
@@ -72,12 +87,19 @@ import {BylWorkloadTicketCrudComponent} from "./workload-ticket/crud/crud.compon
         BylOperationPeriodListComponent,
         BylOperationPeriodCrudComponent,
         BylWorkloadTicketListComponent,
-        BylWorkloadTicketCrudComponent
+        BylWorkloadTicketCrudComponent,
+        BylWorkloadDetailListComponent,
+        BylWorkloadDetailDetailBrowserComponent,
+
 
     ],
     entryComponents: [
         BylProjectManagerPoolListComponent,
-        BylExpenseTicketDetailCrudComponent
+        BylExpenseTicketDetailCrudComponent,
+        BylEmployeeItemListComponent,
+        BylOutsourceEmployeeItemListComponent,
+        BylWorkloadDetailDetailBrowserComponent,
+
         // BylRoleCrudComponent,
         // BylDepartmentCrudComponent
     ]

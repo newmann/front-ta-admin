@@ -4,7 +4,6 @@ import {BylConfigService} from '../../../../service/constant/config.service';
 import {Router} from '@angular/router';
 import * as moment from 'moment';
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
-import {BylMasterDataStatusEnum} from '../../../../service/model/master-data-status.enum';
 import {SFSchema, SFUISchema} from "@delon/form";
 import {
     ACTION_BROWSE,
@@ -18,19 +17,19 @@ import {
 import {BylExpenseTypeQuery} from "../../../../service/project/query/expense-type-query.model";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {BylTicketListComponentBasePro} from "../../../common/ticket-list-component-base";
-import {BylWorkloadTicket} from "../../../../service/project/model/workload-ticket.model";
 import {
-    BylWorkloadTicketStatusEnum,
-    BylWorkloadTicketStatusManager
-} from "../../../../service/project/model/workload-ticket-status.enum";
-import {BylWorkloadTicketQuery} from "../../../../service/project/query/workload-ticket-query.model";
-import {BylWorkloadTicketService} from "../../../../service/project/service/workload-ticket.service";
+    BylWorkTypeConfigTicketStatusEnum,
+    BylWorkTypeConfigTicketStatusManager
+} from "../../../../service/project/model/work-type-config-ticket-status.enum";
+import {BylWorkTypeConfigTicket} from "../../../../service/project/model/work-type-config-ticket.model";
+import {BylWorkTypeConfigTicketService} from "../../../../service/project/service/work-type-config-ticket.service";
+import {BylWorkTypeConfigTicketQuery} from "../../../../service/project/query/work-type-config-ticket-query.model";
 
 @Component({
-    selector: 'byl-workload-ticket-list',
+    selector: 'byl-work-type-config-ticket-list',
     templateUrl: './list.component.html',
 })
-export class BylWorkloadTicketListComponent extends BylTicketListComponentBasePro<BylWorkloadTicket> {
+export class BylWorkTypeConfigTicketListComponent extends BylTicketListComponentBasePro<BylWorkTypeConfigTicket> {
 
 
     // statusList: BylIStatusItem[]; //状态
@@ -41,28 +40,28 @@ export class BylWorkloadTicketListComponent extends BylTicketListComponentBasePr
                 public configService: BylConfigService,
                 public modalService: NzModalService,
                 public router: Router,
-                public workloadTicketService: BylWorkloadTicketService) {
+                public workTypeConfigTicketService: BylWorkTypeConfigTicketService) {
         super(message, configService, modalService, router);
 
-        this.businessService = workloadTicketService;
-        this.crudUrl = '/project/workload-ticket/crud';
-        // this.businessCrudComponent = BylPersonCrudComponent;
+        this.businessService = workTypeConfigTicketService;
+        this.crudUrl = '/project/work-type-config-ticket/crud';
+        // this.businessCrudComponent = BylWorkTypeConfigTicketCrudComponent;
 
         // this.statusList = BylMasterDataStatusManager.getArray();
-        this.querySchema.properties['status'].enum.push(...BylWorkloadTicketStatusManager.getSFSelectDataArray()); //设置查询条件中的状态字段
+        this.querySchema.properties['status'].enum.push(...BylWorkTypeConfigTicketStatusManager.getSFSelectDataArray()); //设置查询条件中的状态字段
     }
 
     /**
      * 根据查询的结果，生成界面显示的内容，重点是处理好checkec和disabled字段的值。
-     * @param {Array<BylWorkloadTicket>} findResult
-     * @returns {Array<BylListFormData<BylWorkloadTicket>>}
+     * @param {Array<BylWorkTypeConfigTicket>} findResult
+     * @returns {Array<BylListFormData<BylWorkTypeConfigTicket>>}
      */
-    genListData(findResult: Array<BylWorkloadTicket>): Array<BylListFormData<BylWorkloadTicket>> {
+    genListData(findResult: Array<BylWorkTypeConfigTicket>): Array<BylListFormData<BylWorkTypeConfigTicket>> {
         return findResult.map(data => {
-            let item = new BylListFormData<BylWorkloadTicket>();
+            let item = new BylListFormData<BylWorkTypeConfigTicket>();
             item.checked = false;
-            item.disabled = (data.status === BylWorkloadTicketStatusEnum.SUBMITED_DELETED);
-            item.item = new BylWorkloadTicket();
+            item.disabled = (data.status === BylWorkTypeConfigTicketStatusEnum.SUBMITED_DELETED);
+            item.item = new BylWorkTypeConfigTicket();
             Object.assign(item.item, data);
             return item;
         });
@@ -74,9 +73,9 @@ export class BylWorkloadTicketListComponent extends BylTicketListComponentBasePr
      * @returns {BylExpenseTypeQuery}
      */
     genQueryModel(): any {
-        let result = new BylWorkloadTicketQuery();
+        let result = new BylWorkTypeConfigTicketQuery();
         if (this.listQuery.queryData.billNo) result.billNo = this.listQuery.queryData.billNo;
-        if (this.listQuery.queryData.projectId) result.projectId = this.qData.projectId;
+        // if (this.listQuery.queryData.projectId) result.projectId = this.qData.projectId;
         if (this.listQuery.queryData.modifyDateRange) {
             if (this.listQuery.queryData.modifyDateRange.length>0){
                 result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
@@ -107,7 +106,7 @@ export class BylWorkloadTicketListComponent extends BylTicketListComponentBasePr
 
 
 
-    updateListData(newData: BylWorkloadTicket) {
+    updateListData(newData: BylWorkTypeConfigTicket) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
                 Object.assign(item.item, newData);
@@ -119,7 +118,7 @@ export class BylWorkloadTicketListComponent extends BylTicketListComponentBasePr
      * 设置查询缺省值
      */
     setQDataDefaultValue(){
-        let q = new BylWorkloadTicketQuery();
+        let q = new BylWorkTypeConfigTicketQuery();
         this.qData.billNo = q.billNo ? q.billNo : null;
         this.qData.modifyDateBegin = q.modifyDateBegin ? q.modifyDateBegin : null;
         this.qData.modifyDateEnd = q.modifyDateEnd ? q.modifyDateEnd : null;
@@ -141,19 +140,19 @@ export class BylWorkloadTicketListComponent extends BylTicketListComponentBasePr
                 type: 'string',
                 title: '单号类似于'
             },
-            project: {
-                type: 'string',
-                title: '所属项目',
-                ui: {
-                    widget: 'bylProjectSelect',
-                    fetchAll: 'true',
-                    placeholder: '请输入项目代码或名称，系统自动查找',
-                    allowClear: 'true',
-                    serverSearch: 'true',
-                    showSearch: 'true',
-
-                }
-            },
+            // project: {
+            //     type: 'string',
+            //     title: '所属项目',
+            //     ui: {
+            //         widget: 'bylProjectSelect',
+            //         fetchAll: 'true',
+            //         placeholder: '请输入项目代码或名称，系统自动查找',
+            //         allowClear: 'true',
+            //         serverSearch: 'true',
+            //         showSearch: 'true',
+            //
+            //     }
+            // },
             status: {
                 type: 'string',
                 title: '状态',
@@ -175,29 +174,30 @@ export class BylWorkloadTicketListComponent extends BylTicketListComponentBasePr
     tableDefine:BylTableDefine ={
         showCheckbox: true,
         entityAction: [
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylWorkloadTicketStatusEnum.UNSUBMITED },
-            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylWorkloadTicketStatusEnum.SUBMITED },
-            {actionName: ACTION_DELETE,checkFieldPath: "status" ,checkValue: BylWorkloadTicketStatusEnum.UNSUBMITED },
-            {actionName: ACTION_SUBMIT,checkFieldPath: "status" ,checkValue: BylWorkloadTicketStatusEnum.UNSUBMITED },
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylWorkTypeConfigTicketStatusEnum.UNSUBMITED },
+            {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylWorkTypeConfigTicketStatusEnum.SUBMITED },
+            {actionName: ACTION_DELETE,checkFieldPath: "status" ,checkValue: BylWorkTypeConfigTicketStatusEnum.UNSUBMITED },
+            {actionName: ACTION_SUBMIT,checkFieldPath: "status" ,checkValue: BylWorkTypeConfigTicketStatusEnum.UNSUBMITED },
 
-            {actionName: ACTION_CHECK,checkFieldPath: "status" ,checkValue: BylWorkloadTicketStatusEnum.SUBMITED },
+            {actionName: ACTION_CHECK,checkFieldPath: "status" ,checkValue: BylWorkTypeConfigTicketStatusEnum.SUBMITED },
 
-            {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylWorkloadTicketStatusEnum.CHECKED },
-            {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylWorkloadTicketStatusEnum.SUBMITED },
+            {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylWorkTypeConfigTicketStatusEnum.CHECKED },
+            {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylWorkTypeConfigTicketStatusEnum.SUBMITED },
 
-            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylWorkloadTicketStatusEnum.CHECKED },
-            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylWorkloadTicketStatusEnum.CHECKED_DELETED },
-            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylWorkloadTicketStatusEnum.SUBMITED_DELETED },
-            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylWorkloadTicketStatusEnum.SETTLED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylWorkTypeConfigTicketStatusEnum.CHECKED },
+            // {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylWorkTypeConfigTicketStatusEnum.CHECKED_DELETED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylWorkTypeConfigTicketStatusEnum.SUBMITED_DELETED },
+            // {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylWorkTypeConfigTicketStatusEnum.SETTLED },
 
             ],
 
         columns:[
             {label:"单号", fieldPath: "billNo" },
-            {label:"所属项目", fieldPath: "projectDisplay" },
+            // {label:"所属项目", fieldPath: "projectDisplay" },
             {label:"是否内部员工", fieldPath: "insiderDisplay" },
             {label:"外包团队", fieldPath: "outsourcerDisplay" },
-            {label:"业务期间", fieldPath: "operationPeriodDisplay" },
+            {label:"目标工种", fieldPath: "workTypeDisplay" },
+            // {label:"业务期间", fieldPath: "operationPeriodDisplay" },
             // {label:"开始日期", fieldPath: "beginDateDisplay" },
             // {label:"截止日期", fieldPath: "endDateDisplay" },
             {label:"审核信息", fieldPath: "checkActionDisplay" },

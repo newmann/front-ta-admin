@@ -1,19 +1,15 @@
-import {Component, OnInit, ChangeDetectorRef, Inject} from '@angular/core';
-import {ControlWidget, SFSchemaEnum, SFSchema, SFUISchemaItem, SFComponent, SFSchemaEnumType} from '@delon/form';
+import {ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
+import {ControlWidget, SFComponent, SFSchemaEnum, SFSchemaEnumType} from '@delon/form';
 // import { getData } from './../../util';
 // tslint:disable-next-line:import-blacklist
-import {of, Observable} from 'rxjs';
-import {delay, flatMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {getData} from "@delon/form/src/src/utils";
-import {BylProjectManagerPoolService} from "../../../service/project/service/project-manager-pool.service";
 import {BylEntityReference} from "../../../service/model/entity-reference.model";
 import {BylResultBody} from "../../../service/model/result-body.model";
-import {BylOutsourcerService} from "../../../service/project/service/outsourcer.service";
-import {BylExpenseTypeService} from "../../../service/project/service/expense-type.service";
+import {BylWorkTypeService} from "../../../service/project/service/work-type.service";
 
 @Component({
-    selector: 'byl-select-expense-type',
+    selector: 'byl-select-work-type',
     template:
             `
         <sf-item-wrap [id]="id" [schema]="schema" [ui]="ui" [showError]="showError" [error]="error"
@@ -60,9 +56,9 @@ import {BylExpenseTypeService} from "../../../service/project/service/expense-ty
     preserveWhitespaces: false,
 
 })
-export class BylExpenseTypeSelectWidgetSFComponent extends ControlWidget implements OnInit {
+export class BylWorkTypeSelectWidgetSFComponent extends ControlWidget implements OnInit {
     /* 用于注册小部件 KEY 值 */
-    static readonly KEY = 'bylExpenseTypeSelect';
+    static readonly KEY = 'bylWorkTypeSelect';
 
     i: any;
     data: SFSchemaEnum[];
@@ -71,7 +67,7 @@ export class BylExpenseTypeSelectWidgetSFComponent extends ControlWidget impleme
     constructor(@Inject(ChangeDetectorRef) public readonly cd: ChangeDetectorRef,
                 @Inject(SFComponent) public readonly sfComp: SFComponent,
                 public client: HttpClient,
-                public expenseTypeService: BylExpenseTypeService) {
+                public workTypeService: BylWorkTypeService) {
         super(cd, sfComp);
     }
 
@@ -90,10 +86,10 @@ export class BylExpenseTypeSelectWidgetSFComponent extends ControlWidget impleme
     }
 
     searchByCodeName(text: string) {
-        console.log("search for expense type:", text);
+        console.log("search for work type:", text);
         if ((text) && (text.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.expenseTypeService.fetchAvailableByCodeOrName(text)
+            return this.workTypeService.fetchAvailableByCodeOrName(text)
                 .toPromise().then(
                     (res) => {
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -117,12 +113,12 @@ export class BylExpenseTypeSelectWidgetSFComponent extends ControlWidget impleme
                                 return [];
                             }
                         } else {
-                            console.error("获取费用类型资源出错：", res);
+                            console.error("获取工种类型资源出错：", res);
                             return ([]);
                         }
 
                     }
-                ).catch(error => (console.error("获取费用类型资源出错：", error)));
+                ).catch(error => (console.error("获取工种类型资源出错：", error)));
         }
 
     }
@@ -140,7 +136,7 @@ export class BylExpenseTypeSelectWidgetSFComponent extends ControlWidget impleme
         // console.log("in BylSelect widget getSelectDataById text:", id);
         if ((id) && (id.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.expenseTypeService.findById(id)
+            return this.workTypeService.findById(id)
                 .map(
                     (res) => {
                         // console.log("in BylSelect widget getSelectDataById res:", res);
@@ -176,7 +172,7 @@ export class BylExpenseTypeSelectWidgetSFComponent extends ControlWidget impleme
                                 return [];
                             }
                         } else {
-                            console.error("获取费用类型出错：", res);
+                            console.error("获取工种类型出错：", res);
                             return ([]);
                         }
 
@@ -190,7 +186,7 @@ export class BylExpenseTypeSelectWidgetSFComponent extends ControlWidget impleme
 
     reset(value: any) {
         if (value) {
-            console.log('in BylSelect widget reset:', value);
+            console.log('in BylWorkTypeSelect widget reset:', value);
             this.getSelectDataById(value.id).subscribe(
                 list => {
                     this.data = list;

@@ -7,6 +7,7 @@ import {BylItemBaseModal} from "../../model/item-base.model";
 import {BylEmbeddableExpenseType} from "./embeddable-expense-type.model";
 import {s} from "@angular/core/src/render3";
 import {BylEmbeddableWorkType} from "./embeddable-work-type.model";
+import {BylCheckTypeEnumManager} from "./check-type.enum";
 
 export class BylWorkloadDetail extends BylItemBaseModal {
     resourseId: string;
@@ -16,6 +17,9 @@ export class BylWorkloadDetail extends BylItemBaseModal {
 
     workTypeWidget:any;
     workType: BylEmbeddableWorkType = new BylEmbeddableWorkType();
+
+    checkType: number;
+    standardTimeLength: number;
 
     shouldPayCount: number;
 
@@ -27,5 +31,10 @@ export class BylWorkloadDetail extends BylItemBaseModal {
     set workTypeDisplay(value: string){
 
     }
+
+    get checkTypeDisplay(){
+        return BylCheckTypeEnumManager.getCaption(this.checkType);
+    }
+    set checkTypeDisplay(value: string){ }
 
 }

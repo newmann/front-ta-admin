@@ -1,0 +1,65 @@
+<!--<nz-card [nzBordered]="false" [nzActions]="[actionTemplate]">-->
+  <!--<ng-template #actionTemplate>-->
+<div nz-row nzType="flex" nzJustify="center" >
+  <button nz-button (click)="save()" [nzType]="'primary'" [nzLoading]="loading" class="ml-sm">
+    <!--class="ant-btn__block mb-sm">-->
+    <i class="anticon anticon-plus"></i><span>保存</span>
+  </button>
+  <button nz-button (click)="reset()" [nzType]="'dash'" class="ml-sm">
+    <!--class="ant-btn__block mb-sm">-->
+    <i class="anticon anticon-search"></i><span>重置</span>
+  </button>
+
+  <button nz-button (click)="quit()" [nzType]="'dash'" class="ml-sm">
+    <!--class="ant-btn__block mb-sm">-->
+    <i class="anticon anticon-search"></i><span>退出</span>
+  </button>
+
+</div>
+  <!--</ng-template>-->
+<!--</nz-card>-->
+<div nz-row>
+  <nz-calendar [ngModel]="beginDate">
+    <div *nzDateCell="let date" >
+      <ng-container *ngIf="(date >= beginDate) && (date <= endDate)">
+        <!--<button nz-button (click)="setWholeDay(date)">全天</button>-->
+        <ng-container *ngIf="getDayArrayItem(date).curDetail">
+          <div nz-row>
+            <nz-radio-group [(ngModel)]="getDayArrayItem(date).curCheckType" [nzSize]="'small'">
+              <label nz-radio [ngStyle]="style" nzValue="1">全天</label>
+              <label nz-radio [ngStyle]="style" nzValue="10">小时
+                <nz-input-number  style="width:40px"
+                                  *ngIf="getDayArrayItem(date).curCheckType == 10 "
+                                  [(ngModel)]="getDayArrayItem(date).curHour"
+                                  [nzSize]="'small'"
+                                  [nzMin]="1" [nzMax]="24" [nzStep]="1">
+
+                </nz-input-number>
+
+                <!--<nz-time-picker style="width:60px" [(ngModel)]="getDayArrayItem(date).curHour" nzFormat="HH"  nzSize="small"></nz-time-picker>-->
+              </label>
+            </nz-radio-group>
+
+          </div>
+          <div nz-row nzType="flex" nzJustify="end">
+            <button nz-button (click)="deleteDetail(date)" [nzSize]="'small'">删除</button>
+          </div>
+
+        </ng-container>
+
+        <ng-container *ngIf="!getDayArrayItem(date).curDetail">
+          <button nz-button (click)="setWholeDay(date)">设置</button>
+        </ng-container>
+
+
+        <!--<p><a (click)="setWholeDay(date)">设为全天</a></p>-->
+        <!--<p><a (click)="inputCount(date)">输入小时数</a></p>-->
+        <!--<p>{{getDateMessage(date)}}</p>-->
+      </ng-container>
+    </div>
+  </nz-calendar>
+
+</div>
+<div nz-row>
+  <p>{{dayArray | json}}</p>
+</div>

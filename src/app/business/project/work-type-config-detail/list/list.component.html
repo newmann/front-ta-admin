@@ -1,0 +1,71 @@
+<div >
+    <button nz-button (click)="addResourse()" [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mb-sm">
+        <i class="anticon anticon-plus"></i><span>添加</span>
+    </button>
+    <button nz-button (click)="search()" [nzType]="'primary'" [nzSize]="'large'" class="ant-btn__block mb-sm">
+        <i class="anticon anticon-search"></i><span>查询</span>
+    </button>
+    <nz-table #nzTable [nzData]="listData"  [nzLoading]="loading"
+              [nzShowPagination]="false">
+        <thead >
+        <tr>
+            <!--<th  [nzCheckbox]="true">-->
+            <!--<caption nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
+            <!--(ngModelChange)="checkAll($event)"></caption>-->
+            <!--</th>-->
+            <th ><span>行号</span></th>
+            <th ><span>代码</span></th>
+            <th ><span>姓名</span></th>
+            <th ><span>原工种</span></th>
+            <!--<th ><span>数量合计</span></th>-->
+
+          <!--<th >-->
+                <!--<span>备注</span>-->
+            <!--</th>-->
+            <!--<th >-->
+            <!--<span>更新时间</span>-->
+            <!--</th>-->
+
+            <th ><span>操作</span></th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr  *ngFor="let i of nzTable.data; first as isFirst; last as isLast">
+            <!--<td  [nzCheckbox]="true">-->
+            <!--<caption nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
+            <!--(ngModelChange)="refreshStatus($event)">-->
+            <!--</caption>-->
+            <!--</td>-->
+            <td >{{i.item.lineNo}}</td>
+            <td >{{i.item.resourseCode}}</td>
+            <td >{{i.item.resourseName}}</td>
+            <td >{{i.item.fromWorkTypeDisplay}}</td>
+            <!--<td >{{i.item.shouldPayCount}}</td>-->
+            <!--<td >{{i.item.remarks}}</td>-->
+            <!--<td >{{i.item.modifyAction.modifyDateTime | _date}}</td>-->
+            <td >
+                <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
+                <span>
+                        <a (click)="modifyEntity(i.item.id)">修改</a>
+                    </span>
+              <nz-divider nzType="vertical"></nz-divider>
+                <span>
+                        <a (click)="delete(i.item)">删除</a>
+                    </span>
+              <nz-divider nzType="vertical" *ngIf="isFirst === false"></nz-divider>
+              <span *ngIf="isFirst === false">
+                        <a (click)="moveUp(i.item.lineNo)">上移</a>
+                    </span>
+              <nz-divider nzType="vertical" *ngIf="isLast ===false "></nz-divider>
+              <span *ngIf="isLast === false">
+                        <a (click)="moveDown(i.item.lineNo)">下移</a>
+                    </span>
+
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+
+
+
+</div>

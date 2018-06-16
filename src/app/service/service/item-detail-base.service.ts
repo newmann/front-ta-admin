@@ -9,6 +9,8 @@ import {BylItemDetailAddModel} from "../model/item-detail-add.model";
 import {BylItemDetailUpdateModel} from "../model/item-detail-update.model";
 import {BylItemDetailDeleteModel} from "../model/item-detail-delete.model";
 import {BylItemDetailMoveModel} from "../model/item-detail-move.model";
+import {BylItemBatchAddModel} from "../model/item-batch-add.model";
+import {BylItemDetailBatchAddModel} from "../model/item-detail-batch-add.model";
 
 
 /**
@@ -34,6 +36,10 @@ export class BylItemDetailBaseService<T extends BylItemDetailBaseModal>
 
     addDetail(item: BylItemDetailAddModel<T>) {
         return this.http.post<BylResultBody<BylItemDetailAddModel<T>>>(this.BASE_API_URL + '/add-detail', item);
+    };
+
+    batchAddDetail(item: BylItemDetailBatchAddModel<T>) {
+        return this.http.post<BylResultBody<BylItemDetailBatchAddModel<T>>>(this.BASE_API_URL + '/batch-add-detail', item);
     };
 
     updateDetail(item: BylItemDetailUpdateModel<T>) {

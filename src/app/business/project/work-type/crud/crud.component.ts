@@ -158,10 +158,9 @@ export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<
                     }
                 },
 
-                "checkType": {
+                "checkTypeDisplay": {
                     "type": 'string',
                     "title": '考勤类型',
-                    "enum": [],
                     "ui": {
                         widget: 'text'
                     }
@@ -169,7 +168,7 @@ export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<
                 "standardTimeLength": {
                     "type": 'integer',
                     "title": '标准工作时长',
-                    "default": 10,
+                    // "default": 10,
                     "ui": {
                         widget: 'text'
                     }
@@ -189,16 +188,16 @@ export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<
                     }
                 }
             },
-            "required": ["code", "name", "checkType"],
-            "if": {
-                "properties": {"checkType": {"enum": [10]}}
-            },
-            "then": {
-                "required": ["standardTimeLength"]
-            },
-            "else": {
-                "required": []
-            }
+            "required": ["code", "name", "checkTypeDisplay"],
+            // "if": {
+            //     "properties": {"checkType": {"enum": [10]}}
+            // },
+            // "then": {
+            //     "required": ["standardTimeLength"]
+            // },
+            // "else": {
+            //     "required": []
+            // }
         };
 
     }
@@ -245,6 +244,20 @@ export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<
 
 
     }
+
+    /**
+     * 定制取数过程
+     */
+    getFormData(): void{
+        simpleDeepCopy(this.businessData, this.sfForm.value);
+
+        //如果是按天结算，这标准时长设置为1
+        if(this.businessData.checkType === BylCheckTypeEnum.DAY.valueOf()){
+            this.businessData.standardTimeLength = 1;
+        }
+
+    };
+
     /**
      * 重置界面内容
      */

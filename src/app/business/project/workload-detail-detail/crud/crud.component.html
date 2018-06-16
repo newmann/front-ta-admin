@@ -28,8 +28,8 @@
         </nz-tab>
 
       <nz-tab [nzDisabled]="!sourceId" [nzTitle]="'单据明细'">
-        <byl-workload-detail-list
-          [setWorkloadTicket]="businessData"
+        <byl-workload-detail-list [setMasterId]="businessData.id"
+                                        [setModifyDateTime]="businessData.modifyAction.modifyDateTime"
                                         [setOutsourcerWidget]="businessData.outsourcerWidget"
                                         (changeModifyDateTime)="getModifyDateTimeChange($event)">
 

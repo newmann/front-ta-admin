@@ -189,7 +189,7 @@ export class BylOutsourcerSelectWidgetSFComponent extends ControlWidget implemen
 
     reset(value: any) {
         if (value) {
-            console.log('in BylSelect widget reset:', value);
+            console.log('in BylOutsourcerSelect widget reset:', value);
             this.getSelectDataById(value.id).subscribe(
                 list => {
                     this.data = list;

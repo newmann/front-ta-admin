@@ -100,5 +100,9 @@ export class BylDatetimeUtils {
 
     }
 
+    static getPureDate(value: Date) : Date{
+        return new Date(value.getFullYear(),value.getMonth(),value.getDate());
+    }
+
 }
 

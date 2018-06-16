@@ -1,4 +1,4 @@
-<page-header [title]="'考勤登记单维护'" *ngIf="processType.length > 0 "></page-header>
+<page-header [title]="'工种类型配置单'" *ngIf="processType.length > 0 "></page-header>
 <nz-card [nzBordered]="false">
     <nz-tabset>
         <nz-tab [nzTitle]="'单据头'">
@@ -28,13 +28,12 @@
         </nz-tab>
 
       <nz-tab [nzDisabled]="!sourceId" [nzTitle]="'单据明细'">
-        <byl-workload-detail-list
-          [setWorkloadTicket]="businessData"
-                                        [setOutsourcerWidget]="businessData.outsourcerWidget"
+        <byl-work-type-config-detail-list [setMasterId]="businessData.id"
+                                        [setModifyDateTime]="businessData.modifyAction.modifyDateTime"
+                                          [setOutsourcerWidget]="businessData.outsourcerWidget"
                                         (changeModifyDateTime)="getModifyDateTimeChange($event)">
 
-        </byl-workload-detail-list>
-
+        </byl-work-type-config-detail-list>
       </nz-tab>
 
         <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">

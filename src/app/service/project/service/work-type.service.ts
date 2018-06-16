@@ -38,4 +38,7 @@ export class BylWorkTypeService  extends BylMasterDataBaseService<BylWorkType> {
         return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/check-name-available', data);
     }
 
+    fetchAvailableByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylWorkType> >> {
+        return this.http.get<BylResultBody<Array<BylWorkType>>>(this.BASE_API_URL+"/fetch-available-by-code-or-name/" + searchstr);
+    }
 }

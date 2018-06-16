@@ -153,6 +153,10 @@ export class BylListQueryWidgetComponent implements OnInit{
                                 if (this.queryData[prop])  item = this.getSchemaTitle(prop) + '：' +
                                     this.queryData[prop].name + '[' + this.queryData[prop].code + ']';
                                 break;
+                            case 'bylOutsourcerSelect':
+                                if (this.queryData[prop])  item = this.getSchemaTitle(prop) + '：' +
+                                    this.queryData[prop].name + '[' + this.queryData[prop].code + ']';
+                                break;
                             default:
                         }
                     } else{

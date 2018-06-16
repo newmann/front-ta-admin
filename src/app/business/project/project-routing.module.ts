@@ -14,14 +14,16 @@ import {BylEmployeeCrudComponent} from "./employee/crud/crud.component";
 import {BylEmployeeListComponent} from "./employee/list/list.component";
 import {BylOutsourcerCrudComponent} from "./outsourcer/crud/crud.component";
 import {BylOutsourcerListComponent} from "./outsourcer/list/list.component";
-import {BylOutsourceEmployeeCrudComponent} from "./outsourcer-employee/crud/crud.component";
-import {BylOutsourceEmployeeListComponent} from "./outsourcer-employee/list/list.component";
+import {BylOutsourceEmployeeCrudComponent} from "./outsource-employee/crud/crud.component";
+import {BylOutsourceEmployeeListComponent} from "./outsource-employee/list/list.component";
 import {BylExpenseTicketListComponent} from "./expense-ticket/list/list.component";
 import {BylExpenseTicketCrudComponent} from "./expense-ticket/crud/crud.component";
 import {BylOperationPeriodListComponent} from "./operation-period/list/list.component";
 import {BylOperationPeriodCrudComponent} from "./operation-period/crud/crud.component";
 import {BylWorkloadTicketListComponent} from "./workload-ticket/list/list.component";
 import {BylWorkloadTicketCrudComponent} from "./workload-ticket/crud/crud.component";
+import {BylWorkTypeConfigTicketCrudComponent} from "./work-type-config-ticket/crud/crud.component";
+import {BylWorkTypeConfigTicketListComponent} from "./work-type-config-ticket/list/list.component";
 
 
 
@@ -35,6 +37,8 @@ const routes: Routes = [
     { path: 'borrow-money-qualification-pool/list', component: BylBorrowMoneyQualificationPoolListComponent },
     { path: 'borrow-money-ticket/list', component: BylBorrowMoneyTicketListComponent },
     { path: 'borrow-money-ticket/crud/:type', component: BylBorrowMoneyTicketCrudComponent,data: {reuse: true}  },
+    { path: 'work-type-config-ticket/list', component: BylWorkTypeConfigTicketListComponent },
+    { path: 'work-type-config-ticket/crud/:type', component: BylWorkTypeConfigTicketCrudComponent,data: {reuse: true}  },
     { path: 'work-type/list', component: BylWorkTypeListComponent },
     { path: 'work-type/crud/:type', component: BylWorkTypeCrudComponent,data: {reuse: true}  },
     { path: 'expense-type/list', component: BylExpenseTypeListComponent },

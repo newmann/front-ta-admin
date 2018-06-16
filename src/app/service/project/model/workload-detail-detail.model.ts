@@ -9,7 +9,7 @@ import {s} from "@angular/core/src/render3";
 import {BylEmbeddableWorkType} from "./embeddable-work-type.model";
 import {BylItemDetailBaseModal} from "../../model/item-detail-base.model";
 
-export class BylWorkloadDetail extends BylItemDetailBaseModal {
+export class BylWorkloadDetailDetail extends BylItemDetailBaseModal {
     resourseId: string;
 
     resourseCode: string;
