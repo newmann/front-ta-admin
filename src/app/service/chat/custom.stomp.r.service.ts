@@ -5,15 +5,11 @@
  */
 
 
-import { StompRService, StompState } from '@stomp/ng2-stompjs';
-import { StompHeaders } from '@stomp/ng2-stompjs/src/stomp-headers';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { StompSubscription } from '@stomp/stompjs';
-import { Subscription } from 'rxjs/Subscription';
+import {StompRService, StompState} from '@stomp/ng2-stompjs';
+import {StompHeaders} from '@stomp/ng2-stompjs/src/stomp-headers';
+import {Injectable} from '@angular/core';
+import {Observable, Observer} from 'rxjs';
 import * as Stomp from '@stomp/stompjs';
-import { StompSubscribeModel } from './stomp.subscribe.model';
 
 
 @Injectable()

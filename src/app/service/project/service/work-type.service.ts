@@ -2,13 +2,11 @@ import {Injectable} from '@angular/core';
 import {_HttpClient} from '@delon/theme';
 import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';
-import {BylBaseService} from '../../service/base.service';
 import {BylWorkType} from "../model/work-type.model";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {BylResultBody} from "../../model/result-body.model";
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
 import {BylMasterDataBaseService} from "../../service/master-data-base.service";
-
 
 
 /**

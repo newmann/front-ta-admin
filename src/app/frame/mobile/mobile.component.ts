@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
     templateUrl: './mobile.component.html',
     styleUrls: ['./mobile.component.less']
 })
-export class LayoutMobileComponent {
+export class BylLayoutMobileComponent {
     isFetching: boolean; //todo 什么用？
 
     links = [

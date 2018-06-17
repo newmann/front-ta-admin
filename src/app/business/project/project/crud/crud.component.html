@@ -75,8 +75,8 @@
         </nz-tab>
 
 
-      <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">
-        <byl-entity-logger [entityId]="sourceId"></byl-entity-logger>
+      <nz-tab [nzDisabled]="!sourceId" nzTitle="日志" (nzClick)="logTabClick()">
+        <byl-entity-logger #logList [entityId]="sourceId"></byl-entity-logger>
       </nz-tab>
 
     </nz-tabset>

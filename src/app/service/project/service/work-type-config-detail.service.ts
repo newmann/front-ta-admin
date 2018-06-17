@@ -9,7 +9,7 @@ import {BylEmployeeAvailablePoolsInterface} from "./employee-related.interface";
 import {BylEmployee} from "../model/employee.model";
 import {BylPageResp} from "../../model/page-resp.model";
 import {BylResultBody} from "../../model/result-body.model";
-import {Observable} from "rxjs/Rx";
+import {Observable} from "rxjs";
 import {BylPageReq} from "../../model/page-req.model";
 import {BylQueryReqBody} from "../../model/query-req-body.model";
 import {BylEntityRelationAvailablePoolsQueryReqBody} from "../../account/model/entity-relation-available-pools-query-req-body.model";

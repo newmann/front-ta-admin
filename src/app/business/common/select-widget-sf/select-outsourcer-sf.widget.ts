@@ -10,6 +10,7 @@ import {BylProjectManagerPoolService} from "../../../service/project/service/pro
 import {BylEntityReference} from "../../../service/model/entity-reference.model";
 import {BylResultBody} from "../../../service/model/result-body.model";
 import {BylOutsourcerService} from "../../../service/project/service/outsourcer.service";
+import {map} from "rxjs/operators";
 
 @Component({
     selector: 'byl-select-outsourcer',
@@ -139,8 +140,8 @@ export class BylOutsourcerSelectWidgetSFComponent extends ControlWidget implemen
         // console.log("in BylSelect widget getSelectDataById text:", id);
         if ((id) && (id.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.outsourcerService.findById(id)
-                .map(
+            return this.outsourcerService.findById(id).pipe(
+                map(
                     (res) => {
                         // console.log("in BylSelect widget getSelectDataById res:", res);
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -181,6 +182,7 @@ export class BylOutsourcerSelectWidgetSFComponent extends ControlWidget implemen
 
                     }
                 )
+            )
 
         } else {
            return of([])

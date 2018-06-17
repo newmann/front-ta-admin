@@ -57,11 +57,11 @@ export class BylWorkloadDetailDetailBrowserComponent implements OnInit {
     loading: boolean = false;
 
     get CheckType_Day() {
-        return BylCheckTypeEnum.DAY.valueOf();
+        return BylCheckTypeEnum.DAY;
     }
 
     get CheckType_Hour() {
-        return BylCheckTypeEnum.HOUR.valueOf();
+        return BylCheckTypeEnum.HOUR;
     }
 
     // @Input()
@@ -161,7 +161,7 @@ export class BylWorkloadDetailDetailBrowserComponent implements OnInit {
 
             item.curDate = dayIndex.valueOf();
             item.curDetail = this.getSavedDetail(dayIndex.toDate());
-            item.curCheckType = this.workloadDetail.checkType;
+            item.curCheckType = this.workloadDetail.checkType.toString();
 
             if (item.curDetail) {
                 item.curHour = item.curDetail.shouldPayCount;
@@ -230,10 +230,10 @@ export class BylWorkloadDetailDetailBrowserComponent implements OnInit {
                  *
                  */
 
-                if (this.workloadDetail.checkType === BylCheckTypeEnum.DAY.valueOf()){
+                if (this.workloadDetail.checkType === BylCheckTypeEnum.DAY){
                     t.shouldPayCount = 1
                 }else{
-                    if (item.curCheckType === BylCheckTypeEnum.DAY.valueOf()){
+                    if (item.curCheckType === String(BylCheckTypeEnum.DAY)){
                         t.shouldPayCount = this.workloadDetail.standardTimeLength;
                     }else{
                         t.shouldPayCount = item.curHour;
@@ -321,6 +321,6 @@ export class BylWorkloadDetailDetailBrowserComponent implements OnInit {
 class BylDayItem {
     curDate: number;
     curDetail: BylWorkloadDetailDetail;
-    curCheckType: number;
+    curCheckType: string;
     curHour: number;
 }

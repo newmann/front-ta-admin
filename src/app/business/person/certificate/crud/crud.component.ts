@@ -1,22 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { _HttpClient } from '@delon/theme';
+import {Component, Input} from '@angular/core';
 import {BylCrudComponentBase} from '../../../common/crud-component-base';
-import {BylPersonAddress} from '../../../../service/person/model/person-address.model';
 import {BylPersonCertificate} from '../../../../service/person/model/person-certificate.model';
-import {BylProvinceService} from '../../../../service/address/service/province.service';
-import {BylCityService} from '../../../../service/address/service/city.service';
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {BylPersonAddressService} from '../../../../service/person/service/person-address.service';
-import {NzMessageService, NzModalService, NzModalRef, UploadFile} from 'ng-zorro-antd';
+import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ReuseTabService} from '@delon/abc';
-import {BylCountryService} from '../../../../service/address/service/country.service';
 import {BylPersonCertificateService} from '../../../../service/person/service/person-certificate.service';
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {BylUploadFileNameMapModel} from "../../../../service/model/upload-file-name-map.model";
 import * as moment from 'moment';
-import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
 
 @Component({
   selector: 'byl-person-certificate-crud',

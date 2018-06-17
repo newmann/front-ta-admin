@@ -1,4 +1,4 @@
-import {Component, Injector, Input, OnInit } from '@angular/core';
+import {Component, Injector, Input} from '@angular/core';
 import {BylPerson} from '../../../../service/person/model/person.model';
 import {Router} from '@angular/router';
 import {NzMessageService, NzModalRef, NzModalService} from 'ng-zorro-antd';
@@ -10,13 +10,13 @@ import {BylPersonQuery} from '../../../../service/person/query/person-query.mode
 import {SFSchema, SFUISchema} from "@delon/form";
 import * as moment from "moment";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
-import {ACTION_MODIFY, BylTableClickAction, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
+import {ACTION_MODIFY, BylTableDefine} from "../../../common/list-form-table-item/table.formitem";
 import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
 import {BylPersonAvailablePoolsInterface} from "../../../../service/person/service/person-available-pool.interface";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {BylPageResp} from "../../../../service/model/page-resp.model";
-import {Observable} from "rxjs/Observable";
-import {deepCopy, simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {Observable} from "rxjs";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 
 @Component({

@@ -2,10 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { SettingsService } from '@delon/theme';
 
 @Component({
-    selector: 'mobile-app-header',
+    selector: 'byl-mobile-app-header',
     templateUrl: './mobile-header.component.html'
 })
-export class MobileHeaderComponent {
+export class BylMobileHeaderComponent {
     searchToggleStatus: boolean;
 
     constructor(public settings: SettingsService) { }

@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { _HttpClient } from '@delon/theme';
 import {NzModalRef} from "ng-zorro-antd";
 
 @Component({
@@ -40,7 +39,7 @@ export class BylWaitingComponent implements OnInit {
         this._name = value;
     }
 
-    emitDataOutside() {
+    emitDataOutside(value) {
         // this.subject.next('传出数据');
     }
 

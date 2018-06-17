@@ -9,6 +9,7 @@ import {getData} from "@delon/form/src/src/utils";
 import {BylProjectManagerPoolService} from "../../../service/project/service/project-manager-pool.service";
 import {BylEntityReference} from "../../../service/model/entity-reference.model";
 import {BylResultBody} from "../../../service/model/result-body.model";
+import {map} from "rxjs/operators";
 
 @Component({
     selector: 'byl-select-project-manager-pool',
@@ -138,8 +139,8 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
         console.log("in BylSelect widget getSelectDataById text:", id);
         if ((id) && (id.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.projectManagerPoolService.findByPoolId(id)
-                .map(
+            return this.projectManagerPoolService.findByPoolId(id).pipe(
+                map(
                     (res) => {
                         console.log("in BylSelect widget getSelectDataById res:", res);
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -180,6 +181,7 @@ export class BylProjectManagerPoolSelectWidgetSFComponent extends ControlWidget 
 
                     }
                 )
+            )
 
         } else {
            return of([])

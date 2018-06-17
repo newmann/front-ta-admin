@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
 import {NzMessageService, NzModalService} from "ng-zorro-antd";
@@ -6,17 +6,16 @@ import {BylConfigService} from "../../../../service/constant/config.service";
 import {BylBorrowMoneyTicketService} from "../../../../service/project/service/borrow-money-ticket.service";
 import {BylBorrowMoneyTicket} from "../../../../service/project/model/borrow-money-ticket.model";
 import {BylBorrowMoneyTicketQuery} from "../../../../service/project/query/borrow-money-ticket-query.model";
-import {BylIStatusItem} from '../../../../service/model/status.model';
 import * as moment from "moment";
 import {SFSchema, SFUISchema} from "@delon/form";
-import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
 import {
     BylBorrowMoneyTicketStatusEnum,
     BylBorrowMoneyTicketStatusManager
 } from "../../../../service/project/model/borrow-money-ticket-status.enum";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {
-    ACTION_CANCEL, ACTION_CHECK,
+    ACTION_CANCEL,
+    ACTION_CHECK,
     ACTION_DELETE,
     ACTION_MODIFY,
     ACTION_SUBMIT,
@@ -24,10 +23,6 @@ import {
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylResultBody} from "../../../../service/model/result-body.model";
-import {BylBorrowMoneyQualificationPool} from "../../../../service/project/model/borrow-money-qualification-pool.model";
-import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylProject} from "../../../../service/project/model/project.model";
-import {Observable} from "rxjs/Observable";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 
 @Component({

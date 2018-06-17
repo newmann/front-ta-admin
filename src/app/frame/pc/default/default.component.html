@@ -1,0 +1,9 @@
+<div class="wrapper">
+  <div class="router-progress-bar" *ngIf="isFetching"></div>
+  <byl-layout-header class="header"></byl-layout-header>
+  <byl-layout-sidebar class="aside"></byl-layout-sidebar>
+  <section class="content">
+    <reuse-tab></reuse-tab>
+    <router-outlet></router-outlet>
+  </section>
+</div>

@@ -6,6 +6,7 @@ import {getData} from "@delon/form/src/src/utils";
 import {BylEntityReference} from "../../../service/model/entity-reference.model";
 import {BylResultBody} from "../../../service/model/result-body.model";
 import {BylNationService} from "../../../service/person/service/nation.service";
+import {map} from "rxjs/operators";
 
 @Component({
     selector: 'byl-select-nation',
@@ -86,8 +87,8 @@ export class BylNationSelectWidgetSFComponent extends ControlWidget implements O
 
     getSelectData(): Observable<SFSchemaEnum[]> {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.nationService.findByAll()
-                .map(
+            return this.nationService.findByAll().pipe(
+                map(
                     (res) => {
                         // console.log("in BylSelect widget getSelectDataById res:", res);
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -128,6 +129,7 @@ export class BylNationSelectWidgetSFComponent extends ControlWidget implements O
 
                     }
                 )
+        )
 
     }
 

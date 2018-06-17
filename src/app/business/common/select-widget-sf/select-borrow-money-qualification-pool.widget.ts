@@ -1,16 +1,14 @@
-import {Component, OnInit, ChangeDetectorRef, Inject} from '@angular/core';
-import {ControlWidget, SFSchemaEnum, SFSchema, SFUISchemaItem, SFComponent, SFSchemaEnumType} from '@delon/form';
+import {ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
+import {ControlWidget, SFComponent, SFSchemaEnum, SFSchemaEnumType} from '@delon/form';
 // import { getData } from './../../util';
 // tslint:disable-next-line:import-blacklist
-import {of, Observable} from 'rxjs';
-import {delay, flatMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {BylEntityReference} from "../../../service/model/entity-reference.model";
 import {BylResultBody} from "../../../service/model/result-body.model";
-import {BylPersonService} from "../../../service/person/service/person.service";
 import {BylBorrowMoneyQualificationPoolService} from "../../../service/project/service/borrow-money-qualification-pool.service";
 import {BylBorrowMoneyQualificationPool} from "../../../service/project/model/borrow-money-qualification-pool.model";
 import {simpleDeepCopy} from "../../../service/utils/object.utils";
+import {map} from "rxjs/operators";
 
 @Component({
     selector: 'byl-select-borrow-money-qualification-pool',
@@ -131,32 +129,34 @@ export class BylBorrowMoneyQualificationPoolSelectWidgetSFComponent extends Cont
         if ((id) && (id.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
             return this.borrowMoneyQualificationPoolService.findByTypeAndPoolId(type,id)
-                .map(
-                    (res) => {
-                        console.log("in BylBorrowMoneyQualificationPoolSelect widget getSelectDataById res:", res);
-                        if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                            if (res.data) {
-                                let searchResult: SFSchemaEnum[] = [];
-                                let v = new BylBorrowMoneyQualificationPool();
-                                simpleDeepCopy(v, res.data);
+                .pipe(
+                    map(
+                        (res) => {
+                            console.log("in BylBorrowMoneyQualificationPoolSelect widget getSelectDataById res:", res);
+                            if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                                if (res.data) {
+                                    let searchResult: SFSchemaEnum[] = [];
+                                    let v = new BylBorrowMoneyQualificationPool();
+                                    simpleDeepCopy(v, res.data);
 
-                                let i: SFSchemaEnumType = {};
-                                i.label = v.fullCaption;
-                                i.value = v;
-                                searchResult.push(i);
+                                    let i: SFSchemaEnumType = {};
+                                    i.label = v.fullCaption;
+                                    i.value = v;
+                                    searchResult.push(i);
 
 
-                                return searchResult;
+                                    return searchResult;
 
+                                } else {
+                                    return [];
+                                }
                             } else {
-                                return [];
+                                console.error("获取可借款资源信息出错：", res);
+                                return ([]);
                             }
-                        } else {
-                            console.error("获取可借款资源信息出错：", res);
-                            return ([]);
-                        }
 
-                    }
+                        }
+                    )
                 )
 
         } else {

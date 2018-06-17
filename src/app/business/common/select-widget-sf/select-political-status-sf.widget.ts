@@ -7,6 +7,7 @@ import {BylEntityReference} from "../../../service/model/entity-reference.model"
 import {BylResultBody} from "../../../service/model/result-body.model";
 
 import {BylPoliticalStatusService} from "../../../service/person/service/political-status.service";
+import {map} from "rxjs/operators";
 
 @Component({
     selector: 'byl-select-political-status',
@@ -87,8 +88,8 @@ export class BylPoliticalStatusSelectWidgetSFComponent extends ControlWidget imp
 
     getSelectData(): Observable<SFSchemaEnum[]> {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.politicalStatusService.findByAll()
-                .map(
+            return this.politicalStatusService.findByAll().pipe(
+                map(
                     (res) => {
                         // console.log("in BylSelect widget getSelectDataById res:", res);
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -129,6 +130,7 @@ export class BylPoliticalStatusSelectWidgetSFComponent extends ControlWidget imp
 
                     }
                 )
+            )
 
     }
 

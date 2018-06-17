@@ -6,7 +6,7 @@ import {BylConfigService} from '../../service/constant/config.service';
 import {BylResultBody} from '../../service/model/result-body.model';
 
 import {ReuseTabService} from '@delon/abc';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {BylCrudComponentBasePro} from "./crud-component-base-pro";
 import {BylTicketBaseModal} from "../../service/model/ticket-base.model";
 import {BylTicketBaseService} from "../../service/service/ticket-base.service";
@@ -147,12 +147,13 @@ export abstract class BylTicketCrudComponentBasePro<T extends BylTicketBaseModal
     }
 
     showSaveButton(): boolean{
-        return this.businessData.status === BylTicketStatusEnum.UNSUBMITED;
+        return this.businessData.status === BylTicketStatusEnum.UNSUBMITED
+            || this.businessData.status == BylTicketStatusEnum.SUBMITED ;
     }
 
     showSubmitButton():boolean{
-        return this.businessData.status === BylTicketStatusEnum.UNSUBMITED
-            || this.businessData.status == BylTicketStatusEnum.SUBMITED;
+        return this.businessData.status === BylTicketStatusEnum.UNSUBMITED;
+            // || this.businessData.status == BylTicketStatusEnum.SUBMITED;
     }
 
 

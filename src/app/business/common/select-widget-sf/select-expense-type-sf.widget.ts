@@ -1,15 +1,12 @@
-import {Component, OnInit, ChangeDetectorRef, Inject} from '@angular/core';
-import {ControlWidget, SFSchemaEnum, SFSchema, SFUISchemaItem, SFComponent, SFSchemaEnumType} from '@delon/form';
+import {ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
+import {ControlWidget, SFComponent, SFSchemaEnum, SFSchemaEnumType} from '@delon/form';
 // import { getData } from './../../util';
 // tslint:disable-next-line:import-blacklist
-import {of, Observable} from 'rxjs';
-import {delay, flatMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
-import {getData} from "@delon/form/src/src/utils";
-import {BylProjectManagerPoolService} from "../../../service/project/service/project-manager-pool.service";
 import {BylEntityReference} from "../../../service/model/entity-reference.model";
 import {BylResultBody} from "../../../service/model/result-body.model";
-import {BylOutsourcerService} from "../../../service/project/service/outsourcer.service";
 import {BylExpenseTypeService} from "../../../service/project/service/expense-type.service";
 
 @Component({
@@ -141,46 +138,49 @@ export class BylExpenseTypeSelectWidgetSFComponent extends ControlWidget impleme
         if ((id) && (id.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
             return this.expenseTypeService.findById(id)
-                .map(
-                    (res) => {
-                        // console.log("in BylSelect widget getSelectDataById res:", res);
-                        if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                            if (res.data) {
-                                let searchResult: SFSchemaEnum[] = [];
-                                let v = new BylEntityReference(res.data.id,
-                                    res.data.code,
-                                    res.data.name);
+                .pipe(
+                    map(
+                        (res) => {
+                            // console.log("in BylSelect widget getSelectDataById res:", res);
+                            if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                                if (res.data) {
+                                    let searchResult: SFSchemaEnum[] = [];
+                                    let v = new BylEntityReference(res.data.id,
+                                        res.data.code,
+                                        res.data.name);
 
-                                let i: SFSchemaEnum = {};
-                                i.label = v.getFullCaption();
-                                i.value = v;
-                                searchResult.push(i);
+                                    let i: SFSchemaEnum = {};
+                                    i.label = v.getFullCaption();
+                                    i.value = v;
+                                    searchResult.push(i);
 
-                                // res.data.forEach(item => {
-                                //     let v = new BylEntityReference();
-                                //     v.id = item.poolId;
-                                //     v.code = item.poolCode;
-                                //     v.name = item.poolName;
-                                //
-                                //     let i: SFSchemaEnum = {};
-                                //     i.label = v.getFullCaption();
-                                //     i.value = v;
-                                //     searchResult.push(i);
-                                // });
+                                    // res.data.forEach(item => {
+                                    //     let v = new BylEntityReference();
+                                    //     v.id = item.poolId;
+                                    //     v.code = item.poolCode;
+                                    //     v.name = item.poolName;
+                                    //
+                                    //     let i: SFSchemaEnum = {};
+                                    //     i.label = v.getFullCaption();
+                                    //     i.value = v;
+                                    //     searchResult.push(i);
+                                    // });
 
 
-                                // console.log("in BylSelect widget getSelectDataById searchResult:", searchResult);
-                                return searchResult;
+                                    // console.log("in BylSelect widget getSelectDataById searchResult:", searchResult);
+                                    return searchResult;
 
+                                } else {
+                                    return [];
+                                }
                             } else {
-                                return [];
+                                console.error("获取费用类型出错：", res);
+                                return ([]);
                             }
-                        } else {
-                            console.error("获取费用类型出错：", res);
-                            return ([]);
-                        }
 
-                    }
+                        }
+                    )
+
                 )
 
         } else {

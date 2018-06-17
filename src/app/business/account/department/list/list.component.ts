@@ -11,15 +11,16 @@ import {BylDepartmentService} from '../../../../service/account/service/departme
 import {BylDepartmentQuery} from '../../../../service/account/query/department-query.model';
 import {BaseTree} from '../../../../service/model/base-tree.model';
 import {mixCodeName} from '../../../../service/utils/string.utils';
-import {Subject} from 'rxjs/Subject';
+import {Observable, Subject, zip} from 'rxjs';
 import {debounceTime, distinctUntilChanged, flatMap} from 'rxjs/operators';
 
 
-import {Observable} from 'rxjs/Observable';
-import {zip} from 'rxjs/observable/zip';
+// import {Observable} from 'rxjs/Observable';
+// import {zip} from 'rxjs/observable/zip';
 import {BylListComponentBase} from '../../../common/list-component-base';
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from '../../../../service/model/master-data-status.enum';
 import {SFSchema, SFUISchema} from "@delon/form";
+
 
 @Component({
     selector: 'byl-department-list',
@@ -249,7 +250,7 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
         console.log('lockItem: ' + lockItem);
         if (!lockItem) return;
 
-        lockItem.status = BylMasterDataStatusEnum.LOCKED.valueOf();
+        lockItem.status = BylMasterDataStatusEnum.LOCKED;
 
         this.departmentService.update(lockItem).subscribe(
             data => {

@@ -1,15 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {BylPoliticalStatus} from "../../../../service/person/model/political-status.model";
-import {BylCityService} from "../../../../service/address/service/city.service";
-import {BylNationService} from "../../../../service/person/service/nation.service";
-import {FormBuilder, Validators} from "@angular/forms";
-import {BylCrudComponentBase} from "../../../common/crud-component-base";
-import {BylCountryService} from "../../../../service/address/service/country.service";
-import {NzMessageService, NzModalService, NzModalRef} from "ng-zorro-antd";
+import {Component, Input} from '@angular/core';
+import {FormBuilder} from "@angular/forms";
+import {NzMessageService} from "ng-zorro-antd";
 import {BylConfigService} from "../../../../service/constant/config.service";
-import {BylNation} from "../../../../service/person/model/nation.model";
-import {BylProvinceService} from "../../../../service/address/service/province.service";
-import { ReuseTabService} from "@delon/abc";
+import {ReuseTabService} from "@delon/abc";
 import {ActivatedRoute} from "@angular/router";
 import {BylOrganization} from "../../../../service/organization/model/organization.model";
 import {BylOrganizationService} from "../../../../service/organization/service/organization.service";
@@ -17,16 +10,10 @@ import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
 import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {map} from "rxjs/operators";
-import {BylGenderEnumManager} from "../../../../service/person/model/gender.enum";
-import {
-    BylOrganizationTypeEnum,
-    BylOrganizationTypeManager
-} from "../../../../service/organization/model/organization-type.enum";
+import {BylOrganizationTypeManager} from "../../../../service/organization/model/organization-type.enum";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
-import {BylPerson} from "../../../../service/person/model/person.model";
 import {BylEmbeddableLegalPerson} from "../../../../service/organization/model/embeddable-legal-person.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 import {SFSchema} from "@delon/form";
 
 @Component({

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {_HttpClient} from '@delon/theme';
 import {BylResultBody} from '../../model/result-body.model';
 import {LoginResultModel} from '../../auth/login-result.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {BylDepartment} from '../model/department.model';
 import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';

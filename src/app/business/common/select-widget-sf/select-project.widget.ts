@@ -10,6 +10,7 @@ import {BylResultBody} from "../../../service/model/result-body.model";
 import {BylPersonService} from "../../../service/person/service/person.service";
 import {BylProjectService} from "../../../service/project/service/project.service";
 import {BylProject} from "../../../service/project/model/project.model";
+import {map} from "rxjs/operators";
 
 @Component({
     selector: 'byl-select-project',
@@ -136,8 +137,8 @@ export class BylProjectSelectWidgetSFComponent extends ControlWidget implements 
         console.log("in BylSelect widget getSelectDataById text:", id);
         if ((id) && (id.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.projectService.findById(id)
-                .map(
+            return this.projectService.findById(id).pipe(
+                map(
                     (res) => {
                         console.log("in BylSelect widget getSelectDataById res:", res);
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -164,6 +165,7 @@ export class BylProjectSelectWidgetSFComponent extends ControlWidget implements 
 
                     }
                 )
+            )
 
         } else {
             return of([])

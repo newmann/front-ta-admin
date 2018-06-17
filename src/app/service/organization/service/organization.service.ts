@@ -4,14 +4,10 @@ import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';
 
 import {BylBaseService} from '../../service/base.service';
-import {BylQueryReqBody} from '../../model/query-req-body.model';
-import {BylPageResp} from '../../model/page-resp.model';
 import {BylResultBody} from '../../model/result-body.model';
-import {Observable} from 'rxjs/Observable';
-import {BylPageReq} from '../../model/page-req.model';
+import {Observable} from 'rxjs';
 import {BylOrganization} from "../model/organization.model";
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
-
 
 
 /**

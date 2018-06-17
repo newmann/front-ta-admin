@@ -19,6 +19,6 @@
 
     <!--</div>-->
     <div nz-row >
-        <button nz-button (click)="$event.stopPropagation(); fetchEntityLogList()">重新查询</button>
+        <button nz-button (click)="search()" [nzLoading]="loading">重新查询</button>
     </div>
 <!--</nz-tab>-->

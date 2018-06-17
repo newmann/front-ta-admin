@@ -1,21 +1,16 @@
-import {ElementRef, OnInit, ViewChild} from '@angular/core';
-import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
+import {NzMessageService} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
 
 import {BylConfigService} from '../../service/constant/config.service';
-import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs';
 import {BylResultBody} from '../../service/model/result-body.model';
-import {BylBaseService} from '../../service/service/base.service';
 
 import {ReuseTabService} from '@delon/abc';
-import {Observable} from 'rxjs/Observable';
-import {SFComponent, SFSchema, SFUISchema} from '@delon/form';
-import {simpleDeepCopy} from '../../service/utils/object.utils';
 import {BylCrudComponentBasePro} from "./crud-component-base-pro";
 import {BylMasterDataBaseModel} from "../../service/model/master-data-base.model";
 import {BylMasterDataStatusEnum} from "../../service/model/master-data-status.enum";
-import {BylAccount} from "../../service/account/model/account.model";
 import {BylMasterDataBaseService} from "../../service/service/master-data-base.service";
+
 /**
  * @Description: crud组件对象的抽象类
  * @Author: newmannhu@qq.com

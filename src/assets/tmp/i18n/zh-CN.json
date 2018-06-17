@@ -23,15 +23,15 @@
   "style": "样式",
   "gridmasonry": "瀑布流",
   "typography": "字体排印",
-  "iconsfont": "icon图标",
   "colors": "色彩",
   "delon": "@Delon",
   "dynamic-form": "动态表单",
   "simple-table": "简易表格",
-  "clipboard": "剪贴板",
+  "util": "工具集",
   "print": "打印",
   "guard": "路由守卫",
   "cache": "字典缓存",
+  "qr": "二维码",
   "acl": "基于角色访问控制",
   "downfile": "下载文件",
   "xlsx": "Excel操作",
@@ -66,7 +66,77 @@
   "pro-register": "注册",
   "pro-register-result": "注册结果",
 
-  "work-type": "工种设置",
+  "organization": "组织",
+  "organization_list": "浏览组织",
+  "organization_new": "新增组织",
+
+  "department": "部门",
+  "department_list": "浏览部门",
+  "department_new": "新增部门",
+
+  "role": "角色",
+  "role_list": "浏览角色",
+  "role_new": "新增角色",
+
+  "account": "账户",
+  "account_list": "浏览账户",
+  "account_new": "新增账户",
+
+  "person": "个人",
+  "person_list": "浏览个人",
+  "person_new": "新增个人",
+  "person_address_new": "新增个人地址",
+  "person_certificate_new": "新增个人证件",
+
+
+  "project": "项目",
+  "project_manage": "项目管理",
+  "project_list": "浏览项目",
+  "project_new": "新增项目",
+
+  "project_resource_pool": "资源范围管理",
+  "project_manager_pool_list": "项目经理范围管理",
+  "borrow_money_qualification_pool_list": "可借款范围管理",
+  "expense": "费用",
+  "expense_type": "费用类型",
+  "expense_type_list": "浏览费用类型",
+  "expense_type_new": "新增费用类型",
+
+  "expense_ticket": "费用单",
+  "expense_ticket_list": "浏览费用单",
+  "expense_ticket_new": "新增费用单",
+
+  "operation_period": "业务期间",
+  "operation_period_list": "浏览业务期间",
+  "operation_period_new": "新增业务期间",
+
+  "workload_ticket": "考勤登记单",
+  "workload_ticket_list": "浏览考勤登记单",
+  "workload_ticket_new": "新增考勤登记单",
+
+  "employee": "员工",
+  "employee_list": "浏览员工",
+  "employee_new": "新增员工",
+
+  "outsourcer": "外包方",
+  "outsourcer_list": "浏览外包方",
+  "outsourcer_new": "新增外包方",
+
+  "outsource_employee": "外包方员工",
+  "outsource_employee_list": "浏览外包方员工",
+  "outsource_employee_new": "新增外包方员工",
+
+  "work_type": "工种",
   "work_type_list": "工种管理",
-  "work_type_new": "工种新增"
+  "work_type_new": "工种新增",
+  "work_type_config_ticket": "工种配置单",
+  "work_type_config_ticket_list": "浏览工种配置单",
+  "work_type_config_ticket_new": "新增工种配置单",
+
+  "borrow_money": "借款",
+  "borrow_money_ticket": "借款单",
+  "borrow_money_ticket_list": "浏览借款单",
+  "borrow_money_ticket_new": "新增借款单"
+
+
 }

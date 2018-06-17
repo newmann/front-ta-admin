@@ -13,7 +13,7 @@ import {ACTION_MODIFY, BylTableDefine} from "../../../common/list-form-table-ite
 import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
 import {BylOrganizationAvailablePoolsInterface} from "../../../../service/organization/service/organization-available-pool.interface";
 import {BylResultBody} from "../../../../service/model/result-body.model";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {BylPageResp} from "../../../../service/model/page-resp.model";
 
 @Component({

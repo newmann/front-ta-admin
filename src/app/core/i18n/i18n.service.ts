@@ -2,9 +2,6 @@ import { Injectable, Inject, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
-// import { Observable } from 'rxjs/Observable';
-// import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-// import { filter } from 'rxjs/operators';
 
 import { en_US, zh_CN, NzI18nService } from 'ng-zorro-antd';
 import * as df_en from 'date-fns/locale/en';

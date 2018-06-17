@@ -5,7 +5,7 @@ import {I18NService} from 'app/core/i18n/i18n.service';
 import {BylBaseService} from '../../service/base.service';
 import {BylOutsourceEmployee} from "../model/outsource-employee.model";
 import {BylResultBody} from "../../model/result-body.model";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
 import {BylMasterDataBaseService} from "../../service/master-data-base.service";
 

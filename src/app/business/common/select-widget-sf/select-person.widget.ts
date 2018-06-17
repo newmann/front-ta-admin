@@ -8,6 +8,7 @@ import {HttpClient} from '@angular/common/http';
 import {BylEntityReference} from "../../../service/model/entity-reference.model";
 import {BylResultBody} from "../../../service/model/result-body.model";
 import {BylPersonService} from "../../../service/person/service/person.service";
+import {map} from "rxjs/operators";
 
 @Component({
     selector: 'byl-select-person',
@@ -137,8 +138,8 @@ export class BylPersonSelectWidgetSFComponent extends ControlWidget implements O
         console.log("in BylSelect widget getSelectDataById text:", id);
         if ((id) && (id.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.personService.findById(id)
-                .map(
+            return this.personService.findById(id).pipe(
+                map(
                     (res) => {
                         console.log("in BylSelect widget getSelectDataById res:", res);
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -178,6 +179,7 @@ export class BylPersonSelectWidgetSFComponent extends ControlWidget implements O
 
                     }
                 )
+            )
 
         } else {
             return of([])

@@ -4,7 +4,7 @@ import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';
 import {BylProject} from '../model/project.model';
 import {BylBaseService} from '../../service/base.service';
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
 import {BylResultBody} from "../../model/result-body.model";
 import {BylProjectManagerPool} from "../model/project-manager-pool.model";

@@ -1,27 +1,19 @@
-import {ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
+import {Input} from '@angular/core';
+import {NzMessageService, NzModalRef} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
 
 import {BylConfigService} from '../../service/constant/config.service';
-import {Subject} from 'rxjs/Subject';
 import {BylResultBody} from '../../service/model/result-body.model';
-import {BylBaseService} from '../../service/service/base.service';
 
 import {ReuseTabService} from '@delon/abc';
-import {Observable} from 'rxjs/Observable';
-import {SFComponent, SFSchema, SFUISchema} from '@delon/form';
+import {Observable} from 'rxjs';
 import {simpleDeepCopy} from '../../service/utils/object.utils';
 import {BylCrudComponentBasePro} from "./crud-component-base-pro";
-import {BylMasterDataBaseModel} from "../../service/model/master-data-base.model";
-import {BylMasterDataStatusEnum} from "../../service/model/master-data-status.enum";
-import {BylAccount} from "../../service/account/model/account.model";
-import {BylMasterDataBaseService} from "../../service/service/master-data-base.service";
-import {BylTicketBaseModal} from "../../service/model/ticket-base.model";
-import {BylTicketBaseService} from "../../service/service/ticket-base.service";
 import {BylItemBaseModal} from "../../service/model/item-base.model";
 import {BylItemBaseService} from "../../service/service/item-base.service";
 import {BylItemAddModel} from "../../service/model/item-add.model";
 import {BylItemUpdateModel} from "../../service/model/item-update.model";
+
 /**
  * @Description: master-detail对象的detail类crud的抽象类
  * @Author: newmannhu@qq.com

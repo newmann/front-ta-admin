@@ -1,14 +1,12 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
+import {Component, Input} from '@angular/core';
+import {NzMessageService} from 'ng-zorro-antd';
 import {BylRoleService} from '../../../../service/account/service/role.service';
-import {catchError, debounceTime, distinctUntilChanged, first, flatMap, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {BylResultBody} from '../../../../service/model/result-body.model';
-import {Observable} from 'rxjs/Observable';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylRole} from '../../../../service/account/model/role.model';
 import {ActivatedRoute} from '@angular/router';
-import {BylCrudComponentBase} from '../../../common/crud-component-base';
 import {ReuseTabService} from "@delon/abc";
 import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
 import {isEmpty} from "../../../../service/utils/string.utils";

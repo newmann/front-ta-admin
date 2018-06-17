@@ -1,25 +1,18 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
-import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
+import {NzMessageService} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
-
-import {BylCrudComponentBase} from '../../../common/crud-component-base';
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {FormBuilder, Validators} from '@angular/forms';
 
 
 import {BylWorkTypeService} from "../../../../service/project/service/work-type.service";
 import {BylWorkType} from "../../../../service/project/model/work-type.model";
 import {BylCheckTypeEnum, BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
-import {ErrorData, SFComponent, SFSchema, SFUISchema} from "@delon/form";
-import * as moment from "moment";
-import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
-import {BylProject} from "../../../../service/project/model/project.model";
+import {SFSchema} from "@delon/form";
 import {map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {isEmpty} from "../../../../service/utils/string.utils";
-import {BylOrganizationTypeManager} from "../../../../service/organization/model/organization-type.enum";
 import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
@@ -252,7 +245,7 @@ export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<
         simpleDeepCopy(this.businessData, this.sfForm.value);
 
         //如果是按天结算，这标准时长设置为1
-        if(this.businessData.checkType === BylCheckTypeEnum.DAY.valueOf()){
+        if(this.businessData.checkType === BylCheckTypeEnum.DAY){
             this.businessData.standardTimeLength = 1;
         }
 

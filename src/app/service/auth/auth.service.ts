@@ -3,7 +3,7 @@ import {BylResultBody} from '../model/result-body.model';
 import {Inject, Injectable} from '@angular/core';
 import {AuthDataService} from './auth-data.service';
 import {BylAccount} from '../account/model/account.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {BYL_API_URL_LOGIN} from 'app/service/constant/backend-url.constant';
 import {_HttpClient} from '@delon/theme';
 import {UUID} from 'angular2-uuid';

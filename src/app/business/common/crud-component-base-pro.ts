@@ -3,14 +3,14 @@ import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
 
 import {BylConfigService} from '../../service/constant/config.service';
-import {Subject} from 'rxjs/Subject';
 import {BylResultBody} from '../../service/model/result-body.model';
 import {BylBaseService} from '../../service/service/base.service';
 
 import {ReuseTabService} from '@delon/abc';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {SFComponent, SFSchema, SFUISchema} from '@delon/form';
 import {simpleDeepCopy} from '../../service/utils/object.utils';
+import {BylWorkloadDetailListComponent} from "../project/workload-detail/list/list.component";
 /**
  * @Description: crud组件对象的抽象类
  * @Author: newmannhu@qq.com
@@ -18,7 +18,14 @@ import {simpleDeepCopy} from '../../service/utils/object.utils';
  **/
 
 export abstract class BylCrudComponentBasePro<T> implements OnInit {
-    public isLoading:boolean;
+    // public isLoading:boolean;
+
+    @ViewChild('detailList') detailList: any;
+
+    private _detailLoaded:boolean = false;
+
+    @ViewChild('logList') logList: any;
+    private _logLoaded:boolean = false;
 
     public defaultBusinessData: T;
     public businessData: T;
@@ -243,4 +250,19 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
 
     abstract newBusinessData(): T;
 
+    detailTabClick(){
+        //第一次点击的时候查询数据。以后就需要手工点击查询
+        if (this._detailLoaded) return;
+        this.detailList.search();
+        this._detailLoaded = true;
+
+    }
+
+    logTabClick(){
+        //第一次点击的时候查询数据。以后就需要手工点击查询
+        if (this._logLoaded) return;
+        this.logList.search();
+        this._logLoaded = true;
+
+    }
 }

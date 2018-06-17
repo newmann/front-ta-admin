@@ -7,6 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {BylResultBody} from "../../../service/model/result-body.model";
 import {BylOperationPeriodService} from "../../../service/project/service/operation-period.service";
 import {BylEmbeddableOperationPeriod} from "../../../service/project/model/embeddable-operation-period.model";
+import {map} from "rxjs/operators";
 
 @Component({
     selector: 'byl-select-operation-period',
@@ -139,8 +140,8 @@ export class BylOperationPeriodSelectWidgetSFComponent extends ControlWidget imp
         // console.log("in BylSelect widget getSelectDataById text:", id);
         if ((id) && (id.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.operationPeriodService.findById(id)
-                .map(
+            return this.operationPeriodService.findById(id).pipe(
+                map(
                     (res) => {
                         // console.log("in BylSelect widget getSelectDataById res:", res);
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -184,6 +185,7 @@ export class BylOperationPeriodSelectWidgetSFComponent extends ControlWidget imp
 
                     }
                 )
+            )
 
         } else {
            return of([])

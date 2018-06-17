@@ -7,6 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {BylEntityReference} from "../../../service/model/entity-reference.model";
 import {BylResultBody} from "../../../service/model/result-body.model";
 import {BylWorkTypeService} from "../../../service/project/service/work-type.service";
+import {map} from "rxjs/operators";
 
 @Component({
     selector: 'byl-select-work-type',
@@ -136,8 +137,8 @@ export class BylWorkTypeSelectWidgetSFComponent extends ControlWidget implements
         // console.log("in BylSelect widget getSelectDataById text:", id);
         if ((id) && (id.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.workTypeService.findById(id)
-                .map(
+            return this.workTypeService.findById(id).pipe(
+                map(
                     (res) => {
                         // console.log("in BylSelect widget getSelectDataById res:", res);
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -178,6 +179,7 @@ export class BylWorkTypeSelectWidgetSFComponent extends ControlWidget implements
 
                     }
                 )
+            )
 
         } else {
            return of([])

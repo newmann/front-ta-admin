@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {_HttpClient} from '@delon/theme';
 import {BylResultBody} from '../../model/result-body.model';
 import {LoginResultModel} from '../../auth/login-result.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {BylRole} from '../model/role.model';
 import {BylPageResp} from '../../model/page-resp.model';
 import {BylPageReq} from '../../model/page-req.model';

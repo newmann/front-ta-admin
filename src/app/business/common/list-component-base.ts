@@ -5,7 +5,6 @@ import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {BylConfigService} from '../../service/constant/config.service';
 import {BylBaseService} from '../../service/service/base.service';
-import {BylCrudEvent} from './waiting/crud-waiting.component';
 import {BylResultBody} from '../../service/model/result-body.model';
 import {BylListFormFunctionModeEnum} from '../../service/model/list-form-function-mode.enum';
 

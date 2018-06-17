@@ -9,7 +9,7 @@ import {BylAccountQuery} from '../query/account-query.model';
 import {BylQueryReqBody} from '../../model/query-req-body.model';
 import {BylPageResp} from '../../model/page-resp.model';
 import {BylResultBody} from '../../model/result-body.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {BylPageReq} from '../../model/page-req.model';
 import {BylAccountPermission} from "../model/account-permission.model";
 import {

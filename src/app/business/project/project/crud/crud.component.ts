@@ -20,7 +20,7 @@ import {BylEntityReference} from "../../../../service/model/entity-reference.mod
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {BylProjectStatusEnum} from "../../../../service/project/model/project-status.enum";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
 
 

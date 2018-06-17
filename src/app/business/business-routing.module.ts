@@ -1,10 +1,8 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { environment } from '@env/environment';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {environment} from '@env/environment';
 import {DashboardAnalysisComponent} from "../routes/dashboard/analysis/analysis.component";
 import {CallbackComponent} from "../routes/callback/callback.component";
-// import {DashboardWorkplaceComponent} from "../routes/dashboard/workplace/workplace.component";
-// import {DashboardMonitorComponent} from "../routes/dashboard/monitor/monitor.component";
 import {Exception404Component} from "../routes/exception/404.component";
 import {BylUserRegisterResultComponent} from "./passport/register-result/register-result.component";
 import {BylUserRegisterComponent} from "./passport/register/register.component";
@@ -12,34 +10,41 @@ import {BylUserLoginComponent} from "./passport/login/login.component";
 
 import {Exception500Component} from "../routes/exception/500.component";
 import {Exception403Component} from "../routes/exception/403.component";
-import {LayoutPassportComponent} from "../layout/passport/passport.component";
-import {LayoutDefaultComponent} from "../layout/default/default.component";
-import {LayoutFullScreenComponent} from "../layout/fullscreen/fullscreen.component";
 import {DashboardV1Component} from "../routes/dashboard/v1/v1.component";
-import {LayoutMobileComponent} from '../frame/mobile/mobile.component';
+import {BylLayoutMobileComponent} from '../frame/mobile/mobile.component';
 import {BylRouterGuardService} from '../service/router/router-guard.service';
 import {UserLockComponent} from "../routes/passport/lock/lock.component";
 import {BylDashboardWorkplaceComponent} from "./dashboard/workplace/workplace.component";
 import {BylDashboardMonitorComponent} from "./dashboard/monitor/monitor.component";
+import {BylLayoutDefaultComponent} from "../frame/pc/default/default.component";
+import {BylLayoutPassportComponent} from "../frame/pc/passport/passport.component";
+import {BylLayoutFullScreenComponent} from "../frame/pc/fullscreen/fullscreen.component";
+import {BylDashboardV1Component} from "./dashboard/v1/v1.component";
+import {BylDashboardAnalysisComponent} from "./dashboard/analysis/analysis.component";
+import {BylCallbackComponent} from "./callback/callback.component";
+import {BylUserLockComponent} from "./passport/lock/lock.component";
+import {BylException403Component} from "./exception/403.component";
+import {BylException404Component} from "./exception/404.component";
+import {BylException500Component} from "./exception/500.component";
 
 
 const routes: Routes = [
     {
         path: '',
-        component: LayoutDefaultComponent,
+        component: BylLayoutDefaultComponent,
         canActivate: [BylRouterGuardService],
         children: [
             { path: '', redirectTo: 'dashboard/workplace', pathMatch: 'full' },
             { path: 'dashboard', redirectTo: 'dashboard/workplace', pathMatch: 'full' },
-            { path: 'dashboard/v1', component: DashboardV1Component },
-            { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
+            { path: 'dashboard/v1', component: BylDashboardV1Component },
+            { path: 'dashboard/analysis', component: BylDashboardAnalysisComponent },
             { path: 'dashboard/monitor', component: BylDashboardMonitorComponent },
             { path: 'dashboard/workplace', component: BylDashboardWorkplaceComponent },
-            { path: 'widgets', loadChildren: '../routes/widgets/widgets.module#WidgetsModule' },
-            { path: 'style', loadChildren: '../routes/style/style.module#StyleModule' },
-            { path: 'delon', loadChildren: '../routes/delon/delon.module#DelonModule' },
-            { path: 'extras', loadChildren: '../routes/extras/extras.module#ExtrasModule' },
-            { path: 'pro', loadChildren: '../routes/pro/pro.module#ProModule' },
+            // { path: 'widgets', loadChildren: '../routes/widgets/widgets.module#WidgetsModule' },
+            // { path: 'style', loadChildren: '../routes/style/style.module#StyleModule' },
+            // { path: 'delon', loadChildren: '../routes/delon/delon.module#DelonModule' },
+            // { path: 'extras', loadChildren: '../routes/extras/extras.module#ExtrasModule' },
+            // { path: 'pro', loadChildren: '../routes/pro/pro.module#ProModule' },
 
 
             // { path: 'elements', loadChildren: '../routes/elements/elements.module#ElementsModule' },
@@ -65,7 +70,7 @@ const routes: Routes = [
     // 全屏布局
     {
         path: 'data-v',
-        component: LayoutFullScreenComponent,
+        component: BylLayoutFullScreenComponent,
         children: [
             { path: '', loadChildren: '../routes/data-v/data-v.module#DataVModule' }
         ]
@@ -83,7 +88,7 @@ const routes: Routes = [
     // passport
     {
         path: 'passport',
-        component: LayoutPassportComponent,
+        component: BylLayoutPassportComponent,
         children: [
             { path: 'login', component: BylUserLoginComponent, data: { title: '登录', titleI18n: 'pro-login' } },
             { path: 'register', component: BylUserRegisterComponent, data: { title: '注册', titleI18n: 'pro-register' } },
@@ -93,20 +98,20 @@ const routes: Routes = [
     // 移动布局
     {
         path: 'mobile',
-        component: LayoutMobileComponent,
+        component: BylLayoutMobileComponent,
         canActivate: [BylRouterGuardService],
         children: [
             { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
             { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
-            { path: 'dashboard/v1', component: DashboardV1Component },
-            { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
+            { path: 'dashboard/v1', component: BylDashboardV1Component },
+            { path: 'dashboard/analysis', component: BylDashboardAnalysisComponent },
             { path: 'dashboard/monitor', component: BylDashboardMonitorComponent },
             { path: 'dashboard/workplace', component: BylDashboardWorkplaceComponent },
-            { path: 'widgets', loadChildren: '../routes/widgets/widgets.module#WidgetsModule' },
-            { path: 'style', loadChildren: '../routes/style/style.module#StyleModule' },
-            { path: 'delon', loadChildren: '../routes/delon/delon.module#DelonModule' },
-            { path: 'extras', loadChildren: '../routes/extras/extras.module#ExtrasModule' },
-            { path: 'pro', loadChildren: '../routes/pro/pro.module#ProModule' },
+            // { path: 'widgets', loadChildren: '../routes/widgets/widgets.module#WidgetsModule' },
+            // { path: 'style', loadChildren: '../routes/style/style.module#StyleModule' },
+            // { path: 'delon', loadChildren: '../routes/delon/delon.module#DelonModule' },
+            // { path: 'extras', loadChildren: '../routes/extras/extras.module#ExtrasModule' },
+            // { path: 'pro', loadChildren: '../routes/pro/pro.module#ProModule' },
             // { path: 'widgets', loadChildren: '../routes/widgets/widgets.module#WidgetsModule' },
             // { path: 'elements', loadChildren: '../routes/elements/elements.module#ElementsModule' },
             // { path: 'other', loadChildren: '../routes/other/other.module#OtherModule' },
@@ -124,11 +129,11 @@ const routes: Routes = [
         ]
     },
     // 单页不包裹Layout
-    { path: 'callback/:type', component: CallbackComponent },
-    { path: 'lock', component: UserLockComponent, data: { title: '锁屏', titleI18n: 'lock' } },
-    { path: '403', component: Exception403Component },
-    { path: '404', component: Exception404Component },
-    { path: '500', component: Exception500Component },
+    { path: 'callback/:type', component: BylCallbackComponent },
+    { path: 'lock', component: BylUserLockComponent, data: { title: '锁屏', titleI18n: 'lock' } },
+    { path: '403', component: BylException403Component },
+    { path: '404', component: BylException404Component },
+    { path: '500', component: BylException500Component },
     { path: '**', redirectTo: 'dashboard' }
 ];
 

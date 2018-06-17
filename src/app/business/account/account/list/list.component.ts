@@ -10,7 +10,7 @@ import {BylAccountService} from '../../../../service/account/service/account.ser
 import {BylAccountQuery} from '../../../../service/account/query/account-query.model';
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import {BylPageResp} from '../../../../service/model/page-resp.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {BylAccountAvailablePoolsInterface} from '../../../../service/account/service/account-related.interface';
 import {BylProjectQuery} from '../../../../service/project/query/project-query.model';
 import {BylListFormFunctionModeEnum} from '../../../../service/model/list-form-function-mode.enum';

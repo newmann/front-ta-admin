@@ -15,7 +15,7 @@ import {
     ACTION_MODIFY, ACTION_SUBMIT, ACTION_UNCONFIRM, ACTION_UNLOCK, BylListFormTableWidgetComponent,
     BylTableClickAction
 } from "./list-form-table-item/table.formitem";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 
 import {BylListComponentBasePro} from "./list-component-base-pro";
 import {BylMasterDataBaseService} from "../../service/service/master-data-base.service";

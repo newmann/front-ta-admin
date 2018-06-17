@@ -12,9 +12,6 @@ import {
   HttpUserEvent,
 } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-// import { Observable } from 'rxjs/Observable';
-// import { of } from 'rxjs/observable/of';
-// import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { mergeMap, catchError } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
@@ -54,7 +51,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         //         this.msg.error(body.msg);
         //         // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：
         //         // this.http.get('/').subscribe() 并不会触发
-        //         return ErrorObservable.throw(event);
+        //         return throwError({});
         //     } else {
         //         // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
         //         return of(new HttpResponse(Object.assign(event, { body: body.response })));

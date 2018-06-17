@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {_HttpClient} from '@delon/theme';
 import {BylResultBody} from '../../model/result-body.model';
 
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 import {BylPageResp} from '../../model/page-resp.model';
 import {BylPageReq} from '../../model/page-req.model';
@@ -10,15 +10,11 @@ import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';
 
 import {BylQueryReqBody} from '../../model/query-req-body.model';
-
-import {BylProjectManagerPoolQuery} from '../query/project-manager-pool-query.model';
 import {BylProjectManagerPool} from '../model/project-manager-pool.model';
 import {BylBaseService} from '../../service/base.service';
 import {BylAccountQuery} from '../../account/query/account-query.model';
 import {BylAccount} from '../../account/model/account.model';
 import {BylAccountAvailablePoolsInterface} from '../../account/service/account-related.interface';
-import {SFSchemaEnumType} from "@delon/form";
-import {BylEntityReference} from "../../model/entity-reference.model";
 
 
 /**

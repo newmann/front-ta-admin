@@ -29,7 +29,7 @@
               <label nz-radio [ngStyle]="style" nzValue="1">全天</label>
               <label nz-radio [ngStyle]="style" nzValue="10">小时
                 <nz-input-number  style="width:40px"
-                                  *ngIf="getDayArrayItem(date).curCheckType == 10 "
+                                  *ngIf="getDayArrayItem(date).curCheckType === '10' "
                                   [(ngModel)]="getDayArrayItem(date).curHour"
                                   [nzSize]="'small'"
                                   [nzMin]="1" [nzMax]="24" [nzStep]="1">
@@ -60,6 +60,6 @@
   </nz-calendar>
 
 </div>
-<div nz-row>
-  <p>{{dayArray | json}}</p>
-</div>
+<!--<div nz-row>-->
+  <!--<p>{{dayArray | json}}</p>-->
+<!--</div>-->

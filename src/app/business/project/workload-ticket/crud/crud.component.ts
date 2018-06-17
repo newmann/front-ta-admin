@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService} from 'ng-zorro-antd';
@@ -13,6 +13,7 @@ import {BylTicketCrudComponentBasePro} from "../../../common/ticket-crud-compone
 import {BylWorkloadTicket} from "../../../../service/project/model/workload-ticket.model";
 import {BylWorkloadTicketService} from "../../../../service/project/service/workload-ticket.service";
 import {BylWorkloadTicketStatusEnum} from "../../../../service/project/model/workload-ticket-status.enum";
+import {BylWorkloadDetailListComponent} from "../../workload-detail/list/list.component";
 
 
 @Component({
@@ -20,9 +21,11 @@ import {BylWorkloadTicketStatusEnum} from "../../../../service/project/model/wor
     templateUrl: './crud.component.html',
 })
 export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePro<BylWorkloadTicket> {
-    processType: string;
+    // processType: string;
+
 
     // @ViewChild('sf') sf: SFComponent;
+    // private _detailLoaded:boolean = false;
 
     newBusinessData(): BylWorkloadTicket {
         return new BylWorkloadTicket();
@@ -413,5 +416,7 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
     error(value: any) {
         console.log('error', value);
     }
+
+
 }
 

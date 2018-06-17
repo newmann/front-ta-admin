@@ -1,20 +1,19 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import { Message } from '@stomp/stompjs';
-import { AuthDataService } from 'app/service/auth/auth-data.service';
+import {Injectable, OnDestroy} from '@angular/core';
+import {Observable} from 'rxjs';
+import {Message} from '@stomp/stompjs';
+import {AuthDataService} from 'app/service/auth/auth-data.service';
 // import * as SockJS from "sockjs-client";
 // import * as Stomp from "@stomp/stompjs";
-import { StompConfig, StompRService, StompState } from '@stomp/ng2-stompjs';
+import {StompConfig, StompState} from '@stomp/ng2-stompjs';
 
-import { CustomStompRService } from './custom.stomp.r.service';
-import { StompHeaders } from '@stomp/ng2-stompjs/src/stomp-headers';
-import { ChatMessageModel } from './chat.message.model';
+import {CustomStompRService} from './custom.stomp.r.service';
+import {StompHeaders} from '@stomp/ng2-stompjs/src/stomp-headers';
+import {ChatMessageModel} from './chat.message.model';
 // import { exitCodeFromResult } from '@angular/compiler-cli';
-import { environment } from '@env/environment';
-import { NzMessageService } from 'ng-zorro-antd';
-import { Subscription } from 'rxjs/Subscription';
-import { StompSubscribeModel } from './stomp.subscribe.model';
+import {environment} from '@env/environment';
+import {NzMessageService} from 'ng-zorro-antd';
+import {StompSubscribeModel} from './stomp.subscribe.model';
+import {map} from 'rxjs/operators';
 /**
  *
  *
@@ -80,28 +79,32 @@ export class ChatService implements OnDestroy {
   constructor(private authData: AuthDataService,
     private msg: NzMessageService,
     private stompService: CustomStompRService) {
-    this.websocketState$ = this.stompService.state
-      .map((state: number) => StompState[state]);
+    this.websocketState$ = this.stompService.state.pipe(
+            map((state: number) => StompState[state])
+        );
 
 
     // 在stomp连接接成功后订阅两个频道
     this.stompService.connectObservable.subscribe(statue => {
 
-      this.generalMessage$ = this.stompService.subscribe(ChatService.WEBSOCKET_CHANNEL_TOPIC)
-        .map((message: Message) => {
-          console.log('topic:' + message.body);
-          return message.body;
-        })
+      this.generalMessage$ = this.stompService.subscribe(ChatService.WEBSOCKET_CHANNEL_TOPIC).pipe(
+            map((message: Message) => {
+              console.log('topic:' + message.body);
+              return message.body;
+            })
+        )
         ;
       this.generalMessage$.subscribe((m) => {
           console.log(m);
       });
 
       this.chatMessage$ = this.stompService.subscribe(ChatService.WEBSOCKET_CHANNEL_SYSTEM)
-        .map((message: Message) => {
-          console.log('/user/system:' + message.body);
-          return JSON.parse(message.body);
-        })
+          .pipe(
+            map((message: Message) => {
+              console.log('/user/system:' + message.body);
+              return JSON.parse(message.body);
+            })
+        )
         ;
       this.chatMessage$.subscribe((m) => {
         console.log(m.data);

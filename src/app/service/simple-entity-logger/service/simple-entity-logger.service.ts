@@ -4,7 +4,7 @@ import {I18NService} from 'app/core/i18n/i18n.service';
 import {BylBaseService} from "../../service/base.service";
 import {BylConfigService} from "../../constant/config.service";
 import {BylSimpleEntityLogger} from "../model/simple-entity-logger.model";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {BylResultBody} from "../../model/result-body.model";
 
 

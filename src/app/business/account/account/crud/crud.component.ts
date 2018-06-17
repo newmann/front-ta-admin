@@ -1,26 +1,20 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
-import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
-import * as moment from 'moment';
 
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 import {BylAccount} from '../../../../service/account/model/account.model';
 import {BylAccountService} from '../../../../service/account/service/account.service';
-import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
 import {BylResultBody} from "../../../../service/model/result-body.model";
-import {Observable} from "rxjs/Observable";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylProjectStatusEnum} from "../../../../service/project/model/project-status.enum";
 import {isEmpty} from "../../../../service/utils/string.utils";
-import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {map} from "rxjs/operators";
 import {SFSchema} from "@delon/form";
 import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
-
 
 
 @Component({
@@ -461,8 +455,8 @@ export class BylAccountCrudComponent extends BylMasterDataCrudComponentBasePro<B
     //     return this.businessData.status === BylMasterDataStatusEnum.CONFIRMED;
     // }
     //
-    // error(value: any) {
-    //     console.log('error', value);
-    // }
+    error(value: any) {
+        console.log('error', value);
+    }
 }
 

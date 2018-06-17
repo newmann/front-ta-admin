@@ -1,15 +1,13 @@
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {OnInit} from '@angular/core';
-import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
+import {NzMessageService} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
 
 import {BylConfigService} from '../../service/constant/config.service';
-import {Subject} from 'rxjs/Subject';
 import {BylResultBody} from '../../service/model/result-body.model';
 import {BylBaseService} from '../../service/service/base.service';
-import {BylCrudEvent, BylCrudWaitingComponent} from './waiting/crud-waiting.component';
 import {ReuseTabService} from '@delon/abc';
-import {Observable} from 'rxjs/Observable';
+import {Observable, Subject} from 'rxjs';
 
 
 /**
@@ -212,57 +210,6 @@ export abstract class BylCrudComponentBase<T> implements OnInit {
         }
     }
 
-    // showSavingReveal() {
-    //     this.savingReveal = this.modalService.create({
-    //         nzTitle: '提交',
-    //         nzZIndex: 9999, //最外层
-    //         nzContent: BylCrudWaitingComponent,
-    //         // onOk() {
-    //         //
-    //         // },
-    //         // onCancel() {
-    //         //     console.log('Click cancel');
-    //         // },
-    //         nzComponentParams: {
-    //             // name: '测试渲染Component'
-    //         },
-    //         nzMaskClosable: false
-    //     });
-    //     // this.savingReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
-    //     //
-    //     // this.savingReveal.subscribe(result => {
-    //     //     console.info(result);
-    //     //     //判断是否退出界面
-    //     //     if (result === 'onDestroy') {
-    //     //         console.log('退出提示界面');
-    //     //         switch (this.processType) {
-    //     //             case 'new':
-    //     //                 //新增界面
-    //     //                 this.businessData = this.newBusinessData();
-    //     //                 this.reset();
-    //     //                 break;
-    //     //             case 'modify':
-    //     //                 //修改界面
-    //     //                 this.businessData = this.newBusinessData();
-    //     //                 this.reset();
-    //     //                 break;
-    //     //             default:
-    //     //                 // 从list界面进入修改
-    //     //                 console.info('将修改后的数据传回list界面');
-    //     //                 //将修改后的数据传回list界面
-    //     //                 this.modalSubject.next({type: BylCrudEvent[BylCrudEvent.bylUpdate], data: this.businessData});
-    //     //                 this.modalSubject.destroy();
-    //     //
-    //     //         }
-    //     //
-    //     //     }
-    //     //
-    //     // });
-    // }
-    //
-    // destorySavingReveal() {
-    //     if (this.savingReveal) this.savingReveal.destroy();
-    // }
 
 
     abstract newBusinessData(): T;

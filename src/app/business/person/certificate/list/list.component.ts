@@ -1,18 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { _HttpClient } from '@delon/theme';
+import {Component, Input} from '@angular/core';
 import {BylItemListComponentBase} from "../../../common/item-list-component-base";
-import {BylPersonAddress} from "../../../../service/person/model/person-address.model";
 import {BylPersonCertificate} from "../../../../service/person/model/person-certificate.model";
 import {NzMessageService, NzModalService} from "ng-zorro-antd";
-import {BylPersonCrudComponent} from "../../person/crud/crud.component";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {Router} from "@angular/router";
-import {BylPersonAddressService} from "../../../../service/person/service/person-address.service";
 import {BylPersonCertificateService} from "../../../../service/person/service/person-certificate.service";
 import {BylPersonCertificateCrudComponent} from "../crud/crud.component";
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
-import {BylPersonAddressQuery} from "../../../../service/person/query/person-address-query.model";
-import {BylPersonCertificateQuery} from "../../../../service/person/query/person-certificate-query.model";
 
 @Component({
   selector: 'byl-person-certificate-list',

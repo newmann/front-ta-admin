@@ -13,7 +13,7 @@ import {BylPermissionQuery} from '../../../../service/account/query/permission-q
 import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
 import {BylPermissionAvailablePoolsInterface} from "../../../../service/account/service/permission-related.interface";
 import {BylPageResp} from "../../../../service/model/page-resp.model";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {SFSchema, SFUISchema} from "@delon/form";
 
 @Component({

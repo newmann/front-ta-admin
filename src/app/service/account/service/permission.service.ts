@@ -5,7 +5,7 @@ import {I18NService} from 'app/core/i18n/i18n.service';
 import {BylBaseService} from '../../service/base.service';
 import {BylPermission} from '../model/permission.model';
 import {BylResultBody} from "../../model/result-body.model";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {BylRolePermission} from "../model/role-permission.model";
 import {BylAccountPermission} from "../model/account-permission.model";
 

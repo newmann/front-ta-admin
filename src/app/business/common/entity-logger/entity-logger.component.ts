@@ -1,10 +1,7 @@
-import {Component, forwardRef, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import { _HttpClient } from '@delon/theme';
+import {Component, Input, ViewEncapsulation} from '@angular/core';
 import {BylSimpleEntityLogger} from "../../../service/simple-entity-logger/model/simple-entity-logger.model";
 import {BylSimpleEntityLoggerService} from "../../../service/simple-entity-logger/service/simple-entity-logger.service";
 import {BylResultBody} from "../../../service/model/result-body.model";
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
-import {BylEmbeddableAddressComponent} from "../embeddable-address/embeddable-address.component";
 
 // const noop = () => {
 // };
@@ -26,6 +23,8 @@ import {BylEmbeddableAddressComponent} from "../embeddable-address/embeddable-ad
 export class BylEntityLoggerComponent /*implements ControlValueAccessor */ {
     // @Input() public title: string;
     @Input() public entityId: string;
+
+    loading:boolean = false;
 
     // private _value: any;
     public entityLogList: Array<BylSimpleEntityLogger> = []; // 实体操作日志
@@ -57,26 +56,15 @@ export class BylEntityLoggerComponent /*implements ControlValueAccessor */ {
     //     this._onChangeCallback = fn;
     // };
 
-    /**
-     * Set the function to be called when the control receives a touch event.
-     */
-    // registerOnTouched(fn: any) {
-    //     this._onTouchedCallback = fn;
-    // }
-    entityLoggerClick(){
-
-        // console.dir($event);
-        // $event.stopPropagation();
-        if (this.entityLogList.length === 0){
-            this.fetchEntityLogList();
-        }
 
 
-    }
+    search(){
+        this.loading = true;
 
-    fetchEntityLogList(){
-
-        if (!(this.entityId)) {return ;} //新增窗口无法刷新
+        if (!(this.entityId)) {
+            this.loading =false;
+            return ;
+        } //新增窗口无法刷新
 
         this.entityLogList = []; //清空原来的数据
 
@@ -91,10 +79,12 @@ export class BylEntityLoggerComponent /*implements ControlValueAccessor */ {
                     this.entityLogErrorMsg = data.msg;
 
                 }
+                this.loading =false;
 
             },
             (err) => {
                 this.entityLogErrorMsg = err.toString();
+                this.loading =false;
             }
         )
     }

@@ -1,16 +1,12 @@
 import {Injectable} from '@angular/core';
 import {_HttpClient} from '@delon/theme';
-import {Observable} from 'rxjs/Observable';
 
 import {I18NService} from 'app/core/i18n/i18n.service';
 
 
 import {BylPersonCertificate} from '../model/person-certificate.model';
 import {BylConfigService} from '../../constant/config.service';
-import {BylResultBody} from '../../model/result-body.model';
-import {BylBaseService} from '../../service/base.service';
 import {BylItemBaseService} from "../../service/item-base.service";
-
 
 
 /**

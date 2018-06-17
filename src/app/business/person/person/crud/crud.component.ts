@@ -1,29 +1,18 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
-import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
+import {NzMessageService} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
-import {Form, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 
 import {BylPersonService} from '../../../../service/person/service/person.service';
 import {BylPerson} from '../../../../service/person/model/person.model';
-
-import {BylCrudComponentBase} from '../../../common/crud-component-base';
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {BylNation} from '../../../../service/person/model/nation.model';
-import {BylPoliticalStatus} from '../../../../service/person/model/political-status.model';
-import {BylNationService} from '../../../../service/person/service/nation.service';
-import {BylPoliticalStatusService} from '../../../../service/person/service/political-status.service';
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import {ReuseTabService} from '@delon/abc';
-import {BylCountryService} from '../../../../service/address/service/country.service';
-import {BylProvinceService} from '../../../../service/address/service/province.service';
-import {BylCityService} from '../../../../service/address/service/city.service';
-import {_Validators} from "@delon/util";
 import {BylGenderEnumManager} from "../../../../service/person/model/gender.enum";
 import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
 import {isEmpty} from "../../../../service/utils/string.utils";
 import {map} from "rxjs/operators";
-import {BylProject} from "../../../../service/project/model/project.model";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {SFSchema} from "@delon/form";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";

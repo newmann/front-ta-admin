@@ -86,10 +86,6 @@
       "i18n": "person",
       "icon": "icon-energy",
       "children":[{
-        "text": "个人资料",
-        "i18n": "person",
-        "icon": "icon-speedometer",
-        "children": [{
           "text": "个人资料管理",
           "link": "/person/person/list",
           "i18n": "person_list"
@@ -97,48 +93,12 @@
           "text": "个人资料新增",
           "link": "/person/person/crud/new",
           "i18n": "person_new"
-        },{
-          "text": "个人地址新增",
-          "link": "/person/address/crud/new",
-          "i18n": "person_address_new"
-        },{
-          "text": "个人证件新增",
-          "link": "/person/certificate/crud/new",
-          "i18n": "person_certificate_new"
-        }
-        ]
-      },{
-        "text": "个人资料",
-        "i18n": "person",
-        "icon": "icon-speedometer",
-        "children": [{
-          "text": "个人资料管理",
-          "link": "/person/person/list",
-          "i18n": "person_list"
-        },{
-          "text": "个人资料新增",
-          "link": "/person/person/crud/new",
-          "i18n": "person_new"
-        },{
-          "text": "个人地址新增",
-          "link": "/person/address/crud/new",
-          "i18n": "person_address_new"
-        },{
-          "text": "个人证件新增",
-          "link": "/person/certificate/crud/new",
-          "i18n": "person_certificate_new"
-        }
-        ]
-      }]
+        }]
     },{
       "text": "组织管理",
       "i18n": "organization",
       "icon": "icon-book-open",
       "children":[{
-        "text": "组织资料",
-        "i18n": "ogranization",
-        "icon": "icon-speedometer",
-        "children": [{
           "text": "组织资料管理",
           "link": "/organization/organization/list",
           "i18n": "organization_list"
@@ -146,30 +106,14 @@
           "text": "组织资料新增",
           "link": "/organization/organization/crud/new",
           "i18n": "organization_new"
-        }
-        ]
-      },{
-        "text": "部门",
-        "i18n": "department",
-        "icon": "icon-speedometer",
-        "children": [{
-          "text": "部门管理",
-          "link": "/account/department/list",
-          "i18n": "department_list"
-        },{
-          "text": "部门新增",
-          "link": "/account/department/crud/new",
-          "i18n": "department_new"
-        }
-        ]
       }]
     },{
-      "text": "项目管理",
+      "text": "项目",
       "i18n": "project",
       "icon": "icon-layers",
       "children":[{
-        "text": "项目定义",
-        "i18n": "project-manage",
+        "text": "项目管理",
+        "i18n": "project_manage",
         "icon": "icon-speedometer",
         "children": [{
           "text": "项目管理",
@@ -183,7 +127,7 @@
         ]
       },{
         "text": "资源范围管理",
-        "i18n": "project-resource-pool",
+        "i18n": "project_resource_pool",
         "icon": "icon-speedometer",
         "children": [{
           "text": "项目经理范围管理",
@@ -197,35 +141,21 @@
         ]
       },{
         "text": "业务期间管理",
-        "i18n": "operation-period",
+        "i18n": "operation_period",
         "icon": "icon-speedometer",
         "children": [{
           "text": "业务期间管理",
           "link": "/project/operation-period/list",
-          "i18n": "project_operation_period_list"
+          "i18n": "operation_period_list"
         },{
           "text": "业务期间新增",
           "link": "/project/operaiton_period/new",
-          "i18n": "borrow_operation_period_new"
-        }
-        ]
-      },{
-        "text": "借款单管理",
-        "i18n": "borrow-money",
-        "icon": "icon-speedometer",
-        "children": [{
-          "text": "借款单管理",
-          "link": "/project/borrow-money-ticket/list",
-          "i18n": "borrow_money_ticket_list"
-        },{
-          "text": "借款单新增",
-          "link": "/project/borrow-money-ticket/crud/new",
-          "i18n": "borrow_money_ticket_new"
+          "i18n": "operation_period_new"
         }
         ]
       },{
         "text": "工种设置",
-        "i18n": "work-type",
+        "i18n": "work_type",
         "icon": "icon-speedometer",
         "children": [{
           "text": "工种管理",
@@ -246,45 +176,6 @@
         }
         ]
       },{
-        "text": "费用类型设置",
-        "i18n": "expense-type",
-        "icon": "icon-speedometer",
-        "children": [{
-          "text": "费用类型管理",
-          "link": "/project/expense-type/list",
-          "i18n": "expense_type_list"
-        },{
-          "text": "费用类型新增",
-          "link": "/project/expense-type/crud/new",
-          "i18n": "expense_type_new"
-        }
-        ,{
-            "text": "费用单管理",
-            "link": "/project/expense-ticket/list",
-            "i18n": "expense_ticket_list"
-          }
-        ,{
-            "text": "费用单新增",
-            "link": "/project/expense-ticket/crud/new",
-            "i18n": "expense_ticket_new"
-          }
-        ]
-      },{
-        "text": "考勤登记",
-        "i18n": "workload-ticket",
-        "icon": "icon-speedometer",
-        "children": [{
-            "text": "费用登记单管理",
-            "link": "/project/workload-ticket/list",
-            "i18n": "workload_ticket_list"
-          }
-        ,{
-            "text": "费用登记单新增",
-            "link": "/project/workload-ticket/crud/new",
-            "i18n": "workload_ticket_new"
-          }
-        ]
-      },{
         "text": "员工设置",
         "i18n": "employee",
         "icon": "icon-speedometer",
@@ -298,7 +189,7 @@
           "i18n": "employee_new"
         }
         ]
-      }, {
+      },{
             "text": "外包商管理",
             "i18n": "outsourcer",
             "icon": "icon-speedometer",
@@ -317,7 +208,7 @@
           },
           {
             "text": "外包商员工管理",
-            "i18n": "outsource-emplopyee",
+            "i18n": "outsource_employee",
             "icon": "icon-speedometer",
             "children": [
               {
@@ -332,6 +223,59 @@
               }
             ]
           }
+      ]
+    },{
+      "text": "借款单管理",
+      "i18n": "borrow_money",
+      "icon": "icon-grid",
+      "children": [{
+        "text": "借款单管理",
+        "link": "/project/borrow-money-ticket/list",
+        "i18n": "borrow_money_ticket_list"
+      },{
+        "text": "借款单新增",
+        "link": "/project/borrow-money-ticket/crud/new",
+        "i18n": "borrow_money_ticket_new"
+      }
+      ]
+    },{
+      "text": "费用",
+      "i18n": "expense",
+      "icon": "icon-list",
+      "children": [{
+        "text": "费用类型管理",
+        "link": "/project/expense-type/list",
+        "i18n": "expense_type_list"
+      },{
+        "text": "费用类型新增",
+        "link": "/project/expense-type/crud/new",
+        "i18n": "expense_type_new"
+      }
+      ,{
+          "text": "费用单管理",
+          "link": "/project/expense-ticket/list",
+          "i18n": "expense_ticket_list"
+        }
+      ,{
+          "text": "费用单新增",
+          "link": "/project/expense-ticket/crud/new",
+          "i18n": "expense_ticket_new"
+        }
+      ]
+    },{
+      "text": "考勤登记",
+      "i18n": "workload_ticket",
+      "icon": "icon-note",
+      "children": [{
+        "text": "费用登记单管理",
+        "link": "/project/workload-ticket/list",
+        "i18n": "workload_ticket_list"
+      }
+      ,{
+          "text": "费用登记单新增",
+          "link": "/project/workload-ticket/crud/new",
+          "i18n": "workload_ticket_new"
+        }
       ]
     }, {
       "text": "快捷菜单",

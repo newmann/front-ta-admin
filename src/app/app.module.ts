@@ -9,14 +9,14 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 
-import { LayoutModule } from './layout/layout.module';
+// import { LayoutModule } from './layout/layout.module';
 import { StartupService } from '@core/startup/startup.service';
 import { DefaultInterceptor } from '@core/net/default.interceptor';
 // import { SimpleInterceptor } from '@delon/auth';
 // angular i18n
 import { registerLocaleData } from '@angular/common';
-import localeZhHans from '@angular/common/locales/zh-Hans';
-registerLocaleData(localeZhHans);
+import localeZh from '@angular/common/locales/zh';
+registerLocaleData(localeZh);
 // i18n
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -36,9 +36,9 @@ import {BylFrameModule} from "./frame/frame.module";
 
 
 
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http, `assets/tpm/i18n/`, '.json');
+// 加载i18n语言文件
+export function I18nHttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http, `assets/tmp/i18n/`, '.json');
 }
 
 export function StartupServiceFactory(startupService: StartupService): Function {
@@ -61,7 +61,7 @@ export function BylStartupServiceFactory(startupService: BylStartupService): Fun
         CoreModule,
         BylServiceModule, // 自定义服务模块
         SharedModule,
-        LayoutModule,
+        // LayoutModule,
         BylFrameModule,
         BylBusinessModule,
         BylBusinessSharedModule,
@@ -69,7 +69,7 @@ export function BylStartupServiceFactory(startupService: BylStartupService): Fun
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
+                useFactory: I18nHttpLoaderFactory,
                 deps: [HttpClient]
             }
         }),

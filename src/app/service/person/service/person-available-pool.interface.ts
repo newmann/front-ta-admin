@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 import {BylPageReq} from "../../model/page-req.model";
 import {BylResultBody} from "../../model/result-body.model";

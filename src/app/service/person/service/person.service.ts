@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {_HttpClient} from '@delon/theme';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 import {I18NService} from 'app/core/i18n/i18n.service';
 
@@ -10,9 +10,6 @@ import {BylConfigService} from '../../constant/config.service';
 import {BylResultBody} from '../../model/result-body.model';
 import {BylBaseService} from '../../service/base.service';
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
-import {BylEmbeddableAddress} from "../../model/embeddable-address.model";
-import {BylEntityReference} from "../../model/entity-reference.model";
-import {BylProject} from "../../project/model/project.model";
 
 
 /**

@@ -1,16 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BylPermission} from "../../../../service/account/model/permission.model";
-import {NzMessageService, NzModalService, NzModalRef} from "ng-zorro-antd";
+import {NzMessageService, NzModalRef, NzModalService} from "ng-zorro-antd";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {Router} from "@angular/router";
 import {BylPermissionService} from "../../../../service/account/service/permission.service";
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
-import {BylCrudEvent} from "../../../common/waiting/crud-waiting.component";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {BylPermissionListComponent} from "../list/list.component";
-import {Observable} from "rxjs/Observable";
-import {BylAccountPermission} from "../../../../service/account/model/account-permission.model";
-import {BylRolePermission} from "../../../../service/account/model/role-permission.model";
+import {Observable} from "rxjs";
 import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
 import {
     BylFindEntityPermissionInterface,

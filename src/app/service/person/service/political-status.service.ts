@@ -1,15 +1,11 @@
 import {Injectable} from '@angular/core';
 import {_HttpClient} from '@delon/theme';
 
-
-import {Observable} from 'rxjs/Observable';
-
 import {I18NService} from 'app/core/i18n/i18n.service';
 
 
 import {BylPoliticalStatus} from '../model/political-status.model';
 import {BylConfigService} from '../../constant/config.service';
-import {BylResultBody} from '../../model/result-body.model';
 import {BylBaseService} from '../../service/base.service';
 
 

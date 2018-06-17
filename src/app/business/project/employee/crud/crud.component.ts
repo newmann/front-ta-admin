@@ -1,31 +1,20 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
-import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
+import {NzMessageService} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
-
-import {BylCrudComponentBase} from '../../../common/crud-component-base';
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {FormBuilder, Validators} from '@angular/forms';
-
-
-
-import {BylCheckTypeEnum, BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
-import {ErrorData, SFComponent, SFSchema, SFUISchema} from "@delon/form";
-import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
-import {BylProject} from "../../../../service/project/model/project.model";
+import {SFSchema} from "@delon/form";
 import {map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylEmployee} from "../../../../service/project/model/employee.model";
 import {BylEmployeeService} from "../../../../service/project/service/employee.service";
-import {parse} from "date-fns";
 import * as moment from 'moment';
 import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
-import {Observable} from "rxjs/Observable";
-import {BylProjectStatusEnum} from "../../../../service/project/model/project-status.enum";
+import {Observable} from "rxjs";
 import {BylEmployeeStatusEnum} from "../../../../service/project/model/employee-status.enum";
 
 

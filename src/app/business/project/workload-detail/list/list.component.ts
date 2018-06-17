@@ -70,6 +70,8 @@ export class BylWorkloadDetailListComponent
     }
 
     ngOnInit() {
+        console.log("in WorkloadDetial list onInit");
+
     }
 
     genListData(data: BylWorkloadDetail): BylListFormData<BylWorkloadDetail> {
