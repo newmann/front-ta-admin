@@ -94,12 +94,12 @@ import {BylWorkloadDetailDetailService} from "./project/service/workload-detail-
         BylWorkloadDetailDetailService,
 
 
-        ChatService,
-        CustomStompRService,
-        {
-            provide: BYL_API_URL_LOGIN,
-            useValue: '/api/auth/login'
-        },
+        // ChatService,
+        // CustomStompRService,
+        // {
+        //     provide: BYL_API_URL_LOGIN,
+        //     useValue: '/api/auth/login'
+        // },
         // { provide: BYL_LOGGER_STATE, useValue: true },
         // LOGGER_SERVICE_PROVIDER,
         BylRouterGuardService

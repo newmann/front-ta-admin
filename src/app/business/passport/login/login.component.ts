@@ -34,7 +34,7 @@ export class BylUserLoginComponent implements OnDestroy {
         private socialService: SocialService,
         private authService: BylAuthService,
         private authDataService: BylAuthDataService,
-        private chatService: ChatService,
+        // private chatService: ChatService,
         @Optional() @Inject(ReuseTabService) private reuseTabService: ReuseTabService,
         @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
         private startupService: BylStartupService

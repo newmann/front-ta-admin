@@ -17,7 +17,7 @@
     "precommit": "npm run lint-staged",
     "ng": "ng",
     "start": "ng serve -o --proxy-config proxy.conf.js --disable-host-check",
-    "ng:serve": "ng serve -o",
+    "ng:serve": "ng serve -o --disable-host-check",
     "serve:disablecheck": "ng serve -o --disable-host-check",
     "debug": "ng serve -o --proxy-config proxy.conf.js --disable-host-check",
     "build": "ng build --prod --build-optimizer",
