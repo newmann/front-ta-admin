@@ -1,7 +1,7 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Message} from '@stomp/stompjs';
-import {AuthDataService} from 'app/service/auth/auth-data.service';
+import {BylAuthDataService} from 'app/service/auth/auth-data.service';
 // import * as SockJS from "sockjs-client";
 // import * as Stomp from "@stomp/stompjs";
 import {StompConfig, StompState} from '@stomp/ng2-stompjs';
@@ -76,7 +76,7 @@ export class ChatService implements OnDestroy {
   //   error: e => { console.log(e); }
   // };
 
-  constructor(private authData: AuthDataService,
+  constructor(private authData: BylAuthDataService,
     private msg: NzMessageService,
     private stompService: CustomStompRService) {
     this.websocketState$ = this.stompService.state.pipe(

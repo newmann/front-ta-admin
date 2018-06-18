@@ -1,8 +1,8 @@
 import {ChatService} from './chat/chat.service';
-import {AuthService} from './auth/auth.service';
+import {BylAuthService} from './auth/auth.service';
 import {NgModule, Optional, SkipSelf} from '@angular/core';
 import {throwIfAlreadyLoaded} from './../core/module-import-guard';
-import {AuthDataService} from 'app/service/auth/auth-data.service';
+import {BylAuthDataService} from 'app/service/auth/auth-data.service';
 import {CustomStompRService} from 'app/service/chat/custom.stomp.r.service';
 import {BYL_API_URL_LOGIN} from 'app/service/constant/backend-url.constant';
 import {BylConfigService} from "./constant/config.service";
@@ -53,8 +53,8 @@ import {BylWorkloadDetailDetailService} from "./project/service/workload-detail-
 
 
         //account module
-        AuthService,
-        AuthDataService,
+        BylAuthService,
+        BylAuthDataService,
         BylRoleService,
         BylAccountService,
         BylDepartmentService,

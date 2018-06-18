@@ -21,6 +21,7 @@ export class BylAccount extends BylMasterDataBaseModel {
     passwordResetDate: number;
     expiredDate: number;
 
+    firstSetPassword: string;
 
     permissionList: Set<BylPermission>;
     roleList: Set<BylRole>;

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {_HttpClient} from '@delon/theme';
 import {BylResultBody} from '../../model/result-body.model';
-import {LoginResultModel} from '../../auth/login-result.model';
+import {BylLoginResultModel} from '../../auth/login-result.model';
 import {Observable} from 'rxjs';
 import {BylDepartment} from '../model/department.model';
 import {BylConfigService} from '../../constant/config.service';
@@ -42,7 +42,7 @@ export class BylDepartmentService  extends BylMasterDataBaseService<BylDepartmen
 
     /**
      * 返回指定parentId的部门
-     * @returns {Observable<BylResultBody<LoginResultModel>>}
+     * @returns {Observable<BylResultBody<BylLoginResultModel>>}
      */
     findDepartmendByParentId(parentId: string): Observable<BylResultBody<Array<BylDepartment>>> {
         return this.http.get<BylResultBody<Array<BylDepartment>>>(this.BASE_API_URL + '/find-by-parentid/' + parentId);

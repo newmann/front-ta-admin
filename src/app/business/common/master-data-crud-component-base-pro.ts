@@ -179,12 +179,12 @@ export abstract class BylMasterDataCrudComponentBasePro<T extends BylMasterDataB
     }
 
     showSaveButton(): boolean{
-        return this.businessData.status === BylMasterDataStatusEnum.UNSUBMITED;
+        return this.businessData.status === BylMasterDataStatusEnum.UNSUBMITED
+            || this.businessData.status == BylMasterDataStatusEnum.SUBMITED;
     }
 
     showSubmitButton():boolean{
-        return this.businessData.status === BylMasterDataStatusEnum.UNSUBMITED
-            || this.businessData.status == BylMasterDataStatusEnum.SUBMITED;
+        return this.businessData.status === BylMasterDataStatusEnum.UNSUBMITED;
     }
 
     showLockButton(): boolean{

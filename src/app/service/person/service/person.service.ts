@@ -56,7 +56,7 @@ export class BylPersonService extends BylBaseService<BylPerson>{
     //
     // /**
     //  * 按分页方式返回不同查询条件下的值
-    //  * @returns {Observable<BylResultBody<LoginResultModel>>}
+    //  * @returns {Observable<BylResultBody<BylLoginResultModel>>}
     //  */
     // findPage(query: BylPersonQuery, page: BylPageReq): Observable<BylResultBody<BylPageResp<BylPerson>>> {
     //     let queryModel = new BylQueryReqBody<BylPersonQuery>();

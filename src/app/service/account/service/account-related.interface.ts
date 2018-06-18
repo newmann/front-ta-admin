@@ -15,7 +15,7 @@ export interface BylAccountAvailablePoolsInterface {
 
     /**
      * 按分页方式返回不同查询条件下的值
-     * @returns {Observable<BylResultBody<LoginResultModel>>}
+     * @returns {Observable<BylResultBody<BylLoginResultModel>>}
      */
     findAvailableAccountPoolsPage(query: any, page: BylPageReq, masterId?: string): Observable<BylResultBody<BylPageResp<BylAccount>>>;
 

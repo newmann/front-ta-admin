@@ -75,7 +75,7 @@ export class BylAccountCrudComponent extends BylMasterDataCrudComponentBasePro<B
                     "type": "string",
                     "title": '昵称'
                 },
-                "password": {
+                "firstSetPassword": {
                     "type": "string",
                     "title": '初始化密码'
                 },
@@ -100,7 +100,7 @@ export class BylAccountCrudComponent extends BylMasterDataCrudComponentBasePro<B
                 },
 
             },
-            "required": ["username", "fullName", "password"]
+            "required": ["username", "fullName", "firstSetPassword"]
         };
         this._modifySchema = {
             properties: {
@@ -233,8 +233,9 @@ export class BylAccountCrudComponent extends BylMasterDataCrudComponentBasePro<B
             //修改状态，需要根据单据的状态进一步判断
             switch (this.businessData.status){
                 case BylMasterDataStatusEnum.UNSUBMITED:
+
                 case BylMasterDataStatusEnum.SUBMITED:
-                    this.curSchema = simpleDeepCopy({},this._newSchema);
+                    this.curSchema = simpleDeepCopy({},this._modifySchema);
                     break;
                 default:
                     this.curSchema = simpleDeepCopy({},this._browseSchema);
@@ -301,160 +302,6 @@ export class BylAccountCrudComponent extends BylMasterDataCrudComponentBasePro<B
     }
 
 
-    // /**
-    //  * 提交实体
-    //  */
-    // submitEntity() {
-    //     this.loading = true;
-    //     this.errMsg = '';
-    //
-    //     let saveResult$: Observable<BylResultBody<BylAccount>>;
-    //
-    //     console.log('in AccountCRUD ', this.businessData);
-    //
-    //     saveResult$ = this.accountService.submit(this.businessData);
-    //
-    //     this.followProcess(saveResult$);
-    // }
-    //
-    //
-    // /**
-    //  * 作废
-    //  * @param {BylAccount} entity
-    //  */
-    // cancelEntity(entity: BylAccount) {
-    //     this.loading = true;
-    //     this.errMsg = '';
-    //
-    //     let saveResult$: Observable<BylResultBody<BylAccount>>;
-    //
-    //     console.log('in AccountCRUD submitform', this.businessData);
-    //
-    //     saveResult$ = this.accountService.cancel(this.businessData);
-    //
-    //     this.followProcess(saveResult$);
-    //
-    // }
-    //
-    // /**
-    //  * 锁定
-    //  * @param {BylAccount} entity
-    //  */
-    // lockEntity(entity: BylAccount) {
-    //     this.loading = true;
-    //     this.errMsg = '';
-    //
-    //     let saveResult$: Observable<BylResultBody<BylAccount>>;
-    //
-    //     console.log('in AccountCRUD submitform', this.businessData);
-    //
-    //     saveResult$ = this.accountService.lock(this.businessData);
-    //
-    //     this.followProcess(saveResult$);
-    //
-    // }
-    // /**
-    //  * 解除锁定
-    //  * @param {BylAccount} entity
-    //  */
-    // unlockEntity(entity: BylAccount) {
-    //     this.loading = true;
-    //     this.errMsg = '';
-    //
-    //     let saveResult$: Observable<BylResultBody<BylAccount>>;
-    //
-    //     console.log('in AccountCRUD submitform', this.businessData);
-    //
-    //     saveResult$ = this.accountService.unlock(this.businessData);
-    //
-    //     this.followProcess(saveResult$);
-    //
-    // }
-    //
-    // /**
-    //  * 完成
-    //  * @param {BylAccount} entity
-    //  */
-    // achieveEntity(entity: BylAccount) {
-    //     this.loading = true;
-    //     this.errMsg = '';
-    //
-    //     let saveResult$: Observable<BylResultBody<BylAccount>>;
-    //
-    //     console.log('in CrudBasePro submitform', this.businessData);
-    //
-    //     saveResult$ = this.accountService.confirm(this.businessData);
-    //
-    //     this.followProcess(saveResult$);
-    //
-    // }
-    // /**
-    //  * 取消完成，返回到提交状态
-    //  */
-    // unachieveEntity() {
-    //     this.loading = true;
-    //     this.errMsg = '';
-    //
-    //     let saveResult$: Observable<BylResultBody<BylAccount>>;
-    //
-    //     console.log('in AccountCRUD ', this.businessData);
-    //
-    //     saveResult$ = this.accountService.unconfirm(this.businessData);
-    //
-    //     this.followProcess(saveResult$);
-    // }
-    //
-    // private followProcess(call$: Observable<BylResultBody<BylAccount>> ){
-    //     call$.subscribe(
-    //         data => {
-    //             // this._loading = false;
-    //             if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-    //                 // simpleDeepCopy(this.businessData,data.data);
-    //                 this.setFormData(data.data);
-    //                 this.reset(); //重置界面
-    //
-    //             } else {
-    //
-    //                 this.errMsg = data.msg;
-    //             }
-    //             this.loading = false;
-    //         },
-    //         err => {
-    //             this.errMsg = err.toString();
-    //             this.loading = false;
-    //         }
-    //     );
-    // }
-    //
-    // showSaveButton(): boolean{
-    //     return this.businessData.status === BylMasterDataStatusEnum.UNSUBMITED;
-    // }
-    //
-    // showSubmitButton():boolean{
-    //     return this.businessData.status === BylMasterDataStatusEnum.UNSUBMITED
-    //         || this.businessData.status == BylMasterDataStatusEnum.SUBMITED;
-    // }
-    //
-    // showLockButton(): boolean{
-    //     return this.businessData.status === BylMasterDataStatusEnum.CONFIRMED;
-    // }
-    //
-    // showUnlockButton(): boolean{
-    //     return this.businessData.status === BylMasterDataStatusEnum.LOCKED;
-    // }
-    //
-    // showCancelButton(): boolean{
-    //     return this.businessData.status === BylMasterDataStatusEnum.SUBMITED;
-    // }
-    //
-    // showAchieveButton(): boolean{
-    //     return this.businessData.status === BylMasterDataStatusEnum.SUBMITED;
-    //
-    // }
-    // showUnachieveButton(): boolean{
-    //     return this.businessData.status === BylMasterDataStatusEnum.CONFIRMED;
-    // }
-    //
     error(value: any) {
         console.log('error', value);
     }

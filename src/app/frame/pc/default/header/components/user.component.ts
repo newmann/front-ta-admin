@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { SettingsService } from '@delon/theme';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import {AuthDataService} from "../../../../../service/auth/auth-data.service";
+import {BylAuthDataService} from "../../../../../service/auth/auth-data.service";
 
 @Component({
   selector: 'byl-header-user',
@@ -23,7 +23,7 @@ import {AuthDataService} from "../../../../../service/auth/auth-data.service";
 })
 export class BylHeaderUserComponent {
   constructor(
-      public authDataService: AuthDataService,
+      public authDataService: BylAuthDataService,
     public settings: SettingsService,
     private router: Router,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,

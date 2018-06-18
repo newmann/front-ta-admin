@@ -6,9 +6,9 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { SocialService, SocialOpenType, TokenService, DA_SERVICE_TOKEN } from '@delon/auth';
 import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
-import { AuthService } from 'app/service/auth/auth.service';
+import { BylAuthService } from 'app/service/auth/auth.service';
 import { BylResultBody } from 'app/service/model/result-body.model';
-import { AuthDataService } from 'app/service/auth/auth-data.service';
+import { BylAuthDataService } from 'app/service/auth/auth-data.service';
 import { ChatService } from 'app/service/chat/chat.service';
 import {BylStartupService} from "../../../service/startup/startup.service";
 
@@ -32,8 +32,8 @@ export class BylUserLoginComponent implements OnDestroy {
         private modalSrv: NzModalService,
         private settingsService: SettingsService,
         private socialService: SocialService,
-        private authService: AuthService,
-        private authDataService: AuthDataService,
+        private authService: BylAuthService,
+        private authDataService: BylAuthDataService,
         private chatService: ChatService,
         @Optional() @Inject(ReuseTabService) private reuseTabService: ReuseTabService,
         @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,

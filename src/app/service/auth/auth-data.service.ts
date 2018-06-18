@@ -8,7 +8,7 @@ import { BylAccount } from '../account/model/account.model';
  */
 
 @Injectable()
-export class AuthDataService {
+export class BylAuthDataService {
     get Token(): string{
         return this.token;
     }

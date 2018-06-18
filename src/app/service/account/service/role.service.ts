@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {_HttpClient} from '@delon/theme';
 import {BylResultBody} from '../../model/result-body.model';
-import {LoginResultModel} from '../../auth/login-result.model';
+import {BylLoginResultModel} from '../../auth/login-result.model';
 import {Observable} from 'rxjs';
 import {BylRole} from '../model/role.model';
 import {BylPageResp} from '../../model/page-resp.model';
@@ -54,7 +54,7 @@ export class BylRoleService extends BylMasterDataBaseService<BylRole>
 
     /**
      * 返回所有正常状态的角色
-     * @returns {Observable<BylResultBody<LoginResultModel>>}
+     * @returns {Observable<BylResultBody<BylLoginResultModel>>}
      */
     findAllNormal(): Observable<BylResultBody<Set<BylRole>>> {
         return this.http.get<BylResultBody<Set<BylRole>>>(this.BASE_API_URL + '/find-all-normal');
@@ -70,7 +70,7 @@ export class BylRoleService extends BylMasterDataBaseService<BylRole>
 
     /**
      * 按分页方式返回所有正常状态的角色
-     * @returns {Observable<BylResultBody<LoginResultModel>>}
+     * @returns {Observable<BylResultBody<BylLoginResultModel>>}
      */
     findPageNormal(pageNo: number): Observable<BylResultBody<BylPageResp<BylRole>>> {
         let page = new BylPageReq();

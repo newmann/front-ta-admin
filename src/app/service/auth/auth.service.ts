@@ -1,7 +1,7 @@
-import {LoginResultModel} from './login-result.model';
+import {BylLoginResultModel} from './login-result.model';
 import {BylResultBody} from '../model/result-body.model';
 import {Inject, Injectable} from '@angular/core';
-import {AuthDataService} from './auth-data.service';
+import {BylAuthDataService} from './auth-data.service';
 import {BylAccount} from '../account/model/account.model';
 import {Observable} from 'rxjs';
 import {BYL_API_URL_LOGIN} from 'app/service/constant/backend-url.constant';
@@ -10,24 +10,24 @@ import {UUID} from 'angular2-uuid';
 import {getEmailName} from '../utils/string.utils';
 
 @Injectable()
-export class AuthService {
+export class BylAuthService {
     protected BASE_API_URL = 'api/auth';
 
     constructor(private http: _HttpClient) {
 
     }
 
-    login(username: string, password: string): Observable<BylResultBody<LoginResultModel>> {
+    login(username: string, password: string): Observable<BylResultBody<BylLoginResultModel>> {
         const loginAccount = new BylAccount();
         loginAccount.username = username;
         loginAccount.password = password;
-        return this.http.post<BylResultBody<LoginResultModel>>(this.BASE_API_URL + '/login', loginAccount);
+        return this.http.post<BylResultBody<BylLoginResultModel>>(this.BASE_API_URL + '/login', loginAccount);
         //   .subscribe(
         //   data=>{
         //     if(data.code == BylResultBody.RESULT_CODE_SUCCESS){
         //       this.changeAccount(data.data.account);
         //       this.token = data.data.token;
-        //       return   AuthService.URL_AUTH_LOGIN;
+        //       return   BylAuthService.URL_AUTH_LOGIN;
         //     } else{
         //       return data.msg;
         //     }

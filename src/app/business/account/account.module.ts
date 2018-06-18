@@ -14,6 +14,7 @@ import { BylPermissionListComponent } from './permission/list/list.component';
 import { BylPermissionItemListComponent } from './permission/item-list/item-list.component';
 import { BylAccountItemListComponent } from './account/item-list/item-list.component';
 import {BylPipeModule} from "../../service/pipe.module";
+import {BylResetPasswordComponent} from "./account/reset-password/register.component";
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {BylPipeModule} from "../../service/pipe.module";
         BylAccountCrudComponent,
 
         BylPermissionListComponent,
-        BylPermissionItemListComponent
+        BylPermissionItemListComponent,
+        BylResetPasswordComponent
 
     ],
     entryComponents: [

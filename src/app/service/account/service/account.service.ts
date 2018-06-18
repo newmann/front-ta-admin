@@ -21,6 +21,7 @@ import {BylEntityRelationAvailablePoolsQueryReqBody} from "../model/entity-relat
 import {BylEntityRelations} from "../model/entity-relations.model";
 import {BylMasterDataBaseService} from "../../service/master-data-base.service";
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
+import {BylAccountResetPasswordModel} from "../model/account-reset-password.model";
 
 
 
@@ -92,4 +93,12 @@ implements  BylPermissionAvailablePoolsInterface
         return this.fetchPermissionsByAccountId(masterId);
     }
 
+    resetPassword(account: BylAccount,oldPlainPassword: string, newPlainPassword: string): Observable<BylResultBody<boolean>> {
+        let resetPassword: BylAccountResetPasswordModel = new BylAccountResetPasswordModel();
+        resetPassword.account = account;
+        resetPassword.oldPlainPassword = oldPlainPassword;
+        resetPassword.newPlainPassword = newPlainPassword;
+        console.log("in AccountService resetPassword:",resetPassword);
+        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/reset-password',resetPassword);
+    }
 }

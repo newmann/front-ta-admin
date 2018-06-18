@@ -40,7 +40,7 @@ export class BylBaseService<T> {
 
     /**
      * 按分页方式返回不同查询条件下的值
-     * @returns {Observable<BylResultBody<LoginResultModel>>}
+     * @returns {Observable<BylResultBody<BylLoginResultModel>>}
      */
     findPage(query: any, page: BylPageReq): Observable<BylResultBody<BylPageResp<T>>> {
         let queryModel = new BylQueryReqBody<any>();

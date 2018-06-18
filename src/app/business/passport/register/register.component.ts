@@ -2,7 +2,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
 import {NzMessageService} from 'ng-zorro-antd';
-import {AuthService} from '../../../service/auth/auth.service';
+import {BylAuthService} from '../../../service/auth/auth.service';
 import {BylResultBody} from '../../../service/model/result-body.model';
 
 @Component({
@@ -28,7 +28,7 @@ export class BylUserRegisterComponent implements OnDestroy {
     constructor(fb: FormBuilder,
                 private router: Router,
                 public msg: NzMessageService,
-                private auth: AuthService) {
+                private auth: BylAuthService) {
         this.form = fb.group({
             code: [null, [Validators.required]],
             password: [null, [Validators.required, Validators.minLength(6), BylUserRegisterComponent.checkPassword.bind(this)]],

@@ -5,7 +5,7 @@ import {BylAccount} from '../account/model/account.model';
  *  @Date: Created in  10:19 2018/1/23.
  */
 
-export class LoginResultModel {
+export class BylLoginResultModel {
   token: string;
   account: BylAccount;
 }
