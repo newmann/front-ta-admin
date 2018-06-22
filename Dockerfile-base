@@ -8,6 +8,10 @@ RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
 
 RUN npm config set registry http://registry.cnpmjs.org
 
+RUN mkdir /noderepo
+
+RUN npm config set prefix '/noderepo'
+
 RUN npm i -g electron
 
 RUN npm i -g node-sass
