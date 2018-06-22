@@ -1,5 +1,5 @@
 #Build Base
-FROM node:8-alpine as builder
+FROM node:8-alpine
 
 LABEL authors="Newemann <newmannhu@qq.com>"
 
@@ -11,8 +11,6 @@ RUN npm config set registry http://registry.cnpmjs.org
 RUN mkdir /noderepo
 
 RUN npm config set prefix '/noderepo'
-
-RUN chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
 
 RUN npm i -g electron
 

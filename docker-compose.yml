@@ -1,10 +1,9 @@
 version: '3'
 
 services:
-  base:
-    image: beiyelin/front-base
-    build: -f Dockerfile-base
-
+#  base:
+#    image: beiyelin/front-base
+#    build: -f Dockerfile-base
   ng-alain:
     image: registry.cn-hangzhou.aliyuncs.com/rongchang/frontalain:20180622.1
     build: .
