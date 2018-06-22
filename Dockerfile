@@ -1,5 +1,6 @@
 # STEP 1: Build
-FROM node:8-alpine as builder
+FROM beiyelin/front-base
+#FROM node:8-alpine as builder
 
 LABEL authors="Newemann <newmannhu@qq.com>"
 

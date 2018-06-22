@@ -1,0 +1,15 @@
+#Build Base
+FROM node:8-alpine as builder
+
+LABEL authors="Newemann <newmannhu@qq.com>"
+
+
+RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
+
+RUN npm config set registry http://registry.cnpmjs.org
+
+RUN npm i -g electron
+
+RUN npm i -g node-sass
+
+
