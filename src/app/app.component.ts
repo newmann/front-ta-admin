@@ -28,8 +28,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
       if (this.electronService.isElectron()) {
           console.log('Mode electron');
-          console.log('Electron ipcRenderer', this.electronService.ipcRenderer);
-          console.log('NodeJS childProcess', this.electronService.childProcess);
+          // console.log('Electron ipcRenderer', this.electronService.ipcRenderer);
+          // console.log('NodeJS childProcess', this.electronService.childProcess);
       } else {
           console.log('Mode web');
       }
