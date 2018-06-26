@@ -65,6 +65,7 @@ const routes: Routes = [
 
             { path: 'project', loadChildren: './project/project.module#BylProjectModule' },
 
+            { path: 'newform', loadChildren: './newform/newform.module#BylNewformModule' },
         ]
     },
     // 全屏布局

@@ -253,11 +253,29 @@
         }
       ]
     }, {
+      "text": "测试区",
+      "i18n": "shortcut",
+      "icon": "icon-rocket",
+      "shortcut_root": true,
+      "children": [{
+        "text": "新型浏览界面",
+        "link": "/newform/newform/list",
+        "i18n": "newform_list"
+      },{
+        "text": "流程图",
+        "link": "/newform/newform/graph",
+        "i18n": "newform_graph"
+      }
+
+      ]
+    }, {
       "text": "快捷菜单",
       "i18n": "shortcut",
       "icon": "icon-rocket",
       "shortcut_root": true,
-      "children": []
+      "children": [
+
+      ]
     }]
   }]
 }

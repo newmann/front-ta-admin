@@ -35,6 +35,7 @@ import {BylSelectWidgetComponent} from "./common/select-form-item/select.formite
     imports: [
         SharedModule,
         BylPipeModule
+
     ],
     declarations: [
         BylAccountListComponent,
@@ -68,7 +69,6 @@ import {BylSelectWidgetComponent} from "./common/select-form-item/select.formite
     ],
     exports: [
         BylPipeModule,
-
 
         BylAccountListComponent,
         BylPersonListComponent,
