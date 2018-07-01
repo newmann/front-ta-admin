@@ -55,6 +55,16 @@
           "i18n": "account_new"
         }
         ]
+      },{
+        "text": "权限",
+        "i18n": "permission",
+        "icon": "icon-user-follow",
+        "children": [{
+          "text": "权限管理",
+          "link": "/account/permission/list",
+          "i18n": "permission_list"
+        }
+        ]
       }]
     }, {
       "text": "个人管理",

@@ -74,6 +74,11 @@
                 <!--</form>-->
         </nz-tab>
 
+      <nz-tab [nzDisabled]="!sourceId" nzTitle="可查看账户" (nzClick)="projectAuthClick()">
+        <byl-project-auth-item-project-list #projectAuth [masterProject]="businessData">
+
+        </byl-project-auth-item-project-list>
+      </nz-tab>
 
       <nz-tab [nzDisabled]="!sourceId" nzTitle="日志" (nzClick)="logTabClick()">
         <byl-entity-logger #logList [entityId]="sourceId"></byl-entity-logger>

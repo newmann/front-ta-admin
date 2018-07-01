@@ -64,6 +64,14 @@ export class BylAccountListComponent extends BylMasterDataListComponentBasePro<B
         this.querySchema.properties['status'].enum.push(...BylMasterDataStatusManager.getSFSelectDataArray()); //设置查询条件中的状态字段
     }
 
+    ngOnInit(){
+        super.ngOnInit();
+        //如果是在选择界面中，应该只有确认状态的账户可以选择
+        if (this.functionMode == BylListFormFunctionModeEnum.SELECT){
+            this.querySchema.properties['status'].enum = [{value: BylMasterDataStatusEnum.CONFIRMED,
+                label: BylMasterDataStatusManager.getCaption(BylMasterDataStatusEnum.CONFIRMED)}];
+        }
+    }
 
     genListData(findResult: Array<BylAccount>): Array<BylListFormData<BylAccount>> {
         return findResult.map(data => {

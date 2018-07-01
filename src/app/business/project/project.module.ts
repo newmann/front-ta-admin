@@ -38,6 +38,8 @@ import {BylWorkTypeConfigTicketListComponent} from "./work-type-config-ticket/li
 import {BylWorkTypeConfigDetailListComponent} from "./work-type-config-detail/list/list.component";
 import {BylOutsourceEmployeeItemListComponent} from "./outsource-employee/item-list/item-list.component";
 import {BylWorkloadDetailDetailBrowserComponent} from "./workload-detail-detail/list/list.component";
+import {BylProjectAuthListComponent} from "./project-auth/list/list.component";
+import {BylProjectAuthItemProjectListComponent} from "./project-auth/project-list/item-list.component";
 
 
 @NgModule({
@@ -57,6 +59,9 @@ import {BylWorkloadDetailDetailBrowserComponent} from "./workload-detail-detail/
 
         BylProjectCrudComponent,
         BylProjectListComponent,
+        BylProjectAuthListComponent,
+        BylProjectAuthItemProjectListComponent,
+
         BylProjectManagerPoolListComponent,
         BylBorrowMoneyQualificationPoolListComponent,
         BylBorrowMoneyTicketListComponent,

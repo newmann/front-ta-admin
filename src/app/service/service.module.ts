@@ -42,6 +42,7 @@ import {BylWorkTypeConfigTicketService} from "./project/service/work-type-config
 import {BylWorkTypeConfigDetailService} from "./project/service/work-type-config-detail.service";
 import {BylWorkloadDetailService} from "./project/service/workload-detail.service";
 import {BylWorkloadDetailDetailService} from "./project/service/workload-detail-detail.service";
+import {BylProjectAuthService} from "./project/service/project-auth.service";
 
 
 
@@ -76,6 +77,7 @@ import {BylWorkloadDetailDetailService} from "./project/service/workload-detail-
         //project module
         BylProjectService,
         BylProjectManagerPoolService,
+        BylProjectAuthService,
         BylBorrowMoneyTicketService,
         BylBorrowMoneyQualificationPoolService,
         BylWorkTypeService,

@@ -48,4 +48,9 @@ export class BylPermissionService extends BylBaseService<BylPermission> {
     batchAddAccountPermission(items: Array<BylAccountPermission>): Observable<BylResultBody<Array<BylAccountPermission>>> {
         return this.http.post<BylResultBody<Array<BylAccountPermission>>>(this.BASE_API_URL + '/batch-add-account-permission', items);
     }
+
+    initPermission(): Observable<BylResultBody<boolean>> {
+        return this.http.get<BylResultBody<boolean>>(this.BASE_API_URL + '/init-permission');
+    }
+
 }

@@ -1,0 +1,97 @@
+<div >
+    <!--<button nz-button (click)="addAccount()" [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mb-sm">-->
+        <!--<i class="anticon anticon-plus"></i><span>添加</span>-->
+    <!--</button>-->
+
+    <!--<button nz-button (click)="search()" [nzType]="'primary'" [nzSize]="'large'" class="ant-btn__block mb-sm">-->
+        <!--<i class="anticon anticon-search"></i><span>查询</span>-->
+    <!--</button>-->
+
+    <!--<button nz-button (click)="batchDelete()" [nzType]="'danger'"-->
+            <!--[nzSize]="'large'" class="ant-btn__block mb-sm" *ngIf="selectedRows.length > 0" >-->
+      <!--<i class="anticon anticon-delete"></i><span>批量删除</span>-->
+    <!--</button>-->
+
+  <div nz-row nzType="flex" nzJustify="center"  class="byl-detail-top-button">
+    <button nz-button (click)="addAccount()" [nzType]="'dashed'"  class="ml-sm" *ngIf=" ! isAllowAll">
+      <!--class="ant-btn__block mb-sm">-->
+      <i class="anticon anticon-plus"></i><span>添加</span>
+    </button>
+    <button nz-button (click)="search()" [nzType]="'primary'"  class="ml-sm"
+            [nzLoading]="searchLoading" [disabled] = "searchLoading">
+      <!--class="ant-btn__block mb-sm">-->
+      <i class="anticon anticon-search"></i><span>查询</span>
+    </button>
+
+    <button nz-button (click)="batchDelete()" [nzType]="'danger'"  class="ml-sm"
+            [disabled]="selectedRows.length == 0" *ngIf=" ! isAllowAll">
+      <!--class="ant-btn__block mb-sm">-->
+      <i class="anticon anticon-delete"></i><span>批量删除</span>
+    </button>
+    <button nz-button (click)="enableAllowAll()" [nzType]="'default'" class="ml-sm"
+            [nzLoading]="enableAllowAllLoading" [disabled]="enableAllowAllLoading"
+            *ngIf=" ! isAllowAll">
+      <!--class="ant-btn__block mb-sm">-->
+      <i class="anticon anticon-usergroup-add"></i><span>设为所有人可见</span>
+    </button>
+
+    <button nz-button (click)="disableAllowAll()" [nzType]="'default'" class="ml-sm"
+            [nzLoading]="disableAllowAllLoading" [disabled]="disableAllowAllLoading"
+            *ngIf="isAllowAll">
+      <!--class="ant-btn__block mb-sm">-->
+      <i class="anticon anticon-usergroup-delete"></i><span>取消所有人可见</span>
+    </button>
+
+  </div>
+  <div nz-row *ngIf="isAllowAll">
+    <div class="mb-md">
+      <nz-alert [nzType]="'info'" [nzMessage]="'本项目对所有人可见'" [nzShowIcon]="true">
+      </nz-alert>
+    </div>
+  </div>
+
+  <div nz-row *ngIf="! isAllowAll">
+    <byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>
+    <!--<div class="mb-md" *ngIf="selectedRows.length > 0">-->
+        <!--<nz-alert [nzType]="'info'" [nzShowIcon]="'true'">-->
+            <!--<span alert-body>-->
+                <!--已选择 <strong class="text-primary">{{selectedRows.length}}</strong> 项&nbsp;&nbsp;-->
+                <!--&lt;!&ndash;服务调用总计 <strong>{{totalCallNo}}</strong> 万&ndash;&gt;-->
+                <!--<a *ngIf="selectedRows.length > 0" (click)="batchDelete()" class="ml-lg">批量删除</a>-->
+
+            <!--</span>-->
+
+        <!--</nz-alert>-->
+    <!--</div>-->
+    <nz-table #nzTable [nzData]="listData"  [nzLoading]="loading"
+              [nzShowPagination]= "false">
+        <thead >
+        <tr>
+          <th  nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
+               (nzCheckedChange)="checkAll($event)"></th>
+            <th ><span>账户代码</span></th>
+            <th ><span>账户名称</span></th>
+            <th >
+                <span>备注</span>
+            </th>
+
+            <th ><span>操作</span></th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr  *ngFor="let i of nzTable.data">
+          <td  nzShowCheckbox [(nzChecked)]="i.checked" [nzDisabled]="i.disabled"
+               (nzCheckedChange)="refreshStatus($event)"></td>
+            <td >{{i.item.username}}</td>
+            <td >{{i.item.fullName}}</td>
+            <td >{{i.item.remarks }}</td>
+            <td >
+                <span *ngIf="masterProject.createAction.createId !== i.item.id">
+                <a (click)="delete(i.item.id)">删除</a>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+  </div>
+</div>

@@ -15,6 +15,7 @@ import {BylPermissionAvailablePoolsInterface} from "../../../../service/account/
 import {BylPageResp} from "../../../../service/model/page-resp.model";
 import {Observable} from "rxjs";
 import {SFSchema, SFUISchema} from "@delon/form";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 @Component({
   selector: 'byl-permission-list',
@@ -26,6 +27,8 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
     @Input() functionMode: BylListFormFunctionModeEnum = this.LIST_MODE;
     @Input() findAvailablePoolsService: BylPermissionAvailablePoolsInterface; //调用方传入查询函数
     @Input() selectModalForm: NzModalRef;
+
+    initPermissionLoading: boolean = false;
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
@@ -50,7 +53,7 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
             let item = new BylListFormData<BylPermission>();
             item.checked = false;
             item.item = new BylPermission();
-            Object.assign(item.item, data);
+            simpleDeepCopy(item.item, data);
             return item;
         });
     }
@@ -63,7 +66,7 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
     genQueryModel(): any {
         let result = new BylPermissionQuery();
 
-        Object.assign(result,this.qData);
+        simpleDeepCopy(result,this.qData);
 
         // if (this.qData.name) result.name = this.qData.name;
         // if (this.qData.modifyDateBegin) result.modifyDateBegin = moment(this.qData.modifyDateBegin).valueOf();
@@ -75,7 +78,7 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
     updateListData(newData: BylPermission) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
-                Object.assign(item.item, newData);
+                simpleDeepCopy(item.item, newData);
             });
     }
 
@@ -85,7 +88,7 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
     setQDataDefaultValue(){
         let q = new BylPermissionQuery();
 
-        Object.assign(this.qData,q);
+       simpleDeepCopy(this.qData,q);
     }
 
     batchSelect($event) {
@@ -107,6 +110,9 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
         if (this.functionMode === BylListFormFunctionModeEnum.SELECT) {
             queryResult = this.findAvailablePoolsService.findAvailablePermissionPoolsPage(this.genQueryModel(), this.page, this.masterId);
         } else {
+
+            console.log('in Permission List Component search', this.genQueryModel());
+
             queryResult = this.permissionService.findPage(this.genQueryModel(), this.page);
         }
 
@@ -136,8 +142,9 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
 
     //#region 查询条件
     queryDefaultData: any = {
-        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
-        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+        // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
+    };
     queryUiSchema: SFUISchema = {};
     querySchema: SFSchema = {
         properties: {
@@ -149,18 +156,47 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
             },
             action: { type: 'string',
                 title: '功能类似于'
-            },
-            modifyDateBegin: { type: 'string',
-                title: '最后修改日期大于等于',
-                ui: { widget: 'date' }
-            },
-            modifyDateEnd: { type: 'string',
-                title: '最后修改日期小于等于',
-                ui: { widget: 'date' }
             }
+            // ,
+            // modifyDateBegin: { type: 'string',
+            //     title: '最后修改日期大于等于',
+            //     ui: { widget: 'date' }
+            // },
+            // modifyDateEnd: { type: 'string',
+            //     title: '最后修改日期小于等于',
+            //     ui: { widget: 'date' }
+            // }
         },
         required: []
     };
 //#endregion
 
+    initPermission(){
+        this.toggleInitPermissionButton();
+        this.permissionService.initPermission()
+            .subscribe(
+                data => {
+
+                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                        this.search();
+                    } else {
+                        this.showMsg(data.msg);
+                    }
+
+                    this.toggleInitPermissionButton();
+                },
+                err => {
+
+                    this.toggleInitPermissionButton();
+
+                    console.log(err);
+                    this.showMsg(err.toString());
+
+                }
+            );
+    }
+
+    toggleInitPermissionButton(){
+        this.initPermissionLoading = ! this.initPermissionLoading;
+    }
 }

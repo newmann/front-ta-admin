@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 
 import {ActivatedRoute} from '@angular/router';
 import {BylConfigService} from '../../../../service/constant/config.service';
@@ -22,6 +22,7 @@ import {BylProjectStatusEnum} from "../../../../service/project/model/project-st
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {Observable} from "rxjs";
 import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {BylProjectAuthItemProjectListComponent} from "../../project-auth/project-list/item-list.component";
 
 
 @Component({
@@ -31,10 +32,13 @@ import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-cru
 export class BylProjectCrudComponent extends BylMasterDataCrudComponentBasePro<BylProject> {
     // public managerPoolReveal: any; // 项目经理筛选窗口
 
+    @ViewChild('projectAuth') projectAuthList: BylProjectAuthItemProjectListComponent;
+
     public addressTreevalue: any[] = [null, null, null]; // 初始化为空数组
 
     // @ViewChild(BylFetchProjectManagerWidgetComponent)
     // private projectManagerWidget: BylFetchProjectManagerWidgetComponent;
+
     private _newSchema: SFSchema;
     private _modifySchema: SFSchema;
     private _browseSchema: SFSchema;
@@ -553,6 +557,12 @@ export class BylProjectCrudComponent extends BylMasterDataCrudComponentBasePro<B
     showCancelButton(): boolean{
         return this.businessData.status === BylProjectStatusEnum.SUBMITED
             || this.businessData.status === BylProjectStatusEnum.RUNNING;
+    }
+
+    projectAuthClick(){
+        if (! this.projectAuthList.haveSearched){
+            this.projectAuthList.search();
+        }
     }
 
     error(value: any) {
