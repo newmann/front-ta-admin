@@ -1,22 +1,27 @@
 import {
-  Component,
-  HostBinding,
-  ViewChild,
-  Input,
-  OnInit,
-  ElementRef,
-  AfterViewInit,
+    Component,
+    HostBinding,
+    ViewChild,
+    Input,
+    OnInit,
+    ElementRef,
+    AfterViewInit, OnDestroy,
 } from '@angular/core';
 import {Menu, MenuService} from "@delon/theme";
 import {DomSanitizer} from "@angular/platform-browser";
+import {simpleDeepCopy} from "../../../../../service/utils/object.utils";
+import {fromEvent} from "rxjs";
+import {debounceTime, distinctUntilChanged, map} from "rxjs/internal/operators";
+import {Observable, Subscription} from "rxjs/Rx";
 
 // bypassSecurityTrustHtml 转为安全的html 不然没有颜色样式 推荐在绑定时使用管道 {{ title | html }}
+//(ngModelChange)="qChange($event)"
 
 @Component({
   selector: 'byl-header-search',
   template: `
     <nz-input-group nzAddOnBeforeIcon="anticon anticon-search">
-        <input nz-input [(ngModel)]="q" (focus)="qFocus()" (blur)="qBlur()" (ngModelChange)="qChange($event)"
+        <input #qIpt nz-input [(ngModel)]="q" (focus)="qFocus()" (blur)="qBlur()"  (ngModelChange)="qChange($event)"
             [placeholder]="'top-search-ph' | translate" [nzAutocomplete]="searchResult">
     </nz-input-group>
     <nz-autocomplete #searchResult>
@@ -28,14 +33,16 @@ import {DomSanitizer} from "@angular/platform-browser";
     </nz-autocomplete>
         `,
 })
-export class BylHeaderSearchComponent implements AfterViewInit {
+export class BylHeaderSearchComponent implements AfterViewInit,OnDestroy {
     q: string;
 
     qResultGroups: any[] = [];
 
-    qIpt: HTMLInputElement;
+    @ViewChild('qIpt') qIpt: HTMLInputElement;
 
-    menus = this.menuService.menus;
+    // inputSubscription$ : Subscription;
+
+    // menus: Menu[] = [];
 
     selectedValue: string;
 
@@ -55,12 +62,23 @@ export class BylHeaderSearchComponent implements AfterViewInit {
         private el: ElementRef,
         private menuService: MenuService,
         public sanitizer: DomSanitizer,
-    ) {}
+    ) {
+
+    }
 
     ngAfterViewInit() {
-        this.qIpt = (this.el.nativeElement as HTMLElement).querySelector(
-            '.ant-input',
-        ) as HTMLInputElement;
+        // console.log(("in search component:"),this.qIpt);
+        //
+        // this.inputSubscription$ = Observable.fromEvent(this.qIpt, 'input').pipe(
+        //     debounceTime(1000),
+        //     map((val: any) => val.target.value),
+        //     distinctUntilChanged(),
+        //
+        // ).subscribe( value =>{
+        //         this.qResultGroups = [];
+        //         this.findMenuGroup(value);
+        //     }
+        // );
     }
 
     qFocus() {
@@ -81,8 +99,9 @@ export class BylHeaderSearchComponent implements AfterViewInit {
 
     /** 搜索菜单 */
     findMenuGroup(likeName: string) {
+
         if (likeName) {
-            this.menus.forEach(menu => {
+            this.menuService.menus.forEach(menu => {
                 this.findMenu(likeName, menu);
             });
         }
@@ -140,4 +159,10 @@ export class BylHeaderSearchComponent implements AfterViewInit {
             });
         }
     }
+
+    ngOnDestroy(): void {
+        // this.inputSubscription$.unsubscribe();
+    }
+
+
 }

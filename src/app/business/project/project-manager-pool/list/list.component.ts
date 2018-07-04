@@ -144,8 +144,9 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBasePro<
 
     genQueryModel(): any {
         let result = new BylProjectManagerPoolQuery();
-        if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
-        if (this.listQuery.queryData.name) result.name = this.qData.name;
+        simpleDeepCopy(result, this.listQuery.queryData);
+        // if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
+        // if (this.listQuery.queryData.name) result.name = this.qData.name;
         if (this.listQuery.queryData.modifyDateRange) {
             if (this.listQuery.queryData.modifyDateRange.length>0){
                 result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
@@ -153,10 +154,6 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBasePro<
                     .add(1, 'days').valueOf();//第二天的零点
             }
         }
-        // if (qData.name) result.name = qData.name;
-        // if (qData.modifyDateBegin) result.modifyDateBegin = moment(qData.modifyDateBegin).valueOf();
-        // if (qData.modifyDateEnd) result.modifyDateEnd = moment(qData.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
-        // if (qData.status) result.status = qData.status;
         return result;
     }
 

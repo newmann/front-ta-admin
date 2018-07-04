@@ -23,6 +23,7 @@ import {BylOutsourcerService} from "../../../../service/project/service/outsourc
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 @Component({
     selector: 'byl-oursourcer-list',
@@ -72,8 +73,9 @@ export class BylOutsourcerListComponent extends BylMasterDataListComponentBasePr
      */
     genQueryModel(): any {
         let result = new BylWorkTypeQuery();
-        if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
-        if (this.listQuery.queryData.name) result.name = this.qData.name;
+        simpleDeepCopy(result, this.listQuery.queryData);
+        // if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
+        // if (this.listQuery.queryData.name) result.name = this.qData.name;
         if (this.listQuery.queryData.modifyDateRange) {
             if (this.listQuery.queryData.modifyDateRange.length>0){
                 result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
@@ -81,15 +83,11 @@ export class BylOutsourcerListComponent extends BylMasterDataListComponentBasePr
                     .add(1, 'days').valueOf();//第二天的零点
             }
         }
-        if (this.listQuery.queryData.status) {
-            result.status = [];
-            result.status.push(...this.listQuery.queryData.status);
-        }
+        // if (this.listQuery.queryData.status) {
+        //     result.status = [];
+        //     result.status.push(...this.listQuery.queryData.status);
+        // }
 
-        // if (this.qData.name) result.name = this.qData.name;
-        // if (this.qData.modifyDateBegin) result.modifyDateBegin = moment(this.qData.modifyDateBegin).valueOf();
-        // if (this.qData.modifyDateEnd) result.modifyDateEnd = moment(this.qData.modifyDateEnd).add(1, 'days').valueOf(); // 第二天的零点
-        // if (this.qData.status) result.status = this.qData.status;
         return result;
     }
 

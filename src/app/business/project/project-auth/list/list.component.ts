@@ -22,6 +22,7 @@ import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {BylProjectAuth} from "../../../../service/project/model/project-auth.model";
 import {BylProjectAuthService} from "../../../../service/project/service/project-auth.service";
 import {BylProjectAuthQuery} from "../../../../service/project/query/project-auth-query.model";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 @Component({
   selector: 'byl-project-auth-list',
@@ -62,7 +63,7 @@ export class BylProjectAuthListComponent extends BylListComponentBasePro<BylProj
 
         // if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
         // if (this.listQuery.queryData.name) result.name = this.listQuery.queryData.name;
-
+        simpleDeepCopy(result, this.listQuery.queryData);
 
         if (this.listQuery.queryData.modifyDateRange) {
             if (this.listQuery.queryData.modifyDateRange.length>0){

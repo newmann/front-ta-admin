@@ -33,7 +33,7 @@
       <!--<td >{{i.item.action}}</td>-->
       <!--<td >{{i.item.remarks }}</td>-->
 
-      <td >
+      <td *ngIf="tableDefine.entityAction.length > 0" >
       <span *ngFor="let actionName of getActionArray(i.item) ; first as isFirst">
         <!--<ng-container *ngIf="showAction(actionDefine, i.item)">-->
 

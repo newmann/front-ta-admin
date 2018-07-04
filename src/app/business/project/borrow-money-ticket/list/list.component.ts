@@ -24,6 +24,7 @@ import {
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 @Component({
   selector: 'byl-borrow-money-ticket-list',
@@ -60,8 +61,9 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
 
     genQueryModel(): any {
         let result = new BylBorrowMoneyTicketQuery();
-        if (this.listQuery.queryData.billNo) result.billNo = this.listQuery.queryData.billNo;
-        if (this.listQuery.queryData.reason) result.reason = this.listQuery.queryData.reason;
+        // if (this.listQuery.queryData.billNo) result.billNo = this.listQuery.queryData.billNo;
+        // if (this.listQuery.queryData.reason) result.reason = this.listQuery.queryData.reason;
+        simpleDeepCopy(result, this.listQuery.queryData);
 
         if (this.listQuery.queryData.project) {
             result.projectId = this.listQuery.queryData.project.id;
@@ -74,15 +76,11 @@ export class BylBorrowMoneyTicketListComponent  extends BylListComponentBasePro<
                     .add(1, 'days').valueOf();//第二天的零点
             }
         }
-        if (this.listQuery.queryData.status) {
-            result.status = [];
-            result.status.push(...this.listQuery.queryData.status);
-        }
+        // if (this.listQuery.queryData.status) {
+        //     result.status = [];
+        //     result.status.push(...this.listQuery.queryData.status);
+        // }
 
-        // if (qData.name) result.name = qData.name;
-        // if (qData.modifyDateBegin) result.modifyDateBegin = moment(qData.modifyDateBegin).valueOf();
-        // if (qData.modifyDateEnd) result.modifyDateEnd = moment(qData.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
-        // if (qData.status) result.status = qData.status;
         return result;
     }
 

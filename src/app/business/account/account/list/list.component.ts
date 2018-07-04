@@ -88,13 +88,10 @@ export class BylAccountListComponent extends BylMasterDataListComponentBasePro<B
 
     genQueryModel(): any {
         let result = new BylAccountQuery();
-        // if (qData.name) result.name = qData.name;
-        // if (qData.modifyDateBegin) result.modifyDateBegin = moment(qData.modifyDateBegin).valueOf();
-        // if (qData.modifyDateEnd) result.modifyDateEnd = moment(qData.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
-        // if (qData.status) result.status = qData.status;
-        if (this.listQuery.queryData.username) result.username = this.qData.username;
-        if (this.listQuery.queryData.fullName) result.fullName = this.qData.fullName;
-        if (this.listQuery.queryData.nickname) result.nickname = this.qData.nickname;
+        simpleDeepCopy(result, this.listQuery.queryData);
+        // if (this.listQuery.queryData.username) result.username = this.qData.username;
+        // if (this.listQuery.queryData.fullName) result.fullName = this.qData.fullName;
+        // if (this.listQuery.queryData.nickname) result.nickname = this.qData.nickname;
         if (this.listQuery.queryData.modifyDateRange) {
             if (this.listQuery.queryData.modifyDateRange.length>0){
                 result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
@@ -102,10 +99,10 @@ export class BylAccountListComponent extends BylMasterDataListComponentBasePro<B
                     .add(1, 'days').valueOf();//第二天的零点
             }
         }
-        if (this.listQuery.queryData.status) {
-            result.status = [];
-            result.status.push(...this.listQuery.queryData.status);
-        }
+        // if (this.listQuery.queryData.status) {
+        //     result.status = [];
+        //     result.status.push(...this.listQuery.queryData.status);
+        // }
 
         return result;
     }

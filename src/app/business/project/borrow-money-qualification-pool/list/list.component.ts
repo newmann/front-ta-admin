@@ -22,6 +22,7 @@ import {
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 @Component({
   selector: 'byl-borrow-money-qualification-pool-list',
@@ -205,14 +206,14 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
 
     genQueryModel(): any {
         let result = new BylBorrowMoneyQualificationPoolQuery();
-        if (this.listQuery.queryData.type) {
-            result.type = [];
-            result.type.push(...this.listQuery.queryData.type);
-        }
-
-        if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
-        if (this.listQuery.queryData.name) result.name = this.listQuery.queryData.name;
-
+        // if (this.listQuery.queryData.type) {
+        //     result.type = [];
+        //     result.type.push(...this.listQuery.queryData.type);
+        // }
+        //
+        // if (this.listQuery.queryData.code) result.code = this.listQuery.queryData.code;
+        // if (this.listQuery.queryData.name) result.name = this.listQuery.queryData.name;
+        simpleDeepCopy(result, this.listQuery.queryData);
 
         if (this.listQuery.queryData.modifyDateRange) {
             if (this.listQuery.queryData.modifyDateRange.length>0){

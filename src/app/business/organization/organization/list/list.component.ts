@@ -15,6 +15,8 @@ import {BylOrganizationAvailablePoolsInterface} from "../../../../service/organi
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {Observable} from "rxjs";
 import {BylPageResp} from "../../../../service/model/page-resp.model";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 
 @Component({
   selector: 'byl-organization-list',
@@ -53,10 +55,14 @@ export class BylOrganizationListComponent extends BylListComponentBasePro<BylOrg
 
     genQueryModel(): any {
         let result = new BylOrganizationQuery();
-        // if (qData.name) result.name = qData.name;
-        // if (qData.modifyDateBegin) result.modifyDateBegin = moment(qData.modifyDateBegin).valueOf();
-        // if (qData.modifyDateEnd) result.modifyDateEnd = moment(qData.modifyDateEnd).add(1,'days').valueOf();//第二天的零点
-        // if (qData.status) result.status = qData.status;
+        simpleDeepCopy(result, this.listQuery.queryData);
+        if (this.listQuery.queryData.modifyDateRange) {
+            if (this.listQuery.queryData.modifyDateRange.length>0){
+                result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
+                result.modifyDateEnd = moment(moment(this.listQuery.queryData.modifyDateRange[1]).format(BylDatetimeUtils.formatDateString))
+                    .add(1, 'days').valueOf();//第二天的零点
+            }
+        }
         return result;
     }
 

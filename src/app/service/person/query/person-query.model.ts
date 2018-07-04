@@ -6,6 +6,9 @@
 import {BylListQuery} from '../../model/list-query.model';
 
 export class BylPersonQuery extends BylListQuery{
-    idNo: string;
+    idCard: string;
     name: string;
+
+    modifyDateBegin: number;
+    modifyDateEnd: number;
 }

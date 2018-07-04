@@ -16,12 +16,22 @@ import {BylPageResp} from "../../../../service/model/page-resp.model";
 import {Observable} from "rxjs";
 import {SFSchema, SFUISchema} from "@delon/form";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
+import {
+    ACTION_BROWSE,
+    ACTION_CONFIRM,
+    ACTION_DELETE,
+    ACTION_LOCK,
+    ACTION_MODIFY, ACTION_SUBMIT,
+    ACTION_UNCONFIRM, ACTION_UNLOCK, BylTableDefine
+} from "../../../common/list-form-table-item/table.formitem";
+import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 
 @Component({
   selector: 'byl-permission-list',
   templateUrl: './list.component.html',
 })
-export class BylPermissionListComponent extends BylListComponentBase<BylPermission> {
+export class BylPermissionListComponent extends BylListComponentBasePro<BylPermission> {
 
     @Input() masterId: string;//用户查询对应关系的界面，比如角色包含的用户等
     @Input() functionMode: BylListFormFunctionModeEnum = this.LIST_MODE;
@@ -65,8 +75,13 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
      */
     genQueryModel(): any {
         let result = new BylPermissionQuery();
+        simpleDeepCopy(result, this.listQuery.queryData);
 
-        simpleDeepCopy(result,this.qData);
+        // if (this.listQuery.queryData.packageName) result.packageName = this.listQuery.queryData.packageName;
+        // if (this.listQuery.queryData.moduleName) result.moduleName = this.listQuery.queryData.moduleName;
+        // if (this.listQuery.queryData.action) result.action = this.listQuery.queryData.action;
+
+        // simpleDeepCopy(result,this.qData);
 
         // if (this.qData.name) result.name = this.qData.name;
         // if (this.qData.modifyDateBegin) result.modifyDateBegin = moment(this.qData.modifyDateBegin).valueOf();
@@ -104,7 +119,7 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
     search() {
         this.loading = true;
 
-        this.clearGrid();
+        // this.clearGrid();
 
         let queryResult: Observable<BylResultBody<BylPageResp<BylPermission>>> ;
         if (this.functionMode === BylListFormFunctionModeEnum.SELECT) {
@@ -170,6 +185,16 @@ export class BylPermissionListComponent extends BylListComponentBase<BylPermissi
         required: []
     };
 //#endregion
+    tableDefine:BylTableDefine ={
+        showCheckbox: false,
+        entityAction: [
+        ],
+        columns:[
+            {label:"包", fieldPath: "packageName" },
+            {label:"模块", fieldPath: "moduleName" },
+            {label:"功能", fieldPath: "action" }
+        ]};
+
 
     initPermission(){
         this.toggleInitPermissionButton();

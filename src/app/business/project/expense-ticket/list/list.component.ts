@@ -24,6 +24,7 @@ import {BylExpenseTicketQuery} from "../../../../service/project/query/expense-t
 import {BylExpenseTicket} from "../../../../service/project/model/expense-ticket.model";
 import {BylExpenseTicketService} from "../../../../service/project/service/expense-ticket.service";
 import {BylTicketListComponentBasePro} from "../../../common/ticket-list-component-base";
+import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 @Component({
     selector: 'byl-expense-ticket-list',
@@ -74,8 +75,9 @@ export class BylExpenseTicketListComponent extends BylTicketListComponentBasePro
      */
     genQueryModel(): any {
         let result = new BylExpenseTicketQuery();
-        if (this.listQuery.queryData.billNo) result.billNo = this.listQuery.queryData.billNo;
-        if (this.listQuery.queryData.projectId) result.projectId = this.qData.projectId;
+        simpleDeepCopy(result, this.listQuery.queryData);
+        // if (this.listQuery.queryData.billNo) result.billNo = this.listQuery.queryData.billNo;
+        // if (this.listQuery.queryData.projectId) result.projectId = this.qData.projectId;
         if (this.listQuery.queryData.modifyDateRange) {
             if (this.listQuery.queryData.modifyDateRange.length>0){
                 result.modifyDateBegin = moment(moment(this.listQuery.queryData.modifyDateRange[0]).format(BylDatetimeUtils.formatDateString)).valueOf();
@@ -83,15 +85,11 @@ export class BylExpenseTicketListComponent extends BylTicketListComponentBasePro
                     .add(1, 'days').valueOf();//第二天的零点
             }
         }
-        if (this.listQuery.queryData.status) {
-            result.status = [];
-            result.status.push(...this.listQuery.queryData.status);
-        }
+        // if (this.listQuery.queryData.status) {
+        //     result.status = [];
+        //     result.status.push(...this.listQuery.queryData.status);
+        // }
 
-        // if (this.qData.name) result.name = this.qData.name;
-        // if (this.qData.modifyDateBegin) result.modifyDateBegin = moment(this.qData.modifyDateBegin).valueOf();
-        // if (this.qData.modifyDateEnd) result.modifyDateEnd = moment(this.qData.modifyDateEnd).add(1, 'days').valueOf(); // 第二天的零点
-        // if (this.qData.status) result.status = this.qData.status;
         return result;
     }
 
