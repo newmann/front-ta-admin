@@ -21,6 +21,8 @@
 declare var hljs: any;
 declare var wx: any;
 
+// declare var bylTreeService: any;
+
 //electron,魔法用法
 declare var window: Window;
 interface Window {

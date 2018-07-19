@@ -96,9 +96,9 @@
         </nz-tab>
         <nz-tab [nzDisabled]="!sourceId" nzTitle="用户">
             <byl-account-item-list [masterId]="sourceId"
-                                   [findAvailablePoolsService]="departmentService"
-                                   [findEntityAccountService]="departmentService"
-                                   [saveAccountRelationService]="departmentService">
+                                   [findAvailablePoolsService]="menuService"
+                                   [findEntityAccountService]="menuService"
+                                   [saveAccountRelationService]="menuService">
             </byl-account-item-list>
         </nz-tab>
         <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">

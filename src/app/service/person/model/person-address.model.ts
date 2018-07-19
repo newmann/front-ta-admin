@@ -5,9 +5,9 @@
  */
 import {BylBaseModel} from '../../model/base.model';
 import {BylEmbeddableAddress} from '../../model/embeddable-address.model';
-import {BylItemBaseModal} from "../../model/item-base.model";
+import {BylItemBaseModel} from "../../model/item-base.model";
 
-export class BylPersonAddress extends BylItemBaseModal {
+export class BylPersonAddress extends BylItemBaseModel {
     // personId: string;
     type: string;
 

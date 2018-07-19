@@ -65,6 +65,16 @@
           "i18n": "permission_list"
         }
         ]
+      },{
+        "text": "菜单",
+        "i18n": "menu",
+        "icon": "icon-user-follow",
+        "children": [{
+          "text": "菜单管理",
+          "link": "/account/menu/list",
+          "i18n": "menu_list"
+        }
+        ]
       }]
     }, {
       "text": "个人管理",

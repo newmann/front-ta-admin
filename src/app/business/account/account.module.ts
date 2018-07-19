@@ -15,6 +15,8 @@ import { BylPermissionItemListComponent } from './permission/item-list/item-list
 import { BylAccountItemListComponent } from './account/item-list/item-list.component';
 import {BylPipeModule} from "../../service/pipe.module";
 import {BylResetPasswordComponent} from "./account/reset-password/register.component";
+import {BylMenuListComponent} from "./menu/list/list.component";
+import {BylMenuCrudComponent} from "./menu/crud/crud.component";
 
 
 @NgModule({
@@ -33,6 +35,8 @@ import {BylResetPasswordComponent} from "./account/reset-password/register.compo
         // BylAccountListComponent,//移到business-shared.module中
         BylAccountItemListComponent,
         BylAccountCrudComponent,
+        BylMenuListComponent,
+        BylMenuCrudComponent,
 
         BylPermissionListComponent,
         BylPermissionItemListComponent,
@@ -41,6 +45,7 @@ import {BylResetPasswordComponent} from "./account/reset-password/register.compo
     ],
     entryComponents: [
         // BylAccountListComponent,
+        BylMenuCrudComponent,
         BylRoleCrudComponent,
         BylDepartmentCrudComponent
     ]

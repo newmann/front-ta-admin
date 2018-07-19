@@ -5,11 +5,11 @@
  */
 import {BylBaseModel} from '../../model/base.model';
 import {BylEmbeddableAddress} from '../../model/embeddable-address.model';
-import {BylItemBaseModal} from "../../model/item-base.model";
+import {BylItemBaseModel} from "../../model/item-base.model";
 
 export const CERTIFICATE_EFFECTIVE_INFINITY = -1;
 
-export class BylPersonCertificate extends BylItemBaseModal {
+export class BylPersonCertificate extends BylItemBaseModel {
     // personId: string;
     type: string;
     code: string;

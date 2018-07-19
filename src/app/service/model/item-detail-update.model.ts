@@ -6,7 +6,7 @@
  * @class BylBaseModel
  */
 import {BylDatetimeUtils} from "../utils/datetime.utils";
-import {BylItemBaseModal} from "./item-base.model";
+import {BylItemBaseModel} from "./item-base.model";
 import {BylItemDetailBaseModal} from "./item-detail-base.model";
 
 

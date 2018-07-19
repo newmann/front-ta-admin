@@ -49,10 +49,10 @@ export class BylDepartmentCrudComponent extends BylCrudComponentBase<BylDepartme
         this.registerSearchData();
 
         //设置第一级部门的上级部门
-        this._firstLevelDepartment.id = '-';
-        this._firstLevelDepartment.name = '第0级';
-        this._firstLevelDepartment.code = '-';
-        this.searchedDepartments.push(this._firstLevelDepartment);
+        // this._firstLevelDepartment.key = '-';
+        // this._firstLevelDepartment.title = '第0级';
+        // this._firstLevelDepartment.code = '-';
+        // this.searchedDepartments.push(this._firstLevelDepartment);
 
 
     }
@@ -171,7 +171,7 @@ export class BylDepartmentCrudComponent extends BylCrudComponentBase<BylDepartme
         // this.logger.log('log', this.form.value);
         this.businessData.parentId = this.parent.value.toString();
         this.businessData.code = this.code.value.toString();
-        this.businessData.name = this.name.value.toString();
+        // this.businessData.title = this.name.value.toString();
 
         if (this.remarks.value) {
             this.businessData.remarks = this.remarks.value.toString();

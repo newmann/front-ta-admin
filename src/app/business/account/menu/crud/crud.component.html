@@ -1,0 +1,45 @@
+<page-header [title]="'添加菜单'" *ngIf="processType.length > 0 "></page-header>
+<nz-card [nzBordered]="false">
+    <nz-tabset>
+        <nz-tab [nzTitle]="'基本信息'">
+          <div nz-row>
+            上级菜单：{{parentMenu.caption}}
+          </div>
+          <div nz-row>
+
+          <sf  #sf [button]="null"
+               [schema]="emptyFormSchema"
+               [formData]="businessData"
+               mode="edit"
+               (formError)="error($event)">
+            <button type="submit" nz-button [disabled]="!sf.valid"  (click)="submitForm()"
+                    [nzLoading]="loading">保存</button>
+            <button (click)="reset()"  type="button" nz-button *ngIf="showSaveButton()">重置</button>
+            <!--<button nz-button [disabled]="!sf.valid" (click)="submitEntity()"-->
+                    <!--*ngIf="showSubmitButton()" [nzLoading]="loading">提交</button>-->
+            <!--<button nz-button (click)="lockEntity()" *ngIf="showLockButton()" [nzLoading]="loading">锁定</button>-->
+            <!--<button nz-button (click)="unlockEntity()" *ngIf="showUnlockButton()" [nzLoading]="loading">解锁</button>-->
+            <!--<button nz-button (click)="confirmEntity()" *ngIf="showConfirmButton()" [nzLoading]="loading">确认</button>-->
+            <!--<button nz-button (click)="unconfirmEntity()" *ngIf="showUnconfirmButton()" [nzLoading]="loading">取消确认</button>-->
+            <!--<button nz-button (click)="cancelEntity()" *ngIf="showCancelButton()" [nzLoading]="loading">作废</button>-->
+          </sf>
+          </div>
+          <div nz-row>
+            <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
+          </div>
+        </nz-tab>
+        <!--<nz-tab [nzDisabled]="!sourceId" nzTitle="用户">-->
+            <!--<byl-account-item-list [masterId]="sourceId"-->
+                                   <!--[findAvailablePoolsService]="menuService"-->
+                                   <!--[findEntityAccountService]="menuService"-->
+                                   <!--[saveAccountRelationService]="menuService">-->
+            <!--</byl-account-item-list>-->
+        <!--</nz-tab>-->
+        <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">
+          <byl-entity-logger [entityId]="sourceId"></byl-entity-logger>
+        </nz-tab>
+
+
+    </nz-tabset>
+
+</nz-card>

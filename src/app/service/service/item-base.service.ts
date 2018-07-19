@@ -7,7 +7,7 @@ import {BylBaseService} from "./base.service";
 import {BylItemMoveModel} from "../model/item-move.model";
 import {BylItemDeleteModel} from "../model/item-delete.model";
 import {BylItemAddModel} from "../model/item-add.model";
-import {BylItemBaseModal} from "../model/item-base.model";
+import {BylItemBaseModel} from "../model/item-base.model";
 import {BylItemUpdateModel} from "../model/item-update.model";
 import {BylItemBatchAddModel} from "../model/item-batch-add.model";
 
@@ -18,7 +18,7 @@ import {BylItemBatchAddModel} from "../model/item-batch-add.model";
  *  @Date: Created in  14:00 2018/4/13.
  */
 
-export class BylItemBaseService<T extends BylItemBaseModal> extends BylBaseService<T>{
+export class BylItemBaseService<T extends BylItemBaseModel> extends BylBaseService<T>{
     protected BASE_API_URL = 'api/';
 
     constructor(protected http: _HttpClient,

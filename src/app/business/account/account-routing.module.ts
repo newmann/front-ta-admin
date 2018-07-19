@@ -7,6 +7,7 @@ import {BylDepartmentCrudComponent} from "./department/crud/crud.component";
 import {BylAccountListComponent} from "./account/list/list.component";
 import {BylAccountCrudComponent} from "./account/crud/crud.component";
 import {BylPermissionListComponent} from './permission/list/list.component';
+import {BylMenuListComponent} from "./menu/list/list.component";
 
 
 
@@ -18,7 +19,8 @@ const routes: Routes = [
     { path: 'department/crud/:type', component: BylDepartmentCrudComponent,data: {reuse: true}  },
     { path: 'account/list', component: BylAccountListComponent },
     { path: 'account/crud/:type', component: BylAccountCrudComponent,data: {reuse: true} },
-    { path: 'permission/list', component: BylPermissionListComponent }
+    { path: 'permission/list', component: BylPermissionListComponent },
+    { path: 'menu/list', component: BylMenuListComponent }
 ];
 
 @NgModule({

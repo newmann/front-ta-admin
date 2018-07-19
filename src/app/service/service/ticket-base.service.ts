@@ -13,7 +13,7 @@ import {BylItemMoveModel} from "../model/item-move.model";
 import {BylItemDeleteModel} from "../model/item-delete.model";
 import {BylItemAddModel} from "../model/item-add.model";
 import {BylExpenseDetail} from "../project/model/expense-detail.model";
-import {BylItemBaseModal} from "../model/item-base.model";
+import {BylItemBaseModel} from "../model/item-base.model";
 
 
 /**

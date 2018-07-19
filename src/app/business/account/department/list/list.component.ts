@@ -9,7 +9,7 @@ import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylDepartment } from '../../../../service/account/model/department.model';
 import {BylDepartmentService} from '../../../../service/account/service/department.service';
 import {BylDepartmentQuery} from '../../../../service/account/query/department-query.model';
-import {BaseTree} from '../../../../service/model/base-tree.model';
+import {BylTreeDispalyModel} from '../../../../service/model/tree-display.model';
 import {mixCodeName} from '../../../../service/utils/string.utils';
 import {Observable, Subject, zip} from 'rxjs';
 import {debounceTime, distinctUntilChanged, flatMap} from 'rxjs/operators';
@@ -32,7 +32,7 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
 
     filterData: string;
 
-    nodes: Array<BaseTree<BylDepartment>> = [];
+    nodes: Array<BylTreeDispalyModel<BylDepartment>> = [];
 
     options = {
         allowDrag: false
@@ -46,9 +46,9 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
         // }
     };
 
-    private _treeExpand$: Subject<BaseTree<BylDepartment>> = new Subject<BaseTree<BylDepartment>>();
+    private _treeExpand$: Subject<BylTreeDispalyModel<BylDepartment>> = new Subject<BylTreeDispalyModel<BylDepartment>>();
 
-    private _nodeObservable: Observable<BaseTree<BylDepartment>>;
+    private _nodeObservable: Observable<BylTreeDispalyModel<BylDepartment>>;
     private _departmentObservable: Observable<BylResultBody<Array<BylDepartment>>>;
     private _expandObservable: any;
 
@@ -77,14 +77,14 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
         );
         this._departmentObservable = this._nodeObservable.pipe(
             flatMap(node => {
-                return this.departmentService.findDepartmendByParentId(node.id);
+                return this.departmentService.findDepartmendByParentId(node.item.id);
             })
         );
 
         this._expandObservable = zip(
             this._nodeObservable,
             this._departmentObservable,
-            (node: BaseTree<BylDepartment>, data: BylResultBody<Array<BylDepartment>>) => ({node, data})
+            (node: BylTreeDispalyModel<BylDepartment>, data: BylResultBody<Array<BylDepartment>>) => ({node, data})
         );
         this._expandObservable.subscribe(
             ({node, data}) => {
@@ -157,20 +157,20 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
         );
     }
 
-    updateNodeData(data: Array<BaseTree<BylDepartment>>, node: BaseTree<BylDepartment>): void {
+    updateNodeData(data: Array<BylTreeDispalyModel<BylDepartment>>, node: BylTreeDispalyModel<BylDepartment>): void {
         node.children = data;
     }
 
     /**
      * 根据查询的结果，生成界面显示的内容，重点是处理好checkec和disabled字段的值。
      */
-    genNodeData(findResult: Array<BylDepartment>): Array<BaseTree<BylDepartment>> {
+    genNodeData(findResult: Array<BylDepartment>): Array<BylTreeDispalyModel<BylDepartment>> {
         return findResult.map(data => {
-            let item = new BaseTree<BylDepartment>();
+            let item = new BylTreeDispalyModel<BylDepartment>();
             item.item = new BylDepartment();
             Object.assign(item.item, data);
-            item.id = item.item.id;
-            item.name = mixCodeName(item.item.name, item.item.code);
+            item.key = item.item.id;
+            item.title = mixCodeName(item.item.name, item.item.code);
             item.checked = false;
             item.disableCheckbox = (data.status === BylMasterDataStatusEnum.SUBMITED_DELETED);
             item.hasChildren = true;
@@ -180,7 +180,7 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
 
     // addNode(dept: BylDepartment): void {
     //     if (!(this.nodes)) this.nodes = [];
-    //     let node = new BaseTree<BylDepartment>();
+    //     let node = new BylTreeDispalyModel<BylDepartment>();
     //     node.item = new BylDepartment();
     //     Object.assign(node.item,dept);
     //     node.id = node.item.id;
@@ -201,7 +201,7 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
     //         })
     // }
     //
-    // searchChildren(parentId:string) : Array<BaseTree<BylDepartment>>{
+    // searchChildren(parentId:string) : Array<BylTreeDispalyModel<BylDepartment>>{
     //     if (parentId === "-") {
     //         return this.nodes;
     //     }else{
@@ -211,7 +211,7 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
 
 
     reset() {
-        this.qData.name = '';
+        this.qData.title = '';
         this.qData.modifyDate = Date();
 
     }

@@ -6,10 +6,10 @@
  * @class BylBaseModel
  */
 import {BylDatetimeUtils} from "../utils/datetime.utils";
-import {BylItemBaseModal} from "./item-base.model";
+import {BylItemBaseModel} from "./item-base.model";
 
 
-export class BylItemUpdateModel<T extends BylItemBaseModal> {
+export class BylItemUpdateModel<T extends BylItemBaseModel> {
     masterId: string;
     modifyDateTime: number;
 

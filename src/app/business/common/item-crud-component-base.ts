@@ -9,7 +9,7 @@ import {ReuseTabService} from '@delon/abc';
 import {Observable} from 'rxjs';
 import {simpleDeepCopy} from '../../service/utils/object.utils';
 import {BylCrudComponentBasePro} from "./crud-component-base-pro";
-import {BylItemBaseModal} from "../../service/model/item-base.model";
+import {BylItemBaseModel} from "../../service/model/item-base.model";
 import {BylItemBaseService} from "../../service/service/item-base.service";
 import {BylItemAddModel} from "../../service/model/item-add.model";
 import {BylItemUpdateModel} from "../../service/model/item-update.model";
@@ -20,7 +20,7 @@ import {BylItemUpdateModel} from "../../service/model/item-update.model";
  * @Date: Created in 2018-03-31 9:46
  **/
 
-export abstract class BylTicketDetailCrudComponentBasePro<T extends BylItemBaseModal>
+export abstract class BylTicketDetailCrudComponentBasePro<T extends BylItemBaseModel>
     extends BylCrudComponentBasePro<T>{
 
     @Input()

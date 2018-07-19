@@ -5,7 +5,7 @@ import {Router} from "@angular/router";
 import {BylConfigService} from "../../service/constant/config.service";
 import {BylResultBody} from "../../service/model/result-body.model";
 import {BylItemBaseService} from "../../service/service/item-base.service";
-import {BylItemBaseModal} from "../../service/model/item-base.model";
+import {BylItemBaseModel} from "../../service/model/item-base.model";
 import {BylItemAddModel} from "../../service/model/item-add.model";
 import {BylItemDeleteModel} from "../../service/model/item-delete.model";
 import {simpleDeepCopy} from "../../service/utils/object.utils";
@@ -17,7 +17,7 @@ import {BylItemUpdateModel} from "../../service/model/item-update.model";
  * @Author: newmannhu@qq.com
  * @Date: Created in 2018-04-15 9:22
  **/
-export abstract class BylItemListComponentBase<T extends BylItemBaseModal> implements OnInit {
+export abstract class BylItemListComponentBase<T extends BylItemBaseModel> implements OnInit {
 
     public masterId:string; //单据头的id
     public masterModifyDateTime:number;//单据头的最后修改时间

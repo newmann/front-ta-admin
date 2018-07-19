@@ -5,3 +5,5 @@
  */
 
 export const BYL_URL_MOBILE_TAG = "/mobile";
+
+export const BYL_TREE_NODE_ID_DEFAULT_VALUE = "-";

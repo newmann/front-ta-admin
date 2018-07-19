@@ -1,0 +1,74 @@
+<page-header [title]="'菜单管理'">
+    <!--<ng-template #action>-->
+        <!--<button nz-button (click)="add()" [nzType]="'default'" >-->
+            <!--<i class="anticon anticon-plus"></i><span>新建</span>-->
+        <!--</button>-->
+        <!--<button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" >-->
+            <!--<i class="anticon anticon-search"></i><span>查询</span>-->
+        <!--</button>-->
+        <!--<ng-container *ngIf="selectedRows.length > 0">-->
+
+
+            <!--<button nz-button class="ml-sm">批量操作</button>-->
+
+            <!--<nz-dropdown [nzPlacement]="'bottomLeft'">-->
+                <!--<button nz-button nz-dropdown [nzSize]="'large'" class="ml-sm">-->
+                    <!--更多操作 <i class="anticon anticon-down"></i>-->
+                <!--</button>-->
+                <!--<ul nz-menu>-->
+                    <!--<li nz-menu-item (click)="batchDelete()">删除</li>-->
+                    <!--<li nz-menu-item (click)="batchApproval()">批量审批</li>-->
+                <!--</ul>-->
+            <!--</nz-dropdown>-->
+        <!--</ng-container>-->
+
+    <!--</ng-template>-->
+</page-header>
+<!--<byl-list-query-widget [defaultData]="queryDefaultData" [schema]="querySchema"-->
+                       <!--[uiSchema]="queryUiSchema" ></byl-list-query-widget>-->
+
+
+<nz-card [nzBordered]="false">
+
+    <nz-input-group nzSuffixIcon="anticon anticon-search">
+      <input type="text" nz-input placeholder="input search text" [(ngModel)]="filterData">
+    </nz-input-group>
+
+    <nz-tree #tree [(ngModel)]="nodes"
+             [nzCheckable]="true"
+             [nzMultiple]="false"
+             [nzSearchValue]="filterData"
+             [nzShowLine]="true"
+             [nzAsyncData]="true"
+             (nzExpandChange)="mouseAction('expand',$event)"
+             [nzDraggable]="true"
+             (nzOnDragStart)="dragStart($event)"
+             (nzOnDrop)="dragDrop($event)"
+             [nzBeforeDrop]="beforeDrop"
+             (nzClick)="activeNode($event)"
+             (nzDblClick)="openNode($event)"
+             >
+
+      <ng-template #nzTreeTemplate let-node>
+        <span class="custom-node" draggable="true" aria-grabbed="true" [class.active]="activedNode?.key===node.key">
+          <span *ngIf="!node.isLeaf" [class.shine-animate]="node.origin.isLoading">
+            <i class="anticon anticon-folder" *ngIf="!node.isExpanded" ></i>
+            <i class="anticon anticon-folder-open" *ngIf="node.isExpanded"></i>
+            <span class="folder-name folder-desc">{{node.title}}</span>
+            <i style="margin-left: 12px" class="anticon anticon-plus-circle" (click)="addChildMenu(node)"></i>
+            <nz-divider  nzType="vertical"></nz-divider>
+            <i class="anticon anticon-delete" (click)="deleteMenu(node)" ></i>
+            <nz-divider  nzType="vertical"></nz-divider>
+            <i class="anticon anticon-reload" (click)="openNode(node)" ></i>
+            <!--<span class="folder-desc">{{node?.origin?.author | lowercase}} created at 2018-04-01</span>-->
+          </span>
+          <span *ngIf="node.isLeaf">
+            <i class="anticon anticon-file"></i>
+            <span class="file-name file-desc">{{node.title}}</span>
+            <!--<span class="file-desc">{{node?.origin?.author | lowercase}} modified at 2018-05-01</span>-->
+          </span>
+        </span>
+      </ng-template>
+    </nz-tree>
+  <byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>
+</nz-card>

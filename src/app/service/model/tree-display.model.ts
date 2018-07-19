@@ -4,15 +4,15 @@
  * @Date: Created in 2018-03-31 15:21
  **/
 
-export class BaseTree<T>{
+export class BylTreeDispalyModel<T>{
     //用来给node tree展示用
-    id: string;
-    name: string;
+    key: string;
+    title: string;
     halfChecked: boolean;
     checked: boolean;
     disableCheckbox: boolean;
     hasChildren: boolean;
-    children: Array<BaseTree<T>> = [] ;
+    children: Array<BylTreeDispalyModel<T>> = [] ;
 
     //具体对象的数据
     item : T;
