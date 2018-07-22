@@ -11,11 +11,16 @@ export class BylConfigService{
 
     private uploadFileUrl = "/api/file-manage/upload-file";
     private uploadMultiFileUrl = "/api/file-manage/upload-multi-file";
-
+    private zhCN = 'assets/tmp/i18n/zh-CN.json';
+    private defaultMenuUrl = 'assets/tmp/default-menu.json';
 
     get PAGESIZE(){ return this.pageSize;}
 
     get UPLOAD_FILE_URL(){ return this.uploadFileUrl;}
 
     get UPLOAD_MULTI_FILE_URL(){ return this.uploadMultiFileUrl;}
+
+    get SETTING_ZH() { return this.zhCN}
+
+    get DEFAULT_MENU_URL() {return this.defaultMenuUrl}
 }

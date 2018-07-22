@@ -91,6 +91,49 @@ export class BylMenuCrudComponent extends BylMasterDataCrudComponentBasePro<BylM
             }
         };
 
+        this._modifySchema = {
+            properties: {
+                "caption": {
+                    "type": 'string',
+                    "title": '显示名称',
+                },
+                "i18nKey": {
+                    "type": 'string',
+                    "title": 'i18n代码'
+                },
+                "leaf": {
+                    "type": "string",
+                    "title": '是否有下级菜单-modify',
+                    "enum": [{value:true,label: "否"},{value:false,label: "是"}], //正好与isleaf相反
+                    "ui": {
+                        "widget": "radio",
+                        "styleType": "button"
+                    },
+                    "readOnly": true
+                },
+                "targetLinkWidget": {
+                    "type": "string",
+                    "title": '对应菜单'
+                },
+
+                "iconKey": {
+                    "type": "string",
+                    "title": '图标'
+                }
+
+            },
+            "required": ["caption", "i18nKey", "leaf"],
+            "if": {
+                "properties": {"leaf": {"enum": [true]}}
+            },
+            "then": {
+                "required": ["targetLinkWidget"]
+            },
+            "else": {
+                "required": []
+            }
+        };
+
         this._browseSchema = {
             properties: {
                 "caption": {
@@ -150,7 +193,7 @@ export class BylMenuCrudComponent extends BylMasterDataCrudComponentBasePro<BylM
                 case BylMasterDataStatusEnum.UNSUBMITED:
 
                 case BylMasterDataStatusEnum.SUBMITED:
-                    this.curSchema = simpleDeepCopy({},this._newSchema);
+                    this.curSchema = simpleDeepCopy({},this._modifySchema);
                     break;
                 default:
                     this.curSchema = simpleDeepCopy({},this._browseSchema);

@@ -9,6 +9,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {I18NService} from '@core/i18n/i18n.service';
 import {DA_SERVICE_TOKEN, ITokenModel, ITokenService, JWTTokenModel, SimpleTokenModel} from '@delon/auth';
 import {CacheService} from '@delon/cache';
+import {BylAccountService} from "../account/service/account.service";
 
 const SETTING_LANG = 'assets/tmp/i18n/zh-CN.json';
 const SETTING_APP = 'assets/tmp/app-data.json';
@@ -28,6 +29,7 @@ export class BylStartupService {
                 private httpClient: HttpClient,
                 private injector: Injector,
                 private cacheService: CacheService,
+                private accountService: BylAccountService,
                 @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {
     }
 
@@ -46,9 +48,11 @@ export class BylStartupService {
 
                 if (token.token) {
                     if (!token.isExpired(0)) {
+                        console.log("In Startup service：", token);
                         zip(
                             this.httpClient.get(SETTING_LANG),
                             this.httpClient.get(SETTING_APP),
+                            this.accountService.fetchAbilitiesByAccountId(token.id),
                             // this.cacheService.get(SETTING_LANG,{mode:"promise", type: "m"}),
                             // this.cacheService.get(SETTING_APP,{mode:"promise", type: "m"})
                         ).pipe(
@@ -57,12 +61,12 @@ export class BylStartupService {
                                 resolve(null);
                                 return [langData, appData];
                             })
-                        ).subscribe(([lang, app]) => {
-                                console.log('In startup service，获取本地缓存...');
-                                // const lang = this.cacheService.get(SETTING_LANG);
-                                console.log('lang:', lang);
-                                // const app: any = this.cacheService.get(SETTING_APP);
-                                console.log('app:', app);
+                        ).subscribe(([lang, app, abilities]) => {
+                                // console.log('In startup service，获取本地缓存...');
+                                // // const lang = this.cacheService.get(SETTING_LANG);
+                                // console.log('lang:', lang);
+                                // // const app: any = this.cacheService.get(SETTING_APP);
+                                // console.log('app:', app);
 
                                 // setting language data
                                 this.translate.setTranslation(this.i18n.defaultLang, lang);
@@ -72,8 +76,10 @@ export class BylStartupService {
                                 this.settingService.setApp(app.app);
                                 // 用户信息：包括姓名、头像、邮箱地址
                                 this.settingService.setUser(app.user);
+                                //获取权限
+                                this.aclService.setAbility(abilities);
                                 // ACL：设置权限为全量
-                                this.aclService.setFull(true);
+                                // this.aclService.setFull(true);
                                 // 初始化菜单
                                 this.menuService.add(app.menu);
                                 // 设置页面标题的后缀

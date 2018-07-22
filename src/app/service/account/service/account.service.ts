@@ -65,6 +65,10 @@ implements  BylPermissionAvailablePoolsInterface
         return this.http.get<BylResultBody<Array<BylPermission>>>(this.BASE_API_URL + '/fetch-permissions-by-accountid/' + accountId);
     }
 
+    fetchAbilitiesByAccountId(accountId: string): Observable<BylResultBody<Array<String>>> {
+        return this.http.get<BylResultBody<Array<String>>>(this.BASE_API_URL + '/fetch-abilities-by-accountid/' + accountId);
+    }
+
     batchAddPermission(items: Array<BylAccountPermission>): Observable<BylResultBody<Array<BylAccountPermission>>> {
         return this.http.post<BylResultBody<Array<BylAccountPermission>>>(this.BASE_API_URL + '/batch-add-permission', items);
     }
@@ -101,4 +105,7 @@ implements  BylPermissionAvailablePoolsInterface
         console.log("in AccountService resetPassword:",resetPassword);
         return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/reset-password',resetPassword);
     }
+
+
+
 }

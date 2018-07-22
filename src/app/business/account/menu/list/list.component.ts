@@ -34,6 +34,11 @@ import {BylPermissionListComponent} from "../../permission/list/list.component";
 import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
 import {BylMenuCrudComponent} from "../crud/crud.component";
 import {catchError, map} from "rxjs/internal/operators";
+import {e} from "@angular/core/src/render3";
+import {HttpClient} from "@angular/common/http";
+import {BylMenuLinkService} from "../../../../service/account/service/menu-link.service";
+import {BylMenuLink} from "../../../../service/account/model/menu-link.model";
+import {MenuService} from "@delon/theme";
 
 
 @Component({
@@ -60,6 +65,8 @@ export class BylMenuListComponent extends BylListComponentBase<BylMenu> {
 
     public addForm: NzModalRef;//维护界面
 
+    public loadingDefaultMenu = false;
+    public importingMenuDefine = false;
     options = {
         allowDrag: false
         // getChildren: (node: any) => {
@@ -97,6 +104,13 @@ export class BylMenuListComponent extends BylListComponentBase<BylMenu> {
         this.nodes.push(node);
     }
 
+    // updateMenuNode(node: NzTreeNode, menu: BylMenu){
+    //     node.title = menu.caption;
+    //     node.key = menu.id;
+    //     node.origin.item = simpleDeepCopy(new BylMenu(), menu);
+    // }
+    //
+
     newMenuNode(menu: BylMenu):NzTreeNode{
         // let node = new BylTreeDispalyModel<BylMenu>();
         // node.key = menu.id;
@@ -109,8 +123,7 @@ export class BylMenuListComponent extends BylListComponentBase<BylMenu> {
                 title: menu.caption,
                 key: menu.id,
                 isLeaf: menu.leaf,
-                item: simpleDeepCopy(new BylMenu(), menu),
-                service: this.menuService
+                item: simpleDeepCopy(new BylMenu(), menu)
             }
         );
     }
@@ -118,7 +131,7 @@ export class BylMenuListComponent extends BylListComponentBase<BylMenu> {
     loadChild(node: NzTreeNode){
         node.origin.isLoading = true;
 
-        this.menuService.findAllByParentId(node.key)
+        this.bylMenuService.findAllByParentId(node.key)
             .subscribe(
                 data => {
 
@@ -290,6 +303,10 @@ export class BylMenuListComponent extends BylListComponentBase<BylMenu> {
 
     }
 
+    /**
+     * 新增子菜单
+     * @param {NzTreeNode} node
+     */
     addChildMenu(node: NzTreeNode){
 
         this.addForm = this.modalService.create({
@@ -329,7 +346,7 @@ export class BylMenuListComponent extends BylListComponentBase<BylMenu> {
                 let addMenu: Observable<BylResultBody< any >>;
 
                 // 根据类型生成角色或账户权限
-                addMenu = this.menuService.add(newMenu);
+                addMenu = this.bylMenuService.add(newMenu);
 
                 addMenu.subscribe(
                     data => {
@@ -352,11 +369,94 @@ export class BylMenuListComponent extends BylListComponentBase<BylMenu> {
         });
 
     }
+
+    /**
+     * 修改菜单
+     * @param {NzTreeNode} node
+     */
+    editMenu(node: NzTreeNode){
+        this.addForm = this.modalService.create({
+            nzTitle: '修改菜单',
+            nzZIndex: 9999, //最外层
+            nzWidth: '90%',
+            nzContent: BylMenuCrudComponent,
+            nzFooter: null,
+            // onOk() {
+            //
+            // },
+            // onCancel() {
+            //     console.log('Click cancel');
+            // },
+            nzComponentParams: {
+                setSourceId: node.origin.item.id,
+                setParentMenu: node.origin.item
+            },
+            nzMaskClosable: false
+        });
+        // this.addForm.next(BylCrudEvent[BylCrudEvent.bylSaving]);
+
+        this.addForm.afterClose.subscribe(result => {
+            console.info(result);
+
+            console.info(typeof result);
+
+            let updatedMenu: BylMenu;
+            if ((typeof result) === 'object') {
+                updatedMenu = result;
+            }
+
+            if (updatedMenu) {
+                //todo 提交到数据库中,成功后显示到界面
+                let updateMenu: Observable<BylResultBody< any >>;
+
+                updateMenu = this.bylMenuService.update(updatedMenu);
+
+                updateMenu.subscribe(
+                    data => {
+                        this.loading = false;
+                        if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                            node.title = data.data.caption;
+                            node.key = data.data.id;
+                            node.origin.item = simpleDeepCopy(new BylMenu(), data.data);
+
+                        } else {
+                            this.showMsg(data.msg);
+                        }
+                    },
+                    err => {
+                        this.loading = false;
+                        console.log(err);
+                        this.showMsg(err.toString());
+                    }
+                );
+            }
+        });
+    }
+
     addSlibedMenu($event: MouseEvent){
         console.log("addSlibedMenu",$event);
     }
+
     deleteMenu(node: NzTreeNode){
         console.log("deleteMenu",node);
+        this.bylMenuService.deleteNode(node.origin.item)
+            .subscribe(data =>{
+                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+
+                        node.clearChildren();
+                        node.parentNode.children = node.parentNode.children.filter(item => item.key !== node.key);
+
+
+                    } else {
+                        this.showMsg(data.msg);
+                    }
+
+            },
+                err =>{
+                this.showMsg(err);
+        });
+
+
     }
 
     onToggleExpanded(ev: any) {
@@ -374,7 +474,7 @@ export class BylMenuListComponent extends BylListComponentBase<BylMenu> {
         );
         this._departmentObservable = this._nodeObservable.pipe(
             flatMap(node => {
-                return this.menuService.findAllByParentId(node.item.id);
+                return this.bylMenuService.findAllByParentId(node.item.id);
             })
         );
 
@@ -410,12 +510,15 @@ export class BylMenuListComponent extends BylListComponentBase<BylMenu> {
                 public configService: BylConfigService,
                 public modalService: NzModalService,
                 private nzDropdownService: NzDropdownService,
+                private menuService: MenuService,
                 // public functionSubject$: NzModalRef,
                 public router: Router,
-                public menuService: BylMenuService) {
+                private httpClient: HttpClient,
+                private menuLinkService: BylMenuLinkService,
+                public bylMenuService: BylMenuService) {
         super(message, configService, modalService, router);
 
-        this.businessService = menuService;
+        this.businessService = bylMenuService;
         this.crudUrl = '/account/menu/crud';
         // this.businessCrudComponent = BylPersonCrudComponent;
         this.statusList = BylMasterDataStatusManager.getArray();
@@ -424,7 +527,7 @@ export class BylMenuListComponent extends BylListComponentBase<BylMenu> {
 
         this.registerTreeToggleExpanded();
 
-        (<any> window).bylTreeService = menuService;
+        (<any> window).bylTreeService = bylMenuService;
 
     }
 
@@ -522,7 +625,7 @@ export class BylMenuListComponent extends BylListComponentBase<BylMenu> {
 
         lockItem.status = BylMasterDataStatusEnum.LOCKED;
 
-        this.menuService.update(lockItem).subscribe(
+        this.bylMenuService.update(lockItem).subscribe(
             data => {
                 this.loading = false;
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
@@ -549,6 +652,60 @@ export class BylMenuListComponent extends BylListComponentBase<BylMenu> {
             });
     }
 
+    importDefaultMenu(){
+        this.loadingDefaultMenu = true;
+
+        this.httpClient.get(this.configService.DEFAULT_MENU_URL)
+            .subscribe(
+                (menuList)=>{
+                    this.showMsg(JSON.stringify(menuList));
+                    this.loadingDefaultMenu =false;
+                },
+                err =>{
+                    this.showMsg(err);
+                    this.loadingDefaultMenu =false;
+                }
+            );
+
+    }
+
+    /**
+     * 将菜单树中的菜单定义提交到数据库
+     */
+    importMenuDefine(){
+        this.importingMenuDefine = true;
+
+        let menuLinkList: Array<BylMenuLink> = [];
+        this.menuService.visit((menu,parentMenu) => {
+            if (menu.link){
+                let menuLink = new BylMenuLink();
+                menuLink.defaultCaption = menu.text;
+                menuLink.targetLink = menu.link;
+                menuLinkList.push(menuLink);
+            }
+        });
+
+        console.log("In Menu List Component importMenuDefine:", menuLinkList);
+
+        this.menuLinkService.initMenuLink(menuLinkList)
+            .subscribe(
+                data=>{
+
+                    this.importingMenuDefine =false;
+                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+                        this.showMsg("成功导入菜单定义。");
+
+                    } else {
+                        this.showMsg(data.msg);
+                    }
+                },
+                err =>{
+                    this.showMsg(err);
+                    this.importingMenuDefine =false;
+                }
+            );
+
+    }
 
 
     /**

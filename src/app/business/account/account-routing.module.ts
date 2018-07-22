@@ -8,11 +8,12 @@ import {BylAccountListComponent} from "./account/list/list.component";
 import {BylAccountCrudComponent} from "./account/crud/crud.component";
 import {BylPermissionListComponent} from './permission/list/list.component';
 import {BylMenuListComponent} from "./menu/list/list.component";
+import {ACLGuard} from "@delon/acl";
 
 
 
 const routes: Routes = [
-    { path: 'role/list', component: BylRoleListComponent },
+    { path: 'role/list', component: BylRoleListComponent},
     // { path: 'role/add', component: RoleOperComponent },
     { path: 'role/crud/:type', component: BylRoleCrudComponent,data: {reuse: true}  },
     { path: 'department/list', component: BylDepartmentListComponent },

@@ -1,13 +1,4 @@
 {
-  "app": {
-    "name": "Beiyelin",
-    "description": "基于ng-alain的前端框架"
-  },
-  "user": {
-    "name": "Admin",
-    "avatar": "./assets/tmp/img/avatar.jpg",
-    "email": "cipchk@qq.com"
-  },
   "menu": [{
     "text": "主导航",
     "i18n": "main_navigation",
@@ -34,13 +25,11 @@
         "children": [{
           "text": "角色管理",
           "link": "/account/role/list",
-          "i18n": "role_list",
-          "acl": "/account/role/list"
+          "i18n": "role_list"
         },{
           "text": "角色新增",
           "link": "/account/role/crud/new",
-          "i18n": "role_new",
-          "acl": "/account/role/crud/new"
+          "i18n": "role_new"
         }
         ]
       },{

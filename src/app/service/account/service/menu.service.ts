@@ -43,7 +43,7 @@ export class BylMenuService  extends BylTreeBaseService<BylMenu>
 
         super(http, configServer, i18nService);
 
-        this.BASE_API_URL = 'api/menu';
+        this.BASE_API_URL = 'api/account/menu';
     }
 
 }

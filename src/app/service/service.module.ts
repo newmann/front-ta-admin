@@ -44,6 +44,7 @@ import {BylWorkloadDetailService} from "./project/service/workload-detail.servic
 import {BylWorkloadDetailDetailService} from "./project/service/workload-detail-detail.service";
 import {BylProjectAuthService} from "./project/service/project-auth.service";
 import {BylMenuService} from "./account/service/menu.service";
+import {BylMenuLinkService} from "./account/service/menu-link.service";
 
 
 
@@ -62,6 +63,7 @@ import {BylMenuService} from "./account/service/menu.service";
         BylDepartmentService,
         BylPermissionService,
         BylMenuService,
+        BylMenuLinkService,
 
         //person module
         BylPersonService,

@@ -1,8 +1,13 @@
 <page-header [title]="'菜单管理'">
-    <!--<ng-template #action>-->
-        <!--<button nz-button (click)="add()" [nzType]="'default'" >-->
-            <!--<i class="anticon anticon-plus"></i><span>新建</span>-->
-        <!--</button>-->
+    <ng-template #action>
+        <button nz-button (click)="importDefaultMenu()" [nzType]="'default'" [nzLoading]="loadingDefaultMenu">
+            <i class="anticon anticon-trophy"></i><span>导入缺省菜单树</span>
+        </button>
+
+      <button nz-button (click)="importMenuDefine()" [nzType]="'default'" [nzLoading]="importingMenuDefine">
+        <i class="anticon anticon-inbox"></i><span>导入菜单定义</span>
+      </button>
+
         <!--<button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" >-->
             <!--<i class="anticon anticon-search"></i><span>查询</span>-->
         <!--</button>-->
@@ -22,7 +27,7 @@
             <!--</nz-dropdown>-->
         <!--</ng-container>-->
 
-    <!--</ng-template>-->
+    </ng-template>
 </page-header>
 <!--<byl-list-query-widget [defaultData]="queryDefaultData" [schema]="querySchema"-->
                        <!--[uiSchema]="queryUiSchema" ></byl-list-query-widget>-->
@@ -55,10 +60,16 @@
             <i class="anticon anticon-folder" *ngIf="!node.isExpanded" ></i>
             <i class="anticon anticon-folder-open" *ngIf="node.isExpanded"></i>
             <span class="folder-name folder-desc">{{node.title}}</span>
-            <i style="margin-left: 12px" class="anticon anticon-plus-circle" (click)="addChildMenu(node)"></i>
+
+
+            <i style="margin-left: 12px"  class="anticon anticon-plus-circle" (click)="addChildMenu(node)"></i>
             <nz-divider  nzType="vertical"></nz-divider>
-            <i class="anticon anticon-delete" (click)="deleteMenu(node)" ></i>
-            <nz-divider  nzType="vertical"></nz-divider>
+            <i class="anticon anticon-delete" (click)="deleteMenu(node)"  *ngIf="node.origin.item.levelNo !== 0 "></i>
+            <nz-divider  nzType="vertical" *ngIf="node.origin.item.levelNo !== 0 "></nz-divider>
+
+            <i class="anticon anticon-edit" (click)="editMenu(node)" *ngIf="node.origin.item.levelNo !== 0 "></i>
+            <nz-divider  nzType="vertical"  *ngIf="node.origin.item.levelNo !== 0 "></nz-divider>
+
             <i class="anticon anticon-reload" (click)="openNode(node)" ></i>
             <!--<span class="folder-desc">{{node?.origin?.author | lowercase}} created at 2018-04-01</span>-->
           </span>
@@ -66,6 +77,11 @@
             <i class="anticon anticon-file"></i>
             <span class="file-name file-desc">{{node.title}}</span>
             <!--<span class="file-desc">{{node?.origin?.author | lowercase}} modified at 2018-05-01</span>-->
+
+            <i style="margin-left: 12px" class="anticon anticon-edit" (click)="editMenu(node)"></i>
+            <nz-divider  nzType="vertical"></nz-divider>
+            <i class="anticon anticon-delete" (click)="deleteMenu(node)" ></i>
+
           </span>
         </span>
       </ng-template>

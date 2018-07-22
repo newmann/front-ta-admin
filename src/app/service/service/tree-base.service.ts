@@ -61,6 +61,7 @@ export class BylTreeBaseService<T extends BylTreeBaseModel> extends BylMasterDat
     }
 
     deleteNode(node: T): Observable<BylResultBody<boolean>> {
+        console.log('tree-base service delete node',node);
         return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/delete-node', node);
     }
 
