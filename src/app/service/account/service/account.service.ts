@@ -13,7 +13,7 @@ import {Observable} from 'rxjs';
 import {BylPageReq} from '../../model/page-req.model';
 import {BylAccountPermission} from "../model/account-permission.model";
 import {
-    BylFindEntityPermissionInterface, BylPermissionAvailablePoolsInterface,
+    BylFindEntityPermissionInterface, BylPermissionAvailablePoolsInterface, BylPermissionRelationInterface,
     BylSavePermissionRelationInterface
 } from "./permission-related.interface";
 import {BylPermission} from "../model/permission.model";
@@ -22,6 +22,13 @@ import {BylEntityRelations} from "../model/entity-relations.model";
 import {BylMasterDataBaseService} from "../../service/master-data-base.service";
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
 import {BylAccountResetPasswordModel} from "../model/account-reset-password.model";
+import {
+    BylDeleteMenuLinkRelationInterface,
+    BylFindEntityMenuLinkInterface,
+    BylMenuLinkAvailablePoolsInterface, BylMenuLinkRelationInterface,
+    BylSaveMenuLinkRelationInterface
+} from "./menu-link-related.interface";
+import {BylMenuLink} from "../model/menu-link.model";
 
 
 
@@ -32,9 +39,9 @@ import {BylAccountResetPasswordModel} from "../model/account-reset-password.mode
  **/
 @Injectable()
 export class BylAccountService  extends BylMasterDataBaseService<BylAccount>
-implements  BylPermissionAvailablePoolsInterface
-            , BylSavePermissionRelationInterface
-            , BylFindEntityPermissionInterface{
+implements  BylPermissionRelationInterface
+        , BylMenuLinkRelationInterface
+{
 
 
     constructor(protected http: _HttpClient,
@@ -97,6 +104,15 @@ implements  BylPermissionAvailablePoolsInterface
         return this.fetchPermissionsByAccountId(masterId);
     }
 
+    deletePermissionRelation(permissionArray: Array<string>, masterId: string): Observable<BylResultBody<Boolean>> {
+        let item = new BylEntityRelations();
+        item.masterId = masterId;
+        item.relationIds = permissionArray;
+
+        return this.http.post<BylResultBody<Boolean>>(this.BASE_API_URL + '/batch-delete-permission-relation-by-ids', item);
+
+    }
+
     resetPassword(account: BylAccount,oldPlainPassword: string, newPlainPassword: string): Observable<BylResultBody<boolean>> {
         let resetPassword: BylAccountResetPasswordModel = new BylAccountResetPasswordModel();
         resetPassword.account = account;
@@ -107,5 +123,36 @@ implements  BylPermissionAvailablePoolsInterface
     }
 
 
+
+    findAvailableMenuLinkPoolsPage(query: any, page: BylPageReq, masterId?: string): Observable<BylResultBody<BylPageResp<BylMenuLink>>> {
+        let queryModel = new BylEntityRelationAvailablePoolsQueryReqBody<any>();
+        queryModel.masterId = masterId;
+        queryModel.pageReq = page;
+        queryModel.queryReq = query;
+
+        return this.http.post<BylResultBody<BylPageResp<BylMenuLink>>>(this.BASE_API_URL + '/find-available-menu-link-pools', queryModel);
+    }
+
+    findEntityMenuLink(masterId: string): Observable<BylResultBody<Array<BylMenuLink>>> {
+        return this.http.get<BylResultBody<Array<BylMenuLink>>>(this.BASE_API_URL + '/fetch-menu-links-by-accountid/' + masterId);
+    }
+
+    saveMenuLinkRelation(MenuLinkArray: Array<string>, masterId: string): Observable<BylResultBody<Boolean>> {
+        let item = new BylEntityRelations();
+        item.masterId = masterId;
+        item.relationIds = MenuLinkArray;
+
+        return this.http.post<BylResultBody<Boolean>>(this.BASE_API_URL + '/batch-add-menu-link-relation-by-ids', item);
+
+    }
+
+    deleteMenuLinkRelation(MenuLinkArray: Array<string>,masterId: string): Observable<BylResultBody<Boolean>> {
+        let item = new BylEntityRelations();
+        item.masterId = masterId;
+        item.relationIds = MenuLinkArray;
+
+        return this.http.post<BylResultBody<Boolean>>(this.BASE_API_URL + '/batch-delete-menu-link-relation-by-ids', item);
+
+    }
 
 }

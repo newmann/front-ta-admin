@@ -25,15 +25,26 @@
 
         </nz-tab>
 
-        <nz-tab [nzDisabled]="!sourceId" nzTitle="权限">
+        <nz-tab [nzDisabled]="!sourceId" nzTitle="权限" (nzClick)="permissionTabClick()">
             <!--<ng-template #nzTabHeading>权限</ng-template>-->
-            <byl-permission-item-list [masterId]="sourceId"
-                                      [findAvailablePoolsService]="accountService"
-                                      [savePermissionRelationService]="accountService"
-                                      [findEntityPermissionService] = "accountService"  >
+            <byl-permission-item-list #permissionList [masterId]="sourceId"
+                                      [ReadOnly]="showBrowseButton()"
+                                      [permissionRelationService]="accountService"
+           >
 
             </byl-permission-item-list>
         </nz-tab>
+
+        <nz-tab [nzDisabled]="!sourceId" nzTitle="菜单权限" (nzClick)="menuLinkTabClick()">
+          <!--<ng-template #nzTabHeading>权限</ng-template>-->
+          <byl-menu-link-item-list #menuLinkList [masterId]="sourceId"
+                                   [ReadOnly]="showBrowseButton()"
+                                   [menuRelationService]="accountService"
+          >
+
+          </byl-menu-link-item-list>
+        </nz-tab>
+
         <nz-tab [nzDisabled]="!sourceId" nzTitle="重置密码">
           <!--<ng-template #nzTabHeading>权限</ng-template>-->
           <byl-reset-password [account]="businessData">

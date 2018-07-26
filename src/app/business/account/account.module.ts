@@ -17,6 +17,8 @@ import {BylPipeModule} from "../../service/pipe.module";
 import {BylResetPasswordComponent} from "./account/reset-password/register.component";
 import {BylMenuListComponent} from "./menu/list/list.component";
 import {BylMenuCrudComponent} from "./menu/crud/crud.component";
+import {BylMenuLinkItemListComponent} from "./menu-link/item-list/item-list.component";
+import {BylMenuLinkListComponent} from "./menu-link/list/list.component";
 
 
 @NgModule({
@@ -37,6 +39,8 @@ import {BylMenuCrudComponent} from "./menu/crud/crud.component";
         BylAccountCrudComponent,
         BylMenuListComponent,
         BylMenuCrudComponent,
+        BylMenuLinkItemListComponent,
+        BylMenuLinkListComponent,
 
         BylPermissionListComponent,
         BylPermissionItemListComponent,
@@ -45,6 +49,7 @@ import {BylMenuCrudComponent} from "./menu/crud/crud.component";
     ],
     entryComponents: [
         // BylAccountListComponent,
+        BylMenuLinkListComponent,
         BylMenuCrudComponent,
         BylRoleCrudComponent,
         BylDepartmentCrudComponent

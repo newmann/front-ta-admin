@@ -1,16 +1,16 @@
 <div >
-    <button nz-button (click)="addAccount()" [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mb-sm">
+    <button nz-button (click)="addRelation()" [nzType]="'dashed'" class="ant-btn__block mb-sm" *ngIf="!ReadOnly">
         <i class="anticon anticon-plus"></i><span>添加</span>
     </button>
 
-    <button nz-button (click)="search()" [nzType]="'primary'" [nzSize]="'large'" class="ant-btn__block mb-sm">
+    <button nz-button (click)="search()" [nzType]="'primary'" class="ant-btn__block mb-sm" [nzLoading] = "searhing">
         <i class="anticon anticon-search"></i><span>查询</span>
     </button>
 
-      <button nz-button (click)="batchDelete()" [nzType]="'danger'"
-              [nzSize]="'large'" class="ant-btn__block mb-sm" *ngIf="selectedRows.length > 0" >
-        <i class="anticon anticon-delete"></i><span>批量删除</span>
-      </button>
+  <button nz-button (click)="batchDelete()" [nzType]="'danger'" [nzLoading]="deleting"
+          class="ant-btn__block mb-sm"  *ngIf="selectedRows.length > 0">
+    <i class="anticon anticon-delete"></i><span>批量删除</span>
+  </button>
 
     <byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>
     <!--<div class="mb-md">-->
@@ -25,11 +25,11 @@
         <!--</nz-alert>-->
     <!--</div>-->
     <nz-table #nzTable [nzData]="listData"  [nzLoading]="loading"
-              [nzShowPagination]="false">
+              [nzShowPagination]="false" [nzFrontPagination]="'false'">
         <thead >
         <tr>
           <th  nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
-               (nzCheckedChange)="checkAll($event)"></th>
+               (nzCheckedChange)="checkAll($event)" *ngIf="!ReadOnly"></th>
             <th ><span>代码</span></th>
             <th ><span>姓名</span></th>
             <th ><span>昵称</span></th>
@@ -52,7 +52,7 @@
         <tbody >
         <tr  *ngFor="let i of nzTable.data">
           <td  nzShowCheckbox [(nzChecked)]="i.checked" [nzDisabled]="i.disabled"
-               (nzCheckedChange)="refreshStatus($event)"></td>
+               (nzCheckedChange)="refreshStatus($event)" *ngIf="!ReadOnly"></td>
             <td >{{i.item.username}}</td>
             <td >{{i.item.fullName}}</td>
             <td >{{i.item.nickname}}</td>
@@ -60,7 +60,7 @@
             <td >{{i.item.phone}}</td>
             <td >{{i.item.status | bylMasterDataStatus}}</td>
             <td >{{i.item.remarks }}</td>
-            <td >
+            <td *ngIf="!ReadOnly" >
                 <span>
                 <a (click)="delete(i.item.id)">删除</a>
                 </span>

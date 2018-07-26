@@ -221,5 +221,9 @@ export class BylDepartmentCrudComponent extends BylCrudComponentBase<BylDepartme
     }
 
     //#endregion
+
+    showBrowseButton(){
+        return false
+    }
 }
 

@@ -40,7 +40,7 @@ export class BylStartupService {
             //todo delon的bug，先获取简单token，判断是否有效后再按JWTtoken方式获取
             let s: SimpleTokenModel;
             s = this.tokenService.get();
-            console.log('IN AppComponent, SimpleTokenModel:', s);
+            console.log('IN StartupService, load() token:', s);
             if (s.token) {
                 //如果token有效，则获取本地的资源，恢复到上次退出状态。
                 let token: JWTTokenModel;
@@ -61,7 +61,7 @@ export class BylStartupService {
                                 resolve(null);
                                 return [langData, appData];
                             })
-                        ).subscribe(([lang, app, abilities]) => {
+                        ).subscribe(([lang, app, abilitiesResultBody]) => {
                                 // console.log('In startup service，获取本地缓存...');
                                 // // const lang = this.cacheService.get(SETTING_LANG);
                                 // console.log('lang:', lang);
@@ -77,10 +77,12 @@ export class BylStartupService {
                                 // 用户信息：包括姓名、头像、邮箱地址
                                 this.settingService.setUser(app.user);
                                 //获取权限
-                                this.aclService.setAbility(abilities);
+                                console.log('IN StartupService, load() abilities:', abilitiesResultBody.data);
+                                this.aclService.setAbility(abilitiesResultBody.data);
                                 // ACL：设置权限为全量
                                 // this.aclService.setFull(true);
                                 // 初始化菜单
+
                                 this.menuService.add(app.menu);
                                 // 设置页面标题的后缀
                                 this.titleService.suffix = app.app.name;

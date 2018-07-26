@@ -11,7 +11,7 @@ import {BylRoleAccount} from "../model/role-account.model";
 import {BylDepartmentAccount} from "../model/department-account.model";
 import {BylAccount} from "../model/account.model";
 import {
-    BylAccountAvailablePoolsInterface, BylFindEntityAccountInterface,
+    BylAccountAvailablePoolsInterface, BylAccountRelationInterface, BylFindEntityAccountInterface,
     BylSaveAccountRelationInterface
 } from "./account-related.interface";
 import {BylEntityRelations} from "../model/entity-relations.model";
@@ -28,9 +28,8 @@ import {BylMasterDataBaseService} from "../../service/master-data-base.service";
  **/
 @Injectable()
 export class BylDepartmentService  extends BylMasterDataBaseService<BylDepartment>
-    implements BylFindEntityAccountInterface
-    ,BylSaveAccountRelationInterface
-    ,BylAccountAvailablePoolsInterface{
+    implements BylAccountRelationInterface
+    {
     constructor(protected http: _HttpClient,
                 protected configServer: BylConfigService,
                 protected i18nService: I18NService) {
@@ -70,13 +69,21 @@ export class BylDepartmentService  extends BylMasterDataBaseService<BylDepartmen
         return this.fetchAccountsByDepartmentId(masterId);
     }
 
-    saveAccountRelation(accountArray: Array<string>, masterId: string): Observable<BylResultBody<Boolean>> {
+    saveAccountRelation(idArray: Array<string>, masterId: string): Observable<BylResultBody<Boolean>> {
         let item = new BylEntityRelations();
         item.masterId = masterId;
-        item.relationIds = accountArray;
+        item.relationIds = idArray;
 
         return this.http.post<BylResultBody<Boolean>>(this.BASE_API_URL + '/batch-add-account-relation-by-ids', item);
 
+    }
+
+    deleteAccountRelation(idArray: Array<string>, masterId: string): Observable<BylResultBody<Boolean>> {
+        let item = new BylEntityRelations();
+        item.masterId = masterId;
+        item.relationIds = idArray;
+
+        return this.http.post<BylResultBody<Boolean>>(this.BASE_API_URL + '/batch-delete-account-relation-by-ids', item);
     }
 
     findAvailableAccountPoolsPage(query: any, page: BylPageReq, masterId?: string): Observable<BylResultBody<BylPageResp<BylAccount>>> {

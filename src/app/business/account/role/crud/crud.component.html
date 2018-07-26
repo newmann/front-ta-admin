@@ -65,20 +65,31 @@
                 <!--</form>-->
             <!--</span>-->
         </nz-tab>
-        <nz-tab nzTitle="权限" [nzDisabled]="!sourceId">
-            <byl-permission-item-list [masterId]="sourceId"
-                                      [findAvailablePoolsService]="roleService"
-                                      [savePermissionRelationService]="roleService"
-                                      [findEntityPermissionService] = "roleService"  >
+        <nz-tab nzTitle="权限" [nzDisabled]="!sourceId" (nzClick)="permissionTabClick()">
+            <byl-permission-item-list #permissionList [masterId]="sourceId"
+                                      [ReadOnly]="showBrowseButton()"
+                                      [permissionRelationService]="roleService"
+         >
 
             </byl-permission-item-list>
         </nz-tab>
+      <nz-tab [nzDisabled]="!sourceId" nzTitle="菜单权限" (nzClick)="menuLinkTabClick()">
+        <!--<ng-template #nzTabHeading>权限</ng-template>-->
+        <!--<byl-menu-link-item-list #menuLinkList [masterId]="sourceId"-->
+                                 <!--[ReadOnly]="showBrowseButton()"-->
+                                 <!--[menuRelationService]="roleService"-->
+        <!--&gt;-->
+        <byl-menu-link-item-list #menuLinkList [masterId]="sourceId"
+                                 [ReadOnly]="showBrowseButton()"
+                                 [menuRelationService]="roleService"
+        >
+        </byl-menu-link-item-list>
+      </nz-tab>
 
         <nz-tab nzTitle="用户" [nzDisabled]="!sourceId">
             <byl-account-item-list [masterId]="sourceId"
-                                   [findAvailablePoolsService]="roleService"
-                                   [findEntityAccountService]="roleService"
-                                   [saveAccountRelationService]="roleService"
+                                   [ReadOnly]="showBrowseButton()"
+                                   [accountRelationService]="roleService"
             ></byl-account-item-list>
 
         </nz-tab>

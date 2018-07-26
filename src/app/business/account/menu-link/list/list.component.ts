@@ -26,16 +26,24 @@ import {
     ACTION_UNCONFIRM, ACTION_UNLOCK, BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {BylMenuLink} from "../../../../service/account/model/menu-link.model";
+import {BylMenuLinkService} from "../../../../service/account/service/menu-link.service";
+import {
+    BylMenuLinkAvailablePoolsInterface,
+    BylMenuLinkRelationInterface
+} from "../../../../service/account/service/menu-link-related.interface";
+import {BylPageReq} from "../../../../service/model/page-req.model";
 
 @Component({
-  selector: 'byl-permission-list',
+  selector: 'byl-menu_link-list',
   templateUrl: './list.component.html',
 })
-export class BylPermissionListComponent extends BylListComponentBasePro<BylPermission> {
+export class BylMenuLinkListComponent extends BylListComponentBasePro<BylMenuLink> {
 
     @Input() masterId: string;//用户查询对应关系的界面，比如角色包含的用户等
     @Input() functionMode: BylListFormFunctionModeEnum = this.LIST_MODE;
-    @Input() findAvailablePoolsService: BylPermissionAvailablePoolsInterface; //调用方传入查询函数
+    @Input() findAvailablePoolsService: BylMenuLinkRelationInterface; //调用方传入查询函数
+    // @Input() findAvailablePoolsService: (query: any, page: BylPageReq, masterId?: string) => Observable<BylResultBody<BylPageResp<BylMenuLink>>>;
     // @Input() selectModalForm: NzModalRef;
 
     initPermissionLoading: boolean = false;
@@ -45,10 +53,10 @@ export class BylPermissionListComponent extends BylListComponentBasePro<BylPermi
                 public modalService: NzModalService,
                 public modalRef: NzModalRef,
                 public router: Router,
-                public permissionService: BylPermissionService) {
+                public menuLinkService: BylMenuLinkService) {
         super(message, configService, modalService, router);
 
-        this.businessService = permissionService;
+        this.businessService = menuLinkService;
         this.crudUrl = '';
 
     }
@@ -56,14 +64,14 @@ export class BylPermissionListComponent extends BylListComponentBasePro<BylPermi
 
     /**
      * 根据查询的结果，生成界面显示的内容，重点是处理好checkec和disabled字段的值。
-     * @param {Array<BylPermission>} findResult
-     * @returns {Array<BylListFormData<BylPermission>>}
+     * @param {Array<BylMenuLink>} findResult
+     * @returns {Array<BylListFormData<BylMenuLink>>}
      */
-    genListData(findResult: Array<BylPermission>): Array<BylListFormData<BylPermission>> {
+    genListData(findResult: Array<BylMenuLink>): Array<BylListFormData<BylMenuLink>> {
         return findResult.map(data => {
-            let item = new BylListFormData<BylPermission>();
+            let item = new BylListFormData<BylMenuLink>();
             item.checked = false;
-            item.item = new BylPermission();
+            item.item = new BylMenuLink();
             simpleDeepCopy(item.item, data);
             return item;
         });
@@ -91,7 +99,7 @@ export class BylPermissionListComponent extends BylListComponentBasePro<BylPermi
     }
 
 
-    updateListData(newData: BylPermission) {
+    updateListData(newData: BylMenuLink) {
         this.listData.filter(item => item.item.id === newData.id)
             .map(item => {
                 simpleDeepCopy(item.item, newData);
@@ -110,8 +118,9 @@ export class BylPermissionListComponent extends BylListComponentBasePro<BylPermi
     batchSelect($event) {
         //将数据传出，并退出界面
         $event.preventDefault();
+        // this.functionSubject$.next(this.selectedRows);
         // this.selectModalForm.destroy(this.selectedRows);
-        this.modalRef.destroy(this.selectedRows)
+        this.modalRef.destroy(this.selectedRows);
     }
 
     /**
@@ -122,14 +131,14 @@ export class BylPermissionListComponent extends BylListComponentBasePro<BylPermi
 
         // this.clearGrid();
 
-        let queryResult: Observable<BylResultBody<BylPageResp<BylPermission>>> ;
+        let queryResult: Observable<BylResultBody<BylPageResp<BylMenuLink>>> ;
         if (this.functionMode === BylListFormFunctionModeEnum.SELECT) {
-            queryResult = this.findAvailablePoolsService.findAvailablePermissionPoolsPage(this.genQueryModel(), this.page, this.masterId);
+            queryResult = this.findAvailablePoolsService.findAvailableMenuLinkPoolsPage(this.genQueryModel(), this.page, this.masterId);
         } else {
 
-            console.log('in Permission List Component search', this.genQueryModel());
+            console.log('in MenuLink List Component search', this.genQueryModel());
 
-            queryResult = this.permissionService.findPage(this.genQueryModel(), this.page);
+            queryResult = this.menuLinkService.findPage(this.genQueryModel(), this.page);
         }
 
         queryResult.subscribe(
@@ -164,24 +173,12 @@ export class BylPermissionListComponent extends BylListComponentBasePro<BylPermi
     queryUiSchema: SFUISchema = {};
     querySchema: SFSchema = {
         properties: {
-            packageName: { type: 'string',
-                title: '包名类似于'
+            defaultCaption: { type: 'string',
+                title: '缺省名称类似于'
             },
-            moduleName: { type: 'string',
-                title: '模块名类似于'
-            },
-            action: { type: 'string',
-                title: '功能类似于'
+            targetLink: { type: 'string',
+                title: 'URL类似于'
             }
-            // ,
-            // modifyDateBegin: { type: 'string',
-            //     title: '最后修改日期大于等于',
-            //     ui: { widget: 'date' }
-            // },
-            // modifyDateEnd: { type: 'string',
-            //     title: '最后修改日期小于等于',
-            //     ui: { widget: 'date' }
-            // }
         },
         required: []
     };
@@ -191,36 +188,10 @@ export class BylPermissionListComponent extends BylListComponentBasePro<BylPermi
         entityAction: [
         ],
         columns:[
-            {label:"包", fieldPath: "packageName" },
-            {label:"模块", fieldPath: "moduleName" },
-            {label:"功能", fieldPath: "action" }
+            {label:"缺省名称", fieldPath: "defaultCaption" },
+            {label:"URL", fieldPath: "targetLink" }
         ]};
 
-
-    initPermission(){
-        this.toggleInitPermissionButton();
-        this.permissionService.initPermission()
-            .subscribe(
-                data => {
-
-                    if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                        this.search();
-                    } else {
-                        this.showMsg(data.msg);
-                    }
-
-                    this.toggleInitPermissionButton();
-                },
-                err => {
-
-                    this.toggleInitPermissionButton();
-
-                    console.log(err);
-                    this.showMsg(err.toString());
-
-                }
-            );
-    }
 
     toggleInitPermissionButton(){
         this.initPermissionLoading = ! this.initPermissionLoading;

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService, NzModalService} from 'ng-zorro-antd';
@@ -15,6 +15,9 @@ import {isEmpty} from "../../../../service/utils/string.utils";
 import {map} from "rxjs/operators";
 import {SFSchema} from "@delon/form";
 import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {BylProjectAuthItemProjectListComponent} from "../../../project/project-auth/project-list/item-list.component";
+import {BylMenuLinkItemListComponent} from "../../menu-link/item-list/item-list.component";
+import {BylPermissionItemListComponent} from "../../permission/item-list/item-list.component";
 
 
 @Component({
@@ -22,6 +25,9 @@ import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-cru
     templateUrl: './crud.component.html',
 })
 export class BylAccountCrudComponent extends BylMasterDataCrudComponentBasePro<BylAccount> {
+    @ViewChild('menuLinkList') menuLinkList: BylMenuLinkItemListComponent;
+
+    @ViewChild('permissionList') permissionList: BylPermissionItemListComponent;
 
     // permissionEntityType: PermissionEntityTypeEnum = PermissionEntityTypeEnum.ACCOUNT;
     private _newSchema: SFSchema;
@@ -301,6 +307,17 @@ export class BylAccountCrudComponent extends BylMasterDataCrudComponentBasePro<B
 
     }
 
+    menuLinkTabClick(){
+        if (!this.menuLinkList.haveSearched){
+            this.menuLinkList.search();
+        }
+    }
+
+    permissionTabClick(){
+        if (!this.permissionList.haveSearched){
+            this.permissionList.search();
+        }
+    }
 
     error(value: any) {
         console.log('error', value);

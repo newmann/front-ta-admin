@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {NzMessageService} from 'ng-zorro-antd';
 import {BylRoleService} from '../../../../service/account/service/role.service';
 import {map} from 'rxjs/operators';
@@ -13,6 +13,8 @@ import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {SFSchema} from "@delon/form";
+import {BylMenuLinkItemListComponent} from "../../menu-link/item-list/item-list.component";
+import {BylPermissionItemListComponent} from "../../permission/item-list/item-list.component";
 
 
 @Component({
@@ -21,6 +23,8 @@ import {SFSchema} from "@delon/form";
 })
 
 export class BylRoleCrudComponent extends BylMasterDataCrudComponentBasePro<BylRole> {
+    @ViewChild('menuLinkList') menuLinkList: BylMenuLinkItemListComponent;
+    @ViewChild('permissionList') permissionList: BylPermissionItemListComponent;
     // public clientBrowserType: any;
 
     //调用BylPermissionItemListComponet时传入的参数
@@ -213,8 +217,17 @@ export class BylRoleCrudComponent extends BylMasterDataCrudComponentBasePro<BylR
     //
     // }
 
+    menuLinkTabClick(){
+        if (!this.menuLinkList.haveSearched){
+            this.menuLinkList.search();
+        }
+    }
 
-
+    permissionTabClick(){
+        if(!this.permissionList.haveSearched){
+            this.permissionList.search();
+        }
+    }
 
 
 }

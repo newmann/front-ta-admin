@@ -57,20 +57,7 @@
                                         [hostForm]="form" [controlPath]="'name'" [isRequired]="'true'"
                                         [placeHolder]="'请输入代码，最少为2个字符'"></byl-input-formitem>
 
-                    <!--<nz-form-item nz-row>-->
-                        <!--<nz-form-caption [nzSm]="6" [nzXs]="24" nzRequired nzFor="name" >名称</nz-form-caption>-->
 
-                        <!--<nz-form-control [nzSm]="6" [nzXs]="24" nzHasFeedback [nzValidateStatus]="name">-->
-                            <!--<input nz-input formControlName="name" nzPlaceHolder="最少为2个字符" nzId="'name'">-->
-
-                            <!--<nz-form-explain *ngIf="name.dirty && name.errors">-->
-                              <!--<ng-container *ngIf="name.hasError('required')">必须输入名称</ng-container>-->
-                              <!--<ng-container *ngIf="name.hasError('other')">验证出现异常：{{name.hasError('other')}}</ng-container>-->
-                              <!--<ng-container *ngIf="name.hasError('minlength')">最少为两个字符</ng-container>-->
-                              <!--<ng-container *ngIf="name.pending">验证中...</ng-container>-->
-                            <!--</nz-form-explain>-->
-                        <!--</nz-form-control>-->
-                    <!--</nz-form-item>-->
                     <byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"
                                         [hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"
                                         [placeHolder]="'请输入备注'"></byl-input-formitem>
@@ -96,9 +83,10 @@
         </nz-tab>
         <nz-tab [nzDisabled]="!sourceId" nzTitle="用户">
             <byl-account-item-list [masterId]="sourceId"
-                                   [findAvailablePoolsService]="menuService"
-                                   [findEntityAccountService]="menuService"
-                                   [saveAccountRelationService]="menuService">
+                                   [ReadOnly]="showBrowseButton()"
+                                   [accountRelationService]="departmentService"
+
+            >
             </byl-account-item-list>
         </nz-tab>
         <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">
