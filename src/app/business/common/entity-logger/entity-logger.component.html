@@ -3,7 +3,11 @@
                 <span>
                     <nz-timeline >
                         <ng-template ngFor let-item [ngForOf]="entityLogList" let-i="index">
-                            <nz-timeline-item  [nzColor]="'green'">{{item.action}}-{{item.modifyAction.modifyDateTime | _date }}  </nz-timeline-item>
+                            <nz-timeline-item  [nzColor]="getColorFromAction(item.action)">
+                              <p>{{item.modifyAction.modifyDateTime | _date }}</p>
+                              <p>{{item.action}}</p>
+                              <p>{{item.data}}</p>
+                            </nz-timeline-item>
                         </ng-template>
 
                     </nz-timeline>

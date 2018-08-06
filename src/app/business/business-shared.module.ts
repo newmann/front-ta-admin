@@ -29,6 +29,7 @@ import {BylInputWidgetComponent} from "./common/input-form-item/input.formitem";
 import {BylInputNumberWidgetComponent} from "./common/input-number-form-item/input-number.formitem";
 import {BylRadioWidgetComponent} from "./common/radio-form-item/radio.formitem";
 import {BylSelectWidgetComponent} from "./common/select-form-item/select.formitem";
+import {BylFileUploadWidgetSFComponent} from "./common/file-upload-widget-sf/file-upload.widget";
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import {BylSelectWidgetComponent} from "./common/select-form-item/select.formite
         ,BylExpenseTypeSelectWidgetSFComponent
         ,BylOperationPeriodSelectWidgetSFComponent
         ,BylWorkTypeSelectWidgetSFComponent
+        ,BylFileUploadWidgetSFComponent
     ],
     exports: [
         BylPipeModule,
@@ -98,6 +100,7 @@ import {BylSelectWidgetComponent} from "./common/select-form-item/select.formite
         ,BylExpenseTypeSelectWidgetSFComponent
         ,BylOperationPeriodSelectWidgetSFComponent
         ,BylWorkTypeSelectWidgetSFComponent
+        ,BylFileUploadWidgetSFComponent
     ],
     entryComponents: [
         BylAccountListComponent,
@@ -115,6 +118,7 @@ import {BylSelectWidgetComponent} from "./common/select-form-item/select.formite
         ,BylExpenseTypeSelectWidgetSFComponent
         ,BylOperationPeriodSelectWidgetSFComponent
         ,BylWorkTypeSelectWidgetSFComponent
+        ,BylFileUploadWidgetSFComponent
     ]
     // ,
     // schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
@@ -132,5 +136,6 @@ export class BylBusinessSharedModule {
         widgetRegistry.register(BylExpenseTypeSelectWidgetSFComponent.KEY, BylExpenseTypeSelectWidgetSFComponent);
         widgetRegistry.register(BylOperationPeriodSelectWidgetSFComponent.KEY, BylOperationPeriodSelectWidgetSFComponent);
         widgetRegistry.register(BylWorkTypeSelectWidgetSFComponent.KEY, BylWorkTypeSelectWidgetSFComponent);
+        widgetRegistry.register(BylFileUploadWidgetSFComponent.KEY, BylFileUploadWidgetSFComponent);
     }
 }

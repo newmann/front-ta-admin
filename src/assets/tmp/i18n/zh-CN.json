@@ -98,6 +98,9 @@
   "project_list": "浏览项目",
   "project_new": "新增项目",
 
+  "project_progress_assess_ticket_list": "项目进度评估表管理",
+  "project_progress_assess_ticket_new": "新增项目进度评估表",
+
   "project_resource_pool": "资源范围管理",
   "project_manager_pool_list": "项目经理范围管理",
   "borrow_money_qualification_pool_list": "可借款范围管理",

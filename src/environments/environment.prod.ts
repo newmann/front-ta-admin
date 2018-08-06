@@ -4,5 +4,6 @@ export const environment = {
     production: true,
     // HOST: 'http://testserver:8020',
     WEBSOCKET: 'ws://testserver:8090',
-    useHash: true
+    useHash: true,
+    hmr: false
 };

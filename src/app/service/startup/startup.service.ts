@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {zip} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {MenuService, SettingsService, TitleService, ALAIN_I18N_TOKEN} from '@delon/theme';
-import {ACLService} from '@delon/acl';
+import {ACLCanType, ACLService, ACLType} from '@delon/acl';
 import {TranslateService} from '@ngx-translate/core';
 import {I18NService} from '@core/i18n/i18n.service';
 import {DA_SERVICE_TOKEN, ITokenModel, ITokenService, JWTTokenModel, SimpleTokenModel} from '@delon/auth';
@@ -77,13 +77,15 @@ export class BylStartupService {
                                 // 用户信息：包括姓名、头像、邮箱地址
                                 this.settingService.setUser(app.user);
                                 //获取权限
-                                console.log('IN StartupService, load() abilities:', abilitiesResultBody.data);
+
                                 this.aclService.setAbility(abilitiesResultBody.data);
+                                console.log('IN StartupService, load() abilities:', this.aclService.data);
                                 // ACL：设置权限为全量
                                 // this.aclService.setFull(true);
                                 // 初始化菜单
 
                                 this.menuService.add(app.menu);
+
                                 // 设置页面标题的后缀
                                 this.titleService.suffix = app.app.name;
                             },
@@ -98,4 +100,61 @@ export class BylStartupService {
             resolve(null); //todo why?
         });
     }
+
+    can(roleOrAbility: ACLCanType): boolean {
+        // if (this.full === true || !roleOrAbility) {
+        //     return true;
+        // }
+
+        let t: ACLType = {};
+        if (typeof roleOrAbility === 'number') {
+            t = { ability: [roleOrAbility] };
+        } else if (
+            Array.isArray(roleOrAbility) &&
+            roleOrAbility.length > 0 &&
+            typeof roleOrAbility[0] === 'number'
+        ) {
+            t = { ability: roleOrAbility };
+        } else {
+            t = this.parseACLType(roleOrAbility);
+        }
+        console.log('can:', t);
+
+        if (t.role) {
+            if (t.mode === 'allOf') return t.role.every(v => this.aclService.data.roles.includes(v));
+            else return t.role.some(v => this.aclService.data.roles.includes(v));
+        }
+        if (t.ability) {
+            if (t.mode === 'allOf')
+                return (t.ability as any[]).every(v => this.aclService.data.abilities.includes(v));
+            else return (t.ability as any[]).some(v => this.aclService.data.abilities.includes(v));
+        }
+        return false;
+    }
+
+    private parseACLType(val: string | string[] | ACLType): ACLType {
+        if (typeof val !== 'string' && !Array.isArray(val)) {
+            return <ACLType>val;
+        }
+        if (Array.isArray(val)) {
+            return <ACLType>{ role: <string[]>val };
+        }
+        return <ACLType>{
+            role: [val],
+        };
+    }
+
+    /** @inner */
+    parseAbility(value: ACLCanType): ACLCanType {
+        if (
+            typeof value === 'number' ||
+            typeof value === 'string' ||
+            Array.isArray(value)
+        ) {
+            value = <ACLType>{ ability: Array.isArray(value) ? value : [value] };
+        }
+        delete value.role;
+        return value;
+    }
 }
+

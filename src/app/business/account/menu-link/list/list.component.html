@@ -25,7 +25,9 @@
     </ng-template>
 </page-header>
 <byl-list-query-widget [defaultData]="queryDefaultData" [schema]="querySchema"
-                       [uiSchema]="queryUiSchema" [actionTemplateRef]="queryAction"></byl-list-query-widget>
+                       [uiSchema]="queryUiSchema" [actionTemplateRef]="queryAction"
+                       (searchConditionChange)="search()"
+></byl-list-query-widget>
 <ng-template #queryAction >
   <ng-container *ngIf="functionMode === SELECT_MODE">
     <button nz-button [disabled]="selectedRows.length == 0" (click) = "batchSelect($event)" [nzType]="'default'"  class="ml-sm">

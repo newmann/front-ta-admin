@@ -45,6 +45,8 @@ import {BylWorkloadDetailDetailService} from "./project/service/workload-detail-
 import {BylProjectAuthService} from "./project/service/project-auth.service";
 import {BylMenuService} from "./account/service/menu.service";
 import {BylMenuLinkService} from "./account/service/menu-link.service";
+import {BylProjectProgressAssessTicketService} from "./project/service/project-progress-assess-ticket.service";
+import {BylFileServerService} from "./fileserver/service/file-server.service";
 
 
 
@@ -53,7 +55,7 @@ import {BylMenuLinkService} from "./account/service/menu-link.service";
         BylElectronService,
         BylConfigService,
         BylSimpleEntityLoggerService,
-
+        BylFileServerService,
 
         //account module
         BylAuthService,
@@ -82,6 +84,8 @@ import {BylMenuLinkService} from "./account/service/menu-link.service";
         BylProjectService,
         BylProjectManagerPoolService,
         BylProjectAuthService,
+        BylProjectProgressAssessTicketService,
+
         BylBorrowMoneyTicketService,
         BylBorrowMoneyQualificationPoolService,
         BylWorkTypeService,

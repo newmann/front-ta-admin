@@ -88,4 +88,17 @@ export class BylEntityLoggerComponent /*implements ControlValueAccessor */ {
             }
         )
     }
+
+    getColorFromAction(action: string){
+        switch (action){
+            case "新增":
+                return 'green';
+            // case "修改":
+            //     return '#f1c232';
+            case "删除":
+                return 'red';
+            default:
+                return 'blue';
+        }
+    }
 }

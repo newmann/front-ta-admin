@@ -70,8 +70,13 @@ export class BylExpenseTicketDetailCrudComponent extends BylTicketDetailCrudComp
                     }
                 },
                 "amount": {
-                    "type": "string",
-                    "title": '金额'
+                    "type": "number",
+                    minimum: 0,
+                    maximum: 100000000,
+                    "title": '金额（元）',
+                    ui: {
+                        precision: 2
+                    },
                 },
                 "remarks": {
                     "type": 'string',

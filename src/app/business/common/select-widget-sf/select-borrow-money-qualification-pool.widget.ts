@@ -9,6 +9,7 @@ import {BylBorrowMoneyQualificationPoolService} from "../../../service/project/s
 import {BylBorrowMoneyQualificationPool} from "../../../service/project/model/borrow-money-qualification-pool.model";
 import {simpleDeepCopy} from "../../../service/utils/object.utils";
 import {map} from "rxjs/operators";
+import {toBool} from "@delon/form/src/src/utils";
 
 @Component({
     selector: 'byl-select-borrow-money-qualification-pool',
@@ -76,14 +77,14 @@ export class BylBorrowMoneyQualificationPoolSelectWidgetSFComponent extends Cont
     ngOnInit(): void {
         this.i = {
             allowClear: this.ui.allowClear,
-            autoFocus: this.ui.autoFocus || false,
+            autoFocus: toBool(this.ui.autoFocus , false),
             dropdownClassName: this.ui.dropdownClassName || null,
-            dropdownMatchSelectWidth: this.ui.dropdownMatchSelectWidth || true,
-            serverSearch: this.ui.serverSearch || false,
+            dropdownMatchSelectWidth: toBool(this.ui.dropdownMatchSelectWidth , true),
+            serverSearch: toBool(this.ui.serverSearch , false),
             maxMultipleCount: this.ui.maxMultipleCount || Infinity,
             mode: this.ui.mode || 'default',
             notFoundContent: this.ui.notFoundContent || '无法找到',
-            showSearch: this.ui.showSearch || true,
+            showSearch: toBool(this.ui.showSearch, true),
         };
     }
 

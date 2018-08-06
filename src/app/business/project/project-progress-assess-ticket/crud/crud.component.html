@@ -1,0 +1,33 @@
+<page-header [title]="'借款单信息维护'" *ngIf="processType.length > 0 "></page-header>
+<nz-card [nzBordered]="false">
+    <nz-tabset>
+      <nz-tab [nzTitle]="'基本信息'">
+        <sf  #sf [button]="null"
+             [schema]="emptyFormSchema"
+             [formData]="businessData"
+             mode="edit"
+             (formError)="error($event)">
+          <button type="submit" nz-button [disabled]="!sf.valid"  (click)="submitForm()"
+                  *ngIf="showSaveButton()" [nzLoading]="loading">保存</button>
+          <button (click)="reset()"  type="button" nz-button *ngIf="showSaveButton()">重置</button>
+          <button nz-button [disabled]="!sf.valid" (click)="submitEntity()"
+                  *ngIf="showSubmitButton()" [nzLoading]="loading">提交</button>
+          <button nz-button (click)="checkEntity()" *ngIf="showCheckButton()" [nzLoading]="loading">审核</button>
+          <button nz-button (click)="cancelEntity()" *ngIf="showCancelButton()" [nzLoading]="loading">作废</button>
+
+        </sf>
+
+        <p>{{sf.value | json}}</p>
+        <p>{{businessData | json}}</p>
+
+        <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
+        </nz-tab>
+
+      <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">
+        <byl-entity-logger [entityId]="sourceId"></byl-entity-logger>
+      </nz-tab>
+
+    </nz-tabset>
+
+</nz-card>
+

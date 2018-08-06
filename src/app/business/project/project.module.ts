@@ -40,6 +40,9 @@ import {BylOutsourceEmployeeItemListComponent} from "./outsource-employee/item-l
 import {BylWorkloadDetailDetailBrowserComponent} from "./workload-detail-detail/list/list.component";
 import {BylProjectAuthListComponent} from "./project-auth/list/list.component";
 import {BylProjectAuthItemProjectListComponent} from "./project-auth/project-list/item-list.component";
+import {BylProjectProgressAssessTicket} from "../../service/project/model/project-progress-assess-ticket.model";
+import {BylProjectProgressAssessTicketListComponent} from "./project-progress-assess-ticket/list/list.component";
+import {BylProjectProgressAssessTicketCrudComponent} from "./project-progress-assess-ticket/crud/crud.component";
 
 
 @NgModule({
@@ -61,6 +64,8 @@ import {BylProjectAuthItemProjectListComponent} from "./project-auth/project-lis
         BylProjectListComponent,
         BylProjectAuthListComponent,
         BylProjectAuthItemProjectListComponent,
+        BylProjectProgressAssessTicketListComponent,
+        BylProjectProgressAssessTicketCrudComponent,
 
         BylProjectManagerPoolListComponent,
         BylBorrowMoneyQualificationPoolListComponent,

@@ -19,6 +19,8 @@ import {BylMenuListComponent} from "./menu/list/list.component";
 import {BylMenuCrudComponent} from "./menu/crud/crud.component";
 import {BylMenuLinkItemListComponent} from "./menu-link/item-list/item-list.component";
 import {BylMenuLinkListComponent} from "./menu-link/list/list.component";
+import {BylPermissionAddPoolListComponent} from "./permission/add-pool-list/add-pool-list.component";
+import {BylAccountAddPoolListComponent} from "./account/add-pool-list/add-pool-list.component";
 
 
 @NgModule({
@@ -37,6 +39,8 @@ import {BylMenuLinkListComponent} from "./menu-link/list/list.component";
         // BylAccountListComponent,//移到business-shared.module中
         BylAccountItemListComponent,
         BylAccountCrudComponent,
+        BylAccountAddPoolListComponent,
+
         BylMenuListComponent,
         BylMenuCrudComponent,
         BylMenuLinkItemListComponent,
@@ -44,6 +48,7 @@ import {BylMenuLinkListComponent} from "./menu-link/list/list.component";
 
         BylPermissionListComponent,
         BylPermissionItemListComponent,
+        BylPermissionAddPoolListComponent,
         BylResetPasswordComponent
 
     ],
@@ -52,7 +57,9 @@ import {BylMenuLinkListComponent} from "./menu-link/list/list.component";
         BylMenuLinkListComponent,
         BylMenuCrudComponent,
         BylRoleCrudComponent,
-        BylDepartmentCrudComponent
+        BylDepartmentCrudComponent,
+        BylPermissionAddPoolListComponent,
+        BylAccountAddPoolListComponent
     ]
 })
 export class BylAccountModule {

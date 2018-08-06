@@ -139,8 +139,9 @@ export class BylOrganizationListComponent extends BylListComponentBasePro<BylOrg
 
     //#region 查询条件
     queryDefaultData: any = {
-        modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
-        modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD") };
+        // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
+        // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
+    };
     queryUiSchema: SFUISchema = {};
     querySchema: SFSchema = {
         properties: {
@@ -153,15 +154,19 @@ export class BylOrganizationListComponent extends BylListComponentBasePro<BylOrg
             simpleName: { type: 'string',
                 title: '简称类似于'
             },
-
-            modifyDateBegin: { type: 'string',
+            modifyDateRange: {
+                type: 'string',
                 title: '最后修改日期大于等于',
-                ui: { widget: 'date' }
-            },
-            modifyDateEnd: { type: 'string',
-                title: '最后修改日期小于等于',
-                ui: { widget: 'date' }
+                ui: { widget: 'date',mode: 'range' }
             }
+            // modifyDateBegin: { type: 'string',
+            //     title: '最后修改日期大于等于',
+            //     ui: { widget: 'date' }
+            // },
+            // modifyDateEnd: { type: 'string',
+            //     title: '最后修改日期小于等于',
+            //     ui: { widget: 'date' }
+            // }
         },
         required: []
     };

@@ -1,8 +1,9 @@
-import {Component, HostBinding, Inject, OnInit} from '@angular/core';
+import {Component, ElementRef, HostBinding, Inject, OnInit, Renderer2} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { SettingsService, TitleService } from '@delon/theme';
 import { filter } from 'rxjs/operators';
 import {CacheService} from '@delon/cache';
+import { VERSION as VERSION_ALAIN } from '@delon/theme';
 import {DA_SERVICE_TOKEN, ITokenService, JWTTokenModel, SimpleTokenModel} from '@delon/auth';
 import {BylElectronService} from './service/electron/electron.service';
 
@@ -18,11 +19,20 @@ export class AppComponent implements OnInit {
 
   constructor(
       private electronService: BylElectronService,
+    el: ElementRef,
+    renderer: Renderer2,
     private settings: SettingsService,
     private router: Router,
     private titleSrv: TitleService,
     private cacheService: CacheService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {
+      renderer.setAttribute(
+          el.nativeElement,
+          'ng-alain-version',
+          VERSION_ALAIN.full,
+      );
+      // renderer.setAttribute(el.nativeElement, 'ng-zorro-version', VERSION_ZORRO.full);
+
   }
 
   ngOnInit() {

@@ -64,6 +64,21 @@ export abstract class BylTicketCrudComponentBasePro<T extends BylTicketBaseModal
 
     }
     /**
+     * 重置界面内容
+     */
+    reset() {
+
+        console.log('reset form', this.businessData);
+
+        super.reset();
+        //设置可复用标签的名字：
+        if (this.sourceId) {
+            //说明是修改
+            this.reuseTabService.title = '编辑-' + this.businessData.billNo;
+        }
+
+    }
+    /**
      * 提交实体
      */
     submitEntity() {
@@ -118,7 +133,7 @@ export abstract class BylTicketCrudComponentBasePro<T extends BylTicketBaseModal
     }
 
 
-    private followProcess(call$: Observable<BylResultBody<T>> ){
+    protected followProcess(call$: Observable<BylResultBody<T>> ){
         call$.subscribe(
             data => {
                 // this._loading = false;

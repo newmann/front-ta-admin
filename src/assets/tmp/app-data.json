@@ -35,12 +35,12 @@
           "text": "角色管理",
           "link": "/account/role/list",
           "i18n": "role_list",
-          "acl": "/account/role/list"
+          "acl": {"ability":["/account/role/list"],"mode":"oneOf"}
         },{
           "text": "角色新增",
           "link": "/account/role/crud/new",
           "i18n": "role_new",
-          "acl": "/account/role/crud/new"
+          "acl": {"ability":["/account/role/crud/new"],"mode":"oneOf"}
         }
         ]
       },{
@@ -50,11 +50,13 @@
         "children": [{
           "text": "账户管理",
           "link": "/account/account/list",
-          "i18n": "account_list"
+          "i18n": "account_list",
+          "acl": {"ability":["/account/account/list"],"mode":"oneOf"}
         },{
           "text": "账户新增",
           "link": "/account/account/crud/new",
-          "i18n": "account_new"
+          "i18n": "account_new",
+          "acl": {"ability":["/account/account/crud/new"],"mode":"oneOf"}
         }
         ]
       },{
@@ -64,7 +66,8 @@
         "children": [{
           "text": "权限管理",
           "link": "/account/permission/list",
-          "i18n": "permission_list"
+          "i18n": "permission_list",
+          "acl": {"ability":["/account/permission/list"],"mode":"oneOf"}
         }
         ]
       },{
@@ -74,7 +77,8 @@
         "children": [{
           "text": "菜单管理",
           "link": "/account/menu/list",
-          "i18n": "menu_list"
+          "i18n": "menu_list",
+          "acl": {"ability":["/account/menu/list"],"mode":"oneOf"}
         }
         ]
       }]
@@ -85,11 +89,13 @@
       "children":[{
           "text": "个人资料管理",
           "link": "/person/person/list",
-          "i18n": "person_list"
+          "i18n": "person_list",
+          "acl": {"ability":["/person/person/list"],"mode":"oneOf"}
         },{
           "text": "个人资料新增",
           "link": "/person/person/crud/new",
-          "i18n": "person_new"
+          "i18n": "person_new",
+          "acl": {"ability":["/person/person/crud/new"],"mode":"oneOf"}
         }]
     },{
       "text": "组织管理",
@@ -98,11 +104,13 @@
       "children":[{
           "text": "组织资料管理",
           "link": "/organization/organization/list",
-          "i18n": "organization_list"
+          "i18n": "organization_list",
+          "acl": {"ability":["/organization/organization/list"],"mode":"oneOf"}
         },{
           "text": "组织资料新增",
           "link": "/organization/organization/crud/new",
-          "i18n": "organization_new"
+          "i18n": "organization_new",
+          "acl": {"ability":["/organization/organization/crud/new"],"mode":"oneOf"}
       }]
     },{
       "text": "项目",
@@ -115,12 +123,23 @@
         "children": [{
           "text": "项目管理",
           "link": "/project/project/list",
-          "i18n": "project_list"
+          "i18n": "project_list",
+          "acl": {"ability":["/project/project/list"],"mode":"oneOf"}
         },{
           "text": "项目新增",
           "link": "/project/project/crud/new",
-          "i18n": "project_new"
+          "i18n": "project_new",
+          "acl": {"ability":[ "/project/project/crud/new"],"mode":"oneOf"}
+        },{
+          "text": "项目进度评估表管理",
+          "link": "/project/project-progress-assess-ticket/list",
+          "i18n": "project_progress_assess_ticket_list"
+        },{
+          "text": "项目进度评估表新增",
+          "link": "/project/progress-assess-ticket/crud/new",
+          "i18n": "project_progress_assess_ticket_new"
         }
+
         ]
       },{
         "text": "资源范围管理",
@@ -129,11 +148,13 @@
         "children": [{
           "text": "项目经理范围管理",
           "link": "/project/project-manager-pool/list",
-          "i18n": "project_manager_pool_list"
+          "i18n": "project_manager_pool_list",
+          "acl": {"ability":["/project/project-manager-pool/list"],"mode":"oneOf"}
         },{
           "text": "可借款范围管理",
           "link": "/project/borrow-money-qualification-pool/list",
-          "i18n": "borrow_money_qualification_pool_list"
+          "i18n": "borrow_money_qualification_pool_list",
+          "acl": {"ability":["/project/borrow-money-qualification-pool/list"],"mode":"oneOf"}
         }
         ]
       },{
@@ -143,11 +164,13 @@
         "children": [{
           "text": "业务期间管理",
           "link": "/project/operation-period/list",
-          "i18n": "operation_period_list"
+          "i18n": "operation_period_list",
+          "acl": {"ability":["/project/operation-period/list"],"mode":"oneOf"}
         },{
           "text": "业务期间新增",
           "link": "/project/operaiton_period/new",
-          "i18n": "operation_period_new"
+          "i18n": "operation_period_new",
+          "acl": {"ability":[ "/project/operaiton_period/new"],"mode":"oneOf"}
         }
         ]
       },{
@@ -157,19 +180,23 @@
         "children": [{
           "text": "工种管理",
           "link": "/project/work-type/list",
-          "i18n": "work_type_list"
+          "i18n": "work_type_list",
+          "acl": {"ability":["/project/work-type/list"],"mode":"oneOf"}
         },{
           "text": "工种新增",
           "link": "/project/work-type/crud/new",
-          "i18n": "work_type_new"
+          "i18n": "work_type_new",
+          "acl": {"ability":["/project/work-type/crud/new"],"mode":"oneOf"}
         },{
           "text": "工种配置管理",
           "link": "/project/work-type-config-ticket/list",
-          "i18n": "work_type_config_ticket_list"
+          "i18n": "work_type_config_ticket_list",
+          "acl": {"ability":["/project/work-type-config-ticket/list"],"mode":"oneOf"}
         },{
           "text": "工种配置新增",
           "link": "/project/work-type-config-ticket/crud/new",
-          "i18n": "work_type_config_ticket_new"
+          "i18n": "work_type_config_ticket_new",
+          "acl": {"ability":["/project/work-type-config-ticket/crud/new"],"mode":"oneOf"}
         }
         ]
       },{
@@ -179,11 +206,13 @@
         "children": [{
           "text": "员工查询",
           "link": "/project/employee/list",
-          "i18n": "employee_list"
+          "i18n": "employee_list",
+          "acl": {"ability":["/project/employee/list"],"mode":"oneOf"}
         },{
           "text": "员工新增",
           "link": "/project/employee/crud/new",
-          "i18n": "employee_new"
+          "i18n": "employee_new",
+          "acl": {"ability":[ "/project/employee/crud/new"],"mode":"oneOf"}
         }
         ]
       },{
@@ -194,12 +223,14 @@
               {
                 "text": "外包商查询",
                 "link": "/project/outsourcer/list",
-                "i18n": "outsourcer_list"
+                "i18n": "outsourcer_list",
+                "acl": {"ability":["/project/outsourcer/list"],"mode":"oneOf"}
               }
               ,{
                 "text": "外包商新增",
                 "link": "/project/outsourcer/crud/new",
-                "i18n": "outsourcer_new"
+                "i18n": "outsourcer_new",
+                "acl": {"ability":["/project/outsourcer/crud/new"],"mode":"oneOf"}
               }
             ]
           },
@@ -211,12 +242,14 @@
               {
                 "text": "外包商员工查询",
                 "link": "/project/outsource-employee/list",
-                "i18n": "outsource_employee_list"
+                "i18n": "outsource_employee_list",
+                "acl": {"ability":["/project/outsource-employee/list"],"mode":"oneOf"}
               }
               ,{
                 "text": "外包商员工新增",
                 "link": "/project/outsource-employee/crud/new",
-                "i18n": "outsource_employee_new"
+                "i18n": "outsource_employee_new",
+                "acl": {"ability":["/project/outsource-employee/crud/new"],"mode":"oneOf"}
               }
             ]
           }
@@ -228,11 +261,13 @@
       "children": [{
         "text": "借款单管理",
         "link": "/project/borrow-money-ticket/list",
-        "i18n": "borrow_money_ticket_list"
+        "i18n": "borrow_money_ticket_list",
+        "acl": {"ability":["/project/borrow-money-ticket/list"],"mode":"oneOf"}
       },{
         "text": "借款单新增",
         "link": "/project/borrow-money-ticket/crud/new",
-        "i18n": "borrow_money_ticket_new"
+        "i18n": "borrow_money_ticket_new",
+        "acl": {"ability":[ "/project/borrow-money-ticket/crud/new"],"mode":"oneOf"}
       }
       ]
     },{
@@ -242,21 +277,25 @@
       "children": [{
         "text": "费用类型管理",
         "link": "/project/expense-type/list",
-        "i18n": "expense_type_list"
+        "i18n": "expense_type_list",
+        "acl": {"ability":["/project/expense-type/list"],"mode":"oneOf"}
       },{
         "text": "费用类型新增",
         "link": "/project/expense-type/crud/new",
-        "i18n": "expense_type_new"
+        "i18n": "expense_type_new",
+        "acl": {"ability":["/project/expense-type/crud/new"],"mode":"oneOf"}
       }
       ,{
           "text": "费用单管理",
           "link": "/project/expense-ticket/list",
-          "i18n": "expense_ticket_list"
+          "i18n": "expense_ticket_list",
+          "acl": {"ability":["/project/expense-ticket/list"],"mode":"oneOf"}
         }
       ,{
           "text": "费用单新增",
           "link": "/project/expense-ticket/crud/new",
-          "i18n": "expense_ticket_new"
+          "i18n": "expense_ticket_new",
+          "acl": {"ability":["/project/expense-ticket/crud/new"],"mode":"oneOf"}
         }
       ]
     },{
@@ -266,12 +305,14 @@
       "children": [{
         "text": "费用登记单管理",
         "link": "/project/workload-ticket/list",
-        "i18n": "workload_ticket_list"
+        "i18n": "workload_ticket_list",
+        "acl": {"ability":["/project/workload-ticket/list"],"mode":"oneOf"}
       }
       ,{
           "text": "费用登记单新增",
           "link": "/project/workload-ticket/crud/new",
-          "i18n": "workload_ticket_new"
+          "i18n": "workload_ticket_new",
+          "acl": {"ability":["/project/workload-ticket/crud/new"],"mode":"oneOf"}
         }
       ]
     }, {
@@ -282,11 +323,13 @@
       "children": [{
         "text": "新型浏览界面",
         "link": "/newform/newform/list",
-        "i18n": "newform_list"
+        "i18n": "newform_list",
+        "acl": {"ability":["/newform/newform/list"],"mode":"oneOf"}
       },{
         "text": "流程图",
         "link": "/newform/newform/graph",
-        "i18n": "newform_graph"
+        "i18n": "newform_graph",
+        "acl": {"ability":["/newform/newform/graph"],"mode":"oneOf"}
       }
 
       ]

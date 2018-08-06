@@ -15,6 +15,7 @@ import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {SFSchema} from "@delon/form";
 import {BylMenuLinkItemListComponent} from "../../menu-link/item-list/item-list.component";
 import {BylPermissionItemListComponent} from "../../permission/item-list/item-list.component";
+import {BylAccountItemListComponent} from "../../account/item-list/item-list.component";
 
 
 @Component({
@@ -25,6 +26,7 @@ import {BylPermissionItemListComponent} from "../../permission/item-list/item-li
 export class BylRoleCrudComponent extends BylMasterDataCrudComponentBasePro<BylRole> {
     @ViewChild('menuLinkList') menuLinkList: BylMenuLinkItemListComponent;
     @ViewChild('permissionList') permissionList: BylPermissionItemListComponent;
+    @ViewChild('accountList') accountList: BylAccountItemListComponent;
     // public clientBrowserType: any;
 
     //调用BylPermissionItemListComponet时传入的参数
@@ -229,5 +231,10 @@ export class BylRoleCrudComponent extends BylMasterDataCrudComponentBasePro<BylR
         }
     }
 
+    accountTabClick(){
+        if(!this.accountList.haveSearched){
+            this.accountList.search();
+        }
+    }
 
 }

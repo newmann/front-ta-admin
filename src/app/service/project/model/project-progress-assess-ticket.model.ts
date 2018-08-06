@@ -1,5 +1,5 @@
 /**
- * @Description: 考情登记单
+ * @Description: 项目进度评估表
  * @Author: newmann
  * @Date: Created in 21:05 2018-01-22
  */
@@ -19,6 +19,8 @@ import {BylDatetimeUtils} from "../../utils/datetime.utils";
 import {BylTicketBaseModal} from "../../model/ticket-base.model";
 import {BylExpenseTicketStatusEnum, BylExpenseTicketStatusManager} from "./expense-ticket-status.enum";
 import {BylEmbeddableOutsourcer} from "./embeddable-outsourcer.model";
+import {BylEmbeddableOperationPeriod} from "./embeddable-operation-period.model";
+import {SFSchemaEnumType} from "@delon/form";
 
 export class BylProjectProgressAssessTicket extends BylTicketBaseModal {
 
@@ -27,15 +29,38 @@ export class BylProjectProgressAssessTicket extends BylTicketBaseModal {
 
     checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
 
-    beginDateWidget:any;
-    endDateWidget:any;
-
-    beginDate: number;
-    endDate: number;
+    // beginDateWidget:any;
+    // endDateWidget:any;
+    //
+    // beginDate: number;
+    // endDate: number;
 
     amount: number;
-    attachFileName: string;
 
+    attachFileName: string;
+    attachFileUrl: string;
+    attachFileWidget: any;
+
+    // get attachFileWidget(): any{
+    //     if (this.attachFileName){
+    //         return [{
+    //            name: this.attachFileName,
+    //            url: this.attachFileUrl,
+    //            status: 'done'
+    //         }];
+    //     }else
+    //     {
+    //         return null;
+    //     }
+    // };
+    //
+    // set attachFileWidget(value: any){
+    //
+    // }
+
+
+    operationPeriodWidget: any;
+    operationPeriod: BylEmbeddableOperationPeriod = new BylEmbeddableOperationPeriod();
 
     get projectDisplay(){
         if(this.project){
@@ -46,23 +71,36 @@ export class BylProjectProgressAssessTicket extends BylTicketBaseModal {
 
     }
 
-    get beginDateDisplay(){
-        return BylDatetimeUtils.formatDate(this.beginDate);
-    }
-    set beginDateDisplay(value:string){
-
-    }
-
-    get endDateDisplay(){
-        return BylDatetimeUtils.formatDate(this.endDate);
-    }
-    set endDateDisplay(value:string){
-
-    }
+    // get beginDateDisplay(){
+    //     return BylDatetimeUtils.formatDate(this.beginDate);
+    // }
+    // set beginDateDisplay(value:string){
+    //
+    // }
+    //
+    // get endDateDisplay(){
+    //     return BylDatetimeUtils.formatDate(this.endDate);
+    // }
+    // set endDateDisplay(value:string){
+    //
+    // }
     get statusDisplay(): string{
         return BylExpenseTicketStatusManager.getCaption(this.status);
     }
     set statusDisplay(value: string){
+
+    }
+
+    get operationPeriodDisplay(){
+        if(this.operationPeriod){
+            return this.operationPeriod.operatonPeriodName + "["
+                + BylDatetimeUtils.formatDate(this.operationPeriod.operatonPeriodBeginDate)
+                + ' - '
+                + BylDatetimeUtils.formatDate(this.operationPeriod.operatonPeriodEndDate)
+                + ']';
+        }
+    }
+    set operationPeriodDisplay(value:string){
 
     }
 }

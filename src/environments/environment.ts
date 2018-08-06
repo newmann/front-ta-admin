@@ -11,6 +11,7 @@ export const environment = {
     WEBSOCKET: 'ws://localhost:8090',
     production: true,
   useHash: true,
+    hmr: false
 };
 
 /*

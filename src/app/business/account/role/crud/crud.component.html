@@ -20,50 +20,7 @@
           </sf>
           <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
 
-          <!--<p>formdata:{{sfForm.value | json}}</p>-->
-          <!--<p>businessData:{{businessData | json}}</p>-->
 
-            <!--<ng-template #nzTabHeading>-->
-            <!--</ng-template>-->
-            <!--<span>-->
-                <!--<form nz-form [formGroup]="form" role ="form">-->
-                    <!--<byl-input-formitem [controlName]="'name'" [labelCaption]="'名称'"-->
-                                        <!--[hostForm]="form" [controlPath]="'name'" [isRequired]="'true'" [placeHolder]="'请输入名称'"></byl-input-formitem>-->
-
-                    <!--<byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"-->
-                                        <!--[hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"-->
-                                        <!--[placeHolder]="'请输入备注说明'"></byl-input-formitem>-->
-
-                    <!--&lt;!&ndash;<nz-form-item >&ndash;&gt;-->
-                        <!--&lt;!&ndash;<nz-form-caption [nzSm]="6" [nzXs]="24" nzRequired nzFor="name" >名称</nz-form-caption>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback [nzValidateStatus]="name">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<input nz-input formControlName="name" placeHolder="最少为2个字符" id="name" >&ndash;&gt;-->
-
-                            <!--&lt;!&ndash;<nz-form-explain *ngIf="name.dirty && name.errors">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<ng-container *ngIf="name.hasError('required')">必须输入角色名称</ng-container>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<ng-container *ngIf="name.hasError('duplicate')">输入的角色名称已经被使用</ng-container>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<ng-container *ngIf="name.hasError('other')">验证出现异常：{{name.hasError("other")}}</ng-container>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<ng-container *ngIf="name.pending">验证中...</ng-container>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</nz-form-explain>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</nz-form-control>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</nz-form-item>&ndash;&gt;-->
-
-                    <!--<byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>-->
-
-
-                    <!--<div nz-form-item nz-row class="mb0">-->
-
-                        <!--<div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">-->
-                            <!--<button nz-button [nzType]="'primary'" [disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>-->
-                            <!--<button nz-button (click)="resetButtonClick($event)">重置</button>-->
-
-
-                        <!--</div>-->
-
-                    <!--</div>-->
-
-                <!--</form>-->
-            <!--</span>-->
         </nz-tab>
         <nz-tab nzTitle="权限" [nzDisabled]="!sourceId" (nzClick)="permissionTabClick()">
             <byl-permission-item-list #permissionList [masterId]="sourceId"
@@ -86,8 +43,8 @@
         </byl-menu-link-item-list>
       </nz-tab>
 
-        <nz-tab nzTitle="用户" [nzDisabled]="!sourceId">
-            <byl-account-item-list [masterId]="sourceId"
+        <nz-tab nzTitle="用户" [nzDisabled]="!sourceId" (nzClick)="accountTabClick()">
+            <byl-account-item-list #accountList [masterId]="sourceId"
                                    [ReadOnly]="showBrowseButton()"
                                    [accountRelationService]="roleService"
             ></byl-account-item-list>

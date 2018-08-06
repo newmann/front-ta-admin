@@ -1,32 +1,29 @@
-import {Component, Input, OnInit, Injector} from '@angular/core';
-import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
+import {Component, Injector} from '@angular/core';
+import {NzMessageService, NzModalRef, NzModalService} from 'ng-zorro-antd';
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {Router} from '@angular/router';
-import {BylListComponentBase} from '../../../common/list-component-base';
-import {BylPersonQuery} from '../../../../service/person/query/person-query.model';
 import {BylAccount} from '../../../../service/account/model/account.model';
 import {BylAccountService} from '../../../../service/account/service/account.service';
 import {BylAccountQuery} from '../../../../service/account/query/account-query.model';
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import {BylPageResp} from '../../../../service/model/page-resp.model';
 import {Observable} from 'rxjs';
-import {BylAccountAvailablePoolsInterface} from '../../../../service/account/service/account-related.interface';
-import {BylProjectQuery} from '../../../../service/project/query/project-query.model';
-import {BylListFormFunctionModeEnum} from '../../../../service/model/list-form-function-mode.enum';
 import {SFSchema, SFUISchema} from '@delon/form';
 import * as moment from "moment";
-import {BylPageReq} from "../../../../service/model/page-req.model";
 import {
     ACTION_BROWSE,
     ACTION_CONFIRM,
-    ACTION_DELETE, ACTION_LOCK,
-    ACTION_MODIFY, ACTION_SUBMIT, ACTION_UNCONFIRM, ACTION_UNLOCK, BylTableClickAction, BylTableColumn,
+    ACTION_DELETE,
+    ACTION_LOCK,
+    ACTION_MODIFY,
+    ACTION_SUBMIT,
+    ACTION_UNCONFIRM,
+    ACTION_UNLOCK,
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
 
@@ -38,7 +35,7 @@ import {BylMasterDataListComponentBasePro} from "../../../common/master-data-lis
 export class BylAccountListComponent extends BylMasterDataListComponentBasePro<BylAccount> {
     // LIST_MODE:BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.CONFIRMED;
 
-    @Input() masterId: string; //用户查询对应关系的界面，比如角色包含的用户等
+    // @Input() masterId: string; //用户查询对应关系的界面，比如角色包含的用户等
 
     /**
      * 当前在什么状态，主要是为了兼容不同的功能，比如筛选用户的界面等等,暂先定义两个：
@@ -46,8 +43,8 @@ export class BylAccountListComponent extends BylMasterDataListComponentBasePro<B
      * select： 筛选界面，
      */
 
-    @Input() functionMode: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
-    @Input() findAvailablePoolsService: BylAccountAvailablePoolsInterface; //调用方传入查询函数
+    // @Input() functionMode: BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.NORMAL;
+    // @Input() findAvailablePoolsService: BylAccountAvailablePoolsInterface; //调用方传入查询函数
     // @Input() selectModalForm: NzModalRef;
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
@@ -66,11 +63,6 @@ export class BylAccountListComponent extends BylMasterDataListComponentBasePro<B
 
     ngOnInit(){
         super.ngOnInit();
-        //如果是在选择界面中，应该只有确认状态的账户可以选择
-        if (this.functionMode == BylListFormFunctionModeEnum.SELECT){
-            this.querySchema.properties['status'].enum = [{value: BylMasterDataStatusEnum.CONFIRMED,
-                label: BylMasterDataStatusManager.getCaption(BylMasterDataStatusEnum.CONFIRMED)}];
-        }
     }
 
     genListData(findResult: Array<BylAccount>): Array<BylListFormData<BylAccount>> {
@@ -200,14 +192,8 @@ export class BylAccountListComponent extends BylMasterDataListComponentBasePro<B
         this.listWidget.clearGrid();
 
         let queryResult: Observable<BylResultBody<BylPageResp<BylAccount>>>;
-        if (this.functionMode === BylListFormFunctionModeEnum.SELECT) {
 
-            console.log(this.findAvailablePoolsService);
-
-            queryResult = this.findAvailablePoolsService.findAvailableAccountPoolsPage(this.genQueryModel(), this.page, this.masterId);
-        } else {
-            queryResult = this.accountService.findPage(this.genQueryModel(), this.page);
-        }
+        queryResult = this.accountService.findPage(this.genQueryModel(), this.page);
 
         queryResult.subscribe(
             data => {
@@ -281,7 +267,7 @@ export class BylAccountListComponent extends BylMasterDataListComponentBasePro<B
 
 
     tableDefine:BylTableDefine ={
-        showCheckbox: true,
+        showCheckbox: false,
         entityAction: [
             {actionName: ACTION_DELETE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
             {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
@@ -310,40 +296,13 @@ export class BylAccountListComponent extends BylMasterDataListComponentBasePro<B
     ]};
 
 
-    // pageChange(item: BylPageReq){
-    //     this.page = item;
-    //     this.search();
-    // }
+
+
+    // batchDelete(){
     //
-    // selectedChange(data: BylListFormData<BylAccount>[]){
-    //     this.selectedRows = data;
-    //     console.log('in AccountList selectedChange', this.selectedRows);
-    // }
+    // };
     //
-    //
-    // entityAction(action: BylTableClickAction){
-    //     switch(action.actionName){
-    //         case ACTION_LOCK:
-    //             this.lockEntity(action.id);
-    //             break;
-    //
-    //         case ACTION_UNLOCK:
-    //             this.unlockEntity(action.id);
-    //             break;
-    //         case ACTION_MODIFY:
-    //             this.modifyEntity(action.id);
-    //             break;
-    //         default:
-    //             console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
-    //     }
+    // batchApproval(){
     //
     // }
-
-    batchDelete(){
-
-    };
-
-    batchApproval(){
-
-    }
 }

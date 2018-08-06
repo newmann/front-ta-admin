@@ -23,6 +23,7 @@ import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {Observable} from "rxjs";
 import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
 import {BylProjectAuthItemProjectListComponent} from "../../project-auth/project-list/item-list.component";
+import {BylProjectAuthService} from "../../../../service/project/service/project-auth.service";
 
 
 @Component({
@@ -228,6 +229,7 @@ export class BylProjectCrudComponent extends BylMasterDataCrudComponentBasePro<B
     constructor(public msgService: NzMessageService,
         public projectService: BylProjectService,
         public projectManagerPoolService: BylProjectManagerPoolService,
+        public projectAuthService: BylProjectAuthService,
         public countryService: BylCountryService,
         public provinceService: BylProvinceService,
         public cityService: BylCityService,

@@ -148,7 +148,7 @@ export class BylRoleListComponent extends BylMasterDataListComponentBasePro<BylR
 
     //#region 查询条件
     queryDefaultData: any = {
-        status:[BylMasterDataStatusEnum.CONFIRMED]
+        status:[BylMasterDataStatusEnum.UNSUBMITED,BylMasterDataStatusEnum.SUBMITED,BylMasterDataStatusEnum.CONFIRMED]
         // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
         // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
     };
@@ -177,7 +177,7 @@ export class BylRoleListComponent extends BylMasterDataListComponentBasePro<BylR
 //#endregion
 
     tableDefine:BylTableDefine ={
-        showCheckbox: true,
+        showCheckbox: false,
         entityAction: [
             {actionName: ACTION_DELETE,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.UNSUBMITED },
             {actionName: ACTION_MODIFY,checkFieldPath: "status" ,checkValue: BylMasterDataStatusEnum.SUBMITED },

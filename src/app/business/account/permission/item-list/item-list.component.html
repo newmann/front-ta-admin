@@ -1,16 +1,21 @@
 <div >
-    <button nz-button (click)="addRelation()" [nzType]="'dashed'"  class="ant-btn__block mb-sm" *ngIf="!ReadOnly">
-        <i class="anticon anticon-plus"></i><span>添加</span>
+
+  <div nz-row nzType="flex" nzJustify="center"  class="byl-detail-top-button">
+    <button nz-button (click)="addRelation()" [nzType]="'dashed'"  class="mb-sm" *ngIf="!ReadOnly">
+      <i class="anticon anticon-plus"></i><span>添加</span>
     </button>
 
-    <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading] = "searhing" class="ant-btn__block mb-sm">
-        <i class="anticon anticon-search"></i><span>查询</span>
+    <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading] = "searhing" class="mb-sm">
+      <i class="anticon anticon-search"></i><span>查询</span>
     </button>
 
     <button nz-button (click)="batchDelete()" [nzType]="'danger'" [nzLoading]="deleting"
-             class="ant-btn__block mb-sm"  *ngIf="selectedRows.length > 0" >
+            class="ant-btn__block mb-sm"  *ngIf="selectedRows.length > 0" >
       <i class="anticon anticon-delete"></i><span>批量删除</span>
     </button>
+
+
+  </div>
 
     <byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>
     <!--<div class="mb-md" *ngIf="selectedRows.length > 0">-->

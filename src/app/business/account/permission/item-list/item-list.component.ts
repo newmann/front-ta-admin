@@ -17,6 +17,7 @@ import {
 import {BylEntityRelationListComponentBase} from "../../../common/entity-relation-list.component-base";
 import {BylMenuLinkListComponent} from "../../menu-link/list/list.component";
 import {BylMenuLinkRelationInterface} from "../../../../service/account/service/menu-link-related.interface";
+import {BylPermissionAddPoolListComponent} from "../add-pool-list/add-pool-list.component";
 
 // export const enum PermissionEntityTypeEnum{
 //     ROLE = 1,
@@ -65,7 +66,7 @@ export class BylPermissionItemListComponent extends BylEntityRelationListCompone
                 public modalService: NzModalService,
                 public router: Router) {
         super(message,configService,modalService,router);
-        this.selectPoolsComponent = BylPermissionListComponent;
+        this.selectPoolsComponent = BylPermissionAddPoolListComponent;
         this.selectPoolsTitle = "查找权限定义";
     }
 

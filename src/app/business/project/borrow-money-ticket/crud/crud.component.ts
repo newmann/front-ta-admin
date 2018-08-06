@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {BylBorrowMoneyTicket} from '../../../../service/project/model/borrow-money-ticket.model';
 import {FormBuilder} from '@angular/forms';
 import {NzMessageService} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ReuseTabService} from '@delon/abc';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylBorrowMoneyTicketService} from '../../../../service/project/service/borrow-money-ticket.service';
@@ -17,18 +17,19 @@ import {SFSchema} from "@delon/form";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylBorrowMoneyTicketStatusEnum} from "../../../../service/project/model/borrow-money-ticket-status.enum";
 import {BylEmbeddableBorrowAction} from "../../../../service/project/model/embeddable-borrow-action.model";
+import {BylTicketCrudComponentBasePro} from "../../../common/ticket-crud-component-base-pro";
 
 
 @Component({
     selector: 'byl-borrow-money-ticket-crud',
     templateUrl: './crud.component.html',
 })
-export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<BylBorrowMoneyTicket> {
+export class BylBorrowMoneyTicketCrudComponent extends BylTicketCrudComponentBasePro<BylBorrowMoneyTicket> {
 
-    @Input()
-    set setSourceId(value: string) {
-        this.sourceId = value;
-    }
+    // @Input()
+    // set setSourceId(value: string) {
+    //     this.sourceId = value;
+    // }
 
     newBusinessData(): BylBorrowMoneyTicket {
         return new BylBorrowMoneyTicket();
@@ -38,8 +39,8 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
     private _modifySchema: SFSchema;
     private _browseSchema: SFSchema;
 
-    projectList: BylEmbeddableProject[];
-    borrowerList: BylBorrowMoneyQualificationPool[];
+    // projectList: BylEmbeddableProject[];
+    // borrowerList: BylBorrowMoneyQualificationPool[];
 
     defineForm(): void {
         this._modifySchema = {
@@ -56,7 +57,7 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
                     "title": '借款人',
                     "ui": {
                         widget: 'bylBorrowMoneyQualificationPoolSelect',
-                        placeholder: '请输入借款人代码或名称，系统自动查找',
+                        placeholder: '请输入可借款范围定义中确定的借款人代码或名称，系统自动查找',
                         allowClear: 'true',
                         serverSearch: 'true',
                         showSearch: 'true',
@@ -74,14 +75,32 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
                         showSearch: 'true',
                     }
                 },
-
+                "operationPeriod": {
+                    type: "string",
+                    title: '业务期间',
+                    ui: {
+                        widget: 'bylOperationPeriodSelect',
+                        placeholder: '请输入业务期间的代码或名称，系统自动查找',
+                        allowClear: 'true',
+                        serverSearch: 'true',
+                        showSearch: 'true',
+                    }
+                },
                 "reason": {
                     "type": "string",
-                    "title": '借款原因'
+                    "title": '借款原因',
+                    "ui": {
+                        "placeholder": '请输入借款原因'
+                    }
                 },
                 "amount": {
-                    "type": "string",
-                    "title": '借款金额'
+                    "type": "number",
+                    minimum: 0,
+                    maximum: 100000000,
+                    "title": '借款金额（元）',
+                    ui: {
+                        precision: 2
+                    },
                 },
                 "borrowDateTimeWidget": {
                     "type": "string",
@@ -107,7 +126,7 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
                 },
 
             },
-            "required": ["borrowerWidget","projectWidget" ,"reason","borrowDateTimeWidget","amount"]
+            "required": ["borrowerWidget","projectWidget","operationPeriod" ,"reason","borrowDateTimeWidget","amount"]
 
         };
 
@@ -134,7 +153,13 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
                         widget: 'text'
                     }
                 },
-
+                "operationPeriodDisplay":{
+                    "type": "string",
+                    "title": '业务期间',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
                 "reason": {
                     "type": "string",
                     "title": '借款原因',
@@ -177,7 +202,7 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
                 },
 
             },
-            "required": ["borrowerWidget","projectWidget" ,"reason","borrowDateTimeWidget","amount"]
+            "required": ["borrowerWidget","projectWidget","operationPeriod" ,"reason","borrowDateTimeWidget","amount"]
 
         };
 
@@ -192,6 +217,7 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
                 public configService: BylConfigService,
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
+                private router: Router,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
                 public fb: FormBuilder) {
@@ -202,19 +228,16 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
 
     }
 
-    // ngOnInit() {
-    //     super.ngOnInit();
+
+    // resetButtonClick($event: MouseEvent) {
+    //     $event.preventDefault();
+    //     this.reset();
     // }
 
-    resetButtonClick($event: MouseEvent) {
-        $event.preventDefault();
-        this.reset();
-    }
-
-    searchManager($event: MouseEvent) {
-        $event.preventDefault();
-        console.log('search manager');
-    }
+    // searchManager($event: MouseEvent) {
+    //     $event.preventDefault();
+    //     console.log('search manager');
+    // }
 
     getFormData() {
         super.getFormData();
@@ -321,73 +344,73 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
 
     };
 
-    /**
-     * 重置界面内容
-     */
-    reset() {
-        super.reset();
+    // /**
+    //     //  * 重置界面内容
+    //     //  */
+    //     // reset() {
+    //     //     super.reset();
+    //     //
+    //     //     //设置可复用标签的名字：
+    //     //     if (this.sourceId) {
+    //     //         //说明是修改
+    //     //         this.reuseTabService.title = '编辑-' + this.businessData.billNo;
+    //     //     }
+    //     //
+    //     // }
 
-        //设置可复用标签的名字：
-        if (this.sourceId) {
-            //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.billNo;
-        }
-
-    }
-
-    /**
-     * 提交单据
-     */
-    submitEntity() {
-        this.loading = true;
-        this.errMsg = '';
-
-        let saveResult$: Observable<BylResultBody<BylBorrowMoneyTicket>>;
-
-        console.log('in ProjectCRUD ', this.businessData);
-
-        saveResult$ = this.borrowMoneyTicketService.submit(this.businessData);
-
-        this.followProcess(saveResult$);
-    }
+    // /**
+    //  * 提交单据
+    //  */
+    // submitEntity() {
+    //     this.loading = true;
+    //     this.errMsg = '';
+    //
+    //     let saveResult$: Observable<BylResultBody<BylBorrowMoneyTicket>>;
+    //
+    //     console.log('in ProjectCRUD ', this.businessData);
+    //
+    //     saveResult$ = this.borrowMoneyTicketService.submit(this.businessData);
+    //
+    //     this.followProcess(saveResult$);
+    // }
 
 
-    /**
-     * 作废
-     * @param {BylBorrowMoneyTicket} entity
-     */
-    cancelEntity(entity: BylBorrowMoneyTicket) {
-        this.loading = true;
-        this.errMsg = '';
-
-        let saveResult$: Observable<BylResultBody<BylBorrowMoneyTicket>>;
-
-        console.log('in CrudBasePro submitform', this.businessData);
-
-        saveResult$ = this.borrowMoneyTicketService.cancel(this.businessData);
-
-        this.followProcess(saveResult$);
-
-    }
-
-    /**
-     * 审核借款单
-     * @param {BylBorrowMoneyTicket} entity
-     */
-    checkEntity(entity: BylBorrowMoneyTicket) {
-        this.loading = true;
-        this.errMsg = '';
-
-        let saveResult$: Observable<BylResultBody<BylBorrowMoneyTicket>>;
-
-        console.log('in BorrowMoneyTicketCrud ', this.businessData);
-
-        saveResult$ = this.borrowMoneyTicketService.check(this.businessData);
-
-        this.followProcess(saveResult$);
-
-    }
-
+    // /**
+    //  * 作废
+    //  * @param {BylBorrowMoneyTicket} entity
+    //  */
+    // cancelEntity(entity: BylBorrowMoneyTicket) {
+    //     this.loading = true;
+    //     this.errMsg = '';
+    //
+    //     let saveResult$: Observable<BylResultBody<BylBorrowMoneyTicket>>;
+    //
+    //     console.log('in CrudBasePro submitform', this.businessData);
+    //
+    //     saveResult$ = this.borrowMoneyTicketService.cancel(this.businessData);
+    //
+    //     this.followProcess(saveResult$);
+    //
+    // }
+    //
+    // /**
+    //  * 审核借款单
+    //  * @param {BylBorrowMoneyTicket} entity
+    //  */
+    // checkEntity(entity: BylBorrowMoneyTicket) {
+    //     this.loading = true;
+    //     this.errMsg = '';
+    //
+    //     let saveResult$: Observable<BylResultBody<BylBorrowMoneyTicket>>;
+    //
+    //     console.log('in BorrowMoneyTicketCrud ', this.businessData);
+    //
+    //     saveResult$ = this.borrowMoneyTicketService.check(this.businessData);
+    //
+    //     this.followProcess(saveResult$);
+    //
+    // }
+    //
     /**
      * 确认借款单
      * @param {BylBorrowMoneyTicket} entity
@@ -405,50 +428,50 @@ export class BylBorrowMoneyTicketCrudComponent extends BylCrudComponentBasePro<B
         this.followProcess(saveResult$);
 
     }
-
-    private followProcess(call$: Observable<BylResultBody<BylBorrowMoneyTicket>> ){
-        call$.subscribe(
-            data => {
-                // this._loading = false;
-                if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
-                    this.setFormData(data.data);
-                    this.reset(); //重置界面
-
-                } else {
-
-                    this.errMsg = data.msg;
-                }
-                this.loading = false;
-            },
-            err => {
-                this.errMsg = err.toString();
-                this.loading = false;
-            }
-        );
-    }
-
-    showSaveButton(): boolean{
-        return this.businessData.status === BylBorrowMoneyTicketStatusEnum.UNSUBMITED
-            || this.businessData.status == BylBorrowMoneyTicketStatusEnum.SUBMITED;
-    }
-
-    showSubmitButton():boolean{
-        return this.businessData.status === BylBorrowMoneyTicketStatusEnum.UNSUBMITED;
-    }
-
-    showCheckButton(): boolean{
-        return this.businessData.status === BylBorrowMoneyTicketStatusEnum.SUBMITED;
-    }
-
+    //
+    // private followProcess(call$: Observable<BylResultBody<BylBorrowMoneyTicket>> ){
+    //     call$.subscribe(
+    //         data => {
+    //             // this._loading = false;
+    //             if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
+    //                 this.setFormData(data.data);
+    //                 this.reset(); //重置界面
+    //
+    //             } else {
+    //
+    //                 this.errMsg = data.msg;
+    //             }
+    //             this.loading = false;
+    //         },
+    //         err => {
+    //             this.errMsg = err.toString();
+    //             this.loading = false;
+    //         }
+    //     );
+    // }
+    //
+    // showSaveButton(): boolean{
+    //     return this.businessData.status === BylBorrowMoneyTicketStatusEnum.UNSUBMITED
+    //         || this.businessData.status == BylBorrowMoneyTicketStatusEnum.SUBMITED;
+    // }
+    //
+    // showSubmitButton():boolean{
+    //     return this.businessData.status === BylBorrowMoneyTicketStatusEnum.UNSUBMITED;
+    // }
+    //
+    // showCheckButton(): boolean{
+    //     return this.businessData.status === BylBorrowMoneyTicketStatusEnum.SUBMITED;
+    // }
+    //
     showConfirmButton(): boolean{
         return this.businessData.status === BylBorrowMoneyTicketStatusEnum.CHECKED;
     }
-
-    showCancelButton(): boolean{
-        return this.businessData.status === BylBorrowMoneyTicketStatusEnum.SUBMITED
-            || this.businessData.status === BylBorrowMoneyTicketStatusEnum.CHECKED
-            || this.businessData.status === BylBorrowMoneyTicketStatusEnum.CONFIRMED;
-    }
+    //
+    // showCancelButton(): boolean{
+    //     return this.businessData.status === BylBorrowMoneyTicketStatusEnum.SUBMITED
+    //         || this.businessData.status === BylBorrowMoneyTicketStatusEnum.CHECKED
+    //         || this.businessData.status === BylBorrowMoneyTicketStatusEnum.CONFIRMED;
+    // }
 
 
 

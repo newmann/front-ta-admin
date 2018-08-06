@@ -24,6 +24,8 @@ import {BylWorkloadTicketListComponent} from "./workload-ticket/list/list.compon
 import {BylWorkloadTicketCrudComponent} from "./workload-ticket/crud/crud.component";
 import {BylWorkTypeConfigTicketCrudComponent} from "./work-type-config-ticket/crud/crud.component";
 import {BylWorkTypeConfigTicketListComponent} from "./work-type-config-ticket/list/list.component";
+import {BylProjectProgressAssessTicketListComponent} from "./project-progress-assess-ticket/list/list.component";
+import {BylProjectProgressAssessTicketCrudComponent} from "./project-progress-assess-ticket/crud/crud.component";
 
 
 
@@ -34,6 +36,9 @@ const routes: Routes = [
     { path: 'project/list', component: BylProjectListComponent },
     { path: 'project/crud/:type', component: BylProjectCrudComponent ,data: {reuse: true} },
     { path: 'project-manager-pool/list', component: BylProjectManagerPoolListComponent },
+    { path: 'project-progress-assess-ticket/list', component: BylProjectProgressAssessTicketListComponent },
+    { path: 'project-progress-assess-ticket/crud/:type', component: BylProjectProgressAssessTicketCrudComponent,data: {reuse: true}  },
+
     { path: 'borrow-money-qualification-pool/list', component: BylBorrowMoneyQualificationPoolListComponent },
     { path: 'borrow-money-ticket/list', component: BylBorrowMoneyTicketListComponent },
     { path: 'borrow-money-ticket/crud/:type', component: BylBorrowMoneyTicketCrudComponent,data: {reuse: true}  },

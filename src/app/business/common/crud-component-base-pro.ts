@@ -1,4 +1,4 @@
-import {ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
 import {ActivatedRoute} from '@angular/router';
 
@@ -46,7 +46,14 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
     public loading = false;
     public errMsg = '';  // 保存时错误信息
     // public savingReveal: any;
+
+    @Input()
+    set setSourceId(value: string) {
+        this.sourceId = value;
+    }
+
     public sourceId: string;
+
     public processType: string;
 
     public businessService: BylBaseService<T>;

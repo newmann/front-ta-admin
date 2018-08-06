@@ -1,20 +1,20 @@
-<page-header [title]="'账户管理'" *ngIf="functionMode === LIST_MODE" >
+<page-header [title]="'账户管理'" >
     <ng-template #action>
-      <ng-container *ngIf="selectedRows.length > 0">
+      <!--<ng-container *ngIf="selectedRows.length > 0">-->
 
 
-        <button nz-button class="ml-sm">批量操作</button>
+        <!--<button nz-button class="ml-sm">批量操作</button>-->
 
-        <nz-dropdown [nzPlacement]="'bottomLeft'">
-          <button nz-button nz-dropdown class="ml-sm">
-            更多操作 <i class="anticon anticon-down"></i>
-          </button>
-          <ul nz-menu>
-            <li nz-menu-item (click)="batchDelete()">删除</li>
-            <li nz-menu-item (click)="batchApproval()">批量审批</li>
-          </ul>
-        </nz-dropdown>
-      </ng-container>
+        <!--<nz-dropdown [nzPlacement]="'bottomLeft'">-->
+          <!--<button nz-button nz-dropdown class="ml-sm">-->
+            <!--更多操作 <i class="anticon anticon-down"></i>-->
+          <!--</button>-->
+          <!--<ul nz-menu>-->
+            <!--<li nz-menu-item (click)="batchDelete()">删除</li>-->
+            <!--<li nz-menu-item (click)="batchApproval()">批量审批</li>-->
+          <!--</ul>-->
+        <!--</nz-dropdown>-->
+      <!--</ng-container>-->
 
         <button nz-button (click)="add()" [nzType]="'default'" >
             <i class="anticon anticon-plus"></i><span>新建</span>
@@ -33,14 +33,14 @@
 <byl-list-query-widget [defaultData]="queryDefaultData" [schema]="querySchema"
                        [uiSchema]="queryUiSchema" [actionTemplateRef]="queryAction"></byl-list-query-widget>
 <ng-template #queryAction >
-  <ng-container *ngIf="functionMode === SELECT_MODE">
-    <button nz-button (click) = "batchSelect($event)" [nzType]="'default'" [disabled]="selectedRows.length <= 0" class="ml-sm">
-      <i class="anticon anticon-plus"></i><span>添加</span>
-    </button>
-    <button nz-button  (click)="search()" [nzType]="'primary'" [nzLoading]="loading"  class="ml-sm">
-      <i class="anticon anticon-search"></i><span>查询</span>
-    </button>
-  </ng-container>
+  <!--<ng-container *ngIf="functionMode === SELECT_MODE">-->
+    <!--<button nz-button (click) = "batchSelect($event)" [nzType]="'default'" [disabled]="selectedRows.length <= 0" class="ml-sm">-->
+      <!--<i class="anticon anticon-plus"></i><span>添加</span>-->
+    <!--</button>-->
+    <!--<button nz-button  (click)="search()" [nzType]="'primary'" [nzLoading]="loading"  class="ml-sm">-->
+      <!--<i class="anticon anticon-search"></i><span>查询</span>-->
+    <!--</button>-->
+  <!--</ng-container>-->
 </ng-template>
 <byl-list-form-table-item  [listData]="listData"  [total]="total" [loading]="loading"
                           [tableDefine]="tableDefine"

@@ -24,58 +24,15 @@
           </sf>
           <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
 
-          <!--<p>formdata:{{sfForm.value | json}}</p>-->
-          <!--<p>businessData:{{businessData | json}}</p>-->
-                <!--<form nz-form [formGroup]="form"  role="form">-->
-
-                  <!--<byl-input-formitem [controlName]="'code'" [labelCaption]="'代码'"-->
-                                      <!--[hostForm]="form" [controlPath]="'code'" [isRequired]="'true'"-->
-                                      <!--[placeHolder]="'请输入项目代码'"></byl-input-formitem>-->
-
-                  <!--<byl-input-formitem [controlName]="'name'" [labelCaption]="'名称'"-->
-                                      <!--[hostForm]="form" [controlPath]="'name'" [isRequired]="'true'"-->
-                                      <!--[placeHolder]="'请输入项目名称'"></byl-input-formitem>-->
-
-
-                  <!--<byl-fetch-project-manager-formitem #projectManager-->
-                                      <!--[hostForm]="form" [isRequired]="'true'"-->
-                                      <!--[placeHolder]="'请输入项目代码'"></byl-fetch-project-manager-formitem>-->
-
-
-                  <!--<byl-input-formitem [controlName]="'zipCode'" [labelCaption]="'邮政编码'"-->
-                                      <!--[hostForm]="form" [controlPath]="'zipCode'" [isRequired]="'false'"-->
-                                      <!--[placeHolder]="'请输入邮政编码'"></byl-input-formitem>-->
-
-                  <!--<byl-date-formitem [controlName]="'planBeginDate'" [labelCaption]="'计划开始日期'"-->
-                                     <!--[hostForm]="form" [controlPath]="'planBeginDate'" [isRequired]="'false'"-->
-                                     <!--[placeHolder]="'请输入计划开始日期'"></byl-date-formitem>-->
-
-                  <!--<byl-date-formitem [controlName]="'planEndDate'" [labelCaption]="'计划结束日期'"-->
-                                     <!--[hostForm]="form" [controlPath]="'planEndDate'" [isRequired]="'false'"-->
-                                     <!--[placeHolder]="'请输入计划结束日期'"></byl-date-formitem>-->
-
-
-
-                  <!--<byl-input-formitem [controlName]="'remarks'" [labelCaption]="'备注'"-->
-                                      <!--[hostForm]="form" [controlPath]="'remarks'" [isRequired]="'false'"-->
-                                      <!--[placeHolder]="'请输入备注'"></byl-input-formitem>-->
-
-                  <!--<byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>-->
-
-
-                    <!--<nz-form-item nz-row class="mb0">-->
-                        <!--<div nz-form-control nz-col [nzSpan]="12" [nzOffset]="4">-->
-                            <!--<button nz-button [nzType]="'primary'" [nzSize]="'large'"-->
-                                    <!--[disabled]="form.invalid || (!form.dirty)" (click)="submitForm()">保存</button>-->
-                            <!--<button nz-button (click)="resetButtonClick($event)">重置</button>-->
-                        <!--</div>-->
-                    <!--</nz-form-item>-->
-
-                <!--</form>-->
         </nz-tab>
 
       <nz-tab [nzDisabled]="!sourceId" nzTitle="可查看账户" (nzClick)="projectAuthClick()">
-        <byl-project-auth-item-project-list #projectAuth [masterProject]="businessData">
+        <byl-project-auth-item-project-list #projectAuth
+                                            [masterProject]="businessData"
+                                            [masterId]="sourceId"
+                                            [ReadOnly]="showBrowseButton()"
+                                            [accountRelationService]="projectAuthService"
+        >
 
         </byl-project-auth-item-project-list>
       </nz-tab>

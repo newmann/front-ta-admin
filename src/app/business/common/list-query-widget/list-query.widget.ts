@@ -1,4 +1,13 @@
-import {Component, forwardRef, Input, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    forwardRef,
+    Input,
+    OnInit,
+    Output,
+    TemplateRef,
+    ViewEncapsulation
+} from '@angular/core';
 import {NzMessageService, NzModalRef, NzModalService} from 'ng-zorro-antd';
 import {BylListQueryFormComponent} from '../list-query-form/list-query.form';
 import {SFSchema, SFUISchema} from '@delon/form';
@@ -32,6 +41,7 @@ export class BylListQueryWidgetComponent implements OnInit{
 
     @Input() uiSchema: SFUISchema = {};
     @Input() schema: SFSchema = {};
+    @Output() searchConditionChange: EventEmitter<any> = new EventEmitter<any>();
 
     queryForm: NzModalRef;
 
@@ -191,6 +201,9 @@ export class BylListQueryWidgetComponent implements OnInit{
             if(value) {
                 this.queryData = simpleDeepCopy({}, value);
                 this.resetQueryDataDisplayArray();
+
+                this.searchConditionChange.emit(this.queryData);
+
             }
 
         });
