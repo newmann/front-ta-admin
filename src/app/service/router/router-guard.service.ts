@@ -10,7 +10,7 @@ import {Inject, Injectable} from '@angular/core';
 import {BylLoggerService} from '../utils/logger';
 import {CheckClientBrowserType} from '../utils/client-browser-type.utils';
 import {genMobileUrl, isMobileUrl} from '../utils/string.utils';
-import {DA_SERVICE_TOKEN, ITokenService, JWTTokenModel} from "@delon/auth";
+import {DA_SERVICE_TOKEN, ITokenService, JWTTokenModel, SimpleTokenModel} from "@delon/auth";
 
 @Injectable()
 export class BylRouterGuardService implements CanActivate{
@@ -46,24 +46,74 @@ export class BylRouterGuardService implements CanActivate{
             // 在浏览器登录
             console.info("进入非移动端");
         }
+        console.log("In Router canActivate:",route);
 
-        //判断是否登录，如果没有，则转到登录页面
-        let token: JWTTokenModel;
-        token = this.tokenService.get<JWTTokenModel>(JWTTokenModel);
-        // console.log("token:",token.token);
-        // console.log("token payload:", token.payload);
-        // console.log('token expired:',token.isExpired(0));
-        if (token.isExpired(0)) {
-            console.log("In BylRouterGuardService, token expired。");
-            //无效，进入登录界面
-            this.router.navigate(['/passport/login']);
-            return false;
+        //第三方平台登陆的回调路由需要特别处理
+        let permitURL = ['/passport/login',
+            '/callback/',
+            '/passport/register',
+            '/passport/register-result',
+            '/passport/oauth-register',
+            '/passport/oauth-register-result'];
 
-        } else {
-            //有效，继续
+        if (permitURL.includes(url)) {
+            //直接通过
             return true;
+        }else{
+            try {
+                let token: JWTTokenModel;
+                token = this.tokenService.get<JWTTokenModel>(JWTTokenModel);
+                // console.log("token:",token.token);
+                // console.log("token payload:", token.payload);
+                // console.log('token expired:',token.isExpired(0));
+                if (token.isExpired(0)) {
+                    console.log("In BylRouterGuardService, token expired。");
+                    //无效，进入登录界面
+                    this.router.navigate(['/passport/login']);
+                    return false;
 
+                } else {
+                    //有效，继续
+                    return true;
+
+                }
+            } catch (error) {
+                console.warn("In Router canActivate:", error);
+
+                this.router.navigate(['/passport/login']);
+                return false;
+
+            }
+            // //判断是否登录，如果没有，则转到登录页面
+            //   let s: SimpleTokenModel;
+            //   s = this.tokenService.get();
+            //   console.log("In Router canActivate:", s);
+            //
+            //   if (s.token) {
+            //
+            //       let token: JWTTokenModel;
+            //       token = this.tokenService.get<JWTTokenModel>(JWTTokenModel);
+            //       // console.log("token:",token.token);
+            //       // console.log("token payload:", token.payload);
+            //       // console.log('token expired:',token.isExpired(0));
+            //       if (token.isExpired(0)) {
+            //           console.log("In BylRouterGuardService, token expired。");
+            //           //无效，进入登录界面
+            //           this.router.navigate(['/passport/login']);
+            //           return false;
+            //
+            //       } else {
+            //           //有效，继续
+            //           return true;
+            //
+            //       }
+            //   } else {
+            //       //无效，进入登录界面
+            //       this.router.navigate(['/passport/login']);
+            //       return false;
+            //   }
         }
+
 
     }
 

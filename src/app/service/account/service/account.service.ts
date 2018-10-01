@@ -29,6 +29,7 @@ import {
     BylSaveMenuLinkRelationInterface
 } from "./menu-link-related.interface";
 import {BylMenuLink} from "../model/menu-link.model";
+import {BylLoginResultModel} from "../../auth/login-result.model";
 
 
 
@@ -74,6 +75,10 @@ implements  BylPermissionRelationInterface
 
     fetchAbilitiesByAccountId(accountId: string): Observable<BylResultBody<Array<String>>> {
         return this.http.get<BylResultBody<Array<String>>>(this.BASE_API_URL + '/fetch-abilities-by-accountid/' + accountId);
+    }
+
+    loginByAccountId(accountId: string): Observable<BylResultBody<BylLoginResultModel>> {
+        return this.http.get<BylResultBody<BylLoginResultModel>>(this.BASE_API_URL + '/login-by-accountid/' + accountId);
     }
 
     batchAddPermission(items: Array<BylAccountPermission>): Observable<BylResultBody<Array<BylAccountPermission>>> {

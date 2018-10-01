@@ -31,6 +31,37 @@ import {BylRadioWidgetComponent} from "./common/radio-form-item/radio.formitem";
 import {BylSelectWidgetComponent} from "./common/select-form-item/select.formitem";
 import {BylFileUploadWidgetSFComponent} from "./common/file-upload-widget-sf/file-upload.widget";
 
+const COMPONENTS=[
+    BylAccountListComponent,
+    BylPersonListComponent,
+    BylOrganizationListComponent,
+    BylEntityLoggerComponent,
+    BylEmbeddableAddressComponent,
+    BylWaitingComponent,
+    // widget
+    BylDateWidgetComponent,
+    BylInputWidgetComponent,
+    BylInputNumberWidgetComponent,
+    BylRadioWidgetComponent,
+    BylSelectWidgetComponent,
+    BylShowErrorFormItemComponent,
+    BylSelectInfoFormItemComponent,
+    BylListQueryFormComponent,
+    BylListQueryWidgetComponent,
+    BylListFormTableWidgetComponent,
+
+    BylProjectManagerPoolSelectWidgetSFComponent,
+    BylOutsourcerSelectWidgetSFComponent
+    ,BylNationSelectWidgetSFComponent
+    ,BylPoliticalStatusSelectWidgetSFComponent
+    ,BylPersonSelectWidgetSFComponent
+    ,BylBorrowMoneyQualificationPoolSelectWidgetSFComponent
+    ,BylProjectSelectWidgetSFComponent
+    ,BylExpenseTypeSelectWidgetSFComponent
+    ,BylOperationPeriodSelectWidgetSFComponent
+    ,BylWorkTypeSelectWidgetSFComponent
+    ,BylFileUploadWidgetSFComponent
+];
 
 @NgModule({
     imports: [
@@ -39,68 +70,12 @@ import {BylFileUploadWidgetSFComponent} from "./common/file-upload-widget-sf/fil
 
     ],
     declarations: [
-        BylAccountListComponent,
-        BylPersonListComponent,
-        BylOrganizationListComponent,
-        BylEntityLoggerComponent,
-        BylEmbeddableAddressComponent,
-        BylWaitingComponent,
-        // widget
-        BylDateWidgetComponent,
-        BylInputWidgetComponent,
-        BylInputNumberWidgetComponent,
-        BylRadioWidgetComponent,
-        BylSelectWidgetComponent,
-        BylShowErrorFormItemComponent,
-        BylSelectInfoFormItemComponent,
-        BylListQueryFormComponent,
-        BylListQueryWidgetComponent,
-        BylListFormTableWidgetComponent,
-
-        BylProjectManagerPoolSelectWidgetSFComponent,
-        BylOutsourcerSelectWidgetSFComponent
-        ,BylNationSelectWidgetSFComponent
-        ,BylPoliticalStatusSelectWidgetSFComponent
-        ,BylPersonSelectWidgetSFComponent
-        ,BylBorrowMoneyQualificationPoolSelectWidgetSFComponent
-        ,BylProjectSelectWidgetSFComponent
-        ,BylExpenseTypeSelectWidgetSFComponent
-        ,BylOperationPeriodSelectWidgetSFComponent
-        ,BylWorkTypeSelectWidgetSFComponent
-        ,BylFileUploadWidgetSFComponent
+        ...COMPONENTS
     ],
     exports: [
         BylPipeModule,
 
-        BylAccountListComponent,
-        BylPersonListComponent,
-        BylOrganizationListComponent,
-        BylEntityLoggerComponent,
-        BylEmbeddableAddressComponent,
-        BylWaitingComponent,
-        // widget
-        BylDateWidgetComponent,
-        BylInputWidgetComponent,
-        BylInputNumberWidgetComponent,
-        BylRadioWidgetComponent,
-        BylSelectWidgetComponent,
-        BylShowErrorFormItemComponent,
-        BylSelectInfoFormItemComponent,
-        BylListQueryFormComponent,
-        BylListQueryWidgetComponent,
-        BylListFormTableWidgetComponent,
-
-        BylProjectManagerPoolSelectWidgetSFComponent,
-        BylOutsourcerSelectWidgetSFComponent
-        ,BylNationSelectWidgetSFComponent
-        ,BylPoliticalStatusSelectWidgetSFComponent
-        ,BylPersonSelectWidgetSFComponent
-        ,BylBorrowMoneyQualificationPoolSelectWidgetSFComponent
-        ,BylProjectSelectWidgetSFComponent
-        ,BylExpenseTypeSelectWidgetSFComponent
-        ,BylOperationPeriodSelectWidgetSFComponent
-        ,BylWorkTypeSelectWidgetSFComponent
-        ,BylFileUploadWidgetSFComponent
+        ...COMPONENTS
     ],
     entryComponents: [
         BylAccountListComponent,

@@ -65,6 +65,8 @@
   "pro-login": "登录",
   "pro-register": "注册",
   "pro-register-result": "注册结果",
+  "oauth-register": "绑定账户",
+  "oauth-register-result": "绑定账户结果",
 
   "organization": "组织",
   "organization_list": "浏览组织",

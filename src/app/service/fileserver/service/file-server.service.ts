@@ -20,8 +20,8 @@ export class BylFileServerService {
                 protected i18nService: I18NService) {
     }
 
-    serveFile(filename: string): Observable<HttpResponse<Blob>> {
-        return this.http.get<HttpResponse<Blob>>(this.BASE_API_URL + '/serve-file?filename='+filename);
+    serveFile(filename: string): Observable<any> {
+        return this.http.get(this.BASE_API_URL + '/serve-file?filename='+filename, null ,{observe: "response",responseType: "blob"});
     }
 
 

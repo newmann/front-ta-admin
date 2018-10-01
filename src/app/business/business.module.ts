@@ -16,6 +16,8 @@ import {BylException404Component} from "./exception/404.component";
 import {BylException500Component} from "./exception/500.component";
 import {BylCallbackComponent} from "./callback/callback.component";
 import {BylUserLockComponent} from "./passport/lock/lock.component";
+import {BylOAuthRegisterComponent} from "./passport/oauth-register/oauth-register.component";
+import {BylOAuthRegisterResultComponent} from "./passport/oauth-register-result/oauth-register-result.component";
 
 
 @NgModule({
@@ -33,6 +35,8 @@ import {BylUserLockComponent} from "./passport/lock/lock.component";
         BylUserLoginComponent,
         BylUserRegisterComponent,
         BylUserRegisterResultComponent,
+        BylOAuthRegisterComponent,
+        BylOAuthRegisterResultComponent,
         // single pages
         BylUserLockComponent,
         BylCallbackComponent,

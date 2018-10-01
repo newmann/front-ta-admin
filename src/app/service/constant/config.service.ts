@@ -13,6 +13,8 @@ export class BylConfigService{
     private uploadMultiFileUrl = "/api/file-manage/upload-multi-file";
     private zhCN = 'assets/tmp/i18n/zh-CN.json';
     private defaultMenuUrl = 'assets/tmp/default-menu.json';
+    get SETTING_LANG() {return 'assets/tmp/i18n/zh-CN.json';};
+    get SETTING_APP() { return 'assets/tmp/app-data.json';}
 
     get PAGESIZE(){ return this.pageSize;}
 

@@ -1,4 +1,4 @@
-import { SettingsService } from '@delon/theme';
+import {ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService, User} from '@delon/theme';
 import { Component, OnDestroy, Inject, Optional } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -11,6 +11,14 @@ import { BylResultBody } from 'app/service/model/result-body.model';
 import { BylAuthDataService } from 'app/service/auth/auth-data.service';
 import { ChatService } from 'app/service/chat/chat.service';
 import {BylStartupService} from "../../../service/startup/startup.service";
+import {catchError} from "rxjs/operators";
+import {BylAccount} from "../../../service/account/model/account.model";
+import {zip} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {BylConfigService} from "../../../service/constant/config.service";
+import {TranslateService} from "@ngx-translate/core";
+import {I18NService} from "@core/i18n/i18n.service";
+import {ACLService} from "@delon/acl";
 
 @Component({
     selector: 'passport-login',
@@ -30,10 +38,17 @@ export class BylUserLoginComponent implements OnDestroy {
         private router: Router,
         public msg: NzMessageService,
         private modalSrv: NzModalService,
-        private settingsService: SettingsService,
+        private settingService: SettingsService,
+        @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
+        private translate: TranslateService,
+        private menuService: MenuService,
+        private aclService: ACLService,
+        private titleService: TitleService,
         private socialService: SocialService,
         private authService: BylAuthService,
+        private httpClient: HttpClient,
         private authDataService: BylAuthDataService,
+        private configService: BylConfigService,
         // private chatService: ChatService,
         @Optional() @Inject(ReuseTabService) private reuseTabService: ReuseTabService,
         @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
@@ -130,15 +145,15 @@ export class BylUserLoginComponent implements OnDestroy {
         let url = ``;
         let callback = ``;
         if (environment.production)
-            callback = 'https://cipchk.github.io/ng-alain/callback/' + type;
+            callback = 'http://localhost/passport/callback/' + type;
         else
-            callback = 'http://localhost:4200/callback/' + type;
+            callback = 'http://localhost/passport/callback/' + type;
         switch (type) {
             case 'auth0':
                 url = `//cipchk.auth0.com/login?client=8gcNydIDzGBYxzqV0Vm1CX_RXH-wsWo5&redirect_uri=${decodeURIComponent(callback)}`;
                 break;
             case 'github':
-                url = `//github.com/login/oauth/authorize?client_id=9d6baae4b04a23fcafa2&response_type=code&redirect_uri=${decodeURIComponent(callback)}`;
+                url = `//github.com/login/oauth/authorize?client_id=f4815a190992f5ef2cd6&response_type=code&redirect_uri=${decodeURIComponent(callback)}`;
                 break;
             case 'weibo':
                 url = `https://api.weibo.com/oauth2/authorize?client_id=1239507802&response_type=code&redirect_uri=${decodeURIComponent(callback)}`;
@@ -149,7 +164,7 @@ export class BylUserLoginComponent implements OnDestroy {
                 type: 'window'
             }).subscribe(res => {
                 if (res) {
-                    this.settingsService.setUser(res);
+                    this.settingService.setUser(res);
                     this.router.navigateByUrl('/');
                 }
             });
@@ -173,27 +188,50 @@ export class BylUserLoginComponent implements OnDestroy {
                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                     this.authDataService.Account = data.data.account;
                     this.authDataService.Token = data.data.token;
+                    this.aclService.setAbility(data.data.abilities);
 
                     console.log('login return token:',data.data.token);
 
                     // 清空路由复用信息
                     this.reuseTabService.clear();
-                    if (this.tokenService.set({
-                        token: this.authDataService.Token,
-                        name: this.authDataService.Account.username,
-                        email: this.authDataService.Account.email,
-                        id: this.authDataService.Account.id,
-                        time: +new Date // 当前时间转化成number todo any useful?
-                    })) {
+                    if (this.startupService.saveTokenToLocal(
+                        this.authDataService.Token,
+                        this.authDataService.Account.id,
+                        this.authDataService.Account.username,
+                        this.authDataService.Account.email)) {
                         //重新初始化系统配置
-                        this.startupService.load().then(() => {
-                            // this.chatService.initAndConnect(); // todo 是否启用 chat Service
-                            this.router.navigate(['/']);
-                        }).catch(
+                        zip(
+                            this.httpClient.get(this.configService.SETTING_LANG),
+                            this.httpClient.get(this.configService.SETTING_APP),
+
+                        ).pipe(
+                            // 接收其他拦截器后产生的异常消息
+                            catchError(([langData, appData]) => {
+                                return [langData, appData];
+                            })
+                        ).subscribe(([lang, app]) => {
+                                // setting language data
+                                this.translate.setTranslation(this.i18n.defaultLang, lang);
+                                this.translate.setDefaultLang(this.i18n.defaultLang);
+
+                                // 应用信息：包括站点名、描述、年份
+                                this.settingService.setApp(app.app);
+
+                                // 用户信息：包括姓名、头像、邮箱地址
+                                let user : User;
+                                user = {name: this.authDataService.Account.fullName, avatar:null, email: this.authDataService.Account.email};
+                                this.settingService.setUser(user);
+
+                                this.menuService.add(app.menu);
+
+                                // 设置页面标题的后缀
+                                this.titleService.suffix = app.app.name;
+                            },
                             (err) => {
                                 console.error(err);
-                                this.error = err;
-                            });
+                                }
+                            );
+
                     }else{
                         let err = "保存token到本地缓存失败！";
                         console.error(err);

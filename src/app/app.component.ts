@@ -44,42 +44,42 @@ export class AppComponent implements OnInit {
           console.log('Mode web');
       }
 
-    // 判断一下，如果当前有有效的token，就自动登录，否则显示登录界面
-    console.log('IN AppComponent init...');
-      //todo delon的bug，先获取简单token，判断是否有效后再按JWTtoken方式获取
-      let s: SimpleTokenModel;
-      s = this.tokenService.get();
-      console.log('IN AppComponent, SimpleTokenModel:', s);
-      if (s.token) {
-          //如果token有效，则获取本地的资源，恢复到上次退出状态。
-          let token: JWTTokenModel;
-
-          token = this.tokenService.get<JWTTokenModel>(JWTTokenModel);
-          console.log('IN AppComponent, token:', token);
-          // console.log('IN AppComponent, payload:', token.payload);
-          // console.log('token expired? :', token.isExpired(0));
-          if (token){
-              console.log('IN AppComponent, token.token:', token.token);
-              if (token.isExpired(0)) {
-                  console.log('token expired, 进入登录界面'); //进入登录界面
-                  console.log('token payload:', token.payload);
-                  this.router.navigate(['/passport/login']);
-
-              } else {
-                  console.log('token validate, 进入主界面');
-                  //直接进入操作界面
-                  // this.router.navigate(['/']);
-              }
-
-          } else{
-              console.log('没有设置token, 需要登录。');
-              this.router.navigate(['/passport/login']);
-          }
-
-      }else{
-          console.log('没有设置token, 需要登录。');
-          this.router.navigate(['/passport/login']);
-      }
+    // // 判断一下，如果当前有有效的token，就自动登录，否则显示登录界面
+    // console.log('IN AppComponent init...');
+    //   //todo delon的bug，先获取简单token，判断是否有效后再按JWTtoken方式获取
+    //   let s: SimpleTokenModel;
+    //   s = this.tokenService.get();
+    //   console.log('IN AppComponent, SimpleTokenModel:', s);
+    //   if (s.token) {
+    //       //如果token有效，则获取本地的资源，恢复到上次退出状态。
+    //       let token: JWTTokenModel;
+    //
+    //       token = this.tokenService.get<JWTTokenModel>(JWTTokenModel);
+    //       console.log('IN AppComponent, token:', token);
+    //       // console.log('IN AppComponent, payload:', token.payload);
+    //       // console.log('token expired? :', token.isExpired(0));
+    //       if (token){
+    //           console.log('IN AppComponent, token.token:', token.token);
+    //           if (token.isExpired(0)) {
+    //               console.log('token expired, 进入登录界面'); //进入登录界面
+    //               console.log('token payload:', token.payload);
+    //               this.router.navigate(['/passport/login']);
+    //
+    //           } else {
+    //               console.log('token validate, 进入主界面');
+    //               //直接进入操作界面
+    //               // this.router.navigate(['/']);
+    //           }
+    //
+    //       } else{
+    //           console.log('没有设置token, 需要登录。');
+    //           this.router.navigate(['/passport/login']);
+    //       }
+    //
+    //   }else{
+    //       console.log('没有设置token, 需要登录。');
+    //       this.router.navigate(['/passport/login']);
+    //   }
 
     this.router.events
         .pipe(filter(evt => evt instanceof NavigationEnd))

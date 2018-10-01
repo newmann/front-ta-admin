@@ -124,9 +124,12 @@ export class BylFileUploadWidgetSFComponent extends ControlWidget implements OnI
       console.log("in BylFileUploadWidget:", file);
       this.fileServerService.serveFile(file.url)
           .subscribe(
-              (res: HttpResponse<Blob>) => {
+              (res) => {
+
+                  console.log('下载成功:',res);
+
                   if (res.status !== 200 || res.body.size <= 0) {
-                      // this.error.emit(res);
+                      console.log('下载失败:',res);
                       return;
                   }
                   const disposition: any = this.getDisposition(

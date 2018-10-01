@@ -10,7 +10,7 @@ export const environment = {
     // HOST: 'http://localhost:8110',
     WEBSOCKET: 'ws://localhost:8090',
     production: true,
-  useHash: true,
+    useHash: false,
     hmr: false
 };
 

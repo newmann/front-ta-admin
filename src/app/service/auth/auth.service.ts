@@ -8,6 +8,8 @@ import {BYL_API_URL_LOGIN} from 'app/service/constant/backend-url.constant';
 import {_HttpClient} from '@delon/theme';
 import {UUID} from 'angular2-uuid';
 import {getEmailName} from '../utils/string.utils';
+import {BylOAuthTokenQueryModel} from "./oauth-token-query.model";
+import {BylOAuthRegisterModel} from "./oauth-register.model";
 
 @Injectable()
 export class BylAuthService {
@@ -63,13 +65,13 @@ export class BylAuthService {
         return this.http.post<BylResultBody<BylAccount>>(this.BASE_API_URL + '/register', registerAccount);
     }
 
-    // githubLogin() {
-    // const provide = new firebase.auth.GithubAuthProvider();
-    // return this.afAuth.auth.signInWithPopup(provide).then((credential) => {
-    //   this.currentAccount = credential.user;
-    //   this.updateUserData();
-    // }).catch(error => console.log(error));
-    // }
+    githubLogin(tokeyQuery: BylOAuthTokenQueryModel): Observable<BylResultBody<BylLoginResultModel>> {
+        return this.http.post<BylResultBody<BylLoginResultModel>>(this.BASE_API_URL + '/github-login', tokeyQuery);
+    }
+
+    githubRegister(oAuthRegister: BylOAuthRegisterModel): Observable<BylResultBody<boolean>> {
+        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/github-register', oAuthRegister);
+    }
 
     // googleLogin() {
     // const provider = new firebase.auth.GoogleAuthProvider();

@@ -17,6 +17,7 @@ import {BylHeaderStorageComponent} from "./pc/default/header/components/storage.
 import {BylHeaderUserComponent} from "./pc/default/header/components/user.component";
 import {BylLayoutPassportComponent} from "./pc/passport/passport.component";
 import {BylLayoutFullScreenComponent} from "./pc/fullscreen/fullscreen.component";
+import {BylHelperFlowComponent} from "./pc/default/header/components/helper-flow.component";
 
 const PC = [
     BylLayoutDefaultComponent,
@@ -27,14 +28,15 @@ const PC = [
 ];
 
 const COMPONENTS=[
-  BylHeaderSearchComponent,
-  BylHeaderNotifyComponent,
-  BylHeaderTaskComponent,
-  BylHeaderIconComponent,
-  BylHeaderFullScreenComponent,
-  BylHeaderI18nComponent,
-  BylHeaderStorageComponent,
-  BylHeaderUserComponent
+    BylHeaderSearchComponent,
+    BylHeaderNotifyComponent,
+    BylHeaderTaskComponent,
+    BylHeaderIconComponent,
+    BylHeaderFullScreenComponent,
+    BylHeaderI18nComponent,
+    BylHeaderStorageComponent,
+    BylHeaderUserComponent,
+    BylHelperFlowComponent
 ];
 
 const PASSPORT=[
@@ -62,6 +64,9 @@ const MOBILE = [
         ...COMPONENTS,
         ...PASSPORT
 
+    ],
+    entryComponents: [
+        BylHelperFlowComponent
     ]
 })
 export class BylFrameModule { }

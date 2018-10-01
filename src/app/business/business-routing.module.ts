@@ -26,6 +26,8 @@ import {BylUserLockComponent} from "./passport/lock/lock.component";
 import {BylException403Component} from "./exception/403.component";
 import {BylException404Component} from "./exception/404.component";
 import {BylException500Component} from "./exception/500.component";
+import {BylOAuthRegisterComponent} from "./passport/oauth-register/oauth-register.component";
+import {BylOAuthRegisterResultComponent} from "./passport/oauth-register-result/oauth-register-result.component";
 
 
 const routes: Routes = [
@@ -93,7 +95,10 @@ const routes: Routes = [
         children: [
             { path: 'login', component: BylUserLoginComponent, data: { title: '登录', titleI18n: 'pro-login' } },
             { path: 'register', component: BylUserRegisterComponent, data: { title: '注册', titleI18n: 'pro-register' } },
-            { path: 'register-result', component: BylUserRegisterResultComponent, data: { title: '注册结果', titleI18n: 'pro-register-result' } }
+            { path: 'register-result', component: BylUserRegisterResultComponent, data: { title: '注册结果', titleI18n: 'pro-register-result' } },
+            { path: 'callback/:type', component: BylCallbackComponent },
+            { path: 'oauth-register', component: BylOAuthRegisterComponent, data: { title: '绑定账户', titleI18n: 'oauth-register' } },
+            { path: 'oauth-register-result', component: BylOAuthRegisterResultComponent, data: { title: '绑定账户结果', titleI18n: 'oauth-register-result' } },
         ]
     },
     // 移动布局
@@ -130,7 +135,7 @@ const routes: Routes = [
         ]
     },
     // 单页不包裹Layout
-    { path: 'callback/:type', component: BylCallbackComponent },
+
     { path: 'lock', component: BylUserLockComponent, data: { title: '锁屏', titleI18n: 'lock' } },
     { path: '403', component: BylException403Component },
     { path: '404', component: BylException404Component },
