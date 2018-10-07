@@ -21,7 +21,7 @@
     "ng:serve": "ng serve -o --disable-host-check",
     "serve:disablecheck": "ng serve -o --disable-host-check",
     "debug": "ng serve -o --proxy-config proxy.conf.js --disable-host-check",
-    "build": "ng build --prod --build-optimizer",
+    "build": "ng bui221 ld --prod --build-optimizer",
     "analyze": "ng build --prod --build-optimizer --stats-json",
     "lint": "npm run lint:ts && npm run lint:style",
     "lint:ts": "tslint -p src/tsconfig.app.json -c tslint.json 'src/**/*.ts'",

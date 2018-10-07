@@ -11,14 +11,10 @@ import { BylPersonCertificateCrudComponent } from './certificate/crud/crud.compo
 import {BylPersonCertificateListComponent} from './certificate/list/list.component';
 import {BylBusinessSharedModule} from "../business-shared.module";
 import {BylPersonListComponent} from "./person/list/list.component";
-import {BylPersonBindComponent} from "./person/bind/bind.component";
-import {BylPersonBindCrudComponent} from "./person/bind-crud/crud.component";
 
 const COMPONENTS=[
     BylPersonCrudComponent,
     BylPersonListComponent,
-    BylPersonBindComponent,
-    BylPersonBindCrudComponent,
 
     BylPersonAddressCrudComponent,
     BylPersonAddressListComponent,
@@ -28,7 +24,6 @@ const COMPONENTS=[
 ];
 const ENTRYCOMPONENTS = [
     BylPersonCrudComponent,
-    BylPersonBindCrudComponent
     ];
 
 @NgModule({
