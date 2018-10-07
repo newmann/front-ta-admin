@@ -63,7 +63,13 @@ export class BylBorrowMoneyTicket extends BylTicketBaseModal {
     }
 
     get borrowDateTimeDisplay(){
-        return BylDatetimeUtils.formatDate(this.borrowAction.borrowDateTime);
+        if ( this.borrowAction){
+            return BylDatetimeUtils.formatDate(this.borrowAction.borrowDateTime || null);
+        } else{
+            return null;
+        }
+
+
     }
     set borrowDateTimeDisplay(value:string){
 

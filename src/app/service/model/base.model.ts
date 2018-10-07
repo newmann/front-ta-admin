@@ -8,6 +8,7 @@
 import {BylEmbeddableCreateAction} from "./embeddable-create-action.model";
 import {BylEmbeddableModifyAction} from "./embeddable-modify-action.model";
 import {BylDatetimeUtils} from "../utils/datetime.utils";
+import {mixCodeName} from "../utils/string.utils";
 
 
 export class BylBaseModel {
@@ -15,6 +16,36 @@ export class BylBaseModel {
     createAction: BylEmbeddableCreateAction = new BylEmbeddableCreateAction();
     modifyAction: BylEmbeddableModifyAction = new BylEmbeddableModifyAction();
     remarks: string;
+
+    get createrDisplay(){
+        if ( this.createAction){
+            if ( this.createAction.createId){
+                return mixCodeName(this.createAction.createCode,this.createAction.createName);
+            }
+        }
+
+    }
+    set createrDisplay(value: string){
+
+    }
+
+    get modifierDisplay(){
+        if ( this.modifyAction){
+            if ( this.modifyAction.modifyId){
+                return mixCodeName(this.modifyAction.modifyCode,this.modifyAction.modifyName);
+            }
+        }
+
+    }
+
+    set modifierDisplay(value: string){}
+
+    get createDateTimeDisplay() {
+        return BylDatetimeUtils.formatDateTime(this.createAction.createDateTime);
+    }
+    set createDateTimeDisplay(value:string){
+
+    }
 
     get modifyDateTimeDisplay() {
         return BylDatetimeUtils.formatDateTime(this.modifyAction.modifyDateTime);

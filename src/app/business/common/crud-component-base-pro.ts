@@ -1,6 +1,6 @@
 import {ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {BylConfigService} from '../../service/constant/config.service';
 import {BylResultBody} from '../../service/model/result-body.model';
@@ -19,6 +19,9 @@ import {BylWorkloadDetailListComponent} from "../project/workload-detail/list/li
 
 export abstract class BylCrudComponentBasePro<T> implements OnInit {
     // public isLoading:boolean;
+
+    public listFormUrl:string; //对应汇总界面的url，这样可以在新增或修改界面返回到汇总界面。
+    public crudEntityName: string; //当前管理的对象名称；
 
     @ViewChild('detailList') detailList: any;
 
@@ -76,11 +79,14 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
 
         //从list窗口调入修改单据时，载入数据
         console.log('执行base init');
-        if (this.sourceId) {
-            this.loadData(this.sourceId);
-        } else {
-            this.reset();
-        }
+
+        setTimeout(()=>{
+            if (this.sourceId) {
+                this.loadData(this.sourceId);
+            } else {
+                this.reset();
+            }
+        },20);
     }
 
     constructor(public msgService: NzMessageService,
@@ -88,7 +94,8 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService
+                public reuseTabService: ReuseTabService,
+                public router: Router
     ) {
         this.defineForm();
 
@@ -250,7 +257,7 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
             // simpleDeepCopy(this.defaultBusinessData, this.businessData);
             this.sfForm.reset();
         }
-
+        console.log('sf 状态',this.sfForm.valid);
 
     }
 
@@ -271,5 +278,14 @@ export abstract class BylCrudComponentBasePro<T> implements OnInit {
         this.logList.search();
         this._logLoaded = true;
 
+    }
+
+    returnToListForm(){
+        if ((!this.listFormUrl) || this.listFormUrl.length === 0){
+            this.msgService.warning("没有设置汇总界面的路径，无法转跳！");
+
+        }else{
+            this.router.navigateByUrl(this.listFormUrl);
+        }
     }
 }

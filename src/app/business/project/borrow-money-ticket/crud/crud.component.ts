@@ -217,15 +217,15 @@ export class BylBorrowMoneyTicketCrudComponent extends BylTicketCrudComponentBas
                 public configService: BylConfigService,
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
-                private router: Router,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
-                public fb: FormBuilder) {
+                public router: Router) {
         // super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, fb);
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, router);
 
         this.businessService = borrowMoneyTicketService;
-
+        this.listFormUrl = "/project/borrow-money-ticket/list";
+        this.crudEntityName ="借款单";
     }
 
 

@@ -1,6 +1,6 @@
 import {Component, Input, ViewChild} from '@angular/core';
 
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {FormBuilder} from '@angular/forms';
 import {NzMessageService, NzModalService} from 'ng-zorro-antd';
@@ -238,13 +238,14 @@ export class BylProjectCrudComponent extends BylMasterDataCrudComponentBasePro<B
         // public modalSubject: NzModalRef,
         public activatedRoute: ActivatedRoute,
         public reuseTabService: ReuseTabService,
-        public fb: FormBuilder) {
+        public router: Router) {
         // super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, fb);
 
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, router);
 
         this.businessService = projectService;
-
+        this.listFormUrl = "/project/project/list";
+        this.crudEntityName = "项目";
     }
 
     // ngOnInit() {
@@ -325,7 +326,7 @@ export class BylProjectCrudComponent extends BylMasterDataCrudComponentBasePro<B
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.name;
+            this.reuseTabService.title = '编辑-' + this.crudEntityName +"["  + this.businessData.name + "]";
         }
     }
 

@@ -1,11 +1,14 @@
-import {Component, HostListener, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, HostListener, ViewChild} from '@angular/core';
 import {
-    NzMessageService,
-    NzModalService,
-    NzModalRef,
-    NzTreeComponent,
+    NzDropdownContextComponent,
+    NzDropdownService,
+    NzFormatBeforeDropEvent,
     NzFormatEmitEvent,
-    NzTreeNodeOptions, NzTreeNode, NzDropdownService, NzDropdownContextComponent, NzFormatBeforeDropEvent
+    NzMessageService,
+    NzModalRef,
+    NzModalService,
+    NzTreeComponent,
+    NzTreeNode
 } from 'ng-zorro-antd';
 import {BylListFormData} from '../../../../service/model/list-form-data.model';
 import {Router} from '@angular/router';
@@ -15,11 +18,8 @@ import * as moment from 'moment';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylDepartmentQuery} from '../../../../service/account/query/department-query.model';
 import {BylTreeDispalyModel} from '../../../../service/model/tree-display.model';
-import {mixCodeName} from '../../../../service/utils/string.utils';
 import {Observable, of, Subject, zip} from 'rxjs';
 import {debounceTime, distinctUntilChanged, flatMap} from 'rxjs/operators';
-
-
 // import {Observable} from 'rxjs/Observable';
 // import {zip} from 'rxjs/observable/zip';
 import {BylListComponentBase} from '../../../common/list-component-base';
@@ -29,12 +29,8 @@ import {BylMenu} from "../../../../service/account/model/menu.model";
 import {BylMenuService} from "../../../../service/account/service/menu.service";
 import {BYL_TREE_NODE_ID_DEFAULT_VALUE} from "../../../../service/constant/general.constant";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylPermission} from "../../../../service/account/model/permission.model";
-import {BylPermissionListComponent} from "../../permission/list/list.component";
-import {BylListFormFunctionModeEnum} from "../../../../service/model/list-form-function-mode.enum";
 import {BylMenuCrudComponent} from "../crud/crud.component";
-import {catchError, map} from "rxjs/internal/operators";
-import {e} from "@angular/core/src/render3";
+import {catchError} from "rxjs/internal/operators";
 import {HttpClient} from "@angular/common/http";
 import {BylMenuLinkService} from "../../../../service/account/service/menu-link.service";
 import {BylMenuLink} from "../../../../service/account/model/menu-link.model";
@@ -657,8 +653,15 @@ export class BylMenuListComponent extends BylListComponentBase<BylMenu> {
 
         this.httpClient.get(this.configService.DEFAULT_MENU_URL)
             .subscribe(
-                (menuList)=>{
-                    this.showMsg(JSON.stringify(menuList));
+                (menuList:any)=>{
+                    // this.showMsg(JSON.stringify(menuList));
+                    this.nodes = [];
+                    if (menuList.menu){
+                        this.nodes.push(...menuList.menu);
+                    } else{
+                        console.log(JSON.stringify(menuList));
+                    }
+
                     this.loadingDefaultMenu =false;
                 },
                 err =>{

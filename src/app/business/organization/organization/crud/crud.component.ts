@@ -3,7 +3,7 @@ import {FormBuilder} from "@angular/forms";
 import {NzMessageService} from "ng-zorro-antd";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {ReuseTabService} from "@delon/abc";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {BylOrganization} from "../../../../service/organization/model/organization.model";
 import {BylOrganizationService} from "../../../../service/organization/service/organization.service";
 import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
@@ -153,12 +153,13 @@ export class BylOrganizationCrudComponent extends BylCrudComponentBasePro<BylOrg
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
-                public fb: FormBuilder) {
-        super(msgService, configService, /*modalService, modalSubject,*/ activatedRoute, reuseTabService);
+                public router: Router) {
+        super(msgService, configService, /*modalService, modalSubject,*/ activatedRoute, reuseTabService, router);
 
 
         this.businessService = organizationService;
-
+        this.listFormUrl = "/organization/organization/list";
+        this.crudEntityName = "组织";
     }
 
 
@@ -196,7 +197,7 @@ export class BylOrganizationCrudComponent extends BylCrudComponentBasePro<BylOrg
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.name;
+            this.reuseTabService.title = '编辑-' + this.crudEntityName + "[" +this.businessData.name +"]";
         }
 
     }

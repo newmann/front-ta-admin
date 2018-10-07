@@ -43,73 +43,92 @@ import {BylProjectAuthItemProjectListComponent} from "./project-auth/project-lis
 import {BylProjectProgressAssessTicket} from "../../service/project/model/project-progress-assess-ticket.model";
 import {BylProjectProgressAssessTicketListComponent} from "./project-progress-assess-ticket/list/list.component";
 import {BylProjectProgressAssessTicketCrudComponent} from "./project-progress-assess-ticket/crud/crud.component";
+import {BylPersonModule} from "../person/person.module";
+import {C} from "@angular/core/src/render3";
+import {BylSettleTicketListComponent} from "./settle-ticket/list/list.component";
+import {BylSettleTicketCrudComponent} from "./settle-ticket/crud/crud.component";
+
+const COMPONENTS=[
+    // BylRoleListComponent,
+    // RoleOperComponent,
+    // BylRoleCrudComponent,
+    // BylDepartmentListComponent,
+    // BylDepartmentCrudComponent
+
+    BylProjectCrudComponent,
+    BylProjectListComponent,
+    BylProjectAuthListComponent,
+    BylProjectAuthItemProjectListComponent,
+    BylProjectProgressAssessTicketListComponent,
+    BylProjectProgressAssessTicketCrudComponent,
+
+    BylProjectManagerPoolListComponent,
+    BylBorrowMoneyQualificationPoolListComponent,
+    BylBorrowMoneyTicketListComponent,
+    BylBorrowMoneyTicketCrudComponent,
+    BylFetchProjectManagerWidgetComponent,
+    BylWorkTypeListComponent,
+    BylWorkTypeCrudComponent,
+    BylWorkTypeConfigTicketCrudComponent,
+    BylWorkTypeConfigTicketListComponent,
+    BylWorkTypeConfigDetailListComponent,
+
+    BylExpenseTypeListComponent,
+    BylExpenseTypeCrudComponent,
+    BylEmployeeListComponent,
+    BylEmployeeCrudComponent,
+    BylEmployeeItemListComponent,
+    BylOutsourcerListComponent,
+    BylOutsourcerCrudComponent,
+    BylOutsourceEmployeeListComponent,
+    BylOutsourceEmployeeCrudComponent,
+    BylOutsourceEmployeeItemListComponent,
+
+
+    BylExpenseTicketListComponent,
+    BylExpenseTicketCrudComponent,
+    BylExpenseTicketDetailListComponent,
+    BylExpenseTicketDetailCrudComponent,
+    BylOperationPeriodListComponent,
+    BylOperationPeriodCrudComponent,
+    BylWorkloadTicketListComponent,
+    BylWorkloadTicketCrudComponent,
+    BylWorkloadDetailListComponent,
+    BylWorkloadDetailDetailBrowserComponent,
+
+    BylSettleTicketListComponent,
+    BylSettleTicketCrudComponent,
+
+];
+const ENTRYCOMPONENTS = [
+    BylProjectManagerPoolListComponent,
+    BylExpenseTicketDetailCrudComponent,
+    BylEmployeeItemListComponent,
+    BylOutsourceEmployeeItemListComponent,
+    BylWorkloadDetailDetailBrowserComponent,
+    ];
 
 
 @NgModule({
     imports: [
         SharedModule,
         BylBusinessSharedModule,
+        BylPersonModule,
         BylProjectRoutingModule,
         ColorPickerModule
         // ,ImageCropperModule
     ],
     declarations: [
-        // BylRoleListComponent,
-        // RoleOperComponent,
-        // BylRoleCrudComponent,
-        // BylDepartmentListComponent,
-        // BylDepartmentCrudComponent
-
-        BylProjectCrudComponent,
-        BylProjectListComponent,
-        BylProjectAuthListComponent,
-        BylProjectAuthItemProjectListComponent,
-        BylProjectProgressAssessTicketListComponent,
-        BylProjectProgressAssessTicketCrudComponent,
-
-        BylProjectManagerPoolListComponent,
-        BylBorrowMoneyQualificationPoolListComponent,
-        BylBorrowMoneyTicketListComponent,
-        BylBorrowMoneyTicketCrudComponent,
-        BylFetchProjectManagerWidgetComponent,
-        BylWorkTypeListComponent,
-        BylWorkTypeCrudComponent,
-        BylWorkTypeConfigTicketCrudComponent,
-        BylWorkTypeConfigTicketListComponent,
-        BylWorkTypeConfigDetailListComponent,
-
-        BylExpenseTypeListComponent,
-        BylExpenseTypeCrudComponent,
-        BylEmployeeListComponent,
-        BylEmployeeCrudComponent,
-        BylEmployeeItemListComponent,
-        BylOutsourcerListComponent,
-        BylOutsourcerCrudComponent,
-        BylOutsourceEmployeeListComponent,
-        BylOutsourceEmployeeCrudComponent,
-        BylOutsourceEmployeeItemListComponent,
-
-
-        BylExpenseTicketListComponent,
-        BylExpenseTicketCrudComponent,
-        BylExpenseTicketDetailListComponent,
-        BylExpenseTicketDetailCrudComponent,
-        BylOperationPeriodListComponent,
-        BylOperationPeriodCrudComponent,
-        BylWorkloadTicketListComponent,
-        BylWorkloadTicketCrudComponent,
-        BylWorkloadDetailListComponent,
-        BylWorkloadDetailDetailBrowserComponent,
-
+        ...COMPONENTS
 
     ],
-    entryComponents: [
-        BylProjectManagerPoolListComponent,
-        BylExpenseTicketDetailCrudComponent,
-        BylEmployeeItemListComponent,
-        BylOutsourceEmployeeItemListComponent,
-        BylWorkloadDetailDetailBrowserComponent,
+    exports: [
+        ...COMPONENTS
+    ],
 
+    entryComponents: [
+
+        ...ENTRYCOMPONENTS
         // BylRoleCrudComponent,
         // BylDepartmentCrudComponent
     ]

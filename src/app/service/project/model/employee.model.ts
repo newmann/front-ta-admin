@@ -17,10 +17,23 @@ export class BylEmployee extends BylMasterDataBaseModel {
     code: string;
     name: string;
 
+    personWidget: any;
     person: BylEmbeddablePerson = new BylEmbeddablePerson();
 
+    get personDisplay(){
+
+        if(this.person){
+            return this.person.personName +"[" + this.person.personIDCard + "]";
+        }
+
+    }
+    set personDisplay(value: string){
+
+    }
     enterDate: number;
+    enterDateDF: Date;
     leaveDate: number;
+    leaveDateDF: Date;
 
     workType: BylEmbeddableWorkType = new BylEmbeddableWorkType();
 
@@ -42,15 +55,15 @@ export class BylEmployee extends BylMasterDataBaseModel {
     }
     set statusDisplay(value: string){  }
 
-    get enterDateDF(): Date{
-        return BylDatetimeUtils.convertMillsToDateTime(this.enterDate);
-    };
-    set enterDateDF(value: Date){ }
-
-    get leaveDateDF(): Date{
-        return BylDatetimeUtils.convertMillsToDateTime(this.leaveDate);
-    };
-    set leaveDateDF(value: Date){}
+    // get enterDateDF(): Date{
+    //     return BylDatetimeUtils.convertMillsToDateTime(this.enterDate);
+    // };
+    // set enterDateDF(value: Date){ }
+    //
+    // get leaveDateDF(): Date{
+    //     return BylDatetimeUtils.convertMillsToDateTime(this.leaveDate);
+    // };
+    // set leaveDateDF(value: Date){}
 
     get enterDateDisplay() {
         return BylDatetimeUtils.formatDate(this.enterDate);

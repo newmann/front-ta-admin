@@ -179,6 +179,7 @@ export class BylEmployeeListComponent extends BylMasterDataListComponentBasePro<
         columns:[
             {label:"代码", fieldPath: "code" },
             {label:"姓名", fieldPath: "name" },
+            {label:"关联个体", fieldPath: "personDisplay" },
             {label:"入职日期", fieldPath: "enterDateDisplay" },
             {label:"离职日期", fieldPath: "leaveDateDisplay" },
             {label:"当前工种", fieldPath: "workTypeDisplay" },

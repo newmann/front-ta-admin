@@ -1,4 +1,9 @@
-<page-header [title]="'费用单明细维护'" *ngIf="processType.length > 0 "></page-header>
+<page-header [title]="crudEntityName +'维护'"  *ngIf="processType.length > 0 ">
+  <ng-template #action>
+    <button nz-button (click)="returnToListForm()" type="button">返回汇总界面</button>
+
+  </ng-template>
+</page-header>
 <nz-card [nzBordered]="false">
       <span>
         <sf  #sf [button]="null"

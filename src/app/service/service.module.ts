@@ -47,6 +47,11 @@ import {BylMenuService} from "./account/service/menu.service";
 import {BylMenuLinkService} from "./account/service/menu-link.service";
 import {BylProjectProgressAssessTicketService} from "./project/service/project-progress-assess-ticket.service";
 import {BylFileServerService} from "./fileserver/service/file-server.service";
+import {BylSettleTicketService} from "./project/service/settle-ticket.service";
+import {BylSettleDetailBorrowMoneyService} from "./project/service/settle-detail-borrow-money.service";
+import {BylSettleDetailBorrowMoneyTicketService} from "./project/service/settle-detail-borrow-money-ticket.service";
+import {BylSettleDetailWorkloadService} from "./project/service/settle-detail-workload.service";
+import {BylSettleDetailWorkloadTicketService} from "./project/service/settle-detail-workload-ticket.service";
 
 
 
@@ -103,6 +108,11 @@ import {BylFileServerService} from "./fileserver/service/file-server.service";
         BylWorkloadDetailService,
         BylWorkloadDetailDetailService,
 
+        BylSettleTicketService,
+        BylSettleDetailBorrowMoneyService,
+        BylSettleDetailBorrowMoneyTicketService,
+        BylSettleDetailWorkloadService,
+        BylSettleDetailWorkloadTicketService,
 
         // ChatService,
         // CustomStompRService,

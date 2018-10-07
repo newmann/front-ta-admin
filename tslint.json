@@ -10,15 +10,13 @@
     "callable-types": true,
     "class-name": true,
     "comment-format": [
-      false,
+      true,
       "check-space"
     ],
     "curly": false,
     "eofline": true,
     "forin": false,
-    "import-blacklist": [
-      true
-    ],
+    "import-blacklist": [true, "rxjs/Rx"],
     "import-spacing": true,
     "indent": [
       true,
@@ -81,9 +79,9 @@
       "check-else",
       "check-whitespace"
     ],
-    "prefer-const": false,
+    "prefer-const": true,
     "quotemark": [
-      false,
+      true,
       "single"
     ],
     "radix": true,
@@ -117,20 +115,20 @@
       "check-type"
     ],
     "directive-selector": [
-      false,
+      true,
       "attribute",
-      "app",
+      ["app", "passport", "exception", "layout", "header"],
       "camelCase"
     ],
     "component-selector": [
-      false,
+      true,
       "element",
-      "app",
+      ["app", "passport", "exception", "layout", "header"],
       "kebab-case"
     ],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
-    "use-host-property-decorator": true,
+    "use-host-property-decorator": false,
     "no-input-rename": false,
     "no-output-rename": false,
     "use-life-cycle-interface": true,

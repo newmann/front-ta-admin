@@ -11,7 +11,11 @@ import {BylBaseModel} from "../../service/model/base.model";
 import {BylPageResp} from "../../service/model/page-resp.model";
 import {BylPageReq} from "../../service/model/page-req.model";
 
-
+/**
+ * 用于定义实体之间关系的抽象类
+ * 比如，一个角色下面有多个账户，一个账户下面有多个权限等
+ *
+ */
 export abstract class BylEntityRelationListComponentBase<T extends BylBaseModel> {
 
     // private _masterEntityType: PermissionEntityTypeEnum;

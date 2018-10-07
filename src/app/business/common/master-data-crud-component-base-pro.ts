@@ -1,5 +1,5 @@
 import {NzMessageService} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {BylConfigService} from '../../service/constant/config.service';
 import {Observable} from 'rxjs';
@@ -33,9 +33,10 @@ export abstract class BylMasterDataCrudComponentBasePro<T extends BylMasterDataB
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService
+                public reuseTabService: ReuseTabService,
+                public router: Router
     ) {
-        super(msgService, configService, activatedRoute, reuseTabService);
+        super(msgService, configService, activatedRoute, reuseTabService, router);
 
     }
 

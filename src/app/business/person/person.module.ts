@@ -10,9 +10,26 @@ import { BylPersonAddressListComponent } from './address/list/list.component';
 import { BylPersonCertificateCrudComponent } from './certificate/crud/crud.component';
 import {BylPersonCertificateListComponent} from './certificate/list/list.component';
 import {BylBusinessSharedModule} from "../business-shared.module";
+import {BylPersonListComponent} from "./person/list/list.component";
+import {BylPersonBindComponent} from "./person/bind/bind.component";
+import {BylPersonBindCrudComponent} from "./person/bind-crud/crud.component";
 
+const COMPONENTS=[
+    BylPersonCrudComponent,
+    BylPersonListComponent,
+    BylPersonBindComponent,
+    BylPersonBindCrudComponent,
 
+    BylPersonAddressCrudComponent,
+    BylPersonAddressListComponent,
+    BylPersonCertificateCrudComponent,
+    BylPersonCertificateListComponent
 
+];
+const ENTRYCOMPONENTS = [
+    BylPersonCrudComponent,
+    BylPersonBindCrudComponent
+    ];
 
 @NgModule({
     imports: [
@@ -24,20 +41,13 @@ import {BylBusinessSharedModule} from "../business-shared.module";
         // ,ImageCropperModule
     ],
     declarations: [
-        // BylRoleListComponent,
-        // RoleOperComponent,
-        // BylRoleCrudComponent,
-        // BylDepartmentListComponent,
-        // BylDepartmentCrudComponent
-        BylPersonCrudComponent,
-        // BylPersonListComponent,
-        BylPersonAddressCrudComponent,
-        BylPersonAddressListComponent,
-        BylPersonCertificateCrudComponent,
-        BylPersonCertificateListComponent
+        ...COMPONENTS
+    ],
+    exports: [
+        ...COMPONENTS
     ],
     entryComponents:[
-        BylPersonCrudComponent
+        ...ENTRYCOMPONENTS
     ]
 })
 export class BylPersonModule { }

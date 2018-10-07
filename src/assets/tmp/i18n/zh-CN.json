@@ -88,6 +88,9 @@
   "permission_list": "浏览权限",
   "permission_new": "新增权限",
 
+  "menu": "菜单",
+  "menu_list": "浏览菜单",
+
   "person": "个人",
   "person_list": "浏览个人",
   "person_new": "新增个人",
@@ -122,6 +125,10 @@
   "workload_ticket": "考勤登记单",
   "workload_ticket_list": "浏览考勤登记单",
   "workload_ticket_new": "新增考勤登记单",
+
+  "settle": "结算",
+  "settle_ticket_list": "浏览结算单",
+  "settle_ticket_new": "新增结算单",
 
   "employee": "员工",
   "employee_list": "浏览员工",

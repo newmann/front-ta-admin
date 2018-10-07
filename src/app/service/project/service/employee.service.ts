@@ -7,6 +7,8 @@ import {Observable} from "rxjs";
 import {BylCheckAvailableReq} from "../../model/check-avaiable-req.model";
 import {BylResultBody} from "../../model/result-body.model";
 import {BylMasterDataBaseService} from "../../service/master-data-base.service";
+import {BylPersonRelationInterface} from "../../person/service/person-related.interface";
+import {BylPersonRelation} from "../../person/model/person-relation.model";
 
 
 /**
@@ -15,7 +17,9 @@ import {BylMasterDataBaseService} from "../../service/master-data-base.service";
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylEmployeeService  extends BylMasterDataBaseService<BylEmployee> {
+export class BylEmployeeService  extends BylMasterDataBaseService<BylEmployee>
+    implements BylPersonRelationInterface
+{
 
 
     constructor(protected http: _HttpClient,
@@ -38,6 +42,15 @@ export class BylEmployeeService  extends BylMasterDataBaseService<BylEmployee> {
 
     leave(item: BylEmployee): Observable<BylResultBody<BylEmployee>> {
         return this.http.post<BylResultBody<BylEmployee>>(this.BASE_API_URL + '/leave', item);
+    }
+
+
+    deletePersonRelation(personRelation: BylPersonRelation): Observable<BylResultBody<Boolean>> {
+        return undefined;
+    }
+
+    savePersonRelation(personRelation: BylPersonRelation): Observable<BylResultBody<Boolean>> {
+        return undefined;
     }
 
 }

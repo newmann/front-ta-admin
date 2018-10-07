@@ -99,7 +99,10 @@ export class UserLoginComponent implements OnDestroy {
       this.captcha.updateValueAndValidity();
       if (this.mobile.invalid || this.captcha.invalid) return;
     }
-    // mock http
+
+    // **注：** DEMO中使用 `setTimeout` 来模拟 http
+    // 默认配置中对所有HTTP请求都会强制[校验](https://ng-alain.com/auth/getting-started) 用户 Token
+    // 然一般来说登录请求不需要校验，因此可以在请求URL加上：`/login?_allow_anonymous=true` 表示不触发用户 Token 校验
     this.loading = true;
     setTimeout(() => {
       this.loading = false;
@@ -136,7 +139,7 @@ export class UserLoginComponent implements OnDestroy {
     let url = ``;
     let callback = ``;
     if (environment.production)
-      callback = 'https://cipchk.github.io/ng-alain/callback/' + type;
+      callback = 'https://ng-alain.github.io/ng-alain/callback/' + type;
     else callback = 'http://localhost:4200/callback/' + type;
     switch (type) {
       case 'auth0':

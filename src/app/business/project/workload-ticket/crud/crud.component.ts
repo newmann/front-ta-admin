@@ -2,7 +2,7 @@ import {Component, Input, ViewChild} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {SFSchema} from "@delon/form";
@@ -251,12 +251,13 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService) {
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
+                public reuseTabService: ReuseTabService,
+                public router: Router) {
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, router);
         //
         this.businessService = workloadTicketService;
-
-
+        this.listFormUrl = "/project/workload-ticket/list";
+        this.crudEntityName = "考勤登记单";
     }
 
     // ngOnInit() {

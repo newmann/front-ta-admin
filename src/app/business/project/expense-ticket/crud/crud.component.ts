@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylCheckTypeEnum, BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
@@ -207,12 +207,13 @@ export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService) {
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
+                public reuseTabService: ReuseTabService,
+                public router: Router) {
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, router);
         //
         this.businessService = expenseTicketService;
-
-
+        this.listFormUrl = "/project/expense-ticket/list";
+        this.crudEntityName = "费用单";
     }
 
     // ngOnInit() {
@@ -229,21 +230,21 @@ export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro
     //     this.reset();
     // }
 
-    /**
-     * 重置界面内容
-     */
-    reset() {
-
-        console.log('reset form', this.businessData);
-
-        super.reset();
-        //设置可复用标签的名字：
-        if (this.sourceId) {
-            //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.billNo;
-        }
-
-    }
+    // /**
+    //  * 重置界面内容
+    //  */
+    // reset() {
+    //
+    //     console.log('reset form', this.businessData);
+    //
+    //     super.reset();
+    //     //设置可复用标签的名字：
+    //     if (this.sourceId) {
+    //         //说明是修改
+    //         this.reuseTabService.title = '编辑-' + this.businessData.billNo;
+    //     }
+    //
+    // }
     getFormData() {
         super.getFormData();
         if (this.businessData.projectWidget) {

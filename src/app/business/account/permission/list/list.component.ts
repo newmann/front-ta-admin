@@ -43,7 +43,7 @@ export class BylPermissionListComponent extends BylListComponentBasePro<BylPermi
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
                 public modalService: NzModalService,
-                public modalRef: NzModalRef,
+                // public modalRef: NzModalRef,
                 public router: Router,
                 public permissionService: BylPermissionService) {
         super(message, configService, modalService, router);
@@ -111,7 +111,7 @@ export class BylPermissionListComponent extends BylListComponentBasePro<BylPermi
         //将数据传出，并退出界面
         $event.preventDefault();
         // this.selectModalForm.destroy(this.selectedRows);
-        this.modalRef.destroy(this.selectedRows)
+        // this.modalRef.destroy(this.selectedRows)
     }
 
     /**

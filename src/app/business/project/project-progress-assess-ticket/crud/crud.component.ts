@@ -215,15 +215,15 @@ export class BylProjectProgressAssessTicketCrudComponent extends BylTicketCrudCo
                 public configService: BylConfigService,
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
-                private router: Router,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
-                public fb: FormBuilder) {
+                public router: Router) {
         // super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, fb);
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, router);
 
         this.businessService = projectProgressAssessTicketService;
-
+        this.listFormUrl = "/project/project-progress-assess-type/list";
+        this.crudEntityName = "项目进度预估";
     }
 
 

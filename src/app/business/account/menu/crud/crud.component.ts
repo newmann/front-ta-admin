@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService, NzModalRef} from 'ng-zorro-antd';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
@@ -11,7 +11,6 @@ import {BylResultBody} from '../../../../service/model/result-body.model';
 import {Observable, Subject} from 'rxjs';
 // import {Subject} from 'rxjs/Subject';
 import {BylMasterDataStatusEnum} from '../../../../service/model/master-data-status.enum';
-import {BylCrudComponentBase} from "../../../common/crud-component-base";
 import {BylMenu} from "../../../../service/account/model/menu.model";
 import {BylMenuService} from "../../../../service/account/service/menu.service";
 import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
@@ -209,12 +208,13 @@ export class BylMenuCrudComponent extends BylMasterDataCrudComponentBasePro<BylM
                 // public modalService: NzModalService,
                 public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService
+                public reuseTabService: ReuseTabService,
+                public router: Router
                 ) {
-        super(msgService, configService, /*modalService, modalSubject,*/ activatedRoute, reuseTabService);
+        super(msgService, configService, /*modalService, modalSubject,*/ activatedRoute, reuseTabService, router);
 
         this.businessService = menuService;
-
+        this.listFormUrl = "/account/menu/list";
     }
 
 

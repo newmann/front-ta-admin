@@ -19,6 +19,26 @@ import {BylUserLockComponent} from "./passport/lock/lock.component";
 import {BylOAuthRegisterComponent} from "./passport/oauth-register/oauth-register.component";
 import {BylOAuthRegisterResultComponent} from "./passport/oauth-register-result/oauth-register-result.component";
 
+const COMPONENTS=[
+    BylDashboardV1Component,
+    BylDashboardAnalysisComponent,
+    BylDashboardMonitorComponent,
+    BylDashboardWorkplaceComponent,
+    // passport pages
+
+    BylUserLoginComponent,
+    BylUserRegisterComponent,
+    BylUserRegisterResultComponent,
+    BylOAuthRegisterComponent,
+    BylOAuthRegisterResultComponent,
+    // single pages
+    BylUserLockComponent,
+    BylCallbackComponent,
+    BylException403Component,
+    BylException404Component,
+    BylException500Component
+
+    ];
 
 @NgModule({
     imports: [SharedModule,
@@ -26,25 +46,11 @@ import {BylOAuthRegisterResultComponent} from "./passport/oauth-register-result/
         BylBusinessRoutingModule
     ],
     declarations: [
-        BylDashboardV1Component,
-        BylDashboardAnalysisComponent,
-        BylDashboardMonitorComponent,
-        BylDashboardWorkplaceComponent,
-        // passport pages
+        ...COMPONENTS,
 
-        BylUserLoginComponent,
-        BylUserRegisterComponent,
-        BylUserRegisterResultComponent,
-        BylOAuthRegisterComponent,
-        BylOAuthRegisterResultComponent,
-        // single pages
-        BylUserLockComponent,
-        BylCallbackComponent,
-        BylException403Component,
-        BylException404Component,
-        BylException500Component
-
-
+    ],
+    exports: [
+        ...COMPONENTS,
     ],
     entryComponents: []
 })

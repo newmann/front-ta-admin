@@ -18,6 +18,7 @@ import {BylHeaderUserComponent} from "./pc/default/header/components/user.compon
 import {BylLayoutPassportComponent} from "./pc/passport/passport.component";
 import {BylLayoutFullScreenComponent} from "./pc/fullscreen/fullscreen.component";
 import {BylHelperFlowComponent} from "./pc/default/header/components/helper-flow.component";
+import {BylI18nTestComponent} from "./pc/default/header/components/i18n-test.component";
 
 const PC = [
     BylLayoutDefaultComponent,
@@ -34,6 +35,7 @@ const COMPONENTS=[
     BylHeaderIconComponent,
     BylHeaderFullScreenComponent,
     BylHeaderI18nComponent,
+    BylI18nTestComponent,
     BylHeaderStorageComponent,
     BylHeaderUserComponent,
     BylHelperFlowComponent

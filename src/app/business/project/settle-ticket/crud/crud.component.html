@@ -1,0 +1,82 @@
+<page-header [title]="crudEntityName +'维护' + '-' + businessData.billNo" *ngIf="processType.length > 0 ">
+  <ng-template #action>
+    <button nz-button (click)="returnToListForm()" type="button">返回汇总界面</button>
+  </ng-template>
+  <ng-template #content>
+    <sv-container col="2">
+      <sv label="创建人">{{businessData.createrDisplay}}</sv>
+      <sv label="创建时间">{{businessData.createDateTimeDisplay}}</sv>
+      <sv label="最后修改人">{{businessData.modifierDisplay}}</sv>
+      <sv label="最后修改时间">{{businessData.modifyDateTimeDisplay}}</sv>
+
+    </sv-container>
+  </ng-template>
+  <ng-template #extra>
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="12">
+        <p class="text-grey">状态</p>
+        <p class="text-lg">{{businessData.statusDisplay}}</p>
+      </div>
+      <div nz-col nzXs="24" nzSm="12">
+        <p class="text-grey">应付金额</p>
+        <p class="text-lg">{{businessData.payed}}</p>
+      </div>
+    </div>
+  </ng-template>
+</page-header>
+<nz-card [nzBordered]="false">
+    <nz-tabset>
+        <nz-tab [nzTitle]="'单据头'">
+            <span>
+              <sf  #sf [button]="null"
+                   [schema]="emptyFormSchema"
+                   [ui]="formUiSchema"
+                   [formData]="businessData"
+                   mode="edit"
+                   (formError)="error($event)">
+                  <button type="submit" nz-button [disabled]="!sf.valid"  (click)="submitForm()"
+                          *ngIf="showSaveButton()" [nzLoading]="loading">保存</button>
+                  <button (click)="reset()"  type="button" nz-button *ngIf="showSaveButton()">重置</button>
+                  <button nz-button [disabled]="!sf.valid" (click)="submitEntity()"
+                          *ngIf="showSubmitButton()" [nzLoading]="submitLoading">提交</button>
+                  <button nz-button (click)="checkEntity()" [disabled]="!sf.valid" *ngIf="showCheckButton()" [nzLoading]="checkLoading">审核</button>
+                  <button nz-button (click)="cancelEntity()" *ngIf="showCancelButton()" [nzLoading]="cancelLoading">作废</button>
+
+
+              </sf>
+
+            </span>
+            <byl-show-error-formitem [errorMessage]="errMsg"></byl-show-error-formitem>
+          <!--<p>formdata:{{sfForm.value | json}}</p>-->
+          <!--<p>businessData:{{businessData | json}}</p>-->
+
+        </nz-tab>
+
+      <nz-tab [nzDisabled]="!sourceId" [nzTitle]="'考勤明细汇总'" (nzClick)="detailWorkloadTabClick()">
+        <!--<byl-workload-detail-list #detailList-->
+          <!--[setWorkloadTicket]="businessData"-->
+                                        <!--[setOutsourcerWidget]="businessData.outsourcerWidget"-->
+                                        <!--(changeModifyDateTime)="getModifyDateTimeChange($event)">-->
+
+        <!--</byl-workload-detail-list>-->
+
+      </nz-tab>
+
+      <nz-tab [nzDisabled]="!sourceId" [nzTitle]="'借款明细汇总'" (nzClick)="detailBorrowMoneyTabClick()">
+        <!--<byl-workload-detail-list #detailList-->
+                                  <!--[setWorkloadTicket]="businessData"-->
+                                  <!--[setOutsourcerWidget]="businessData.outsourcerWidget"-->
+                                  <!--(changeModifyDateTime)="getModifyDateTimeChange($event)">-->
+
+        <!--</byl-workload-detail-list>-->
+
+      </nz-tab>
+
+        <nz-tab [nzDisabled]="!sourceId" nzTitle="日志" (nzClick)="logTabClick()">
+          <byl-entity-logger #logList [entityId]="sourceId"></byl-entity-logger>
+        </nz-tab>
+
+    </nz-tabset>
+
+</nz-card>
+

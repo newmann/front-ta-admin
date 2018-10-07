@@ -2,10 +2,10 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { deepGet } from '@delon/util';
 import { UploadFile, UploadChangeParam, NzModalService } from 'ng-zorro-antd';
 import {ControlWidget} from "@delon/form";
-import {getData, toBool} from "@delon/form/src/src/utils";
 import {BylFileServerService} from "../../../service/fileserver/service/file-server.service";
 import {HttpResponse} from "@angular/common/http";
 import { saveAs } from 'file-saver';
+import {getData, toBool} from "../select-widget-sf/sf-utils";
 
 @Component({
   selector: 'byl-file-upload',

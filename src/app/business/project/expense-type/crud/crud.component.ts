@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylCheckTypeEnum, BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
@@ -157,12 +157,13 @@ export class BylExpenseTypeCrudComponent extends BylMasterDataCrudComponentBaseP
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService) {
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
+                public reuseTabService: ReuseTabService,
+                public router: Router) {
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, router);
         //
         this.businessService = expenseTypeService;
-
-
+        this.listFormUrl = "/project/expense-type/list";
+        this.crudEntityName = "费用类型";
     }
 
     // ngOnInit() {

@@ -14,7 +14,6 @@ import {SFSchema, SFUISchema} from '@delon/form';
 import {BylConfigService} from '../../../service/constant/config.service';
 import {BylListFormFunctionModeEnum} from '../../../service/model/list-form-function-mode.enum';
 import {simpleDeepCopy} from "../../../service/utils/object.utils";
-import {SFSchemaEnum, SFSchemaEnumType} from "@delon/form/src/src/schema";
 import * as moment from 'moment';
 import {BylDatetimeUtils} from "../../../service/utils/datetime.utils";
 

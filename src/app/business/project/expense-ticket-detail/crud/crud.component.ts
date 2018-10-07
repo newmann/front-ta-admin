@@ -4,7 +4,7 @@ import {BylCrudComponentBase} from '../../../common/crud-component-base';
 import {BylPersonAddress} from '../../../../service/person/model/person-address.model';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {NzMessageService, NzModalService, NzModalRef, UploadFile} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ReuseTabService} from '@delon/abc';
 import {BylResultBody} from "../../../../service/model/result-body.model";
@@ -47,13 +47,16 @@ export class BylExpenseTicketDetailCrudComponent extends BylTicketDetailCrudComp
                 // public modalService: NzModalService,
                 public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService
+                public reuseTabService: ReuseTabService,
+                public router: Router
                 ) {
-        super(msgService, configService, /*modalService, */modalSubject, activatedRoute, reuseTabService);
+        super(msgService, configService, /*modalService,*/ modalSubject, activatedRoute, reuseTabService, router);
 
         this.businessService = expenseDetailService;
-
+        this.listFormUrl = "/project/expense-ticket-detail/list";
+        this.crudEntityName = "费用单明细";
     }
+
     defineForm(): void {
         this._newSchema = {
             properties: {

@@ -9,7 +9,7 @@ import {BylBorrowMoneyQualificationPoolService} from "../../../service/project/s
 import {BylBorrowMoneyQualificationPool} from "../../../service/project/model/borrow-money-qualification-pool.model";
 import {simpleDeepCopy} from "../../../service/utils/object.utils";
 import {map} from "rxjs/operators";
-import {toBool} from "@delon/form/src/src/utils";
+import {toBool} from "./sf-utils";
 
 @Component({
     selector: 'byl-select-borrow-money-qualification-pool',
@@ -92,7 +92,7 @@ export class BylBorrowMoneyQualificationPoolSelectWidgetSFComponent extends Cont
         console.log("search for pool:", text);
         if ((text) && (text.length > 0)) {
             // return this.projectManagerPoolService.fetchAvailableByCodeOrNamePromise(text);
-            return this.borrowMoneyQualificationPoolService.fetchAvailableByCodeOrName(text)
+            return this.borrowMoneyQualificationPoolService.fetchAllAvailableByCodeOrName(text)
                 .toPromise().then(
                     (res) => {
                         if (res.code === BylResultBody.RESULT_CODE_SUCCESS) {

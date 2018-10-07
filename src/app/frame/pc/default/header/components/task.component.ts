@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'byl-header-task',
   template: `
   <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" (nzVisibleChange)="change()">
-    <div class="item" nz-dropdown>
+    <div class="alain-default__nav-item" nz-dropdown>
       <nz-badge [nzDot]="true">
         <i class="anticon anticon-bell"></i>
       </nz-badge>

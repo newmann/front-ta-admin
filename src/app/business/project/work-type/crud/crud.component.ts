@@ -1,8 +1,8 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BylConfigService} from '../../../../service/constant/config.service';
 
 
@@ -22,7 +22,7 @@ import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-sta
     selector: 'byl-work-type-crud',
     templateUrl: './crud.component.html',
 })
-export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<BylWorkType> {
+export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<BylWorkType>{
     processType: string;
 
     private _newSchema: SFSchema;
@@ -183,7 +183,7 @@ export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<
             },
             "required": ["code", "name", "checkTypeDisplay"],
             // "if": {
-            //     "properties": {"checkType": {"enum": [10]}}
+            //     "properties": {"checkTypeDisplay": {"enum": "小时"}}
             // },
             // "then": {
             //     "required": ["standardTimeLength"]
@@ -230,13 +230,15 @@ export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService) {
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
+                public reuseTabService: ReuseTabService,
+                public router: Router) {
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService,router);
         //
         this.businessService = workTypeService;
-
-
+        this.listFormUrl = "/project/work-type/list";
+        this.crudEntityName = "工种";
     }
+
 
     /**
      * 定制取数过程
@@ -262,7 +264,7 @@ export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.name;
+            this.reuseTabService.title = '编辑-' + this.crudEntityName +"["  + this.businessData.name + "]";
         }
 
     }
@@ -272,6 +274,17 @@ export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<
         console.log('error', value);
     }
 
-
+    // /**
+    //  * 判断当前sf是否有效
+    //  * @returns {boolean}
+    //  */
+    // formIsValid():boolean{
+    //     if ( this.sfForm.value["code"]){
+    //         return this.sfForm.valid && (this.sfForm.value["code"].length > 0)
+    //     }else{
+    //         return this.sfForm.valid;
+    //     }
+    //
+    // }
 }
 

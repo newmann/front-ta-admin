@@ -75,11 +75,11 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBasePro<
             // onCancel() {
             //     console.log('Click cancel');
             // },
-            nzComponentParams: {
-                functionMode: BylListFormFunctionModeEnum.SELECT,
-                findAvailablePoolsService: this.projectManagerPoolService
-                // selectModalForm: this.accountReveal
-            },
+            // nzComponentParams: {
+            //     functionMode: BylListFormFunctionModeEnum.SELECT,
+            //     findAvailablePoolsService: this.projectManagerPoolService
+            //     // selectModalForm: this.accountReveal
+            // },
             nzMaskClosable: false
         });
         // this.accountReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);

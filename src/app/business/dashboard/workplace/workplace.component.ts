@@ -5,6 +5,7 @@ import { getTimeDistance, yuan } from '@delon/util';
 import { _HttpClient } from '@delon/theme';
 
 import * as d3 from "d3";
+import {BylAuthDataService} from "../../../service/auth/auth-data.service";
 
 @Component({
     selector: 'byl-dashboard-workplace',
@@ -12,6 +13,11 @@ import * as d3 from "d3";
     styleUrls: ['./workplace.component.less']
 })
 export class BylDashboardWorkplaceComponent implements OnInit, OnDestroy {
+    data: any = {
+        salesData: [],
+        offlineData: [],
+    };
+
     notice: any[] = [];
     activities: any[] = [];
     radarData: any[] = [];
@@ -78,18 +84,35 @@ export class BylDashboardWorkplaceComponent implements OnInit, OnDestroy {
       ];
     // endregion
 
+    getUserCaption(){
+        if(this.authDataService.Account){
+            return this.authDataService.Account.username;
+        }else {
+            return null;
+        }
+    }
+
+    getUserDescription(){
+        if(this.authDataService.Account){
+            return "你好，".concat(this.authDataService.Account.nickname).concat("！");
+        }else {
+            return null;
+        }
+    }
     // public diagram: go.Diagram = new go.Diagram();
 
-    @ViewChild('helpFlow')
-    private diagramRef: ElementRef;
-
-    @ViewChild('d3')
-    private d3Ref: ElementRef;
+    // @ViewChild('helpFlow')
+    // private diagramRef: ElementRef;
+    //
+    // @ViewChild('d3')
+    // private d3Ref: ElementRef;
 
     // private myGoMaker = go.GraphObject.make;
     // private myModel = go.GraphLinksModel;
 
-    constructor(private http: _HttpClient, public msg: NzMessageService) {
+    constructor(private http: _HttpClient,
+                public authDataService: BylAuthDataService,
+                public msg: NzMessageService) {
 
         // this.diagram.initialAutoScale = go.Diagram.Uniform;
         //
@@ -258,19 +281,19 @@ export class BylDashboardWorkplaceComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
     }
 
-    radius = 10;
-
-    d3Clicked(event: any){
-        let d3Element = this.d3Ref.nativeElement;
-
-        d3.select(event.target).append('circle')
-            .attr('cx', event.x)
-            .attr('cy', event.y)
-            .attr('r', () => {
-                return this.radius;
-            })
-            .attr('fill', 'red');
-    }
+    // radius = 10;
+    //
+    // d3Clicked(event: any){
+    //     let d3Element = this.d3Ref.nativeElement;
+    //
+    //     d3.select(event.target).append('circle')
+    //         .attr('cx', event.x)
+    //         .attr('cy', event.y)
+    //         .attr('r', () => {
+    //             return this.radius;
+    //         })
+    //         .attr('fill', 'red');
+    // }
 }
 
 

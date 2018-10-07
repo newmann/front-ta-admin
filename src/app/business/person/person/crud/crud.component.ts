@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 
 import {NzMessageService} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder} from '@angular/forms';
 
 import {BylPersonService} from '../../../../service/person/service/person.service';
@@ -147,11 +147,11 @@ export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
-                public fb: FormBuilder) {
-        // super(msgService, configService, /*modalService, modalSubject,*/ activatedRoute, reuseTabService, fb);
-        super(msgService, configService, /*modalService, modalSubject,*/ activatedRoute, reuseTabService);
+                public router: Router) {
+        super(msgService, configService, /*modalService, modalSubject,*/ activatedRoute, reuseTabService, router);
         this.businessService = personService;
-
+        this.listFormUrl = "/person/person/list";
+        this.crudEntityName = "个体";
     }
 
 //
@@ -219,7 +219,7 @@ export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.name;
+            this.reuseTabService.title = '编辑-' + this.crudEntityName + "[" +this.businessData.name +"]";
         }
 
     }

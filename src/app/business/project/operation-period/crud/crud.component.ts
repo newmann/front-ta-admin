@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {SFSchema} from "@delon/form";
 import {map} from "rxjs/operators";
@@ -216,12 +216,13 @@ export class BylOperationPeriodCrudComponent extends BylMasterDataCrudComponentB
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService) {
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
+                public reuseTabService: ReuseTabService,
+                public router: Router) {
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, router);
         //
         this.businessService = operationPeriodService;
-
-
+        this.listFormUrl = "/project/operation-period/list";
+        this.crudEntityName = "业务期间";
     }
     /**
      * 重置界面内容
@@ -234,7 +235,7 @@ export class BylOperationPeriodCrudComponent extends BylMasterDataCrudComponentB
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.name;
+            this.reuseTabService.title = '编辑-' + this.crudEntityName +"["  + this.businessData.name + "]";
         }
 
     }

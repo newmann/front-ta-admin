@@ -70,6 +70,10 @@ export class BylBorrowMoneyQualificationPoolService  extends BylBaseService<BylB
         return this.http.get<BylResultBody<Array<BylBorrowMoneyQualificationPool>>>(this.BASE_API_URL+"/fetch-available-by-code-or-name/" + searchstr);
     }
 
+    fetchAllAvailableByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylBorrowMoneyQualificationPool> >> {
+        return this.http.get<BylResultBody<Array<BylBorrowMoneyQualificationPool>>>(this.BASE_API_URL+"/fetch-all-available-by-code-or-name/" + searchstr);
+    }
+
     fetchAvailablePersonByCodeOrName(searchstr : string): Observable < BylResultBody < Array<BylBorrowMoneyQualificationPool> >> {
         return this.http.get<BylResultBody<Array<BylBorrowMoneyQualificationPool>>>(this.BASE_API_URL+"/fetch-available-person-by-code-or-name/" + searchstr);
     }

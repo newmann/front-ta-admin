@@ -1,8 +1,8 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {SFSchema} from "@delon/form";
 import {map} from "rxjs/operators";
@@ -12,23 +12,50 @@ import {BylEmployee} from "../../../../service/project/model/employee.model";
 import {BylEmployeeService} from "../../../../service/project/service/employee.service";
 import * as moment from 'moment';
 import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
-import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {deepCopy, simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 import {Observable} from "rxjs";
 import {BylEmployeeStatusEnum} from "../../../../service/project/model/employee-status.enum";
+import {BylPersonRelation} from "../../../../service/person/model/person-relation.model";
+import {BYL_SHOW_MODE_BROWSE, BYL_SHOW_MODE_UPDATE} from "../../../../service/constant/general.constant";
+import {BylEmbeddablePerson} from "../../../../service/person/model/embeddable-person.model";
+import {BylBorrowMoneyQualificationPool} from "../../../../service/project/model/borrow-money-qualification-pool.model";
+import {BylEntityReference} from "../../../../service/model/entity-reference.model";
+import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {BylBorrowMoneyTicket} from "../../../../service/project/model/borrow-money-ticket.model";
 
 
 @Component({
     selector: 'byl-employee-crud',
     templateUrl: './crud.component.html',
 })
-export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<BylEmployee> {
+export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<BylEmployee> implements OnInit{
     // processType: string;
     leaveLoading: boolean =false;
 
     private _newSchema: SFSchema;
     private _modifySchema: SFSchema;
     private _browseSchema: SFSchema;
+
+    // get personRelation():BylPersonRelation{
+    //     // this.getFormData();
+    //     if(this.businessData){
+    //         let value = new BylPersonRelation();
+    //         value.masterId = this.businessData.id;
+    //         simpleDeepCopy(value.person,this.businessData.person);
+    //
+    //         return value;
+    //     }
+    // }
+    //
+    // get showMode(): string{
+    //     if (this.showBrowseButton()) {
+    //         return BYL_SHOW_MODE_BROWSE ;
+    //     }  else {
+    //         return BYL_SHOW_MODE_UPDATE;
+    //     }
+    //
+    // }
 
     newBusinessData(): BylEmployee {
         return new BylEmployee();
@@ -73,7 +100,18 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
                     "type": 'string',
                     "title": '姓名'
                 },
-
+                "personWidget": {
+                    "type": 'string',
+                    "title": '绑定的个体',
+                    description: '确认后，该绑定的个体会自动添加到可借款范围中去，该个体即可借款。',
+                    ui: {
+                        widget: 'bylPersonSelect',
+                        placeholder: '请输入个体代码或名称，系统自动查找',
+                        allowClear: 'true',
+                        serverSearch: 'true',
+                        showSearch: 'true'
+                    }
+                },
                 "enterDateDF": {
                     "type": 'string',
                     "title": '入职日期',
@@ -93,6 +131,7 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
                     }
 
                 },
+
                 "remarks": {
                     "type": 'string',
                     "title": '备注'
@@ -105,7 +144,7 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
                     }
                 },
             },
-            "required": ["code", "name"]
+            "required": ["code", "name", "personWidget"]
         };
         this._browseSchema = {
             properties: {
@@ -123,7 +162,14 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
                         widget: 'text'
                     }
                 },
-
+                "personDisplay": {
+                    "type": "string",
+                    "title": '绑定的个体',
+                    description: '确认后，该绑定的个体会自动添加到可借款范围中去，该个体即可借款。',
+                    "ui": {
+                        widget: 'text'
+                    }
+                },
                 "enterDateDisplay": {
                     "type": 'string',
                     "title": '入职日期',
@@ -141,6 +187,7 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
                     }
 
                 },
+
                 "remarks": {
                     "type": 'string',
                     "title": '备注',
@@ -156,7 +203,7 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
                     }
                 },
             },
-            "required": ["code", "name"]
+            "required": ["code", "name", "personDisplay"]
         };
         // BylCheckTypeEnumManager.getArray().forEach((item) =>{
         //     let option = {label: item.caption, value: item.value};
@@ -198,13 +245,21 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
                 public configService: BylConfigService,
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
+                public cd: ChangeDetectorRef,
                 public activatedRoute: ActivatedRoute,
+                public router:Router,
                 public reuseTabService: ReuseTabService) {
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, router);
         //
         this.businessService = employeeService;
+        this.listFormUrl = "/project/employee/list";
+        this.crudEntityName = "员工";
 
+    }
 
+    ngOnInit(){
+        super.ngOnInit();
+        this.cd.detectChanges();
     }
 
     getFormData() {
@@ -213,15 +268,52 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
         // }
         super.getFormData();
 
-        if (this.sfForm.value['enterDateDF']) {
-             this.businessData.enterDate = moment(this.sfForm.value["enterDateDF"]).valueOf();
+        if (this.businessData.enterDateDF) {
+             this.businessData.enterDate = moment(this.businessData.enterDateDF).valueOf();
         }
-        if (this.sfForm.value['leaveDateDF']) {
-            this.businessData.leaveDate = moment(this.sfForm.value["leaveDateDF"]).valueOf();
+        if (this.businessData.leaveDateDF) {
+            this.businessData.leaveDate = moment(this.businessData.leaveDateDF).valueOf();
 
+        }
+        if (this.businessData.personWidget){
+            let p = new BylEmbeddablePerson();
+            p.personId = this.businessData.personWidget.id;
+            p.personIDCard = this.businessData.personWidget.code;
+            p.personName = this.businessData.personWidget.name;
+            this.businessData.person = p;
         }
         // Object.assign(this.businessData, this.sfForm.value);
         console.log("in EmployeeCrud getFormData:" , this.businessData);
+
+    }
+    /**
+     *  在调出一张历史单据进行修改的时候调用，
+     *  可能需要一些个性化的处理
+     */
+    setFormData(data: BylEmployee){
+        super.setFormData(data);
+
+
+        if (this.businessData.person) {
+            if ( this.businessData.person.personId){
+                let m = new BylEntityReference(this.businessData.person.personId,
+                    this.businessData.person.personIDCard,
+                    this.businessData.person.personName);
+
+                this.businessData.personWidget = m;
+                this.defaultBusinessData.personWidget = m;
+
+            }
+
+        }
+
+        if (this.businessData.enterDate) {
+            this.businessData.enterDateDF = BylDatetimeUtils.convertMillsToDateTime(this.businessData.enterDate);
+        }
+
+        if (this.businessData.leaveDate) {
+            this.businessData.leaveDateDF = BylDatetimeUtils.convertMillsToDateTime(this.businessData.leaveDate);
+        }
 
     }
     //
@@ -234,7 +326,7 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.name;
+            this.reuseTabService.title = '编辑-' + this.crudEntityName + "[" +this.businessData.code +"]";
         }
 
     }
@@ -275,6 +367,10 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
             || this.businessData.status === BylEmployeeStatusEnum.SUBMITED_DELETED
             || this.businessData.status === BylEmployeeStatusEnum.LEAVE;
 
+    }
+
+    addPerson(){
+        this.router.navigateByUrl("/person/person/crud/new");
     }
 }
 

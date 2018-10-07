@@ -6,7 +6,7 @@ import {BylResultBody} from '../../../../service/model/result-body.model';
 import {FormBuilder} from '@angular/forms';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylRole} from '../../../../service/account/model/role.model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ReuseTabService} from "@delon/abc";
 import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
 import {isEmpty} from "../../../../service/utils/string.utils";
@@ -169,11 +169,12 @@ export class BylRoleCrudComponent extends BylMasterDataCrudComponentBasePro<BylR
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
-                public fb: FormBuilder) {
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
+                public router: Router) {
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, router);
 
         this.businessService = roleService;
-
+        this.listFormUrl = "/account/role/list";
+        this.crudEntityName = "角色";
     }
 
 
@@ -205,7 +206,7 @@ export class BylRoleCrudComponent extends BylMasterDataCrudComponentBasePro<BylR
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.name;
+            this.reuseTabService.title = '编辑-' + this.crudEntityName + "[" +this.businessData.name +"]";
         }
 
     }

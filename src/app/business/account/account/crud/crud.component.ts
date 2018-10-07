@@ -2,7 +2,7 @@ import {Component, Input, ViewChild} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService, NzModalService} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {FormBuilder} from '@angular/forms';
@@ -257,10 +257,12 @@ export class BylAccountCrudComponent extends BylMasterDataCrudComponentBasePro<B
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
                 public reuseTabService: ReuseTabService,
-                public fb: FormBuilder) {
-        super(msgService, configService, activatedRoute, reuseTabService);
+                public router: Router) {
+        super(msgService, configService, activatedRoute, reuseTabService, router);
 
         this.businessService = accountService;
+        this.listFormUrl = "/account/account/list";
+        this.crudEntityName = "账户";
 
     }
 
@@ -294,7 +296,7 @@ export class BylAccountCrudComponent extends BylMasterDataCrudComponentBasePro<B
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.username;
+            this.reuseTabService.title = '编辑-' + this.crudEntityName + "[" +this.businessData.username +"]";
             this.businessData.password = '***'; // 在修改模式下，初始化密码随便设置一般，以便应对validtor。
         }
 

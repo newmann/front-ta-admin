@@ -1,6 +1,6 @@
 import {ElementRef, OnInit, ViewChild} from '@angular/core';
 import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {BylConfigService} from '../../service/constant/config.service';
 import {BylResultBody} from '../../service/model/result-body.model';
@@ -30,9 +30,10 @@ export abstract class BylTicketCrudComponentBasePro<T extends BylTicketBaseModal
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService
+                public reuseTabService: ReuseTabService,
+                public router: Router
     ) {
-        super(msgService, configService, activatedRoute, reuseTabService);
+        super(msgService, configService, activatedRoute, reuseTabService, router);
 
     }
     ngOnInit() {
@@ -74,7 +75,12 @@ export abstract class BylTicketCrudComponentBasePro<T extends BylTicketBaseModal
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.billNo;
+            if (this.crudEntityName) {
+                this.reuseTabService.title = '编辑-' + this.businessData.billNo;
+            } else {
+                this.reuseTabService.title = '编辑-' + this.crudEntityName + "[" + this.businessData.billNo +"]";
+            }
+
         }
 
     }

@@ -19,19 +19,19 @@ import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
 
 const COMPONENTS = [
-    DashboardV1Component,
-    DashboardAnalysisComponent,
-    DashboardMonitorComponent,
-    DashboardWorkplaceComponent,
-    // passport pages
-    UserLoginComponent,
-    UserRegisterComponent,
-    UserRegisterResultComponent,
-    // single pages
-    UserLockComponent,
-    CallbackComponent,
-    Exception403Component,
-    Exception404Component,
+  DashboardV1Component,
+  DashboardAnalysisComponent,
+  DashboardMonitorComponent,
+  DashboardWorkplaceComponent,
+  // passport pages
+  UserLoginComponent,
+  UserRegisterComponent,
+  UserRegisterResultComponent,
+  // single pages
+  UserLockComponent,
+  CallbackComponent,
+  Exception403Component,
+  Exception404Component,
   Exception500Component
 ];
 const COMPONENTS_NOROUNT = [];

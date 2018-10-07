@@ -1,0 +1,12 @@
+<page-header [title]="'新增个体信息'" >
+  <ng-template #action>
+    <button nz-button (click)="cancel()">取消</button>
+    <button nz-button [nzType]="'primary'" (click)="bindPerson()">绑定当前个体</button>
+  </ng-template>
+</page-header>
+
+<div nz-row >
+  <byl-person-crud #person></byl-person-crud>
+</div>
+
+

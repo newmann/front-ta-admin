@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {SFSchema} from "@delon/form";
@@ -100,7 +100,7 @@ export class BylWorkTypeConfigTicketCrudComponent extends BylTicketCrudComponent
                 },
 
             },
-            "required": ["insider","workTypeWidget"],
+            required: ["insider","workTypeWidget"],
             if: {
                 properties: { insider: { enum: [false] } }
             },
@@ -168,8 +168,16 @@ export class BylWorkTypeConfigTicketCrudComponent extends BylTicketCrudComponent
                 },
 
             },
-            "required": ["insiderDisplay", "workTypeDisplay"]
-
+            "required": ["insiderDisplay", "workTypeDisplay"],
+            if: {
+                properties: { insider: { enum: [false] } }
+            },
+            then: {
+                required: [ "outsourcerDisplay"]
+            },
+            else: {
+                required: [ ]
+            }
         };
 
 
@@ -184,11 +192,13 @@ export class BylWorkTypeConfigTicketCrudComponent extends BylTicketCrudComponent
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService) {
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
+                public reuseTabService: ReuseTabService,
+                public router:Router) {
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, router);
         //
         this.businessService = workTypeConfigTicketService;
-
+        this.listFormUrl = "/project/work-type-config-ticket/list";
+        this.crudEntityName = "工种配置单";
 
     }
 
@@ -214,10 +224,12 @@ export class BylWorkTypeConfigTicketCrudComponent extends BylTicketCrudComponent
         console.log('reset form', this.businessData);
 
         super.reset();
+        this.sfForm.validator();
+
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.billNo;
+            this.reuseTabService.title = '编辑-工种配置单[' + this.businessData.billNo +']';
         }
 
     }

@@ -168,9 +168,9 @@
           "acl": {"ability":["/project/operation-period/list"],"mode":"oneOf"}
         },{
           "text": "业务期间新增",
-          "link": "/project/operaiton_period/new",
+          "link": "/project/operation-period/crud/new",
           "i18n": "operation_period_new",
-          "acl": {"ability":[ "/project/operaiton_period/new"],"mode":"oneOf"}
+          "acl": {"ability":[ "/project/operation-period/crud/new"],"mode":"oneOf"}
         }
         ]
       },{
@@ -313,6 +313,23 @@
           "link": "/project/workload-ticket/crud/new",
           "i18n": "workload_ticket_new",
           "acl": {"ability":["/project/workload-ticket/crud/new"],"mode":"oneOf"}
+        }
+      ]
+    },{
+      "text": "结算",
+      "i18n": "settle",
+      "icon": "icon-note",
+      "children": [{
+        "text": "结算单管理",
+        "link": "/project/settle-ticket/list",
+        "i18n": "settle_ticket_list",
+        "acl": {"ability":["/project/settle-ticket/list"],"mode":"oneOf"}
+      }
+      ,{
+          "text": "结算单新增",
+          "link": "/project/settle-ticket/crud/new",
+          "i18n": "settle_ticket_new",
+          "acl": {"ability":["/project/settle-ticket/crud/new"],"mode":"oneOf"}
         }
       ]
     }, {

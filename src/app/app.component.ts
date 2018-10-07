@@ -4,6 +4,7 @@ import { SettingsService, TitleService } from '@delon/theme';
 import { filter } from 'rxjs/operators';
 import {CacheService} from '@delon/cache';
 import { VERSION as VERSION_ALAIN } from '@delon/theme';
+import { VERSION as VERSION_ZORRO, NzModalService } from 'ng-zorro-antd';
 import {DA_SERVICE_TOKEN, ITokenService, JWTTokenModel, SimpleTokenModel} from '@delon/auth';
 import {BylElectronService} from './service/electron/electron.service';
 
@@ -12,10 +13,22 @@ import {BylElectronService} from './service/electron/electron.service';
   template: `<router-outlet></router-outlet>`
 })
 export class AppComponent implements OnInit {
-
-  @HostBinding('class.layout-fixed') get isFixed() { return this.settings.layout.fixed; }
-  @HostBinding('class.layout-boxed') get isBoxed() { return this.settings.layout.boxed; }
-  @HostBinding('class.aside-collapsed') get isCollapsed() { return this.settings.layout.collapsed; }
+    @HostBinding('class.layout-fixed')
+    get isFixed() {
+        return this.settings.layout.fixed;
+    }
+    @HostBinding('class.layout-boxed')
+    get isBoxed() {
+        return this.settings.layout.boxed;
+    }
+    @HostBinding('class.aside-collapsed')
+    get isCollapsed() {
+        return this.settings.layout.collapsed;
+    }
+    @HostBinding('class.color-weak')
+    get isColorWeak() {
+        return this.settings.layout.colorWeak;
+    }
 
   constructor(
       private electronService: BylElectronService,
@@ -25,14 +38,18 @@ export class AppComponent implements OnInit {
     private router: Router,
     private titleSrv: TitleService,
     private cacheService: CacheService,
+    private modalSrv: NzModalService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {
       renderer.setAttribute(
           el.nativeElement,
           'ng-alain-version',
           VERSION_ALAIN.full,
       );
-      // renderer.setAttribute(el.nativeElement, 'ng-zorro-version', VERSION_ZORRO.full);
-
+      renderer.setAttribute(
+          el.nativeElement,
+          'ng-zorro-version',
+          VERSION_ZORRO.full,
+      );
   }
 
   ngOnInit() {
@@ -83,6 +100,9 @@ export class AppComponent implements OnInit {
 
     this.router.events
         .pipe(filter(evt => evt instanceof NavigationEnd))
-        .subscribe(() => this.titleSrv.setTitle());
+        .subscribe(() => {
+            this.titleSrv.setTitle();
+            this.modalSrv.closeAll();
+        });
   }
 }

@@ -24,7 +24,7 @@ export function getEmailName(email: string): string {
  * @returns {string}
  */
 export function mixCodeName(code: string, name: string): string {
-    return name + '(' + code + ')';
+    return name + ' [' + code + ']';
 }
 
 /**

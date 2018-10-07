@@ -5,7 +5,6 @@ import {ControlWidget, SFSchemaEnum, SFSchema, SFUISchemaItem, SFComponent, SFSc
 import {of, Observable} from 'rxjs';
 import {delay, flatMap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
-import {getData} from "@delon/form/src/src/utils";
 import {BylProjectManagerPoolService} from "../../../service/project/service/project-manager-pool.service";
 import {BylEntityReference} from "../../../service/model/entity-reference.model";
 import {BylResultBody} from "../../../service/model/result-body.model";

@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
@@ -156,12 +156,13 @@ export class BylOutsourcerCrudComponent extends BylMasterDataCrudComponentBasePr
                 // public modalService: NzModalService,
                 // public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService) {
-        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService);
+                public reuseTabService: ReuseTabService,
+                public router: Router) {
+        super(msgService, configService, /*modalService, modalSubject, */activatedRoute, reuseTabService, router);
         //
         this.businessService = outsourcerService;
-
-
+        this.listFormUrl = "/project/outsourcer/list";
+        this.crudEntityName ="外包方";
     }
     //
     // ngOnInit() {
@@ -201,7 +202,7 @@ export class BylOutsourcerCrudComponent extends BylMasterDataCrudComponentBasePr
         //设置可复用标签的名字：
         if (this.sourceId) {
             //说明是修改
-            this.reuseTabService.title = '编辑-' + this.businessData.name;
+            this.reuseTabService.title = '编辑-' + this.crudEntityName +"["  + this.businessData.name + "]";
         }
 
     }

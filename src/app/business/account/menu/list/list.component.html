@@ -1,8 +1,8 @@
 <page-header [title]="'菜单管理'">
     <ng-template #action>
-        <button nz-button (click)="importDefaultMenu()" [nzType]="'default'" [nzLoading]="loadingDefaultMenu">
-            <i class="anticon anticon-trophy"></i><span>导入缺省菜单树</span>
-        </button>
+        <!--<button nz-button (click)="importDefaultMenu()" [nzType]="'default'" [nzLoading]="loadingDefaultMenu">-->
+            <!--<i class="anticon anticon-trophy"></i><span>导入缺省菜单树</span>-->
+        <!--</button>-->
 
       <button nz-button (click)="importMenuDefine()" [nzType]="'default'" [nzLoading]="importingMenuDefine">
         <i class="anticon anticon-inbox"></i><span>导入菜单定义</span>
@@ -33,58 +33,58 @@
                        <!--[uiSchema]="queryUiSchema" ></byl-list-query-widget>-->
 
 
-<nz-card [nzBordered]="false">
+<!--<nz-card [nzBordered]="false">-->
 
-    <nz-input-group nzSuffixIcon="anticon anticon-search">
-      <input type="text" nz-input placeholder="input search text" [(ngModel)]="filterData">
-    </nz-input-group>
+    <!--<nz-input-group nzSuffixIcon="anticon anticon-search">-->
+      <!--<input type="text" nz-input placeholder="input search text" [(ngModel)]="filterData">-->
+    <!--</nz-input-group>-->
 
-    <nz-tree #tree [(ngModel)]="nodes"
-             [nzCheckable]="true"
-             [nzMultiple]="false"
-             [nzSearchValue]="filterData"
-             [nzShowLine]="true"
-             [nzAsyncData]="true"
-             (nzExpandChange)="mouseAction('expand',$event)"
-             [nzDraggable]="true"
-             (nzOnDragStart)="dragStart($event)"
-             (nzOnDrop)="dragDrop($event)"
-             [nzBeforeDrop]="beforeDrop"
-             (nzClick)="activeNode($event)"
-             (nzDblClick)="openNode($event)"
-             >
+    <!--<nz-tree #tree [(ngModel)]="nodes"-->
+             <!--[nzCheckable]="true"-->
+             <!--[nzMultiple]="false"-->
+             <!--[nzSearchValue]="filterData"-->
+             <!--[nzShowLine]="true"-->
+             <!--[nzAsyncData]="true"-->
+             <!--(nzExpandChange)="mouseAction('expand',$event)"-->
+             <!--[nzDraggable]="true"-->
+             <!--(nzOnDragStart)="dragStart($event)"-->
+             <!--(nzOnDrop)="dragDrop($event)"-->
+             <!--[nzBeforeDrop]="beforeDrop"-->
+             <!--(nzClick)="activeNode($event)"-->
+             <!--(nzDblClick)="openNode($event)"-->
+             <!--&gt;-->
 
-      <ng-template #nzTreeTemplate let-node>
-        <span class="custom-node" draggable="true" aria-grabbed="true" [class.active]="activedNode?.key===node.key">
-          <span *ngIf="!node.isLeaf" [class.shine-animate]="node.origin.isLoading">
-            <i class="anticon anticon-folder" *ngIf="!node.isExpanded" ></i>
-            <i class="anticon anticon-folder-open" *ngIf="node.isExpanded"></i>
-            <span class="folder-name folder-desc">{{node.title}}</span>
+      <!--<ng-template #nzTreeTemplate let-node>-->
+        <!--<span class="custom-node" draggable="true" aria-grabbed="true" [class.active]="activedNode?.key===node.key">-->
+          <!--<span *ngIf="!node.isLeaf" [class.shine-animate]="node.origin.isLoading">-->
+            <!--<i class="anticon anticon-folder" *ngIf="!node.isExpanded" ></i>-->
+            <!--<i class="anticon anticon-folder-open" *ngIf="node.isExpanded"></i>-->
+            <!--<span class="folder-name folder-desc">{{node.title}}</span>-->
 
 
-            <i style="margin-left: 12px"  class="anticon anticon-plus-circle" (click)="addChildMenu(node)"></i>
-            <nz-divider  nzType="vertical"></nz-divider>
-            <i class="anticon anticon-delete" (click)="deleteMenu(node)"  *ngIf="node.origin.item.levelNo !== 0 "></i>
-            <nz-divider  nzType="vertical" *ngIf="node.origin.item.levelNo !== 0 "></nz-divider>
+            <!--<i style="margin-left: 12px"  class="anticon anticon-plus-circle" (click)="addChildMenu(node)"></i>-->
+            <!--<nz-divider  nzType="vertical"></nz-divider>-->
+            <!--<i class="anticon anticon-delete" (click)="deleteMenu(node)"  *ngIf="node.origin.item.levelNo !== 0 "></i>-->
+            <!--<nz-divider  nzType="vertical" *ngIf="node.origin.item.levelNo !== 0 "></nz-divider>-->
 
-            <i class="anticon anticon-edit" (click)="editMenu(node)" *ngIf="node.origin.item.levelNo !== 0 "></i>
-            <nz-divider  nzType="vertical"  *ngIf="node.origin.item.levelNo !== 0 "></nz-divider>
+            <!--<i class="anticon anticon-edit" (click)="editMenu(node)" *ngIf="node.origin.item.levelNo !== 0 "></i>-->
+            <!--<nz-divider  nzType="vertical"  *ngIf="node.origin.item.levelNo !== 0 "></nz-divider>-->
 
-            <i class="anticon anticon-reload" (click)="openNode(node)" ></i>
-            <!--<span class="folder-desc">{{node?.origin?.author | lowercase}} created at 2018-04-01</span>-->
-          </span>
-          <span *ngIf="node.isLeaf">
-            <i class="anticon anticon-file"></i>
-            <span class="file-name file-desc">{{node.title}}</span>
-            <!--<span class="file-desc">{{node?.origin?.author | lowercase}} modified at 2018-05-01</span>-->
+            <!--<i class="anticon anticon-reload" (click)="openNode(node)" ></i>-->
+            <!--&lt;!&ndash;<span class="folder-desc">{{node?.origin?.author | lowercase}} created at 2018-04-01</span>&ndash;&gt;-->
+          <!--</span>-->
+          <!--<span *ngIf="node.isLeaf">-->
+            <!--<i class="anticon anticon-file"></i>-->
+            <!--<span class="file-name file-desc">{{node.title}}</span>-->
+            <!--&lt;!&ndash;<span class="file-desc">{{node?.origin?.author | lowercase}} modified at 2018-05-01</span>&ndash;&gt;-->
 
-            <i style="margin-left: 12px" class="anticon anticon-edit" (click)="editMenu(node)"></i>
-            <nz-divider  nzType="vertical"></nz-divider>
-            <i class="anticon anticon-delete" (click)="deleteMenu(node)" ></i>
+            <!--<i style="margin-left: 12px" class="anticon anticon-edit" (click)="editMenu(node)"></i>-->
+            <!--<nz-divider  nzType="vertical"></nz-divider>-->
+            <!--<i class="anticon anticon-delete" (click)="deleteMenu(node)" ></i>-->
 
-          </span>
-        </span>
-      </ng-template>
-    </nz-tree>
-  <byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>
-</nz-card>
+          <!--</span>-->
+        <!--</span>-->
+      <!--</ng-template>-->
+    <!--</nz-tree>-->
+  <!--<byl-select-info-formitem [selectedRows]="selectedRows"></byl-select-info-formitem>-->
+<!--</nz-card>-->

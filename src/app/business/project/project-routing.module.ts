@@ -26,6 +26,8 @@ import {BylWorkTypeConfigTicketCrudComponent} from "./work-type-config-ticket/cr
 import {BylWorkTypeConfigTicketListComponent} from "./work-type-config-ticket/list/list.component";
 import {BylProjectProgressAssessTicketListComponent} from "./project-progress-assess-ticket/list/list.component";
 import {BylProjectProgressAssessTicketCrudComponent} from "./project-progress-assess-ticket/crud/crud.component";
+import {BylSettleTicketListComponent} from "./settle-ticket/list/list.component";
+import {BylSettleTicketCrudComponent} from "./settle-ticket/crud/crud.component";
 
 
 
@@ -59,9 +61,12 @@ const routes: Routes = [
     { path: 'operation-period/list', component: BylOperationPeriodListComponent },
     { path: 'operation-period/crud/:type', component: BylOperationPeriodCrudComponent,data: {reuse: true}  },
     { path: 'workload-ticket/list', component: BylWorkloadTicketListComponent },
-    { path: 'workload-ticket/crud/:type', component: BylWorkloadTicketCrudComponent,data: {reuse: true}  }
+    { path: 'workload-ticket/crud/:type', component: BylWorkloadTicketCrudComponent,data: {reuse: true}  },
 
-    ];
+    { path: 'settle-ticket/list', component: BylSettleTicketListComponent },
+    { path: 'settle-ticket/crud/:type', component: BylSettleTicketCrudComponent,data: {reuse: true}  }
+
+];
 
 
 @NgModule({

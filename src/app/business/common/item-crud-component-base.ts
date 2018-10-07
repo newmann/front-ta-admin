@@ -1,6 +1,6 @@
 import {Input} from '@angular/core';
 import {NzMessageService, NzModalRef} from 'ng-zorro-antd';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {BylConfigService} from '../../service/constant/config.service';
 import {BylResultBody} from '../../service/model/result-body.model';
@@ -39,9 +39,10 @@ export abstract class BylTicketDetailCrudComponentBasePro<T extends BylItemBaseM
                 // public modalService: NzModalService,
                 public modalSubject: NzModalRef,
                 public activatedRoute: ActivatedRoute,
-                public reuseTabService: ReuseTabService
+                public reuseTabService: ReuseTabService,
+                public router: Router
     ) {
-        super(msgService, configService, activatedRoute, reuseTabService);
+        super(msgService, configService, activatedRoute, reuseTabService, router);
 
     }
 

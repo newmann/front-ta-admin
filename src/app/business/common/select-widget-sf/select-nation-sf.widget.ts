@@ -2,11 +2,11 @@ import {Component, OnInit, ChangeDetectorRef, Inject} from '@angular/core';
 import {ControlWidget, SFSchemaEnum, SFSchema, SFUISchemaItem, SFComponent, SFSchemaEnumType} from '@delon/form';
 import {of, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {getData} from "@delon/form/src/src/utils";
 import {BylEntityReference} from "../../../service/model/entity-reference.model";
 import {BylResultBody} from "../../../service/model/result-body.model";
 import {BylNationService} from "../../../service/person/service/nation.service";
 import {map} from "rxjs/operators";
+import {getData} from "./sf-utils";
 
 @Component({
     selector: 'byl-select-nation',

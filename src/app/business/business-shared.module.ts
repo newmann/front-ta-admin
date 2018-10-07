@@ -27,13 +27,14 @@ import {BylShowErrorFormItemComponent} from "./common/show-error-form-item/show-
 import {BylDateWidgetComponent} from "./common/date-form-item/date.formitem";
 import {BylInputWidgetComponent} from "./common/input-form-item/input.formitem";
 import {BylInputNumberWidgetComponent} from "./common/input-number-form-item/input-number.formitem";
-import {BylRadioWidgetComponent} from "./common/radio-form-item/radio.formitem";
 import {BylSelectWidgetComponent} from "./common/select-form-item/select.formitem";
 import {BylFileUploadWidgetSFComponent} from "./common/file-upload-widget-sf/file-upload.widget";
+import {BylPersonBindComponent} from "./person/person/bind/bind.component";
 
 const COMPONENTS=[
     BylAccountListComponent,
-    BylPersonListComponent,
+    // BylPersonListComponent,
+    // BylPersonBindComponent,
     BylOrganizationListComponent,
     BylEntityLoggerComponent,
     BylEmbeddableAddressComponent,
@@ -42,7 +43,7 @@ const COMPONENTS=[
     BylDateWidgetComponent,
     BylInputWidgetComponent,
     BylInputNumberWidgetComponent,
-    BylRadioWidgetComponent,
+
     BylSelectWidgetComponent,
     BylShowErrorFormItemComponent,
     BylSelectInfoFormItemComponent,
@@ -63,6 +64,26 @@ const COMPONENTS=[
     ,BylFileUploadWidgetSFComponent
 ];
 
+const ENTRYCOMPONENTS = [
+    BylAccountListComponent,
+    // BylPersonListComponent,
+    BylOrganizationListComponent,
+    BylWaitingComponent,
+    BylListQueryFormComponent,
+    BylProjectManagerPoolSelectWidgetSFComponent,
+    BylOutsourcerSelectWidgetSFComponent
+    ,BylNationSelectWidgetSFComponent
+    ,BylPoliticalStatusSelectWidgetSFComponent
+    ,BylPersonSelectWidgetSFComponent
+    ,BylBorrowMoneyQualificationPoolSelectWidgetSFComponent
+    ,BylProjectSelectWidgetSFComponent
+    ,BylExpenseTypeSelectWidgetSFComponent
+    ,BylOperationPeriodSelectWidgetSFComponent
+    ,BylWorkTypeSelectWidgetSFComponent
+    ,BylFileUploadWidgetSFComponent
+
+];
+
 @NgModule({
     imports: [
         SharedModule,
@@ -78,22 +99,7 @@ const COMPONENTS=[
         ...COMPONENTS
     ],
     entryComponents: [
-        BylAccountListComponent,
-        BylPersonListComponent,
-        BylOrganizationListComponent,
-        BylWaitingComponent,
-        BylListQueryFormComponent,
-        BylProjectManagerPoolSelectWidgetSFComponent,
-        BylOutsourcerSelectWidgetSFComponent
-        ,BylNationSelectWidgetSFComponent
-        ,BylPoliticalStatusSelectWidgetSFComponent
-        ,BylPersonSelectWidgetSFComponent
-        ,BylBorrowMoneyQualificationPoolSelectWidgetSFComponent
-        ,BylProjectSelectWidgetSFComponent
-        ,BylExpenseTypeSelectWidgetSFComponent
-        ,BylOperationPeriodSelectWidgetSFComponent
-        ,BylWorkTypeSelectWidgetSFComponent
-        ,BylFileUploadWidgetSFComponent
+        ...ENTRYCOMPONENTS
     ]
     // ,
     // schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
