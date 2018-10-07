@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
-// import { ImageCropperModule } from 'ng2-img-cropper';
 import { SharedModule } from '@shared/shared.module';
 import {BylPersonRoutingModule} from "./person-routing.module";
 
@@ -31,9 +29,7 @@ const ENTRYCOMPONENTS = [
         SharedModule,
         BylBusinessSharedModule,
 
-        BylPersonRoutingModule,
-        ColorPickerModule
-        // ,ImageCropperModule
+        BylPersonRoutingModule
     ],
     declarations: [
         ...COMPONENTS

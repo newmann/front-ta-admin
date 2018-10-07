@@ -1,6 +1,4 @@
 import {NgModule} from '@angular/core';
-import {ColorPickerModule, ColorPickerService} from 'ngx-color-picker';
-// import {ImageCropperModule} from 'ng2-img-cropper';
 import {SharedModule} from '@shared/shared.module';
 import {BylProjectRoutingModule} from './project-routing.module';
 
@@ -40,11 +38,9 @@ import {BylOutsourceEmployeeItemListComponent} from "./outsource-employee/item-l
 import {BylWorkloadDetailDetailBrowserComponent} from "./workload-detail-detail/list/list.component";
 import {BylProjectAuthListComponent} from "./project-auth/list/list.component";
 import {BylProjectAuthItemProjectListComponent} from "./project-auth/project-list/item-list.component";
-import {BylProjectProgressAssessTicket} from "../../service/project/model/project-progress-assess-ticket.model";
 import {BylProjectProgressAssessTicketListComponent} from "./project-progress-assess-ticket/list/list.component";
 import {BylProjectProgressAssessTicketCrudComponent} from "./project-progress-assess-ticket/crud/crud.component";
 import {BylPersonModule} from "../person/person.module";
-import {C} from "@angular/core/src/render3";
 import {BylSettleTicketListComponent} from "./settle-ticket/list/list.component";
 import {BylSettleTicketCrudComponent} from "./settle-ticket/crud/crud.component";
 
@@ -114,9 +110,7 @@ const ENTRYCOMPONENTS = [
         SharedModule,
         BylBusinessSharedModule,
         BylPersonModule,
-        BylProjectRoutingModule,
-        ColorPickerModule
-        // ,ImageCropperModule
+        BylProjectRoutingModule
     ],
     declarations: [
         ...COMPONENTS
