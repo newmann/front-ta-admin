@@ -145,7 +145,7 @@ export class BylUserLoginComponent implements OnDestroy {
         let url = ``;
         let callback = ``;
         if (environment.production)
-            callback = 'http://localhost/passport/callback/' + type;
+            callback = 'http://47.97.171.101/passport/callback/' + type;
         else
             callback = 'http://localhost/passport/callback/' + type;
         switch (type) {
@@ -226,6 +226,8 @@ export class BylUserLoginComponent implements OnDestroy {
 
                                 // 设置页面标题的后缀
                                 this.titleService.suffix = app.app.name;
+
+                                this.router.navigateByUrl('/');
                             },
                             (err) => {
                                 console.error(err);
