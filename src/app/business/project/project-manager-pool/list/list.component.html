@@ -1,4 +1,4 @@
-<page-header [title]="'项目经理资源池管理'" *ngIf="functionMode === LIST_MODE"  >
+<page-header [title]="'项目经理资源池管理'" *ngIf="functionMode === LIST_MODE"  [action]="action" >
     <ng-template #action>
         <button nz-button (click)="addManagerPool()" [nzType]="'default'" >
             <i class="anticon anticon-plus"></i><span>新增</span>

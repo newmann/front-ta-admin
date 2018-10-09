@@ -43,6 +43,8 @@ import {BylProjectProgressAssessTicketCrudComponent} from "./project-progress-as
 import {BylPersonModule} from "../person/person.module";
 import {BylSettleTicketListComponent} from "./settle-ticket/list/list.component";
 import {BylSettleTicketCrudComponent} from "./settle-ticket/crud/crud.component";
+import {BylAccountModule} from "../account/account.module";
+import {BylOrganizationModule} from "../organization/organization.module";
 
 const COMPONENTS=[
     // BylRoleListComponent,
@@ -109,6 +111,8 @@ const ENTRYCOMPONENTS = [
     imports: [
         SharedModule,
         BylBusinessSharedModule,
+        BylAccountModule,
+        BylOrganizationModule,
         BylPersonModule,
         BylProjectRoutingModule
     ],

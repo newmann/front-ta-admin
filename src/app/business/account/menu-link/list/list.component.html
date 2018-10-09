@@ -1,4 +1,4 @@
-<page-header [title]="'菜单定义管理'" *ngIf="functionMode === LIST_MODE" >
+<page-header [title]="'菜单定义管理'" *ngIf="functionMode === LIST_MODE"  [action]="action">
     <ng-template #action>
 
         <button nz-button (click)="search()" [nzType]="'primary'"

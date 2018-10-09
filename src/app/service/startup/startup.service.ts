@@ -114,10 +114,17 @@ export class BylStartupService {
                                     this.settingService.setUser(user);
 
                                     // this.settingService.setUser(app.user);
-                                    //获取权限
+                                    if(account.fullName === "admin"){
+                                        //ACL：设置权限为全量
+                                        this.aclService.setFull(true);
+                                        console.log('IN StartupService, admin login.');
+                                    }else{
+                                        //获取权限
+                                        this.aclService.setAbility(loginResultBody.data.abilities);
+                                        // console.log('IN StartupService, load() abilities:', this.aclService.data);
 
-                                    this.aclService.setAbility(loginResultBody.data.abilities);
-                                    console.log('IN StartupService, load() abilities:', this.aclService.data);
+                                    }
+
                                     // ACL：设置权限为全量
                                     // this.aclService.setFull(true);
                                     // 初始化菜单

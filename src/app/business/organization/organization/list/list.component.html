@@ -1,4 +1,4 @@
-<page-header [title]="'组织管理'" *ngIf="functionMode === LIST_MODE" >
+<page-header [title]="'组织管理'" *ngIf="functionMode === LIST_MODE"  [action]="action">
     <ng-template #action>
         <button nz-button (click)="add()" [nzType]="'default'" >
             <i class="anticon anticon-plus"></i><span>新建</span>

@@ -20,11 +20,12 @@ import {BylOrganizationAvailablePoolsInterface} from "../../organization/service
 import {BylProjectAuth} from "../model/project-auth.model";
 import {BylAccount} from "../../account/model/account.model";
 import {
-    BylAccountAvailablePoolsInterface,
-    BylFindEntityAccountInterface
+    BylAccountAvailablePoolsInterface, BylAccountRelationInterface,
+    BylFindEntityAccountInterface, BylSaveAccountRelationInterface
 } from "../../account/service/account-related.interface";
 import {BylEntityRelationAvailablePoolsQueryReqBody} from "../../account/model/entity-relation-available-pools-query-req-body.model";
 import {BylProject} from "../model/project.model";
+import {BylEntityRelations} from "../../account/model/entity-relations.model";
 
 
 /**
@@ -34,8 +35,10 @@ import {BylProject} from "../model/project.model";
  **/
 @Injectable()
 export class BylProjectAuthService  extends BylBaseService<BylProjectAuth>
-    implements BylFindEntityAccountInterface,
-        BylAccountAvailablePoolsInterface{
+    implements BylAccountRelationInterface
+        /*BylFindEntityAccountInterface,
+        BylAccountAvailablePoolsInterface,
+        BylSaveAccountRelationInterface*/{
 
     constructor(protected http: _HttpClient,
                 protected configServer: BylConfigService,
@@ -89,6 +92,22 @@ export class BylProjectAuthService  extends BylBaseService<BylProjectAuth>
 
     disableAllowAll(projectId: string): Observable<BylResultBody<boolean>> {
         return this.http.get<BylResultBody<boolean>>(this.BASE_API_URL + '/disable-allow-all/' + projectId);
+    }
+
+    saveAccountRelation(accountArray: Array<string>, masterId: string): Observable<BylResultBody<Boolean>> {
+        let entityRelations = new BylEntityRelations();
+        entityRelations.masterId = masterId;
+        entityRelations.relationIds = accountArray;
+
+        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/batch-add-account-relation-by-ids', entityRelations);
+    }
+
+    deleteAccountRelation(idArray: Array<string>, masterId: string): Observable<BylResultBody<Boolean>> {
+        let entityRelations = new BylEntityRelations();
+        entityRelations.masterId = masterId;
+        entityRelations.relationIds = idArray;
+
+        return this.http.post<BylResultBody<boolean>>(this.BASE_API_URL + '/batch-delete-account-relation-by-ids', entityRelations);
     }
 
 }

@@ -1,4 +1,4 @@
-<page-header [title]="crudEntityName +'维护'"  *ngIf="processType.length > 0 ">
+<page-header [title]="crudEntityName +'维护'"  *ngIf="processType.length > 0 " [action]="action">
   <ng-template #action>
     <button nz-button (click)="returnToListForm()" type="button">返回汇总界面</button>
 
