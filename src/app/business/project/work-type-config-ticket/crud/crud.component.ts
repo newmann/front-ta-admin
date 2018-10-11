@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService} from 'ng-zorro-antd';
@@ -14,6 +14,7 @@ import {BylWorkTypeConfigTicketStatusEnum} from "../../../../service/project/mod
 import {BylEmbeddableOutsourcer} from "../../../../service/project/model/embeddable-outsourcer.model";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {BylEmbeddableWorkType} from "../../../../service/project/model/embeddable-work-type.model";
+import {BylWorkTypeConfigDetailListComponent} from "../../work-type-config-detail/list/list.component";
 
 
 @Component({
@@ -23,7 +24,7 @@ import {BylEmbeddableWorkType} from "../../../../service/project/model/embeddabl
 export class BylWorkTypeConfigTicketCrudComponent extends BylTicketCrudComponentBasePro<BylWorkTypeConfigTicket> {
     processType: string;
 
-    // @ViewChild('sf') sf: SFComponent;
+    @ViewChild('configDetail') detailListComponent: BylWorkTypeConfigDetailListComponent;
 
     newBusinessData(): BylWorkTypeConfigTicket {
         return new BylWorkTypeConfigTicket();
@@ -100,9 +101,9 @@ export class BylWorkTypeConfigTicketCrudComponent extends BylTicketCrudComponent
                 },
 
             },
-            required: ["insider","workTypeWidget"],
+            required: ["insider","workTypeWidget","outsourcerWidget"],
             if: {
-                properties: { insider: { enum: [false] } }
+                properties: { "insider": { enum: [false] } }
             },
             then: {
                 required: [ "outsourcerWidget"]
@@ -168,9 +169,9 @@ export class BylWorkTypeConfigTicketCrudComponent extends BylTicketCrudComponent
                 },
 
             },
-            "required": ["insiderDisplay", "workTypeDisplay"],
+            "required": ["insiderDisplay", "workTypeDisplay","outsourcerDisplay"],
             if: {
-                properties: { insider: { enum: [false] } }
+                properties: { "insiderDisplay": { enum: [false] } }
             },
             then: {
                 required: [ "outsourcerDisplay"]
@@ -216,23 +217,23 @@ export class BylWorkTypeConfigTicketCrudComponent extends BylTicketCrudComponent
     //     this.reset();
     // }
 
-    /**
-     * 重置界面内容
-     */
-    reset() {
-
-        console.log('reset form', this.businessData);
-
-        super.reset();
-        this.sfForm.validator();
-
-        //设置可复用标签的名字：
-        if (this.sourceId) {
-            //说明是修改
-            this.reuseTabService.title = '编辑-工种配置单[' + this.businessData.billNo +']';
-        }
-
-    }
+    // /**
+    //  * 重置界面内容
+    //  */
+    // reset() {
+    //
+    //     console.log('reset form', this.businessData);
+    //
+    //     super.reset();
+    //     // this.sfForm.validator();
+    //
+    //     //设置可复用标签的名字：
+    //     if (this.sourceId) {
+    //         //说明是修改
+    //         this.reuseTabService.title = '编辑-工种配置单[' + this.businessData.billNo +']';
+    //     }
+    //
+    // }
     getFormData() {
         super.getFormData();
         if (this.businessData.outsourcerWidget) {
@@ -380,6 +381,12 @@ export class BylWorkTypeConfigTicketCrudComponent extends BylTicketCrudComponent
 
     error(value: any) {
         console.log('error', value);
+    }
+
+    configDetailTabClick(){
+        if (!this.detailListComponent.haveSearched){
+            this.detailListComponent.search();
+        }
     }
 }
 

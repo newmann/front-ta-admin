@@ -22,6 +22,8 @@ import {BylOutsourceEmployeeItemListComponent} from "../../outsource-employee/it
 export class BylWorkTypeConfigDetailListComponent
     extends BylItemListComponentBase<BylWorkTypeConfigDetail> {
 
+
+
     @Input()
     set setMasterId(value: string) {
         this.masterId = value;
@@ -37,6 +39,8 @@ export class BylWorkTypeConfigDetailListComponent
     set setOutsourcerWidget(value: any){
         this._outsourcerWidget = value;
     }
+
+    @Input() ReadOnly: boolean = false;
 
     public addForm: NzModalRef; //维护界面
 

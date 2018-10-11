@@ -32,11 +32,12 @@
 
         </nz-tab>
 
-      <nz-tab [nzDisabled]="!sourceId" [nzTitle]="'单据明细'">
-        <byl-work-type-config-detail-list [setMasterId]="businessData.id"
+      <nz-tab [nzDisabled]="!sourceId" [nzTitle]="'单据明细'" (nzClick)="configDetailTabClick()">
+        <byl-work-type-config-detail-list #configDetail [setMasterId]="businessData.id"
                                         [setModifyDateTime]="businessData.modifyAction.modifyDateTime"
                                           [setOutsourcerWidget]="businessData.outsourcerWidget"
-                                        (changeModifyDateTime)="getModifyDateTimeChange($event)">
+                                        (changeModifyDateTime)="getModifyDateTimeChange($event)"
+                                          [ReadOnly]="showBrowseButton()">
 
         </byl-work-type-config-detail-list>
       </nz-tab>

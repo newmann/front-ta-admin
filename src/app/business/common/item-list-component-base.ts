@@ -39,6 +39,7 @@ export abstract class BylItemListComponentBase<T extends BylItemBaseModel> imple
     public modifyForm: NzModalRef;//维护界面
 
     public loading = false;
+    public haveSearched: boolean =false;
 
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,
@@ -181,6 +182,7 @@ export abstract class BylItemListComponentBase<T extends BylItemBaseModel> imple
      */
     search() {
         this.loading = true;
+        this.haveSearched = true;
 
         this.clearGrid();
 
