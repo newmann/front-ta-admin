@@ -27,6 +27,7 @@ import {BylPageReq} from "../../../../service/model/page-req.model";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
+import {BylAccountAddPoolListComponent} from "../../../account/account/add-pool-list/add-pool-list.component";
 
 @Component({
     selector: 'byl-project-manager-pool-list',
@@ -67,7 +68,7 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBasePro<
             nzTitle: '查找项目经理资源',
             nzZIndex: 9999, //最外层
             nzWidth: '90%',
-            nzContent: BylAccountListComponent,
+            nzContent: BylAccountAddPoolListComponent,
             nzFooter: null,
             // onOk() {
             //
@@ -75,11 +76,11 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBasePro<
             // onCancel() {
             //     console.log('Click cancel');
             // },
-            // nzComponentParams: {
-            //     functionMode: BylListFormFunctionModeEnum.SELECT,
-            //     findAvailablePoolsService: this.projectManagerPoolService
-            //     // selectModalForm: this.accountReveal
-            // },
+            nzComponentParams: {
+                functionMode: BylListFormFunctionModeEnum.SELECT,
+                findAvailablePoolsService: this.projectManagerPoolService
+                // selectModalForm: this.accountReveal
+            },
             nzMaskClosable: false
         });
         // this.accountReveal.next(BylCrudEvent[BylCrudEvent.bylSaving]);
@@ -185,14 +186,14 @@ export class BylProjectManagerPoolListComponent extends BylListComponentBasePro<
         Object.assign(this.qData, q);
     }
 
-    deleteEntity(id: string){
+    deleteEntity(deletedPool: BylProjectManagerPool){
         //从数据库中删除
-        this.projectManagerPoolService.deleteById(id)
+        this.projectManagerPoolService.delete(deletedPool)
             .subscribe(data => {
                     this.loading = false;
                     if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                         // 删除当前列表中的数据
-                        this.listData = this.listData.filter(item=> item.item.id !== id);
+                        this.listData = this.listData.filter(item=> item.item.id !== deletedPool.id );
 
                     } else {
                         this.showMsg(data.msg);

@@ -1,12 +1,13 @@
 <div >
-    <button nz-button (click)="addSelected()" [nzType]="'dashed'" class="ant-btn__block mb-sm">
-        <i class="anticon anticon-plus"></i><span>添加</span>
-    </button>
+    <div nz-row nzType="flex" nzJustify="center"  class="byl-detail-top-button">
+      <button nz-button (click)="addSelected()" [nzType]="'dashed'" class="ant-btn__block mb-sm">
+          <i class="anticon anticon-plus"></i><span>添加</span>
+      </button>
 
-    <button nz-button (click)="search()" [nzType]="'primary'"  class="ant-btn__block mb-sm">
-        <i class="anticon anticon-search"></i><span>查询</span>
-    </button>
-
+      <button nz-button (click)="search()" [nzType]="'primary'"  class="ant-btn__block mb-sm">
+          <i class="anticon anticon-search"></i><span>查询</span>
+      </button>
+    </div>
       <!--<button nz-button (click)="batchDelete()" [nzType]="'danger'"-->
               <!--[nzSize]="'large'" class="ant-btn__block mb-sm" *ngIf="selectedRows.length > 0" >-->
         <!--<i class="anticon anticon-delete"></i><span>批量删除</span>-->

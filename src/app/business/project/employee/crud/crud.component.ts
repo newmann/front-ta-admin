@@ -103,7 +103,6 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
                 "personWidget": {
                     "type": 'string',
                     "title": '绑定的个体',
-                    description: '确认后，该绑定的个体会自动添加到可借款范围中去，该个体即可借款。',
                     ui: {
                         widget: 'bylPersonSelect',
                         placeholder: '请输入个体代码或名称，系统自动查找',
@@ -144,7 +143,7 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
                     }
                 },
             },
-            "required": ["code", "name", "personWidget"]
+            "required": ["code", "name"]
         };
         this._browseSchema = {
             properties: {
@@ -165,7 +164,6 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
                 "personDisplay": {
                     "type": "string",
                     "title": '绑定的个体',
-                    description: '确认后，该绑定的个体会自动添加到可借款范围中去，该个体即可借款。',
                     "ui": {
                         widget: 'text'
                     }
@@ -203,7 +201,7 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
                     }
                 },
             },
-            "required": ["code", "name", "personDisplay"]
+            "required": ["code", "name"]
         };
         // BylCheckTypeEnumManager.getArray().forEach((item) =>{
         //     let option = {label: item.caption, value: item.value};

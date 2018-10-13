@@ -250,14 +250,14 @@ export class BylBorrowMoneyQualificationPoolListComponent extends BylListCompone
     }
 
 
-    deleteEntity(id: string){
+    deleteEntity(deletedEntity: BylBorrowMoneyQualificationPool){
         //从数据库中删除
-        this.borrowMoneyQualificationPoolService.deleteById(id)
+        this.borrowMoneyQualificationPoolService.deleteById(deletedEntity.id)
             .subscribe(data => {
                     this.loading = false;
                     if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                         // 删除当前列表中的数据
-                        this.listData = this.listData.filter(item=> item.item.id !== id);
+                        this.listData = this.listData.filter(item=> item.item.id !== deletedEntity.id);
 
                     } else {
                         this.showMsg(data.msg);

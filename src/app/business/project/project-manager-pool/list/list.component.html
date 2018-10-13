@@ -1,7 +1,7 @@
 <page-header [title]="'项目经理资源池管理'" *ngIf="functionMode === LIST_MODE"  [action]="action" >
     <ng-template #action>
         <button nz-button (click)="addManagerPool()" [nzType]="'default'" >
-            <i class="anticon anticon-plus"></i><span>新增</span>
+            <i class="anticon anticon-plus"></i><span>添加员工</span>
         </button>
 
         <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" >

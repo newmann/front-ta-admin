@@ -1,11 +1,11 @@
 <page-header [title]="'可借款资源池管理'"  [action]="action">
     <ng-template #action>
         <button nz-button (click)="addPersonPool()" [nzType]="'default'" >
-            <i class="anticon anticon-plus"></i><span>新增个人</span>
+            <i class="anticon anticon-plus"></i><span>添加个人</span>
         </button>
 
         <button nz-button (click)="addOrganizationPool()" [nzType]="'default'" >
-            <i class="anticon anticon-plus"></i><span>新增组织</span>
+            <i class="anticon anticon-plus"></i><span>添加组织</span>
         </button>
 
         <button nz-button (click)="search()" [nzType]="'primary'" [nzLoading]="loading" >
