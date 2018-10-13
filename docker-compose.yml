@@ -6,7 +6,7 @@ services:
 #    image: beiyelin/front-base
 #    build: -f Dockerfile-base
   ng-alain:
-    image: registry.cn-hangzhou.aliyuncs.com/rongchang/frontalain:20181007.1
+    image: registry.cn-hangzhou.aliyuncs.com/rongchang/frontalain:20181007.2
     build: .
     environment:
       NODE_ENV: production
