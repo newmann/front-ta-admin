@@ -1,7 +1,7 @@
 <div >
 
   <div nz-row nzType="flex" nzJustify="center"  class="byl-detail-top-button">
-    <button nz-button (click)="addRelation()" [nzType]="'dashed'"  class="mb-sm" *ngIf="!readOnly">
+    <button nz-button (click)="addRelation()" [nzType]="'dashed'"  class="mb-sm" *ngIf="!ReadOnly">
       <i class="anticon anticon-plus"></i><span>添加</span>
     </button>
 
@@ -10,7 +10,7 @@
     </button>
 
     <button nz-button (click)="batchDelete()" [nzType]="'danger'" [nzLoading]="deleting"
-            class="ant-btn__block mb-sm"  *ngIf="selectedRows.length > 0" >
+            class="ant-btn__block mb-sm"  *ngIf="(!ReadOnly) && (selectedRows.length > 0)" >
       <i class="anticon anticon-delete"></i><span>批量删除</span>
     </button>
 
@@ -34,7 +34,7 @@
         <thead >
         <tr>
           <th  nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
-               (nzCheckedChange)="checkAll($event)" *ngIf="!readOnly"></th>
+               (nzCheckedChange)="checkAll($event)" *ngIf="!ReadOnly"></th>
             <th ><span>包</span></th>
             <th ><span>模块</span></th>
             <th ><span>功能</span></th>
@@ -48,12 +48,12 @@
         <tbody >
         <tr  *ngFor="let i of nzTable.data">
           <td  nzShowCheckbox [(nzChecked)]="i.checked" [nzDisabled]="i.disabled"
-               (nzCheckedChange)="refreshStatus($event)" *ngIf="!readOnly"></td>
+               (nzCheckedChange)="refreshStatus($event)" *ngIf="!ReadOnly"></td>
             <td >{{i.item.packageName}}</td>
             <td >{{i.item.moduleName}}</td>
             <td >{{i.item.action}}</td>
             <td >{{i.item.remarks }}</td>
-            <td *ngIf="!readOnly" >
+            <td *ngIf="!ReadOnly" >
                 <span>
                 <a (click)="delete(i.item.id)">删除</a>
                 </span>
