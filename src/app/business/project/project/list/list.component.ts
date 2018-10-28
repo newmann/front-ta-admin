@@ -24,13 +24,13 @@ import {
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
+import {BylListComponentMasterData} from "../../../common/list-component-master-data";
 
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
 })
-export class BylProjectListComponent extends BylMasterDataListComponentBasePro<BylProject> {
+export class BylProjectListComponent extends BylListComponentMasterData<BylProject> {
 
     // public statusList: BylIStatusItem[] = [];
 
@@ -113,12 +113,20 @@ export class BylProjectListComponent extends BylMasterDataListComponentBasePro<B
     // }
 
 //#region 查询条件
+    public page: BylPageReq = { //分页定义
+        page: 1, // 缺省当前页
+        pageSize: 10, // 缺省每页条数
+        sortField: 'modifyAction.modifyDateTime',
+        sort: 'desc',
+        keyword: '',
+    };
+
     /**
      * 设置查询缺省值
      */
 
     queryDefaultData: any = {
-        status: [BylProjectStatusEnum.SUBMITED, BylProjectStatusEnum.CONFIRMED, BylProjectStatusEnum.RUNNING],
+        status: [BylProjectStatusEnum.UNSUBMITED, BylProjectStatusEnum.SUBMITED, BylProjectStatusEnum.CONFIRMED, BylProjectStatusEnum.RUNNING],
         modifyDateRange: [moment(moment.now()).subtract(6, 'month').format('YYYY-MM-DD'),
          moment(moment.now()).format('YYYY-MM-DD')]
     };

@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {BylItemListComponentBase} from "../../../common/item-list-component-base";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {BylListComponentTicketDetail} from "../../../common/list-component-ticket-detail";
 import {NzMessageService, NzModalRef, NzModalService} from "ng-zorro-antd";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {Router} from "@angular/router";
@@ -12,12 +12,13 @@ import {BylEmployee} from "../../../../service/project/model/employee.model";
 import {BylOutsourceEmployeeItemListComponent} from "../../outsource-employee/item-list/item-list.component";
 import {BylWorkTypeConfigDetail} from "../../../../service/project/model/work-type-config-detail.model";
 import {BylResultBody} from "../../../../service/model/result-body.model";
-import {BylItemBatchAddModel} from "../../../../service/model/item-batch-add.model";
+import {BylDetailBatchAddModel} from "../../../../service/model/detail-batch-add.model";
 import {BylEmployeeItemListComponent} from "../../employee/item-list/item-list.component";
 import {BylWorkloadDetailDetailBrowserComponent} from "../../workload-detail-detail/list/list.component";
 import {BylWorkloadTicket} from "../../../../service/project/model/workload-ticket.model";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylItemUpdateModel} from "../../../../service/model/item-update.model";
+import {BylDetailUpdateModel} from "../../../../service/model/detail-update.model";
+import {BylDetailBatchAddResultModel} from "../../../../service/model/detail-batch-add-result.model";
 
 
 @Component({
@@ -25,7 +26,7 @@ import {BylItemUpdateModel} from "../../../../service/model/item-update.model";
     templateUrl: './list.component.html',
 })
 export class BylWorkloadDetailListComponent
-    extends BylItemListComponentBase<BylWorkloadDetail> {
+    extends BylListComponentTicketDetail<BylWorkloadDetail,BylWorkloadTicket> {
 
     // @Input()
     // set setMasterId(value: string) {
@@ -70,6 +71,7 @@ export class BylWorkloadDetailListComponent
     }
 
     ngOnInit() {
+        super.ngOnInit();
         console.log("in WorkloadDetial list onInit");
 
     }
@@ -162,24 +164,25 @@ export class BylWorkloadDetailListComponent
 
             if (pools.length > 0) {
                 //提交到数据库中,成功后显示到界面
-                let batchData: BylItemBatchAddModel<BylWorkloadDetail> = new BylItemBatchAddModel();
+                let batchData: BylDetailBatchAddModel<BylWorkloadDetail> = new BylDetailBatchAddModel();
                 batchData.items = pools;
                 batchData.masterId = this.masterId;
                 batchData.modifyDateTime = this.masterModifyDateTime;
 
                 console.log("in WorkloadDetail addResourse", batchData);
-                // 根据类型生成角色或账户权限
+
                 this.workloadTicketDetailService.batchAddDetail(batchData)
                     .subscribe(
                         data => {
                             this.loading = false;
                             if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                                 //1.修改当前的时间戳
-                                this.masterModifyDateTime = data.data.modifyDateTime;
+                                this.masterModifyDateTime = data.data.ticket.modifyAction.modifyDateTime;
                                 //2。显示返回值
-                                this.listData = [...this.listData,...this.genListDataFromArray(data.data.items) ];
+                                this.listData = [...this.listData,...this.genListDataFromArray(data.data.details) ];
                                 //3. 将时间戳返回到调用方
-                                this.changeModifyDateTime.emit(this.masterModifyDateTime);
+                                // this.changeModifyDateTime.emit(this.masterModifyDateTime);
+                                this.batchAddItem.emit(data.data);
 
                             } else {
                                 this.showMsg(data.msg);
@@ -233,7 +236,7 @@ export class BylWorkloadDetailListComponent
                     //进入明细的明细界面后，有调整，这保存。
                     this.loading = true;
 
-                    let saveValue : BylItemUpdateModel<BylWorkloadDetail> = new BylItemUpdateModel<BylWorkloadDetail>();
+                    let saveValue : BylDetailUpdateModel<BylWorkloadDetail> = new BylDetailUpdateModel<BylWorkloadDetail>();
                     saveValue.masterId = this.workloadTicket.id;
                     saveValue.modifyDateTime = this.workloadTicket.modifyAction.modifyDateTime;
                     //将传回的明细记录保存到数据库中，以便同步考勤日期
@@ -245,11 +248,12 @@ export class BylWorkloadDetailListComponent
                                 this.loading = false;
                                 if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                                     //1.修改当前的时间戳
-                                    this.masterModifyDateTime = data.data.modifyDateTime;
+                                    this.masterModifyDateTime = data.data.ticket.modifyAction.modifyDateTime;
                                     //2。显示返回值
-                                    this.updateListData(data.data.item);
+                                    this.updateListData(data.data.detail);
                                     //3. 将时间戳返回到调用方
-                                    this.changeModifyDateTime.emit(this.masterModifyDateTime);
+                                    this.updateItem.emit(data.data);
+                                    // this.changeModifyDateTime.emit(this.masterModifyDateTime);
 
                                 } else {
                                     this.showMsg(data.msg);
@@ -265,7 +269,8 @@ export class BylWorkloadDetailListComponent
                     //考勤数字没有修改，但有可能调整了其他内容，所以还要判断一下时间戳
                     if( this.masterModifyDateTime !== this.workloadTicket.modifyAction.modifyDateTime){
                         this.masterModifyDateTime = this.workloadTicket.modifyAction.modifyDateTime;
-                        this.changeModifyDateTime.emit(this.masterModifyDateTime);
+                        //todo 这个修改没有生成事件发出去，可能存在问题。
+                        // this.changeModifyDateTime.emit(this.masterModifyDateTime);
 
                     }
                 }

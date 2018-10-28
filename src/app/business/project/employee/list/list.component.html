@@ -34,6 +34,7 @@
 
 <!--数据显示-->
 <byl-list-form-table-item [listData]="listData"  [total]="total" [loading]="loading"
+                          [page]="page"
                           [tableDefine]="tableDefine"
                           (pageChange)="pageChange($event)" (entityAction)="entityAction($event)"
                           (selectedChange)="selectedChange($event)"

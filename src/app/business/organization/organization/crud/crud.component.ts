@@ -7,7 +7,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {BylOrganization} from "../../../../service/organization/model/organization.model";
 import {BylOrganizationService} from "../../../../service/organization/service/organization.service";
 import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
-import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {map} from "rxjs/operators";
 import {BylOrganizationTypeManager} from "../../../../service/organization/model/organization-type.enum";
@@ -15,6 +14,7 @@ import {BylEntityReference} from "../../../../service/model/entity-reference.mod
 import {BylEmbeddableLegalPerson} from "../../../../service/organization/model/embeddable-legal-person.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {SFSchema} from "@delon/form";
+import {BylStringUtils} from "../../../../service/utils/string.utils";
 
 @Component({
   selector: 'byl-organization-crud',
@@ -45,7 +45,7 @@ export class BylOrganizationCrudComponent extends BylCrudComponentBasePro<BylOrg
                     "ui": {
                         placeholder: '请输入代码',
                         validator: (value: string) => {
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check code:', value);
                                 return [];
                             }

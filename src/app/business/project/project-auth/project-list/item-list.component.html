@@ -14,7 +14,7 @@
 
   <div nz-row nzType="flex" nzJustify="center"  class="byl-detail-top-button">
     <button nz-button (click)="addRelation()" [nzType]="'dashed'"  class="ml-sm"
-            *ngIf=" (! isAllowAll) && (! ReadOnly) ">
+            *ngIf=" (! isAllowAll) && (! readOnly) ">
       <!--class="ant-btn__block mb-sm">-->
       <i class="anticon anticon-plus"></i><span>添加</span>
     </button>
@@ -25,21 +25,21 @@
     </button>
 
     <button nz-button (click)="batchDelete()" [nzType]="'danger'"  class="ml-sm" [nzLoading]="deleting"
-            [disabled]="deleting" *ngIf=" (! isAllowAll) && (selectedRows.length > 0) && (! ReadOnly)">
+            [disabled]="deleting" *ngIf=" (! isAllowAll) && (selectedRows.length > 0) && (! readOnly)">
       <!--class="ant-btn__block mb-sm">-->
       <i class="anticon anticon-delete"></i><span>批量删除</span>
     </button>
 
     <button nz-button (click)="enableAllowAll()" [nzType]="'default'" class="ml-sm"
             [nzLoading]="enableAllowAllLoading" [disabled]="enableAllowAllLoading"
-            *ngIf=" (! isAllowAll) && (! ReadOnly)">
+            *ngIf=" (! isAllowAll) && (! readOnly)">
       <!--class="ant-btn__block mb-sm">-->
       <i class="anticon anticon-usergroup-add"></i><span>设为所有人可见</span>
     </button>
 
     <button nz-button (click)="disableAllowAll()" [nzType]="'default'" class="ml-sm"
             [nzLoading]="disableAllowAllLoading" [disabled]="disableAllowAllLoading"
-            *ngIf="isAllowAll && (! ReadOnly) ">
+            *ngIf="isAllowAll && (! readOnly) ">
       <!--class="ant-btn__block mb-sm">-->
       <i class="anticon anticon-usergroup-delete"></i><span>取消所有人可见</span>
     </button>
@@ -70,24 +70,24 @@
         <thead >
         <tr>
           <th  nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
-               (nzCheckedChange)="checkAll($event)"  *ngIf="!ReadOnly"></th>
+               (nzCheckedChange)="checkAll($event)"  *ngIf="!readOnly"></th>
             <th ><span>账户代码</span></th>
             <th ><span>账户名称</span></th>
             <th >
                 <span>备注</span>
             </th>
 
-            <th  *ngIf="!ReadOnly" ><span>操作</span></th>
+            <th  *ngIf="!readOnly" ><span>操作</span></th>
         </tr>
         </thead>
         <tbody >
         <tr  *ngFor="let i of nzTable.data">
           <td  nzShowCheckbox [(nzChecked)]="i.checked" [nzDisabled]="i.disabled"
-               (nzCheckedChange)="refreshStatus($event) "  *ngIf="!ReadOnly"></td>
+               (nzCheckedChange)="refreshStatus($event) "  *ngIf="!readOnly"></td>
             <td >{{i.item.username}}</td>
             <td >{{i.item.fullName}}</td>
             <td >{{i.item.remarks }}</td>
-            <td  *ngIf="!ReadOnly">
+            <td  *ngIf="!readOnly">
                 <span *ngIf="masterProject.createAction.createId !== i.item.id">
                 <a (click)="delete(i.item.id)">删除</a>
                 </span>

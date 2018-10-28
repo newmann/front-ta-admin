@@ -4,7 +4,7 @@ import {_HttpClient} from '@delon/theme';
 
 import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';
-import {BylItemBaseService} from "../../service/item-base.service";
+import {BylDetailBaseService} from "../../service/detail-base.service";
 import {BylWorkloadDetail} from "../model/workload-detail.model";
 import {BylEmployeeAvailablePoolsInterface} from "./employee-related.interface";
 import {BylEmployee} from "../model/employee.model";
@@ -17,6 +17,7 @@ import {BylEntityRelationAvailablePoolsQueryReqBody} from "../../account/model/e
 import {BylOutsourceEmployeeAvailablePoolsInterface} from "./outsource-employee-related.interface";
 import {BylOutsourceEmployee} from "../model/outsource-employee.model";
 import {BylSettleDetailWorkload} from "../model/settle-detail-workload.model";
+import {BylSettleTicket} from "../model/settle-ticket.model";
 
 
 /**
@@ -26,7 +27,7 @@ import {BylSettleDetailWorkload} from "../model/settle-detail-workload.model";
  **/
 @Injectable()
 export class BylSettleDetailWorkloadService
-    extends BylItemBaseService<BylSettleDetailWorkload>
+    extends BylDetailBaseService<BylSettleDetailWorkload,BylSettleTicket>
 
 {
 

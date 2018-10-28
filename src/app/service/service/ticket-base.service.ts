@@ -9,11 +9,11 @@ import {BylPageResp} from '../model/page-resp.model';
 import {BylBaseService} from "./base.service";
 import {BylTicketBaseModal} from "../model/ticket-base.model";
 import {BylExpenseTicket} from "../project/model/expense-ticket.model";
-import {BylItemMoveModel} from "../model/item-move.model";
-import {BylItemDeleteModel} from "../model/item-delete.model";
-import {BylItemAddModel} from "../model/item-add.model";
+import {BylDetailMoveModel} from "../model/detail-move.model";
+import {BylDetailDeleteModel} from "../model/detail-delete.model";
+import {BylDetailAddModel} from "../model/detail-add.model";
 import {BylExpenseDetail} from "../project/model/expense-detail.model";
-import {BylItemBaseModel} from "../model/item-base.model";
+import {BylDetailBaseModel} from "../model/detail-base.model";
 
 
 /**

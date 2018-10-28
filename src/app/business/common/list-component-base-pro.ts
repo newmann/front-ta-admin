@@ -41,8 +41,8 @@ export abstract class BylListComponentBasePro<T> implements OnInit {
     public page: BylPageReq = { //分页定义
         page: 1, // 缺省当前页
         pageSize: 10, // 缺省每页条数
-        sortField: '',
-        sort: '',
+        sortField: 'modifyAction.modifyDateTime',
+        sort: 'desc',
         keyword: '',
     };
     // public expandQuery = false; // 是否展开查询条件界面

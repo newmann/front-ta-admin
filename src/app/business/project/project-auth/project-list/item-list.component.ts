@@ -14,7 +14,7 @@ import {BylProject} from "../../../../service/project/model/project.model";
 import {BylProjectAuth} from "../../../../service/project/model/project-auth.model";
 import {finalize, map} from "rxjs/internal/operators";
 import {flatMap} from "rxjs/operators";
-import {BylEntityRelationListComponentBase} from "../../../common/entity-relation-list.component-base";
+import {BylListComponentEntityRelation} from "../../../common/list-component-entity-relation";
 import {BylAccountRelationInterface} from "../../../../service/account/service/account-related.interface";
 import {BylAccountAddPoolListComponent} from "../../../account/account/add-pool-list/add-pool-list.component";
 
@@ -27,7 +27,7 @@ import {BylAccountAddPoolListComponent} from "../../../account/account/add-pool-
   selector: 'byl-project-auth-item-project-list',
   templateUrl: './item-list.component.html',
 })
-export class BylProjectAuthItemProjectListComponent extends BylEntityRelationListComponentBase<BylAccount>  {
+export class BylProjectAuthItemProjectListComponent extends BylListComponentEntityRelation<BylAccount>  {
     @Input() accountRelationService: BylAccountRelationInterface; //调用方，用户调出选择添加账户的窗口
     @Input()
     masterProject: BylProject;

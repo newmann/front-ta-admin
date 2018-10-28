@@ -7,11 +7,10 @@ import {BylConfigService} from '../../../../service/constant/config.service';
 import {SFSchema} from "@delon/form";
 import {map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
-import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylEmployee} from "../../../../service/project/model/employee.model";
 import {BylEmployeeService} from "../../../../service/project/service/employee.service";
 import * as moment from 'moment';
-import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {BylCrudComponentMasterData} from "../../../common/crud-component-master-data";
 import {deepCopy, simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 import {Observable} from "rxjs";
@@ -23,13 +22,14 @@ import {BylBorrowMoneyQualificationPool} from "../../../../service/project/model
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {BylBorrowMoneyTicket} from "../../../../service/project/model/borrow-money-ticket.model";
+import {BylStringUtils} from "../../../../service/utils/string.utils";
 
 
 @Component({
     selector: 'byl-employee-crud',
     templateUrl: './crud.component.html',
 })
-export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<BylEmployee> implements OnInit{
+export class BylEmployeeCrudComponent extends BylCrudComponentMasterData<BylEmployee> implements OnInit{
     // processType: string;
     leaveLoading: boolean =false;
 
@@ -74,7 +74,7 @@ export class BylEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<
                     "title": '代码',
                     "ui": {
                         "validator": (value: string) => {
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check code:', value);
                                 return [];
                             }

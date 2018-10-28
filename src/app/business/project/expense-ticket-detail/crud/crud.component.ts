@@ -1,34 +1,23 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { _HttpClient } from '@delon/theme';
-import {BylCrudComponentBase} from '../../../common/crud-component-base';
-import {BylPersonAddress} from '../../../../service/person/model/person-address.model';
+import {Component} from '@angular/core';
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {NzMessageService, NzModalService, NzModalRef, UploadFile} from 'ng-zorro-antd';
+import {NzMessageService, NzModalRef} from 'ng-zorro-antd';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, Validators} from '@angular/forms';
 import {ReuseTabService} from '@delon/abc';
-import {BylResultBody} from "../../../../service/model/result-body.model";
-import {BylUploadFileNameMapModel} from "../../../../service/model/upload-file-name-map.model";
-import * as moment from 'moment';
-import {BylSimpleEntityLoggerService} from "../../../../service/simple-entity-logger/service/simple-entity-logger.service";
 import {BylExpenseDetail} from "../../../../service/project/model/expense-detail.model";
 import {BylExpenseDetailService} from "../../../../service/project/service/expense-detail.service";
-import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
 import {SFSchema} from "@delon/form";
-import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylEmbeddableProject} from "../../../../service/model/embeddable-project.model";
 import {BylEmbeddableExpenseType} from "../../../../service/project/model/embeddable-expense-type.model";
-import {BylBorrowMoneyTicket} from "../../../../service/project/model/borrow-money-ticket.model";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylBorrowMoneyTicketStatusEnum} from "../../../../service/project/model/borrow-money-ticket-status.enum";
-import {BylTicketDetailCrudComponentBasePro} from "../../../common/item-crud-component-base";
+import {BylCrudComponentTicketDetail} from "../../../common/crud-component-ticket-detail";
+import {BylExpenseTicket} from "../../../../service/project/model/expense-ticket.model";
 
 @Component({
   selector: 'byl-expense-ticket-detail-crud',
   templateUrl: './crud.component.html'
 })
-export class BylExpenseTicketDetailCrudComponent extends BylTicketDetailCrudComponentBasePro<BylExpenseDetail> {
+export class BylExpenseTicketDetailCrudComponent
+    extends BylCrudComponentTicketDetail<BylExpenseDetail, BylExpenseTicket> {
     private _newSchema: SFSchema;
     private _modifySchema: SFSchema;
     private _browseSchema: SFSchema;

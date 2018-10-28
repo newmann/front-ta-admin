@@ -20,14 +20,14 @@ import {
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
+import {BylListComponentMasterData} from "../../../common/list-component-master-data";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 @Component({
     selector: 'byl-role-list',
     templateUrl: './role-list.component.html',
 })
-export class BylRoleListComponent extends BylMasterDataListComponentBasePro<BylRole> {
+export class BylRoleListComponent extends BylListComponentMasterData<BylRole> {
 
 
     // statusList: BylIStatusItem[]; //状态

@@ -8,14 +8,14 @@ import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylRole} from '../../../../service/account/model/role.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ReuseTabService} from "@delon/abc";
-import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
-import {isEmpty} from "../../../../service/utils/string.utils";
+import {BylCrudComponentMasterData} from "../../../common/crud-component-master-data";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {SFSchema} from "@delon/form";
 import {BylMenuLinkItemListComponent} from "../../menu-link/item-list/item-list.component";
 import {BylPermissionItemListComponent} from "../../permission/item-list/item-list.component";
 import {BylAccountItemListComponent} from "../../account/item-list/item-list.component";
+import {BylStringUtils} from "../../../../service/utils/string.utils";
 
 
 @Component({
@@ -23,7 +23,7 @@ import {BylAccountItemListComponent} from "../../account/item-list/item-list.com
     templateUrl: './crud.component.html'
 })
 
-export class BylRoleCrudComponent extends BylMasterDataCrudComponentBasePro<BylRole> {
+export class BylRoleCrudComponent extends BylCrudComponentMasterData<BylRole> {
     @ViewChild('menuLinkList') menuLinkList: BylMenuLinkItemListComponent;
     @ViewChild('permissionList') permissionList: BylPermissionItemListComponent;
     @ViewChild('accountList') accountList: BylAccountItemListComponent;
@@ -71,7 +71,7 @@ export class BylRoleCrudComponent extends BylMasterDataCrudComponentBasePro<BylR
                     "ui": {
                         placeholder: '请输入角色名称',
                         validator: (value: string) => {
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check code:', value);
                                 return [];
                             }

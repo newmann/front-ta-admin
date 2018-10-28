@@ -23,14 +23,14 @@ import {
 import {BylExpenseTicketQuery} from "../../../../service/project/query/expense-ticket-query.model";
 import {BylExpenseTicket} from "../../../../service/project/model/expense-ticket.model";
 import {BylExpenseTicketService} from "../../../../service/project/service/expense-ticket.service";
-import {BylTicketListComponentBasePro} from "../../../common/ticket-list-component-base";
+import {BylListComponentTicket} from "../../../common/list-component-ticket";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 @Component({
     selector: 'byl-expense-ticket-list',
     templateUrl: './list.component.html',
 })
-export class BylExpenseTicketListComponent extends BylTicketListComponentBasePro<BylExpenseTicket> {
+export class BylExpenseTicketListComponent extends BylListComponentTicket<BylExpenseTicket> {
 
 
     // statusList: BylIStatusItem[]; //状态

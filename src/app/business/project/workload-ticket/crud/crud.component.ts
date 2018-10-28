@@ -9,18 +9,26 @@ import {SFSchema} from "@delon/form";
 import {BylEmbeddableProject} from "../../../../service/model/embeddable-project.model";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylTicketCrudComponentBasePro} from "../../../common/ticket-crud-component-base-pro";
+import {BylCrudComponentTicket} from "../../../common/crud-component-ticket";
 import {BylWorkloadTicket} from "../../../../service/project/model/workload-ticket.model";
 import {BylWorkloadTicketService} from "../../../../service/project/service/workload-ticket.service";
 import {BylWorkloadTicketStatusEnum} from "../../../../service/project/model/workload-ticket-status.enum";
 import {BylWorkloadDetailListComponent} from "../../workload-detail/list/list.component";
+import {BylDetailAddResultModel} from "../../../../service/model/detail-add-result.model";
+import {BylWorkloadDetail} from "../../../../service/project/model/workload-detail.model";
+import {BylExpenseTicket} from "../../../../service/project/model/expense-ticket.model";
+import {BylDetailDeleteResultModel} from "../../../../service/model/detail-delete-result.model";
+import {BylDetailUpdateResultModel} from "../../../../service/model/detail-update-Result.model";
+import {BylExpenseDetail} from "../../../../service/project/model/expense-detail.model";
+import {BylDetailBatchAddResultModel} from "../../../../service/model/detail-batch-add-result.model";
 
 
 @Component({
     selector: 'byl-workload-ticket-crud',
     templateUrl: './crud.component.html',
 })
-export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePro<BylWorkloadTicket> {
+export class BylWorkloadTicketCrudComponent
+    extends BylCrudComponentTicket<BylWorkloadDetail, BylWorkloadTicket> {
     // processType: string;
 
 
@@ -407,17 +415,32 @@ export class BylWorkloadTicketCrudComponent extends BylTicketCrudComponentBasePr
     //     this.followProcess(saveResult$);
     // }
 
-    getModifyDateTimeChange(value: number){
-        console.log("in WorkloadTicket Crud getModifyDateTimeChange, value ", value);
-        this.businessData.modifyAction.modifyDateTime = value;
-        this.defaultBusinessData.modifyAction.modifyDateTime = value;
-        this.reset();
-    };
+
 
     error(value: any) {
         console.log('error', value);
     }
 
+    // updateTicketForAddItem(addResult: BylDetailAddResultModel<BylWorkloadDetail,BylWorkloadTicket>){
+    //     this.changeTicketModifyDateTime(addResult.ticket.modifyAction.modifyDateTime);
+    //     this.reset();
+    // }
+    //
+    // updateTicketForUpdateItem(updateItemResult: BylDetailUpdateResultModel<BylWorkloadDetail,BylWorkloadTicket>){
+    //     this.changeTicketModifyDateTime(updateItemResult.ticket.modifyAction.modifyDateTime);
+    //     this.reset()
+    //
+    // }
+    // updateTicketForDeleteItem(deleteItemResult: BylDetailDeleteResultModel<BylWorkloadDetail,BylWorkloadTicket>){
+    //     this.changeTicketModifyDateTime(deleteItemResult.ticket.modifyAction.modifyDateTime);
+    //     this.reset()
+    //
+    // }
+    //
+    // updateTicketForBatchAddItem(addResult: BylDetailBatchAddResultModel<BylWorkloadDetail,BylWorkloadTicket>){
+    //     this.changeTicketModifyDateTime(addResult.ticket.modifyAction.modifyDateTime);
+    //     this.reset();
+    // }
 
 }
 

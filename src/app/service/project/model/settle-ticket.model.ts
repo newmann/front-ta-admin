@@ -10,6 +10,7 @@ import {BylEmbeddableSettleAction} from "../../model/embeddable-settle-action.mo
 import {BylSettleTicketStatusManager} from "./settle-ticket-status.enum";
 import {BylBorrowMoneyQualificationTypeManager} from "./borrow-money-qualification-type.enum";
 import {BylDatetimeUtils} from "../../utils/datetime.utils";
+import {BylStringUtils} from "../../utils/string.utils";
 
 export class BylSettleTicket extends BylTicketBaseModal {
 
@@ -33,10 +34,23 @@ export class BylSettleTicket extends BylTicketBaseModal {
     }
 
 
-    checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
+    // checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
     settleAction: BylEmbeddableSettleAction = new BylEmbeddableSettleAction();
 
+    get settleActionDisplay(){
+        if(this.settleAction){
+            return BylStringUtils.mixCodeName(this.settleAction.settleCode,this.settleAction.settleName)
+                .concat('-')
+                .concat(BylDatetimeUtils.formatDateTime(this.settleAction.settleDateTime || null))
+        }
+    }
+
+    set settleActionDisplay(value: string){
+
+    }
+
     shouldPayWorkloadDays:number;
+    shouldPayWorkloadHours:number;
 
     shouldPayWorkloadAmount: number;
 

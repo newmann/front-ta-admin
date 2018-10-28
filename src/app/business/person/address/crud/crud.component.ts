@@ -214,7 +214,8 @@ export class BylPersonAddressCrudComponent extends BylCrudComponentBase<BylPerso
 
         if (this.zipCode.value) this.businessData.addr.zipCode = this.zipCode.value;
 
-        this.businessData.masterId = this.masterId;
+        // this.businessData.masterId = this.masterId;
+        this.businessData.personId = this.masterId;
 
         if (this.remarks.value) {
             this.businessData.remarks = this.remarks.value.toString();

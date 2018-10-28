@@ -17,14 +17,15 @@ import {SFSchema} from "@delon/form";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylBorrowMoneyTicketStatusEnum} from "../../../../service/project/model/borrow-money-ticket-status.enum";
 import {BylEmbeddableBorrowAction} from "../../../../service/project/model/embeddable-borrow-action.model";
-import {BylTicketCrudComponentBasePro} from "../../../common/ticket-crud-component-base-pro";
+import {BylCrudComponentTicket} from "../../../common/crud-component-ticket";
 
 
 @Component({
     selector: 'byl-borrow-money-ticket-crud',
     templateUrl: './crud.component.html',
 })
-export class BylBorrowMoneyTicketCrudComponent extends BylTicketCrudComponentBasePro<BylBorrowMoneyTicket> {
+export class BylBorrowMoneyTicketCrudComponent
+    extends BylCrudComponentTicket<null,BylBorrowMoneyTicket> {
 
     // @Input()
     // set setSourceId(value: string) {
@@ -426,7 +427,7 @@ export class BylBorrowMoneyTicketCrudComponent extends BylTicketCrudComponentBas
         saveResult$ = this.borrowMoneyTicketService.confirm(this.businessData);
 
         this.followProcess(saveResult$);
-
+        this.loading = false;
     }
     //
     // private followProcess(call$: Observable<BylResultBody<BylBorrowMoneyTicket>> ){
@@ -467,11 +468,11 @@ export class BylBorrowMoneyTicketCrudComponent extends BylTicketCrudComponentBas
         return this.businessData.status === BylBorrowMoneyTicketStatusEnum.CHECKED;
     }
     //
-    // showCancelButton(): boolean{
-    //     return this.businessData.status === BylBorrowMoneyTicketStatusEnum.SUBMITED
-    //         || this.businessData.status === BylBorrowMoneyTicketStatusEnum.CHECKED
-    //         || this.businessData.status === BylBorrowMoneyTicketStatusEnum.CONFIRMED;
-    // }
+    showCancelButton(): boolean{
+        return this.businessData.status === BylBorrowMoneyTicketStatusEnum.SUBMITED
+            || this.businessData.status === BylBorrowMoneyTicketStatusEnum.CHECKED
+            || this.businessData.status === BylBorrowMoneyTicketStatusEnum.CONFIRMED;
+    }
 
 
 

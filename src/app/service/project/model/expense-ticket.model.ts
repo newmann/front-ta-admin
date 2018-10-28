@@ -37,7 +37,7 @@ export class BylExpenseTicket extends BylTicketBaseModal {
 
     amount: number;
 
-    checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
+    // checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
 
    // status: number;
 

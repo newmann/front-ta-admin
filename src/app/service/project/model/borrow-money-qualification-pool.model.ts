@@ -8,7 +8,7 @@ import {BylEmbeddableAddress} from "../../model/embeddable-address.model";
 import {BylEmbeddableContactMethod} from "../../model/embeddable-contact-method.model";
 import {BylBusinessEntityTypeManager} from "../../model/business-entity-type.enum";
 import {BylBorrowMoneyQualificationTypeManager} from "./borrow-money-qualification-type.enum";
-import {mixCodeName} from "../../utils/string.utils";
+import {BylStringUtils} from "../../utils/string.utils";
 
 export class BylBorrowMoneyQualificationPool extends BylBaseModel {
     type: number;
@@ -29,7 +29,7 @@ export class BylBorrowMoneyQualificationPool extends BylBaseModel {
         if (this.type) { result = result + BylBorrowMoneyQualificationTypeManager.getCaption(this.type)};
 
         if (this.poolId) {
-            result = result + "-" + mixCodeName(this.poolCode,this.poolName);
+            result = result + "-" + BylStringUtils.mixCodeName(this.poolCode,this.poolName);
         }
 
         return result;

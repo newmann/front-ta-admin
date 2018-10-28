@@ -17,7 +17,7 @@ import {SFSchema, SFSchemaEnumType} from "@delon/form";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylBorrowMoneyTicketStatusEnum} from "../../../../service/project/model/borrow-money-ticket-status.enum";
 import {BylEmbeddableBorrowAction} from "../../../../service/project/model/embeddable-borrow-action.model";
-import {BylTicketCrudComponentBasePro} from "../../../common/ticket-crud-component-base-pro";
+import {BylCrudComponentTicket} from "../../../common/crud-component-ticket";
 import {BylProjectProgressAssessTicket} from "../../../../service/project/model/project-progress-assess-ticket.model";
 import {BylProjectProgressAssessTicketService} from "../../../../service/project/service/project-progress-assess-ticket.service";
 
@@ -26,7 +26,8 @@ import {BylProjectProgressAssessTicketService} from "../../../../service/project
     selector: 'byl-project-progress-assess-ticket-crud',
     templateUrl: './crud.component.html',
 })
-export class BylProjectProgressAssessTicketCrudComponent extends BylTicketCrudComponentBasePro<BylProjectProgressAssessTicket> {
+export class BylProjectProgressAssessTicketCrudComponent
+    extends BylCrudComponentTicket<null, BylProjectProgressAssessTicket> {
 
     // @Input()
     // set setSourceId(value: string) {

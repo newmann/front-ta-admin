@@ -4,20 +4,9 @@ import {_HttpClient} from '@delon/theme';
 
 import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';
-import {BylItemBaseService} from "../../service/item-base.service";
-import {BylWorkloadDetail} from "../model/workload-detail.model";
-import {BylEmployeeAvailablePoolsInterface} from "./employee-related.interface";
-import {BylEmployee} from "../model/employee.model";
-import {BylPageResp} from "../../model/page-resp.model";
-import {BylResultBody} from "../../model/result-body.model";
-import {Observable} from "rxjs";
-import {BylPageReq} from "../../model/page-req.model";
-import {BylQueryReqBody} from "../../model/query-req-body.model";
-import {BylEntityRelationAvailablePoolsQueryReqBody} from "../../account/model/entity-relation-available-pools-query-req-body.model";
-import {BylOutsourceEmployeeAvailablePoolsInterface} from "./outsource-employee-related.interface";
-import {BylOutsourceEmployee} from "../model/outsource-employee.model";
-import {BylSettleDetailWorkload} from "../model/settle-detail-workload.model";
+import {BylDetailBaseService} from "../../service/detail-base.service";
 import {BylSettleDetailBorrowMoney} from "../model/settle-detail-borrow-money.model";
+import {BylSettleTicket} from "../model/settle-ticket.model";
 
 
 /**
@@ -27,7 +16,7 @@ import {BylSettleDetailBorrowMoney} from "../model/settle-detail-borrow-money.mo
  **/
 @Injectable()
 export class BylSettleDetailBorrowMoneyService
-    extends BylItemBaseService<BylSettleDetailBorrowMoney>
+    extends BylDetailBaseService<BylSettleDetailBorrowMoney,BylSettleTicket>
 
 {
 

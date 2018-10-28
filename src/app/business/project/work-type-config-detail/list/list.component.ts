@@ -1,18 +1,17 @@
 import {Component, Input} from '@angular/core';
-import {BylItemListComponentBase} from "../../../common/item-list-component-base";
+import {BylListComponentTicketDetail} from "../../../common/list-component-ticket-detail";
 import {NzMessageService, NzModalRef, NzModalService} from "ng-zorro-antd";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {Router} from "@angular/router";
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylEmployeeListComponent} from "../../employee/list/list.component";
-import {BylEmployee} from "../../../../service/project/model/employee.model";
 import {BylWorkTypeConfigDetail} from "../../../../service/project/model/work-type-config-detail.model";
 import {BylWorkTypeConfigDetailService} from "../../../../service/project/service/work-type-config-detail.service";
 import {BylEmployeeItemListComponent} from "../../employee/item-list/item-list.component";
-import {BylItemBatchAddModel} from "../../../../service/model/item-batch-add.model";
+import {BylDetailBatchAddModel} from "../../../../service/model/detail-batch-add.model";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {BylOutsourceEmployeeItemListComponent} from "../../outsource-employee/item-list/item-list.component";
+import {BylWorkTypeConfigTicket} from "../../../../service/project/model/work-type-config-ticket.model";
 
 
 @Component({
@@ -20,7 +19,7 @@ import {BylOutsourceEmployeeItemListComponent} from "../../outsource-employee/it
     templateUrl: './list.component.html',
 })
 export class BylWorkTypeConfigDetailListComponent
-    extends BylItemListComponentBase<BylWorkTypeConfigDetail> {
+    extends BylListComponentTicketDetail<BylWorkTypeConfigDetail,BylWorkTypeConfigTicket> {
 
 
 
@@ -40,7 +39,6 @@ export class BylWorkTypeConfigDetailListComponent
         this._outsourcerWidget = value;
     }
 
-    @Input() ReadOnly: boolean = false;
 
     public addForm: NzModalRef; //维护界面
 
@@ -153,7 +151,7 @@ export class BylWorkTypeConfigDetailListComponent
 
             if (pools.length > 0) {
                 //提交到数据库中,成功后显示到界面
-                let batchData: BylItemBatchAddModel<BylWorkTypeConfigDetail> = new BylItemBatchAddModel();
+                let batchData: BylDetailBatchAddModel<BylWorkTypeConfigDetail> = new BylDetailBatchAddModel();
                 batchData.items = pools;
                 batchData.masterId = this.masterId;
                 batchData.modifyDateTime = this.masterModifyDateTime;
@@ -166,11 +164,12 @@ export class BylWorkTypeConfigDetailListComponent
                             this.loading = false;
                             if (data.code === BylResultBody.RESULT_CODE_SUCCESS) {
                                 //1.修改当前的时间戳
-                                this.masterModifyDateTime = data.data.modifyDateTime;
+                                this.masterModifyDateTime = data.data.ticket.modifyAction.modifyDateTime;
                                 //2。显示返回值
-                                this.listData = [...this.listData,...this.genListDataFromArray(data.data.items) ];
+                                this.listData = [...this.listData,...this.genListDataFromArray(data.data.details) ];
                                 //3. 将时间戳返回到调用方
-                                this.changeModifyDateTime.emit(this.masterModifyDateTime);
+                                this.batchAddItem.emit(data.data);
+                                // this.changeModifyDateTime.emit(this.masterModifyDateTime);
 
                             } else {
                                 this.showMsg(data.msg);

@@ -7,8 +7,7 @@ import {BylConfigService} from '../../../../service/constant/config.service';
 import {SFSchema} from "@delon/form";
 import {map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
-import {isEmpty} from "../../../../service/utils/string.utils";
-import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {BylCrudComponentMasterData} from "../../../common/crud-component-master-data";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylOperationPeriod} from "../../../../service/project/model/operation-period.model";
 import {BylOperationPeriodStatusEnum} from "../../../../service/project/model/operation-period-status.enum";
@@ -16,13 +15,14 @@ import {BylOperationPeriodService} from "../../../../service/project/service/ope
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {BylProject} from "../../../../service/project/model/project.model";
+import {BylStringUtils} from "../../../../service/utils/string.utils";
 
 
 @Component({
     selector: 'byl-operation-period-crud',
     templateUrl: './crud.component.html',
 })
-export class BylOperationPeriodCrudComponent extends BylMasterDataCrudComponentBasePro<BylOperationPeriod> {
+export class BylOperationPeriodCrudComponent extends BylCrudComponentMasterData<BylOperationPeriod> {
     processType: string;
 
     private _newSchema: SFSchema;
@@ -46,7 +46,7 @@ export class BylOperationPeriodCrudComponent extends BylMasterDataCrudComponentB
                     "title": '代码',
                     "ui": {
                         "validator": (value: string) => {
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check code:', value);
                                 return [];
                             }
@@ -73,7 +73,7 @@ export class BylOperationPeriodCrudComponent extends BylMasterDataCrudComponentB
                     "title": '名称',
                     "ui": {
                         "validator": (value: string) =>{
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check name:', value);
                                 return [];
                             }

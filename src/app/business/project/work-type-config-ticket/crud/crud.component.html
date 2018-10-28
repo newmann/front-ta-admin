@@ -36,8 +36,11 @@
         <byl-work-type-config-detail-list #configDetail [setMasterId]="businessData.id"
                                         [setModifyDateTime]="businessData.modifyAction.modifyDateTime"
                                           [setOutsourcerWidget]="businessData.outsourcerWidget"
-                                        (changeModifyDateTime)="getModifyDateTimeChange($event)"
-                                          [ReadOnly]="showBrowseButton()">
+                                          (addItem)="updateTicketForAddItem($event)"
+                                          (updateItem)="updateTicketForUpdateItem($event)"
+                                          (deleteItem)="updateTicketForDeleteItem($event)"
+                                          (batchAddItem)="updateTicketForBatchAddItem($event)"
+                                          [readOnly]="showBrowseButton()">
 
         </byl-work-type-config-detail-list>
       </nz-tab>

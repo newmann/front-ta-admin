@@ -19,15 +19,16 @@ import {BylEmployeeService} from "../../../../service/project/service/employee.s
 import {BylEmployee} from '../../../../service/project/model/employee.model';
 import {BylEmployeeStatusEnum, BylEmployeeStatusManager} from "../../../../service/project/model/employee-status.enum";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
+import {BylListComponentMasterData} from "../../../common/list-component-master-data";
 import {BylEmployeeQuery} from "../../../../service/project/query/employee-query.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylPageReq} from "../../../../service/model/page-req.model";
 
 @Component({
     selector: 'byl-empoloyee-list',
     templateUrl: './list.component.html',
 })
-export class BylEmployeeListComponent extends BylMasterDataListComponentBasePro<BylEmployee> {
+export class BylEmployeeListComponent extends BylListComponentMasterData<BylEmployee> {
 
 
 

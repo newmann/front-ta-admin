@@ -20,14 +20,15 @@ import {BylExpenseType} from "../../../../service/project/model/expense-type.mod
 import {BylExpenseTypeService} from "../../../../service/project/service/expense-type.service";
 import {BylExpenseTypeQuery} from "../../../../service/project/query/expense-type-query.model";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
+import {BylListComponentMasterData} from "../../../common/list-component-master-data";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylProjectStatusEnum} from "../../../../service/project/model/project-status.enum";
 
 @Component({
     selector: 'byl-expense-type-list',
     templateUrl: './list.component.html',
 })
-export class BylExpenseTypeListComponent extends BylMasterDataListComponentBasePro<BylExpenseType> {
+export class BylExpenseTypeListComponent extends BylListComponentMasterData<BylExpenseType> {
 
 
     // statusList: BylIStatusItem[]; //状态
@@ -123,6 +124,7 @@ export class BylExpenseTypeListComponent extends BylMasterDataListComponentBaseP
 
     //#region 查询条件
     queryDefaultData: any = {
+        status: [BylMasterDataStatusEnum.UNSUBMITED, BylMasterDataStatusEnum.SUBMITED, BylMasterDataStatusEnum.CONFIRMED],
         // modifyDateBegin: moment(moment.now()).subtract(6,"month").format("YYYY-MM-DD"),
         // modifyDateEnd: moment(moment.now()).format("YYYY-MM-DD")
     };

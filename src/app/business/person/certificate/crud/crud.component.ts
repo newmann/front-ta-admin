@@ -121,7 +121,7 @@ export class BylPersonCertificateCrudComponent extends BylCrudComponentBase<BylP
 
         this.businessData.effectiveDate = moment(this.effectiveDate.value).valueOf();
 
-        this.businessData.masterId = this.masterId;
+        this.businessData.personId = this.masterId;
 
         if (this.remarks.value) {
             this.businessData.remarks = this.remarks.value.toString();

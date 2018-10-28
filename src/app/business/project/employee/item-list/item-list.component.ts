@@ -21,6 +21,7 @@ import {BylEmployeeQuery} from "../../../../service/project/query/employee-query
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylEmployeeAvailablePoolsInterface} from "../../../../service/project/service/employee-related.interface";
 import {BylResultBody} from "../../../../service/model/result-body.model";
+import {BylPageReq} from "../../../../service/model/page-req.model";
 
 // export const enum AccountEntityTypeEnum{
 //     ROLE = 1,

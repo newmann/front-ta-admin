@@ -5,10 +5,10 @@
  */
 import {BylBaseModel} from '../../model/base.model';
 import {BylEmbeddableAddress} from '../../model/embeddable-address.model';
-import {BylItemBaseModel} from "../../model/item-base.model";
+import {BylDetailBaseModel} from "../../model/detail-base.model";
 
-export class BylPersonAddress extends BylItemBaseModel {
-    // personId: string;
+export class BylPersonAddress extends BylBaseModel {
+    personId: string;
     type: string;
 
     addr: BylEmbeddableAddress = new BylEmbeddableAddress();

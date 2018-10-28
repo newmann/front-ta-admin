@@ -13,7 +13,6 @@ import {ReuseTabService} from '@delon/abc';
 import {BylCityService} from '../../../../service/address/service/city.service';
 import {BylResultBody} from '../../../../service/model/result-body.model';
 import {map} from "rxjs/operators";
-import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylProjectManagerPoolService} from "../../../../service/project/service/project-manager-pool.service";
 import {SFSchema} from "@delon/form";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
@@ -21,16 +20,17 @@ import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {BylProjectStatusEnum} from "../../../../service/project/model/project-status.enum";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {Observable} from "rxjs";
-import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {BylCrudComponentMasterData} from "../../../common/crud-component-master-data";
 import {BylProjectAuthItemProjectListComponent} from "../../project-auth/project-list/item-list.component";
 import {BylProjectAuthService} from "../../../../service/project/service/project-auth.service";
+import {BylStringUtils} from "../../../../service/utils/string.utils";
 
 
 @Component({
     selector: 'byl-project-crud',
     templateUrl: './crud.component.html',
 })
-export class BylProjectCrudComponent extends BylMasterDataCrudComponentBasePro<BylProject> {
+export class BylProjectCrudComponent extends BylCrudComponentMasterData<BylProject> {
     // public managerPoolReveal: any; // 项目经理筛选窗口
 
     @ViewChild('projectAuth') projectAuthList: BylProjectAuthItemProjectListComponent;
@@ -65,7 +65,7 @@ export class BylProjectCrudComponent extends BylMasterDataCrudComponentBasePro<B
                     "ui": {
                         placeholder: '请输入项目代码',
                         validator: (value: string) => {
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check code:', value);
                                 return [];
                             }
@@ -93,7 +93,7 @@ export class BylProjectCrudComponent extends BylMasterDataCrudComponentBasePro<B
                     "ui": {
                         placeholder: '请输入项目名称',
                         "validator": (value: string) => {
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check name:', value);
                                 return [];
                             }

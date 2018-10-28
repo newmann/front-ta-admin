@@ -45,6 +45,13 @@ import {BylSettleTicketListComponent} from "./settle-ticket/list/list.component"
 import {BylSettleTicketCrudComponent} from "./settle-ticket/crud/crud.component";
 import {BylAccountModule} from "../account/account.module";
 import {BylOrganizationModule} from "../organization/organization.module";
+import {BylSettleDetailWorkloadTicket} from "../../service/project/model/settle-detail-workload-ticket.model";
+import {BylSettleDetailWorkLoadListComponent} from "./settle-ticket/workload-list/list.component";
+import {BylSettleDetailWorkLoadTicketListComponent} from "./settle-ticket/workload-ticket-list/list.component";
+import {BylSettleDetailWorkloadDetailAddPoolListComponent} from "./settle-ticket/add-workload-detail-pool-list/add-pool-list.component";
+import {BylSettleDetailBorrowMoneyTicketListComponent} from "./settle-ticket/borrow-money-ticket-list/list.component";
+import {BylSettleDetailBorrowMoneyListComponent} from "./settle-ticket/borrow-money-list/list.component";
+import {BylSettleDetailBorrowMoneyTicketAddPoolListComponent} from "./settle-ticket/add-borrow-money-ticket-pool-list/add-pool-list.component";
 
 const COMPONENTS=[
     // BylRoleListComponent,
@@ -96,6 +103,12 @@ const COMPONENTS=[
 
     BylSettleTicketListComponent,
     BylSettleTicketCrudComponent,
+    BylSettleDetailWorkLoadTicketListComponent,
+    BylSettleDetailWorkLoadListComponent,
+    BylSettleDetailWorkloadDetailAddPoolListComponent,
+    BylSettleDetailBorrowMoneyTicketListComponent,
+    BylSettleDetailBorrowMoneyListComponent,
+    BylSettleDetailBorrowMoneyTicketAddPoolListComponent,
 
 ];
 const ENTRYCOMPONENTS = [
@@ -104,6 +117,8 @@ const ENTRYCOMPONENTS = [
     BylEmployeeItemListComponent,
     BylOutsourceEmployeeItemListComponent,
     BylWorkloadDetailDetailBrowserComponent,
+    BylSettleDetailWorkloadDetailAddPoolListComponent,
+    BylSettleDetailBorrowMoneyTicketAddPoolListComponent,
     ];
 
 

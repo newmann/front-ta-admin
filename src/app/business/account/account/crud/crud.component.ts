@@ -11,20 +11,20 @@ import {BylAccountService} from '../../../../service/account/service/account.ser
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {isEmpty} from "../../../../service/utils/string.utils";
 import {map} from "rxjs/operators";
 import {SFSchema} from "@delon/form";
-import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {BylCrudComponentMasterData} from "../../../common/crud-component-master-data";
 import {BylProjectAuthItemProjectListComponent} from "../../../project/project-auth/project-list/item-list.component";
 import {BylMenuLinkItemListComponent} from "../../menu-link/item-list/item-list.component";
 import {BylPermissionItemListComponent} from "../../permission/item-list/item-list.component";
+import {BylStringUtils} from "../../../../service/utils/string.utils";
 
 
 @Component({
     selector: 'byl-account-crud',
     templateUrl: './crud.component.html',
 })
-export class BylAccountCrudComponent extends BylMasterDataCrudComponentBasePro<BylAccount> {
+export class BylAccountCrudComponent extends BylCrudComponentMasterData<BylAccount> {
     @ViewChild('menuLinkList') menuLinkList: BylMenuLinkItemListComponent;
 
     @ViewChild('permissionList') permissionList: BylPermissionItemListComponent;
@@ -52,7 +52,7 @@ export class BylAccountCrudComponent extends BylMasterDataCrudComponentBasePro<B
                     "ui": {
                         placeholder: '请输入账户代码',
                         validator: (value: string) => {
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check code:', value);
                                 return [];
                             }
@@ -116,7 +116,7 @@ export class BylAccountCrudComponent extends BylMasterDataCrudComponentBasePro<B
                     "ui": {
                         placeholder: '请输入账户代码',
                         validator: (value: string) => {
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check code:', value);
                                 return [];
                             }

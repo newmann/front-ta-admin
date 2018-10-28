@@ -11,12 +11,12 @@ import {
     ACTION_CHECK,
     ACTION_DELETE,
     ACTION_MODIFY,
-    ACTION_SUBMIT,
+    ACTION_SUBMIT, BylTableClickAction,
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylExpenseTypeQuery} from "../../../../service/project/query/expense-type-query.model";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylTicketListComponentBasePro} from "../../../common/ticket-list-component-base";
+import {BylListComponentTicket} from "../../../common/list-component-ticket";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylSettleTicket} from "../../../../service/project/model/settle-ticket.model";
 import {BylSettleTicketService} from "../../../../service/project/service/settle-ticket.service";
@@ -25,12 +25,13 @@ import {
     BylSettleTicketStatusManager
 } from "../../../../service/project/model/settle-ticket-status.enum";
 import {BylSettleTicketQuery} from "../../../../service/project/query/settle-ticket-query.model";
+import {BylBorrowMoneyTicket} from "../../../../service/project/model/borrow-money-ticket.model";
 
 @Component({
     selector: 'byl-settle-ticket-list',
     templateUrl: './list.component.html',
 })
-export class BylSettleTicketListComponent extends BylTicketListComponentBasePro<BylSettleTicket> {
+export class BylSettleTicketListComponent extends BylListComponentTicket<BylSettleTicket> {
 
 
     // statusList: BylIStatusItem[]; //状态
@@ -167,6 +168,7 @@ export class BylSettleTicketListComponent extends BylTicketListComponentBasePro<
         required: []
     };
 //#endregion
+    ACTION_SETTLE = "结算";
 
     tableDefine:BylTableDefine ={
         showCheckbox: true,
@@ -180,11 +182,15 @@ export class BylSettleTicketListComponent extends BylTicketListComponentBasePro<
 
             {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylSettleTicketStatusEnum.CHECKED },
             {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylSettleTicketStatusEnum.SUBMITED },
+            {actionName: ACTION_CANCEL,checkFieldPath: "status" ,checkValue: BylSettleTicketStatusEnum.SETTLED },
+
+            {actionName: this.ACTION_SETTLE,checkFieldPath: "status" ,checkValue: BylSettleTicketStatusEnum.CHECKED },
 
             {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylSettleTicketStatusEnum.CHECKED },
             {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylSettleTicketStatusEnum.CHECKED_DELETED },
             {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylSettleTicketStatusEnum.SUBMITED_DELETED },
             {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylSettleTicketStatusEnum.SETTLED },
+            {actionName: ACTION_BROWSE,checkFieldPath: "status" ,checkValue: BylSettleTicketStatusEnum.SETTLED_DELETED },
 
             ],
 
@@ -216,6 +222,33 @@ export class BylSettleTicketListComponent extends BylTicketListComponentBasePro<
         //     this.message.error(err);
         // });
     // }
+    entityAction(action: BylTableClickAction){
+        super.entityAction(action);
 
+        switch(action.actionName){
+            case this.ACTION_SETTLE:
+                this.showSettleEntity(action.rowItem);
+                break;
+            default:
+                console.warn("当前的Action为：" + action.actionName + "，没有对应的处理过程。");
+        }
+
+    }
+
+    showSettleEntity(entity: BylSettleTicket){
+        this.modalService.confirm({
+            nzTitle: '确认要进行结算操作吗?',
+            nzContent: '<b style="color: red;">在结算完成之后执行本操作。</b>',
+            nzOkText: '确认',
+            nzOkType: 'primary',
+            nzOnOk: () => {
+                this.actionResult$ = this.settleTicketService.settle(entity);
+                this.actionFollowProcess(this.actionResult$);
+            },
+            nzCancelText: '取消',
+            nzOnCancel: () => console.log('settleEntity Cancel')
+        });
+
+    }
 
 }

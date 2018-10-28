@@ -7,7 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {SFSchema} from "@delon/form";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylTicketCrudComponentBasePro} from "../../../common/ticket-crud-component-base-pro";
+import {BylCrudComponentTicket} from "../../../common/crud-component-ticket";
 import {BylWorkTypeConfigTicket} from "../../../../service/project/model/work-type-config-ticket.model";
 import {BylWorkTypeConfigTicketService} from "../../../../service/project/service/work-type-config-ticket.service";
 import {BylWorkTypeConfigTicketStatusEnum} from "../../../../service/project/model/work-type-config-ticket-status.enum";
@@ -15,13 +15,15 @@ import {BylEmbeddableOutsourcer} from "../../../../service/project/model/embedda
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {BylEmbeddableWorkType} from "../../../../service/project/model/embeddable-work-type.model";
 import {BylWorkTypeConfigDetailListComponent} from "../../work-type-config-detail/list/list.component";
+import {BylWorkTypeConfigDetail} from "../../../../service/project/model/work-type-config-detail.model";
 
 
 @Component({
     selector: 'byl-work-type-config-ticket-crud',
     templateUrl: './crud.component.html',
 })
-export class BylWorkTypeConfigTicketCrudComponent extends BylTicketCrudComponentBasePro<BylWorkTypeConfigTicket> {
+export class BylWorkTypeConfigTicketCrudComponent
+    extends BylCrudComponentTicket<BylWorkTypeConfigDetail,BylWorkTypeConfigTicket> {
     processType: string;
 
     @ViewChild('configDetail') detailListComponent: BylWorkTypeConfigDetailListComponent;
@@ -372,12 +374,12 @@ export class BylWorkTypeConfigTicketCrudComponent extends BylTicketCrudComponent
     //     this.followProcess(saveResult$);
     // }
 
-    getModifyDateTimeChange(value: number){
-        console.log("in ExpenseTicket Crud getModifyDateTimeChange, value ", value);
-        this.businessData.modifyAction.modifyDateTime = value;
-        this.defaultBusinessData.modifyAction.modifyDateTime = value;
-        this.reset();
-    };
+    // getModifyDateTimeChange(value: number){
+    //     console.log("in ExpenseTicket Crud getModifyDateTimeChange, value ", value);
+    //     this.businessData.modifyAction.modifyDateTime = value;
+    //     this.defaultBusinessData.modifyAction.modifyDateTime = value;
+    //     this.reset();
+    // };
 
     error(value: any) {
         console.log('error', value);
@@ -388,5 +390,8 @@ export class BylWorkTypeConfigTicketCrudComponent extends BylTicketCrudComponent
             this.detailListComponent.search();
         }
     }
+
+
+
 }
 

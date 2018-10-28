@@ -4,7 +4,7 @@ import {_HttpClient} from '@delon/theme';
 
 import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';
-import {BylItemDetailBaseService} from "../../service/item-detail-base.service";
+import {BylDetail2BaseService} from "../../service/detail2-base.service";
 import {BylWorkloadDetailDetail} from "../model/workload-detail-detail.model";
 
 
@@ -14,7 +14,7 @@ import {BylWorkloadDetailDetail} from "../model/workload-detail-detail.model";
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylWorkloadDetailDetailService extends BylItemDetailBaseService<BylWorkloadDetailDetail> {
+export class BylWorkloadDetailDetailService extends BylDetail2BaseService<BylWorkloadDetailDetail> {
 
     constructor(protected http: _HttpClient,
                 protected configServer: BylConfigService,

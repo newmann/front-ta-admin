@@ -22,14 +22,14 @@ import {BylEmployeeStatusEnum, BylEmployeeStatusManager} from "../../../../servi
 import {BylOutsourcerService} from "../../../../service/project/service/outsourcer.service";
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../service/model/master-data-status.enum";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
+import {BylListComponentMasterData} from "../../../common/list-component-master-data";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 @Component({
     selector: 'byl-oursourcer-list',
     templateUrl: './list.component.html',
 })
-export class BylOutsourcerListComponent extends BylMasterDataListComponentBasePro<BylOutsourcer> {
+export class BylOutsourcerListComponent extends BylListComponentMasterData<BylOutsourcer> {
 
 
     // statusList: BylIStatusItem[]; //状态

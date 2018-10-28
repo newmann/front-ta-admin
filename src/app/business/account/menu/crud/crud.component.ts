@@ -13,9 +13,8 @@ import {Observable, Subject} from 'rxjs';
 import {BylMasterDataStatusEnum} from '../../../../service/model/master-data-status.enum';
 import {BylMenu} from "../../../../service/account/model/menu.model";
 import {BylMenuService} from "../../../../service/account/service/menu.service";
-import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {BylCrudComponentMasterData} from "../../../common/crud-component-master-data";
 import {SFSchema} from "@delon/form";
-import {isEmpty} from "../../../../service/utils/string.utils";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BYL_TREE_NODE_ID_DEFAULT_VALUE} from "../../../../service/constant/general.constant";
 
@@ -24,7 +23,7 @@ import {BYL_TREE_NODE_ID_DEFAULT_VALUE} from "../../../../service/constant/gener
     selector: 'byl-menu-crud',
     templateUrl: './crud.component.html',
 })
-export class BylMenuCrudComponent extends BylMasterDataCrudComponentBasePro<BylMenu> {
+export class BylMenuCrudComponent extends BylCrudComponentMasterData<BylMenu> {
 
     public parentMenu = new BylMenu(); // 最顶级的部门，id = -
     // permissionEntityType: PermissionEntityTypeEnum = PermissionEntityTypeEnum.ACCOUNT;

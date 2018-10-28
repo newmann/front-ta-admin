@@ -10,7 +10,7 @@ import {BylMenuLink} from "../../../../service/account/model/menu-link.model";
 import {BylMenuLinkRelationInterface} from "../../../../service/account/service/menu-link-related.interface";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylMenuLinkListComponent} from "../list/list.component";
-import {BylEntityRelationListComponentBase} from "../../../common/entity-relation-list.component-base";
+import {BylListComponentEntityRelation} from "../../../common/list-component-entity-relation";
 import {BylPageResp} from "../../../../service/model/page-resp.model";
 import {BylPageReq} from "../../../../service/model/page-req.model";
 
@@ -19,7 +19,7 @@ import {BylPageReq} from "../../../../service/model/page-req.model";
   selector: 'byl-menu-link-item-list',
   templateUrl: './item-list.component.html',
 })
-export class BylMenuLinkItemListComponent extends BylEntityRelationListComponentBase<BylMenuLink>
+export class BylMenuLinkItemListComponent extends BylListComponentEntityRelation<BylMenuLink>
     implements OnInit
     {
 

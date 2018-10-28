@@ -3,9 +3,9 @@
  * @Author: newmann
  * @Date: Created in 21:05 2018-01-22
  */
-import {BylItemBaseModel} from "../../model/item-base.model";
+import {BylDetailBaseModel} from "../../model/detail-base.model";
 
-export class BylWorkTypeConfigDetail extends BylItemBaseModel {
+export class BylWorkTypeConfigDetail extends BylDetailBaseModel {
     resourseId: string;
 
     resourseCode: string;

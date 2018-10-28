@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {BylItemListComponentBase} from "../../../common/item-list-component-base";
+import {BylListComponentTicketDetail} from "../../../common/list-component-ticket-detail";
 import {BylPersonCertificate} from "../../../../service/person/model/person-certificate.model";
 import {NzMessageService, NzModalService} from "ng-zorro-antd";
 import {BylConfigService} from "../../../../service/constant/config.service";
@@ -7,12 +7,15 @@ import {Router} from "@angular/router";
 import {BylPersonCertificateService} from "../../../../service/person/service/person-certificate.service";
 import {BylPersonCertificateCrudComponent} from "../crud/crud.component";
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
+import {BylListComponentEntityDetail} from "../../../common/list-component-entity-detail";
+import {BylResultBody} from "../../../../service/model/result-body.model";
+import {Observable} from "rxjs/Rx";
 
 @Component({
   selector: 'byl-person-certificate-list',
   templateUrl: './list.component.html',
 })
-export class BylPersonCertificateListComponent extends BylItemListComponentBase<BylPersonCertificate>  {
+export class BylPersonCertificateListComponent extends BylListComponentEntityDetail<BylPersonCertificate>  {
 
     @Input()
     set setMasterId(value: string){
@@ -48,6 +51,10 @@ export class BylPersonCertificateListComponent extends BylItemListComponentBase<
             .map(item => {
                 Object.assign(item.item,newData);
             })
+    }
+
+    findByMasterId(masterId: string): Observable<BylResultBody<Array<BylPersonCertificate>>> {
+        return this.personCertificateService.findByPersonId(masterId);
     }
 
 }

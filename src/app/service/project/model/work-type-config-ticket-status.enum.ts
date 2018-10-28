@@ -38,7 +38,7 @@ export class BylWorkTypeConfigTicketStatusManager {
             //     return '审核后作废';
             // case BylWorkTypeConfigTicketStatusEnum.COMFIRMED_DELETED:
             //     return '确认后作废';
-            // case BylWorkTypeConfigTicketStatusEnum.SETTLEED_DELETED:
+            // case BylWorkTypeConfigTicketStatusEnum.SETTLED_DELETED:
             //     return '结算后作废';
 
             default:
@@ -59,7 +59,7 @@ export class BylWorkTypeConfigTicketStatusManager {
             {value: BylWorkTypeConfigTicketStatusEnum.SUBMITED_DELETED, caption: this.getCaption(BylWorkTypeConfigTicketStatusEnum.SUBMITED_DELETED)},
             // {value: BylWorkTypeConfigTicketStatusEnum.CHECKED_DELETED, caption: this.getCaption(BylWorkTypeConfigTicketStatusEnum.CHECKED_DELETED)},
             // {value: BylWorkTypeConfigTicketStatusEnum.COMFIRMED_DELETED, caption: this.getCaption(BylWorkTypeConfigTicketStatusEnum.COMFIRMED_DELETED)}
-            // {value: BylWorkTypeConfigTicketStatusEnum.SETTLEED_DELETED, caption: this.getCaption(BylWorkTypeConfigTicketStatusEnum.SETTLEED_DELETED)}
+            // {value: BylWorkTypeConfigTicketStatusEnum.SETTLED_DELETED, caption: this.getCaption(BylWorkTypeConfigTicketStatusEnum.SETTLED_DELETED)}
         ];
     }
     static getSFSelectDataArray(): BylSFRadioData[] {
@@ -73,7 +73,7 @@ export class BylWorkTypeConfigTicketStatusManager {
             {value: BylWorkTypeConfigTicketStatusEnum.SUBMITED_DELETED, label: this.getCaption(BylWorkTypeConfigTicketStatusEnum.SUBMITED_DELETED)},
             // {value: BylWorkTypeConfigTicketStatusEnum.CHECKED_DELETED, label: this.getCaption(BylWorkTypeConfigTicketStatusEnum.CHECKED_DELETED)},
             // {value: BylWorkTypeConfigTicketStatusEnum.COMFIRMED_DELETED, label: this.getCaption(BylWorkTypeConfigTicketStatusEnum.COMFIRMED_DELETED)}
-            // {value: BylWorkTypeConfigTicketStatusEnum.SETTLEED_DELETED, label: this.getCaption(BylWorkTypeConfigTicketStatusEnum.SETTLEED_DELETED)}
+            // {value: BylWorkTypeConfigTicketStatusEnum.SETTLED_DELETED, label: this.getCaption(BylWorkTypeConfigTicketStatusEnum.SETTLED_DELETED)}
         ];
 
     }

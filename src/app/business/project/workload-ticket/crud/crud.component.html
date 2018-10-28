@@ -35,8 +35,14 @@
       <nz-tab [nzDisabled]="!sourceId" [nzTitle]="'单据明细'" (nzClick)="detailTabClick()">
         <byl-workload-detail-list #detailList
           [setWorkloadTicket]="businessData"
-                                        [setOutsourcerWidget]="businessData.outsourcerWidget"
-                                        (changeModifyDateTime)="getModifyDateTimeChange($event)">
+          [readOnly]="showBrowseButton()"
+          [setOutsourcerWidget]="businessData.outsourcerWidget"
+                                  (addItem)="updateTicketForAddItem($event)"
+                                  (updateItem)="updateTicketForUpdateItem($event)"
+                                  (deleteItem)="updateTicketForDeleteItem($event)"
+                                  (batchAddItem)="updateTicketForBatchAddItem($event)"
+                                  >
+          <!--(changeModifyDateTime)="getModifyDateTimeChange($event)">-->
 
         </byl-workload-detail-list>
 

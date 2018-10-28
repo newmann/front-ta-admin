@@ -1,0 +1,77 @@
+<div >
+  <div nz-row nzType="flex" nzJustify="center"  class="byl-detail-top-button">
+    <!--<button nz-button (click)="addResourse()" [nzType]="'dashed'"  class="mb-sm" *ngIf="!readOnly">-->
+        <!--<i class="anticon anticon-plus"></i><span>添加考勤单</span>-->
+    <!--</button>-->
+
+    <button nz-button (click)="search()" [nzType]="'primary'"  class="mb-sm">
+        <i class="anticon anticon-search"></i><span>查询</span>
+    </button>
+  </div>
+    <nz-table #nzTable [nzData]="listData"  [nzLoading]="loading"
+              [nzShowPagination]="false">
+        <thead >
+        <tr>
+            <!--<th  [nzCheckbox]="true">-->
+            <!--<caption nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"-->
+            <!--(ngModelChange)="checkAll($event)"></caption>-->
+            <!--</th>-->
+            <th ><span>行号</span></th>
+            <th ><span>所属项目</span></th>
+            <!--<th ><span>岗位</span></th>-->
+            <th ><span>天数</span></th>
+            <th ><span>小时数</span></th>
+
+            <!--<th ><span>数量合计</span></th>-->
+
+          <!--<th >-->
+                <!--<span>备注</span>-->
+            <!--</th>-->
+            <!--<th >-->
+            <!--<span>更新时间</span>-->
+            <!--</th>-->
+
+            <th *ngIf="!readOnly"><span>操作</span></th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr  *ngFor="let i of nzTable.data; first as isFirst; last as isLast">
+            <!--<td  [nzCheckbox]="true">-->
+            <!--<caption nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked"-->
+            <!--(ngModelChange)="refreshStatus($event)">-->
+            <!--</caption>-->
+            <!--</td>-->
+            <td >{{i.item.lineNo}}</td>
+            <td >{{i.item.projectDisplay}}</td>
+            <!--<td >{{i.item.workTypeDisplay}}</td>-->
+            <td >{{i.item.shouldPayWorkloadDays}}</td>
+            <td >{{i.item.shouldPayWorkloadHours}}</td>
+            <!--<td >{{i.item.shouldPayCount}}</td>-->
+            <!--<td >{{i.item.remarks}}</td>-->
+            <!--<td >{{i.item.modifyAction.modifyDateTime | _date}}</td>-->
+            <td *ngIf="!readOnly">
+                <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
+                <!--<span>-->
+                        <!--<a (click)="modifyEntity(i.item.id)">修改</a>-->
+                    <!--</span>-->
+              <!--<nz-divider nzType="vertical"></nz-divider>-->
+                <span>
+                        <a (click)="delete(i.item)">删除</a>
+                    </span>
+              <nz-divider nzType="vertical" *ngIf="isFirst === false"></nz-divider>
+              <span *ngIf="isFirst === false">
+                        <a (click)="moveUp(i.item.lineNo)">上移</a>
+                    </span>
+              <nz-divider nzType="vertical" *ngIf="isLast ===false "></nz-divider>
+              <span *ngIf="isLast === false">
+                        <a (click)="moveDown(i.item.lineNo)">下移</a>
+                    </span>
+
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+
+
+
+</div>

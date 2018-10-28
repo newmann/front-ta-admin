@@ -38,7 +38,7 @@ export class BylWorkloadTicketStatusManager {
                 return '审核后作废';
             // case BylWorkloadTicketStatusEnum.COMFIRMED_DELETED:
             //     return '确认后作废';
-            // case BylWorkloadTicketStatusEnum.SETTLEED_DELETED:
+            // case BylWorkloadTicketStatusEnum.SETTLED_DELETED:
             //     return '结算后作废';
 
             default:
@@ -59,7 +59,7 @@ export class BylWorkloadTicketStatusManager {
             {value: BylWorkloadTicketStatusEnum.SUBMITED_DELETED, caption: this.getCaption(BylWorkloadTicketStatusEnum.SUBMITED_DELETED)},
             {value: BylWorkloadTicketStatusEnum.CHECKED_DELETED, caption: this.getCaption(BylWorkloadTicketStatusEnum.CHECKED_DELETED)},
             // {value: BylWorkloadTicketStatusEnum.COMFIRMED_DELETED, caption: this.getCaption(BylWorkloadTicketStatusEnum.COMFIRMED_DELETED)}
-            // {value: BylWorkloadTicketStatusEnum.SETTLEED_DELETED, caption: this.getCaption(BylWorkloadTicketStatusEnum.SETTLEED_DELETED)}
+            // {value: BylWorkloadTicketStatusEnum.SETTLED_DELETED, caption: this.getCaption(BylWorkloadTicketStatusEnum.SETTLED_DELETED)}
         ];
     }
     static getSFSelectDataArray(): BylSFRadioData[] {
@@ -73,7 +73,7 @@ export class BylWorkloadTicketStatusManager {
             {value: BylWorkloadTicketStatusEnum.SUBMITED_DELETED, label: this.getCaption(BylWorkloadTicketStatusEnum.SUBMITED_DELETED)},
             {value: BylWorkloadTicketStatusEnum.CHECKED_DELETED, label: this.getCaption(BylWorkloadTicketStatusEnum.CHECKED_DELETED)},
             // {value: BylWorkloadTicketStatusEnum.COMFIRMED_DELETED, label: this.getCaption(BylWorkloadTicketStatusEnum.COMFIRMED_DELETED)}
-            // {value: BylWorkloadTicketStatusEnum.SETTLEED_DELETED, label: this.getCaption(BylWorkloadTicketStatusEnum.SETTLEED_DELETED)}
+            // {value: BylWorkloadTicketStatusEnum.SETTLED_DELETED, label: this.getCaption(BylWorkloadTicketStatusEnum.SETTLED_DELETED)}
         ];
 
     }

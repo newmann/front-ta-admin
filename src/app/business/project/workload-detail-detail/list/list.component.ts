@@ -3,38 +3,15 @@ import {NzMessageService, NzModalRef, NzModalService} from 'ng-zorro-antd';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {Router} from '@angular/router';
 import * as moment from 'moment';
-import {BylListFormData} from '../../../../service/model/list-form-data.model';
-import {BylMasterDataStatusEnum} from '../../../../service/model/master-data-status.enum';
-import {SFSchema, SFUISchema} from "@delon/form";
-import {
-    ACTION_BROWSE,
-    ACTION_CANCEL,
-    ACTION_CHECK,
-    ACTION_DELETE,
-    ACTION_MODIFY,
-    ACTION_SUBMIT,
-    BylTableDefine
-} from "../../../common/list-form-table-item/table.formitem";
-import {BylExpenseTypeQuery} from "../../../../service/project/query/expense-type-query.model";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylTicketListComponentBasePro} from "../../../common/ticket-list-component-base";
 import {BylWorkloadTicket} from "../../../../service/project/model/workload-ticket.model";
-import {
-    BylWorkloadTicketStatusEnum,
-    BylWorkloadTicketStatusManager
-} from "../../../../service/project/model/workload-ticket-status.enum";
-import {BylWorkloadTicketQuery} from "../../../../service/project/query/workload-ticket-query.model";
-import {BylWorkloadTicketService} from "../../../../service/project/service/workload-ticket.service";
-import {BylWorkType} from "../../../../service/project/model/work-type.model";
 import {BylCheckTypeEnum} from "../../../../service/project/model/check-type.enum";
 import {BylWorkloadDetailDetailService} from "../../../../service/project/service/workload-detail-detail.service";
 import {BylWorkloadDetail} from "../../../../service/project/model/workload-detail.model";
 import {BylWorkloadDetailDetail} from "../../../../service/project/model/workload-detail-detail.model";
 import {BylResultBody} from "../../../../service/model/result-body.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylWorkTypeConfigDetail} from "../../../../service/project/model/work-type-config-detail.model";
-import {BylItemBatchAddModel} from "../../../../service/model/item-batch-add.model";
-import {BylItemDetailBatchAddModel} from "../../../../service/model/item-detail-batch-add.model";
+import {BylDetail2BatchAddModel} from "../../../../service/model/detail2-batch-add.model";
 
 @Component({
     selector: 'byl-workload-ticket-list',
@@ -257,7 +234,7 @@ export class BylWorkloadDetailDetailBrowserComponent implements OnInit {
 
         if (pools.length > 0) {
             //提交到数据库中,成功后显示到界面
-            let batchData: BylItemDetailBatchAddModel<BylWorkloadDetailDetail> = new BylItemDetailBatchAddModel<BylWorkloadDetailDetail>();
+            let batchData: BylDetail2BatchAddModel<BylWorkloadDetailDetail> = new BylDetail2BatchAddModel<BylWorkloadDetailDetail>();
             batchData.items = pools;
             batchData.masterId = this.workloadDetail.masterId;
             batchData.modifyDateTime = this._workloadTicket.modifyAction.modifyDateTime;

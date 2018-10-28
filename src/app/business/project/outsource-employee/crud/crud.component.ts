@@ -8,23 +8,23 @@ import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
 import {map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
-import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylOutsourceEmployee} from "../../../../service/project/model/outsource-employee.model";
 import {BylOutsourceEmployeeService} from "../../../../service/project/service/outsource-employee.service";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {BylProject} from "../../../../service/project/model/project.model";
-import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {BylCrudComponentMasterData} from "../../../common/crud-component-master-data";
 import {SFSchema} from "@delon/form";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
 import {BylEmployeeStatusEnum} from "../../../../service/project/model/employee-status.enum";
+import {BylStringUtils} from "../../../../service/utils/string.utils";
 
 
 @Component({
     selector: 'byl-outsource-employee-crud',
     templateUrl: './crud.component.html',
 })
-export class BylOutsourceEmployeeCrudComponent extends BylMasterDataCrudComponentBasePro<BylOutsourceEmployee> {
+export class BylOutsourceEmployeeCrudComponent extends BylCrudComponentMasterData<BylOutsourceEmployee> {
     // processType: string;
 
     private _newSchema: SFSchema;
@@ -58,7 +58,7 @@ export class BylOutsourceEmployeeCrudComponent extends BylMasterDataCrudComponen
                     "title": '员工编号',
                     "ui": {
                         "validator": (value: string) => {
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check code:', value);
                                 return [];
                             }

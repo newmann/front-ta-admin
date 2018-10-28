@@ -26,7 +26,7 @@ export class BylWorkTypeConfigTicket extends BylTicketBaseModal {
     outsourcerWidget:any;
     outsourcer: BylEmbeddableOutsourcer = new BylEmbeddableOutsourcer();
 
-    checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
+    // checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
 
     workTypeWidget: any;
     workType: BylEmbeddableWorkType = new BylEmbeddableWorkType();

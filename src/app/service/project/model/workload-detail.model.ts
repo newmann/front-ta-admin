@@ -3,13 +3,14 @@
  * @Author: newmann
  * @Date: Created in 21:05 2018-01-22
  */
-import {BylItemBaseModel} from "../../model/item-base.model";
+import {BylDetailBaseModel} from "../../model/detail-base.model";
 import {BylEmbeddableExpenseType} from "./embeddable-expense-type.model";
 import {s} from "@angular/core/src/render3";
 import {BylEmbeddableWorkType} from "./embeddable-work-type.model";
 import {BylCheckTypeEnumManager} from "./check-type.enum";
+import {BylStringUtils} from "../../utils/string.utils";
 
-export class BylWorkloadDetail extends BylItemBaseModel {
+export class BylWorkloadDetail extends BylDetailBaseModel {
     resourseId: string;
 
     resourseCode: string;
@@ -25,7 +26,7 @@ export class BylWorkloadDetail extends BylItemBaseModel {
 
     get workTypeDisplay(){
         if(this.workType){
-            return this.workType.workTypeName + "[" + this.workType.workTypeCode +']';
+            return BylStringUtils.mixCodeName(this.workType.workTypeCode, this.workType.workTypeName);
         }
     }
     set workTypeDisplay(value: string){

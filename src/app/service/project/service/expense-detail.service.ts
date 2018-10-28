@@ -5,7 +5,8 @@ import {_HttpClient} from '@delon/theme';
 import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';
 import {BylExpenseDetail} from "../model/expense-detail.model";
-import {BylItemBaseService} from "../../service/item-base.service";
+import {BylDetailBaseService} from "../../service/detail-base.service";
+import {BylExpenseTicket} from "../model/expense-ticket.model";
 
 
 /**
@@ -14,7 +15,7 @@ import {BylItemBaseService} from "../../service/item-base.service";
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylExpenseDetailService extends BylItemBaseService<BylExpenseDetail> {
+export class BylExpenseDetailService extends BylDetailBaseService<BylExpenseDetail,BylExpenseTicket> {
 
     constructor(protected http: _HttpClient,
                 protected configServer: BylConfigService,
@@ -55,16 +56,16 @@ export class BylExpenseDetailService extends BylItemBaseService<BylExpenseDetail
     //     return this.http.post<BylResultBody<BylExpenseTicket>>(this.BASE_API_URL + '/submit', updateItem);
     // }
 
-    // addDetail(item: BylItemAddModel<BylExpenseDetail>) {
-    //     return this.http.post<BylResultBody<BylItemAddModel<BylExpenseDetail>>>(this.BASE_API_URL + '/add-detail', item);
+    // addDetail(item: BylDetailAddModel<BylExpenseDetail>) {
+    //     return this.http.post<BylResultBody<BylDetailAddModel<BylExpenseDetail>>>(this.BASE_API_URL + '/add-detail', item);
     // };
     //
-    // deleteDetail(item: BylItemDeleteModel<BylExpenseDetail>) {
-    //     return this.http.post<BylResultBody<BylItemDeleteModel<BylExpenseDetail>>>(this.BASE_API_URL + '/delete-detail', item);
+    // deleteDetail(item: BylDetailDeleteModel<BylExpenseDetail>) {
+    //     return this.http.post<BylResultBody<BylDetailDeleteModel<BylExpenseDetail>>>(this.BASE_API_URL + '/delete-detail', item);
     // };
     //
-    // moveDetail(item: BylItemMoveModel) {
-    //     return this.http.post<BylResultBody<BylItemMoveModel>>(this.BASE_API_URL + '/move-detail', item);
+    // moveDetail(item: BylDetailMoveModel) {
+    //     return this.http.post<BylResultBody<BylDetailMoveModel>>(this.BASE_API_URL + '/move-detail', item);
     // };
     //
     // fetchDetailByMasterID(masterId: string) {

@@ -14,6 +14,11 @@ import {BylBusinessEntityTypeManager} from "../../model/business-entity-type.enu
 import {BylDatetimeUtils} from "../../utils/datetime.utils";
 import {BylTicketBaseModal} from "../../model/ticket-base.model";
 import {BylEmbeddableOperationPeriod} from "./embeddable-operation-period.model";
+import {BylStringUtils} from "../../utils/string.utils";
+import {
+    BylBorrowMoneyQualificationTypeEnum,
+    BylBorrowMoneyQualificationTypeManager
+} from "./borrow-money-qualification-type.enum";
 
 export class BylBorrowMoneyTicket extends BylTicketBaseModal {
     // billNo: string;
@@ -31,7 +36,7 @@ export class BylBorrowMoneyTicket extends BylTicketBaseModal {
     borrowDateTimeWidget: Date;
 
     borrowAction: BylEmbeddableBorrowAction = new BylEmbeddableBorrowAction();
-    checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
+
     receiveAction: BylEmbeddableReceiveAction =new BylEmbeddableReceiveAction();
 
     settlementDateTime: number;
@@ -42,17 +47,46 @@ export class BylBorrowMoneyTicket extends BylTicketBaseModal {
 
     get projectDisplay(){
         if(this.project){
-            return this.project.projectName + "[" + this.project.projectCode +']';
+            return BylStringUtils.mixCodeName(this.project.projectCode, this.project.projectName);
         }
     }
     set projectDisplay(value: string){
 
     }
+
+
+    get receiveActionDisplay(){
+        if(this.receiveAction){
+            return BylStringUtils.mixCodeName(this.receiveAction.receiveCode,this.receiveAction.receiveName)
+                .concat('-')
+                .concat(BylDatetimeUtils.formatDateTime(this.receiveAction.receiveDateTime || null))
+        }
+    }
+    set receiveActionDisplay(value: string){
+
+    }
+
+    get settlementDisplay(){
+        if (this.settlementTicketNo) {
+            if ( this.settlementDateTime){
+                return this.settlementTicketNo.concat("-")
+                    .concat(BylDatetimeUtils.formatDateTime(this.settlementDateTime || null));
+            }
+        }else{
+            return this.settlementTicketNo;
+        }
+
+    }
+    set settlementDisplay(value: string){
+
+    }
+
     get borrowerDisplay(){
         if(this.borrowAction){
             if(this.borrowAction.borrowId){
-                return BylBusinessEntityTypeManager.getCaption(this.borrowAction.borrowType) + "-"
-                    + this.borrowAction.borrowName +"[" + this.borrowAction.borrowCode + "]";
+                return BylBorrowMoneyQualificationTypeManager.getCaption(this.borrowAction.borrowType)
+                        .concat("-")
+                        .concat(BylStringUtils.mixCodeName(this.borrowAction.borrowCode,this.borrowAction.borrowName ));
             }
 
         }

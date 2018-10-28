@@ -19,7 +19,7 @@ import {
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
+import {BylListComponentMasterData} from "../../../common/list-component-master-data";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 
 
@@ -27,7 +27,7 @@ import {simpleDeepCopy} from "../../../../service/utils/object.utils";
     selector: 'byl-work-type-list',
     templateUrl: './list.component.html',
 })
-export class BylWorkTypeListComponent extends BylMasterDataListComponentBasePro<BylWorkType> {
+export class BylWorkTypeListComponent extends BylListComponentMasterData<BylWorkType> {
 
 
     statusList: BylIStatusItem[]; //状态

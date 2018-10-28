@@ -7,9 +7,9 @@ import {Observable} from 'rxjs';
 import {BYL_API_URL_LOGIN} from 'app/service/constant/backend-url.constant';
 import {_HttpClient} from '@delon/theme';
 import {UUID} from 'angular2-uuid';
-import {getEmailName} from '../utils/string.utils';
 import {BylOAuthTokenQueryModel} from "./oauth-token-query.model";
 import {BylOAuthRegisterModel} from "./oauth-register.model";
+import {BylStringUtils} from "../utils/string.utils";
 
 @Injectable()
 export class BylAuthService {
@@ -58,7 +58,7 @@ export class BylAuthService {
         let registerAccount = new BylAccount();
         registerAccount.username = UUID.UUID(); //给出一个uuid,以便保证后台的处理要求
         registerAccount.password = password;
-        registerAccount.nickname = getEmailName(email);
+        registerAccount.nickname = BylStringUtils.getEmailName(email);
         registerAccount.email = email;
         registerAccount.phone = mobile;
         console.log("regisger:", registerAccount);

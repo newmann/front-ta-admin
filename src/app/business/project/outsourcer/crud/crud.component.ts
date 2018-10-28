@@ -8,21 +8,21 @@ import {BylConfigService} from '../../../../service/constant/config.service';
 import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
 import {map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
-import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylOutsourcer} from "../../../../service/project/model/outsourcer.model";
 import {BylOutsourcerService} from "../../../../service/project/service/outsourcer.service";
 import {BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
-import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {BylCrudComponentMasterData} from "../../../common/crud-component-master-data";
 import {SFSchema} from "@delon/form";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {BylStringUtils} from "../../../../service/utils/string.utils";
 
 
 @Component({
     selector: 'byl-outsourcer-crud',
     templateUrl: './crud.component.html',
 })
-export class BylOutsourcerCrudComponent extends BylMasterDataCrudComponentBasePro<BylOutsourcer> {
+export class BylOutsourcerCrudComponent extends BylCrudComponentMasterData<BylOutsourcer> {
     // processType: string;
     private _newSchema: SFSchema;
     private _modifySchema: SFSchema;
@@ -45,7 +45,7 @@ export class BylOutsourcerCrudComponent extends BylMasterDataCrudComponentBasePr
                     "title": '代码',
                     "ui": {
                         "validator": (value: string) => {
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check code:', value);
                                 return [];
                             }

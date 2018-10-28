@@ -2,7 +2,7 @@
 
   <div nz-row nzType="flex" nzJustify="center"  class="byl-detail-top-button">
     <button nz-button (click)="addRelation()" [nzType]="'dashed'"
-            class="mb-sm" *ngIf="!ReadOnly">
+            class="mb-sm" *ngIf="!readOnly">
       <i class="anticon anticon-plus"></i><span>添加</span>
     </button>
 
@@ -36,20 +36,20 @@
         <thead >
         <tr>
           <th  nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
-               (nzCheckedChange)="checkAll($event)" *ngIf="!ReadOnly"></th>
+               (nzCheckedChange)="checkAll($event)" *ngIf="!readOnly"></th>
             <th ><span>缺省名称</span></th>
             <th ><span>URL</span></th>
 
-            <th *ngIf="!ReadOnly"><span>操作</span></th>
+            <th *ngIf="!readOnly"><span>操作</span></th>
         </tr>
         </thead>
         <tbody >
         <tr  *ngFor="let i of nzTable.data">
           <td  nzShowCheckbox = "!ReadOnly" [(nzChecked)]="i.checked" [nzDisabled]="i.disabled"
-               (nzCheckedChange)="refreshStatus($event)" *ngIf="!ReadOnly"></td>
+               (nzCheckedChange)="refreshStatus($event)" *ngIf="!readOnly"></td>
             <td >{{i.item.defaultCaption}}</td>
             <td >{{i.item.targetLink}}</td>
-            <td *ngIf="!ReadOnly">
+            <td *ngIf="!readOnly">
                 <span>
                 <a (click)="delete(i.item.id)">删除</a>
                 </span>

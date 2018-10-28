@@ -5,7 +5,10 @@ import {I18NService} from 'app/core/i18n/i18n.service';
 
 
 import {BylPersonContactInfo} from '../model/person-contact-info.model';
-import {BylItemBaseService} from "../../service/item-base.service";
+import {BylDetailBaseService} from "../../service/detail-base.service";
+import {BylBaseService} from "../../service/base.service";
+import {Observable} from "rxjs/Rx";
+import {BylResultBody} from "../../model/result-body.model";
 
 
 /**
@@ -14,7 +17,7 @@ import {BylItemBaseService} from "../../service/item-base.service";
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylPersonContactInfoService extends BylItemBaseService<BylPersonContactInfo> {
+export class BylPersonContactInfoService extends BylBaseService<BylPersonContactInfo> {
     // private BASE_API_URL = "api/person/certificate";
 
     constructor(protected http: _HttpClient,
@@ -40,9 +43,9 @@ export class BylPersonContactInfoService extends BylItemBaseService<BylPersonCon
     //     return this.http.get<BylResultBody<BylPersonContactInfo>>(this.BASE_API_URL+"/find-by-id/" + id);
     // }
 
-    // findByPersonId(personId: string): Observable<BylResultBody<BylPersonContactInfo>> {
-    //     return this.http.get<BylResultBody<BylPersonContactInfo>>(this.BASE_API_URL + '/find-by-personid/' + personId);
-    // }
+    findByPersonId(personId: string): Observable<BylResultBody<BylPersonContactInfo>> {
+        return this.http.get<BylResultBody<BylPersonContactInfo>>(this.BASE_API_URL + '/find-by-personid/' + personId);
+    }
 
     // /**
     //  * 按分页方式返回不同查询条件下的值

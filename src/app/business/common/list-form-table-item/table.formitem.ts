@@ -38,6 +38,7 @@ export class BylListFormTableWidgetComponent /*implements ControlValueAccessor *
 
     // private _showDividerCount:number;
 
+    @Input()
     public page: BylPageReq = { //分页定义
         page: 1, // 缺省当前页
         pageSize: 10, // 缺省每页条数

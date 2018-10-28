@@ -11,11 +11,11 @@ import {BylResultBody} from '../../../../service/model/result-body.model';
 import {ReuseTabService} from '@delon/abc';
 import {BylGenderEnumManager} from "../../../../service/person/model/gender.enum";
 import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
-import {isEmpty} from "../../../../service/utils/string.utils";
 import {map} from "rxjs/operators";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {SFSchema} from "@delon/form";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
+import {BylStringUtils} from "../../../../service/utils/string.utils";
 
 
 @Component({
@@ -47,7 +47,7 @@ export class BylPersonCrudComponent extends BylCrudComponentBasePro<BylPerson> {
                     "ui": {
                         placeholder: '请输入身份证号码',
                         validator: (value: string) => {
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check code:', value);
                                 return [];
                             }

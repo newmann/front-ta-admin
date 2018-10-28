@@ -63,16 +63,16 @@ export class BylSettleTicketService extends BylTicketBaseService<BylSettleTicket
     //     return this.http.post<BylResultBody<BylWorkloadTicket>>(this.BASE_API_URL + '/submit', updateItem);
     // }
 
-    // addDetail(item: BylItemAddModel<BylExpenseDetail>) {
-    //     return this.http.post<BylResultBody<BylItemAddModel<BylExpenseDetail>>>(this.BASE_API_URL + '/add-detail', item);
+    // addDetail(item: BylDetailAddModel<BylExpenseDetail>) {
+    //     return this.http.post<BylResultBody<BylDetailAddModel<BylExpenseDetail>>>(this.BASE_API_URL + '/add-detail', item);
     // };
     //
-    // deleteDetail(item: BylItemDeleteModel<BylExpenseDetail>) {
-    //     return this.http.post<BylResultBody<BylItemDeleteModel<BylExpenseDetail>>>(this.BASE_API_URL + '/delete-detail', item);
+    // deleteDetail(item: BylDetailDeleteModel<BylExpenseDetail>) {
+    //     return this.http.post<BylResultBody<BylDetailDeleteModel<BylExpenseDetail>>>(this.BASE_API_URL + '/delete-detail', item);
     // };
     //
-    // moveDetail(item: BylItemMoveModel) {
-    //     return this.http.post<BylResultBody<BylItemMoveModel>>(this.BASE_API_URL + '/move-detail', item);
+    // moveDetail(item: BylDetailMoveModel) {
+    //     return this.http.post<BylResultBody<BylDetailMoveModel>>(this.BASE_API_URL + '/move-detail', item);
     // };
     //
     // fetchDetailByMasterID(masterId: string) {

@@ -3,10 +3,10 @@
  * @Author: newmann
  * @Date: Created in 21:05 2018-01-22
  */
-import {BylItemBaseModel} from "../../model/item-base.model";
+import {BylDetailBaseModel} from "../../model/detail-base.model";
 import {BylEmbeddableExpenseType} from "./embeddable-expense-type.model";
 
-export class BylExpenseDetail extends BylItemBaseModel {
+export class BylExpenseDetail extends BylDetailBaseModel {
 
     expenseTypeWidget:any;
     expenseType: BylEmbeddableExpenseType = new BylEmbeddableExpenseType();

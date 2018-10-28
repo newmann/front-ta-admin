@@ -17,7 +17,7 @@ import {
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylExpenseTypeQuery} from "../../../../service/project/query/expense-type-query.model";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylTicketListComponentBasePro} from "../../../common/ticket-list-component-base";
+import {BylListComponentTicket} from "../../../common/list-component-ticket";
 import {BylWorkloadTicket} from "../../../../service/project/model/workload-ticket.model";
 import {
     BylWorkloadTicketStatusEnum,
@@ -31,7 +31,7 @@ import {simpleDeepCopy} from "../../../../service/utils/object.utils";
     selector: 'byl-workload-ticket-list',
     templateUrl: './list.component.html',
 })
-export class BylWorkloadTicketListComponent extends BylTicketListComponentBasePro<BylWorkloadTicket> {
+export class BylWorkloadTicketListComponent extends BylListComponentTicket<BylWorkloadTicket> {
 
 
     // statusList: BylIStatusItem[]; //状态

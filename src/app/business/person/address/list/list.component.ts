@@ -1,21 +1,21 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {BylPersonAddress} from "../../../../service/person/model/person-address.model";
 import {NzMessageService, NzModalService} from "ng-zorro-antd";
-import {BylPersonCrudComponent} from "../../person/crud/crud.component";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {Router} from "@angular/router";
 import {BylPersonAddressService} from "../../../../service/person/service/person-address.service";
 import {BylListFormData} from "../../../../service/model/list-form-data.model";
-import {BylPersonAddressQuery} from "../../../../service/person/query/person-address-query.model";
-import {BylItemListComponentBase} from "../../../common/item-list-component-base";
 import {BylPersonAddressCrudComponent} from "../crud/crud.component";
+import {BylListComponentEntityDetail} from "../../../common/list-component-entity-detail";
+import {BylResultBody} from "../../../../service/model/result-body.model";
+import {Observable} from "rxjs/Rx";
 
 
 @Component({
   selector: 'byl-person-address-list',
   templateUrl: './list.component.html',
 })
-export class BylPersonAddressListComponent extends BylItemListComponentBase<BylPersonAddress> {
+export class BylPersonAddressListComponent extends BylListComponentEntityDetail<BylPersonAddress> {
 
     @Input()
     set setMasterId(value: string){
@@ -54,6 +54,10 @@ export class BylPersonAddressListComponent extends BylItemListComponentBase<BylP
             .map(item => {
                 Object.assign(item.item,newData);
             })
+    }
+
+    findByMasterId(masterId: string): Observable<BylResultBody<Array<BylPersonAddress>>> {
+        return this.personAddressService.findByPersonId(masterId);
     }
 
 

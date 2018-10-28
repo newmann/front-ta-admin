@@ -4,7 +4,7 @@ import {_HttpClient} from '@delon/theme';
 
 import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';
-import {BylItemBaseService} from "../../service/item-base.service";
+import {BylDetailBaseService} from "../../service/detail-base.service";
 import {BylEmployeeAvailablePoolsInterface} from "./employee-related.interface";
 import {BylEmployee} from "../model/employee.model";
 import {BylPageResp} from "../../model/page-resp.model";
@@ -16,6 +16,7 @@ import {BylEntityRelationAvailablePoolsQueryReqBody} from "../../account/model/e
 import {BylWorkTypeConfigDetail} from "../model/work-type-config-detail.model";
 import {BylOutsourceEmployeeAvailablePoolsInterface} from "./outsource-employee-related.interface";
 import {BylOutsourceEmployee} from "../model/outsource-employee.model";
+import {BylWorkTypeConfigTicket} from "../model/work-type-config-ticket.model";
 
 
 /**
@@ -25,7 +26,7 @@ import {BylOutsourceEmployee} from "../model/outsource-employee.model";
  **/
 @Injectable()
 export class BylWorkTypeConfigDetailService
-    extends BylItemBaseService<BylWorkTypeConfigDetail>
+    extends BylDetailBaseService<BylWorkTypeConfigDetail,BylWorkTypeConfigTicket>
     implements BylEmployeeAvailablePoolsInterface,BylOutsourceEmployeeAvailablePoolsInterface
 {
 
@@ -90,16 +91,16 @@ export class BylWorkTypeConfigDetailService
     //     return this.http.post<BylResultBody<BylExpenseTicket>>(this.BASE_API_URL + '/submit', updateItem);
     // }
 
-    // addDetail(item: BylItemAddModel<BylWorkTypeConfigDetail>) {
-    //     return this.http.post<BylResultBody<BylItemAddModel<BylWorkTypeConfigDetail>>>(this.BASE_API_URL + '/add-detail', item);
+    // addDetail(item: BylDetailAddModel<BylWorkTypeConfigDetail>) {
+    //     return this.http.post<BylResultBody<BylDetailAddModel<BylWorkTypeConfigDetail>>>(this.BASE_API_URL + '/add-detail', item);
     // };
     //
-    // deleteDetail(item: BylItemDeleteModel<BylWorkTypeConfigDetail>) {
-    //     return this.http.post<BylResultBody<BylItemDeleteModel<BylWorkTypeConfigDetail>>>(this.BASE_API_URL + '/delete-detail', item);
+    // deleteDetail(item: BylDetailDeleteModel<BylWorkTypeConfigDetail>) {
+    //     return this.http.post<BylResultBody<BylDetailDeleteModel<BylWorkTypeConfigDetail>>>(this.BASE_API_URL + '/delete-detail', item);
     // };
     //
-    // moveDetail(item: BylItemMoveModel) {
-    //     return this.http.post<BylResultBody<BylItemMoveModel>>(this.BASE_API_URL + '/move-detail', item);
+    // moveDetail(item: BylDetailMoveModel) {
+    //     return this.http.post<BylResultBody<BylDetailMoveModel>>(this.BASE_API_URL + '/move-detail', item);
     // };
     //
     // fetchDetailByMasterID(masterId: string) {

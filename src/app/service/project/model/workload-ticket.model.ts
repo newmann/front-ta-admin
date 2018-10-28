@@ -32,7 +32,7 @@ export class BylWorkloadTicket extends BylTicketBaseModal {
     outsourcerWidget:any;
     oursourcer: BylEmbeddableOutsourcer = new BylEmbeddableOutsourcer();
 
-    checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
+    // checkAction: BylEmbeddableCheckAction = new BylEmbeddableCheckAction();
 
     operationPeriod: BylEmbeddableOperationPeriod = new BylEmbeddableOperationPeriod();
 

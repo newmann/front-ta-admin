@@ -4,7 +4,7 @@ import {_HttpClient} from '@delon/theme';
 
 import {BylConfigService} from '../../constant/config.service';
 import {I18NService} from 'app/core/i18n/i18n.service';
-import {BylItemBaseService} from "../../service/item-base.service";
+import {BylDetailBaseService} from "../../service/detail-base.service";
 import {BylWorkloadDetail} from "../model/workload-detail.model";
 import {BylEmployeeAvailablePoolsInterface} from "./employee-related.interface";
 import {BylEmployee} from "../model/employee.model";
@@ -18,6 +18,10 @@ import {BylOutsourceEmployeeAvailablePoolsInterface} from "./outsource-employee-
 import {BylOutsourceEmployee} from "../model/outsource-employee.model";
 import {BylSettleDetailWorkload} from "../model/settle-detail-workload.model";
 import {BylSettleDetailWorkloadTicket} from "../model/settle-detail-workload-ticket.model";
+import {BylSettleDetailWorkloadTicketAvailablePoolsInterface} from "./settle-detail-workload-ticket-related.interface";
+import {BylAccountQuery} from "../../account/query/account-query.model";
+import {BylAccount} from "../../account/model/account.model";
+import {BylSettleTicket} from "../model/settle-ticket.model";
 
 
 /**
@@ -27,7 +31,8 @@ import {BylSettleDetailWorkloadTicket} from "../model/settle-detail-workload-tic
  **/
 @Injectable()
 export class BylSettleDetailWorkloadTicketService
-    extends BylItemBaseService<BylSettleDetailWorkloadTicket>
+    extends BylDetailBaseService<BylSettleDetailWorkloadTicket, BylSettleTicket>
+    implements BylSettleDetailWorkloadTicketAvailablePoolsInterface
 
 {
 
@@ -38,6 +43,17 @@ export class BylSettleDetailWorkloadTicketService
         super(http, configServer, i18nService);
 
         this.BASE_API_URL = 'api/project/settle-detail-workload-ticket';
+    }
+
+    findAvailableSettleDetailWorkloadTicketPoolsPage(query: any, page: BylPageReq, masterId?: string): Observable<BylResultBody<BylPageResp<BylSettleDetailWorkloadTicket>>> {
+        let queryModel = new BylEntityRelationAvailablePoolsQueryReqBody<any>();
+        queryModel.masterId = masterId;
+        queryModel.pageReq = page;
+        queryModel.queryReq = query;
+
+        return this.http.post<BylResultBody<BylPageResp<BylSettleDetailWorkloadTicket>>>(this.BASE_API_URL + '/find-available-settle-detail-workload-pools', queryModel);
+
+
     }
 
 

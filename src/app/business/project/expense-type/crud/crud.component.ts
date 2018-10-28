@@ -10,19 +10,19 @@ import {ErrorData, SFComponent, SFSchema, SFUISchema} from "@delon/form";
 import {BylCrudComponentBasePro} from "../../../common/crud-component-base-pro";
 import {map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
-import {isEmpty} from "../../../../service/utils/string.utils";
 import {BylExpenseTypeService} from "../../../../service/project/service/expense-type.service";
 import {BylExpenseType} from "../../../../service/project/model/expense-type.model";
-import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {BylCrudComponentMasterData} from "../../../common/crud-component-master-data";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {BylStringUtils} from "../../../../service/utils/string.utils";
 
 
 @Component({
     selector: 'byl-expense-type-crud',
     templateUrl: './crud.component.html',
 })
-export class BylExpenseTypeCrudComponent extends BylMasterDataCrudComponentBasePro<BylExpenseType> {
+export class BylExpenseTypeCrudComponent extends BylCrudComponentMasterData<BylExpenseType> {
     // processType: string;
 
     // @ViewChild('sf') sf: SFComponent;
@@ -47,7 +47,7 @@ export class BylExpenseTypeCrudComponent extends BylMasterDataCrudComponentBaseP
                     "title": '代码',
                     "ui": {
                         "validator": (value: string) => {
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check code:', value);
                                 return [];
                             }

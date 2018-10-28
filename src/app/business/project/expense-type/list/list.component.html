@@ -1,21 +1,21 @@
 <!--region 页面头 -->
-<page-header [title]="'工种类型'"  [action]="action">
+<page-header [title]="'费用类型'"  [action]="action">
     <ng-template #action>
-      <ng-container *ngIf="selectedRows.length > 0">
+      <!--<ng-container *ngIf="selectedRows.length > 0">-->
 
 
-        <button nz-button class="ml-sm">批量操作</button>
+        <!--<button nz-button class="ml-sm">批量操作</button>-->
 
-        <nz-dropdown [nzPlacement]="'bottomLeft'">
-          <button nz-button nz-dropdown class="ml-sm">
-            更多操作 <i class="anticon anticon-down"></i>
-          </button>
-          <ul nz-menu>
-            <li nz-menu-item (click)="batchDelete()">删除</li>
-            <li nz-menu-item (click)="batchApproval()">批量审批</li>
-          </ul>
-        </nz-dropdown>
-      </ng-container>
+        <!--<nz-dropdown [nzPlacement]="'bottomLeft'">-->
+          <!--<button nz-button nz-dropdown class="ml-sm">-->
+            <!--更多操作 <i class="anticon anticon-down"></i>-->
+          <!--</button>-->
+          <!--<ul nz-menu>-->
+            <!--<li nz-menu-item (click)="batchDelete()">删除</li>-->
+            <!--<li nz-menu-item (click)="batchApproval()">批量审批</li>-->
+          <!--</ul>-->
+        <!--</nz-dropdown>-->
+      <!--</ng-container>-->
 
         <button nz-button (click)="add()" [nzType]="'default'" >
             <i class="anticon anticon-plus"></i><span>新建</span>

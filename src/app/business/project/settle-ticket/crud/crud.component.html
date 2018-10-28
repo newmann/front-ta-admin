@@ -1,4 +1,6 @@
-<page-header [title]="crudEntityName +'维护' + '-' + businessData.billNo" *ngIf="processType.length > 0 " [action]="action">
+<page-header [title]="crudEntityName +'维护' + '-' + businessData.billNo"
+             *ngIf="processType.length > 0 " [action]="action"
+    [content]="content" [extra]="extra">
   <ng-template #action>
     <button nz-button (click)="returnToListForm()" type="button">返回汇总界面</button>
   </ng-template>
@@ -18,8 +20,9 @@
         <p class="text-lg">{{businessData.statusDisplay}}</p>
       </div>
       <div nz-col nzXs="24" nzSm="12">
-        <p class="text-grey">应付金额</p>
-        <p class="text-lg">{{businessData.payed}}</p>
+        <p class="text-grey">实付金额</p>
+        <p class="text-lg">{{sfForm.value.shouldPayWorkloadAmount+ sfForm.value.shouldPayOther
+          - sfForm.value.borrowAmount - sfForm.value.deduct}}</p>
       </div>
     </div>
   </ng-template>
@@ -40,6 +43,7 @@
                   <button nz-button [disabled]="!sf.valid" (click)="submitEntity()"
                           *ngIf="showSubmitButton()" [nzLoading]="submitLoading">提交</button>
                   <button nz-button (click)="checkEntity()" [disabled]="!sf.valid" *ngIf="showCheckButton()" [nzLoading]="checkLoading">审核</button>
+                  <button nz-button (click)="settleEntity()" [disabled]="!sf.valid" *ngIf="showSettleButton()" [nzLoading]="settleLoading">结算</button>
                   <button nz-button (click)="cancelEntity()" *ngIf="showCancelButton()" [nzLoading]="cancelLoading">作废</button>
 
 
@@ -52,23 +56,53 @@
 
         </nz-tab>
 
-      <nz-tab [nzDisabled]="!sourceId" [nzTitle]="'考勤明细汇总'" (nzClick)="detailWorkloadTabClick()">
-        <!--<byl-workload-detail-list #detailList-->
-          <!--[setWorkloadTicket]="businessData"-->
-                                        <!--[setOutsourcerWidget]="businessData.outsourcerWidget"-->
-                                        <!--(changeModifyDateTime)="getModifyDateTimeChange($event)">-->
+      <nz-tab [nzDisabled]="!businessData.settleResourse" [nzTitle]="'考勤单明细'" (nzClick)="detailWorkloadTicketTabClick()">
+        <byl-settle-detail-workload-Ticket-list #workloadTicketList
+                                                [setSettleTicket]="businessData"
+                                                [setModifyDateTime]="businessData.modifyAction.modifyDateTime"
+                                                [readOnly]="showBrowseButton()"
+                                                (batchAddItem)="updateTicketForBatchAddItem($event)"
+                                                (deleteItem)="updateTicketForDeleteItem($event)"
+        >
 
-        <!--</byl-workload-detail-list>-->
+        </byl-settle-detail-workload-Ticket-list>
 
       </nz-tab>
 
-      <nz-tab [nzDisabled]="!sourceId" [nzTitle]="'借款明细汇总'" (nzClick)="detailBorrowMoneyTabClick()">
-        <!--<byl-workload-detail-list #detailList-->
-                                  <!--[setWorkloadTicket]="businessData"-->
-                                  <!--[setOutsourcerWidget]="businessData.outsourcerWidget"-->
-                                  <!--(changeModifyDateTime)="getModifyDateTimeChange($event)">-->
+      <nz-tab [nzDisabled]="!businessData.settleResourse" [nzTitle]="'借款单明细'" (nzClick)="detailBorrowMoneyTicketTabClick()">
+        <byl-settle-detail-borrow-money-Ticket-list #borrowMoneyTicketList
+                                                [setSettleTicket]="businessData"
+                                                [setModifyDateTime]="businessData.modifyAction.modifyDateTime"
+                                                [readOnly]="showBrowseButton()"
+                                                    (batchAddItem)="updateTicketForBorrowMoneyTicketBatchAddItem($event)"
+                                                    (deleteItem)="updateTicketForBorrowMoneyTicketDeleteItem($event)"
+        >
 
-        <!--</byl-workload-detail-list>-->
+
+        </byl-settle-detail-borrow-money-Ticket-list>
+
+      </nz-tab>
+      <nz-tab [nzDisabled]="!businessData.settleResourse" [nzTitle]="'考勤明细汇总'" (nzClick)="detailWorkloadTabClick()">
+        <byl-settle-detail-workload-list #detailWorkloadList
+                                  [setMasterId]="businessData.id"
+                                  [readOnly]="showBrowseButton()"
+                                  [setModifyDateTime]="businessData.modifyAction.modifyDateTime"
+                                         (deleteItem)="updateTicketForWorkloadDeleteItem($event)"
+        >
+
+        </byl-settle-detail-workload-list>
+
+      </nz-tab>
+
+      <nz-tab [nzDisabled]="!businessData.settleResourse" [nzTitle]="'借款明细汇总'" (nzClick)="detailBorrowMoneyTabClick()">
+        <byl-settle-detail-borrow-money-list #detailBorrowMoneyList
+                                             [setMasterId]="businessData.id"
+                                             [readOnly]="showBrowseButton()"
+                                             [setModifyDateTime]="businessData.modifyAction.modifyDateTime"
+                                             (deleteItem)="updateTicketForBorrowMoneyDeleteItem($event)"
+        >
+
+        </byl-settle-detail-borrow-money-list>
 
       </nz-tab>
 

@@ -1,6 +1,6 @@
 <div >
   <div nz-row nzType="flex" nzJustify="center"  class="byl-detail-top-button">
-    <button nz-button (click)="addResourse()" [nzType]="'dashed'"  class="mb-sm" *ngIf="!ReadOnly">
+    <button nz-button (click)="addResourse()" [nzType]="'dashed'"  class="mb-sm" *ngIf="!readOnly">
         <i class="anticon anticon-plus"></i><span>添加</span>
     </button>
     <button nz-button (click)="search()" [nzType]="'primary'"  class="mb-sm">
@@ -8,7 +8,7 @@
     </button>
   </div>
     <nz-table #nzTable [nzData]="listData"  [nzLoading]="loading"
-              [nzShowPagination]="false">
+              [nzShowPagination]="false" [nzFrontPagination]="'false'">
         <thead >
         <tr>
             <!--<th  [nzCheckbox]="true">-->
@@ -47,10 +47,10 @@
             <!--<td >{{i.item.modifyAction.modifyDateTime | _date}}</td>-->
             <td >
                 <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
-                <span>
-                        <a (click)="modifyEntity(i.item.id)">修改</a>
-                    </span>
-              <nz-divider nzType="vertical"></nz-divider>
+                <!--<span>-->
+                        <!--<a (click)="modifyEntity(i.item.id)">修改</a>-->
+                    <!--</span>-->
+              <!--<nz-divider nzType="vertical"></nz-divider>-->
                 <span>
                         <a (click)="delete(i.item)">删除</a>
                     </span>

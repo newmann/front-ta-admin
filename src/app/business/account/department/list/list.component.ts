@@ -10,7 +10,6 @@ import {BylDepartment } from '../../../../service/account/model/department.model
 import {BylDepartmentService} from '../../../../service/account/service/department.service';
 import {BylDepartmentQuery} from '../../../../service/account/query/department-query.model';
 import {BylTreeDispalyModel} from '../../../../service/model/tree-display.model';
-import {mixCodeName} from '../../../../service/utils/string.utils';
 import {Observable, Subject, zip} from 'rxjs';
 import {debounceTime, distinctUntilChanged, flatMap} from 'rxjs/operators';
 
@@ -20,6 +19,7 @@ import {debounceTime, distinctUntilChanged, flatMap} from 'rxjs/operators';
 import {BylListComponentBase} from '../../../common/list-component-base';
 import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from '../../../../service/model/master-data-status.enum';
 import {SFSchema, SFUISchema} from "@delon/form";
+import {BylStringUtils} from "../../../../service/utils/string.utils";
 
 
 @Component({
@@ -170,7 +170,7 @@ export class BylDepartmentListComponent extends BylListComponentBase<BylDepartme
             item.item = new BylDepartment();
             Object.assign(item.item, data);
             item.key = item.item.id;
-            item.title = mixCodeName(item.item.name, item.item.code);
+            item.title = BylStringUtils.mixCodeName(item.item.name, item.item.code);
             item.checked = false;
             item.disableCheckbox = (data.status === BylMasterDataStatusEnum.SUBMITED_DELETED);
             item.hasChildren = true;

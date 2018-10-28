@@ -6,7 +6,11 @@ import {I18NService} from 'app/core/i18n/i18n.service';
 
 import {BylPersonCertificate} from '../model/person-certificate.model';
 import {BylConfigService} from '../../constant/config.service';
-import {BylItemBaseService} from "../../service/item-base.service";
+import {BylDetailBaseService} from "../../service/detail-base.service";
+import {BylBaseService} from "../../service/base.service";
+import {BylPersonAddress} from "../model/person-address.model";
+import {Observable} from "rxjs/index";
+import {BylResultBody} from "../../model/result-body.model";
 
 
 /**
@@ -15,7 +19,7 @@ import {BylItemBaseService} from "../../service/item-base.service";
  * @Date: Created in 2018-03-31 21:31
  **/
 @Injectable()
-export class BylPersonCertificateService extends BylItemBaseService<BylPersonCertificate>{
+export class BylPersonCertificateService extends BylBaseService<BylPersonCertificate>{
     // private BASE_API_URL = 'api/person/certificate';
 
 
@@ -28,6 +32,9 @@ export class BylPersonCertificateService extends BylItemBaseService<BylPersonCer
         this.BASE_API_URL =  'api/person/person-certificate';
     }
 
+    findByPersonId(presonId: string): Observable<BylResultBody<Array<BylPersonCertificate>>> {
+        return this.http.get<BylResultBody<Array<BylPersonCertificate>>>(this.BASE_API_URL + '/find-by-personid/' + presonId);
+    }
     // add(item: BylPersonCertificate): Observable<BylResultBody<BylPersonCertificate>> {
     //     let formData = new FormData();                  // 可以增加表单数据
     //

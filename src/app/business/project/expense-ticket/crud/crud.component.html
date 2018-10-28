@@ -1,8 +1,31 @@
-<page-header [title]="crudEntityName +'维护'"  *ngIf="processType.length > 0 " [action]="action">
+<page-header [title]="crudEntityName +'维护'"  *ngIf="processType.length > 0 "
+             [action]="action" [content]="content" [extra]="extra">
   <ng-template #action>
     <button nz-button (click)="returnToListForm()" type="button">返回汇总界面</button>
 
   </ng-template>
+  <ng-template #content>
+    <sv-container col="2">
+      <sv label="创建人">{{businessData.createrDisplay}}</sv>
+      <sv label="创建时间">{{businessData.createDateTimeDisplay}}</sv>
+      <sv label="最后修改人">{{businessData.modifierDisplay}}</sv>
+      <sv label="最后修改时间">{{businessData.modifyDateTimeDisplay}}</sv>
+
+    </sv-container>
+  </ng-template>
+  <ng-template #extra>
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="12">
+        <p class="text-grey">状态</p>
+        <p class="text-lg">{{businessData.statusDisplay}}</p>
+      </div>
+      <div nz-col nzXs="24" nzSm="12">
+        <p class="text-grey">费用总额</p>
+        <p class="text-lg">{{sfForm.value.amount}}</p>
+      </div>
+    </div>
+  </ng-template>
+
 </page-header>
 <nz-card [nzBordered]="false">
     <nz-tabset>
@@ -32,10 +55,14 @@
 
         </nz-tab>
 
-      <nz-tab [nzDisabled]="!sourceId" [nzTitle]="'单据明细'">
-        <byl-expense-ticket-detail-list [setMasterId]="businessData.id"
+      <nz-tab [nzDisabled]="!sourceId" [nzTitle]="'单据明细'" (nzClick)="detailTabClick()">
+        <byl-expense-ticket-detail-list #detailList [setMasterId]="businessData.id"
                                         [setModifyDateTime]="businessData.modifyAction.modifyDateTime"
-        (changeModifyDateTime)="getModifyDateTimeChange($event)"></byl-expense-ticket-detail-list>
+                                        (addItem)="updateTicketForAddItem($event)"
+                                        (updateItem)="updateTicketForUpdateItem($event)"
+                                        (deleteItem)="updateTicketForDeleteItem($event)"
+                                        >
+        </byl-expense-ticket-detail-list>
       </nz-tab>
 
         <nz-tab [nzDisabled]="!sourceId" nzTitle="日志">

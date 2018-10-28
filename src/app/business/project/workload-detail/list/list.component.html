@@ -1,6 +1,6 @@
 <div >
   <div nz-row nzType="flex" nzJustify="center" class="byl-detail-top-button" >
-    <button nz-button (click)="addResourse()" [nzType]="'dashed'"  class="ml-sm">
+    <button nz-button (click)="addResourse()" [nzType]="'dashed'"  class="ml-sm" *ngIf="!readOnly">
             <!--class="ant-btn__block mb-sm">-->
       <i class="anticon anticon-plus"></i><span>添加</span>
     </button>
@@ -34,7 +34,7 @@
         <!--<span>更新时间</span>-->
         <!--</th>-->
 
-        <th ><span>操作</span></th>
+        <th *ngIf="!readOnly"><span>操作</span></th>
       </tr>
       </thead>
       <tbody >
@@ -53,7 +53,7 @@
         <td >{{i.item.shouldPayCount}}</td>
         <td >{{i.item.remarks}}</td>
         <!--<td >{{i.item.modifyAction.modifyDateTime | _date}}</td>-->
-        <td >
+        <td *ngIf="!readOnly">
           <!--<a [routerLink]="['/account/role/crud', i.id]" >修改</a>-->
           <span>
                         <a (click)="modifyDetail(i.item)">修改</a>

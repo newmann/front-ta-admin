@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BylItemListComponentBase} from "../../../common/item-list-component-base";
+import {BylListComponentTicketDetail} from "../../../common/list-component-ticket-detail";
 import {NzMessageService, NzModalService} from "ng-zorro-antd";
 import {BylConfigService} from "../../../../service/constant/config.service";
 import {Router} from "@angular/router";
@@ -8,15 +8,16 @@ import {BylExpenseDetailService} from "../../../../service/project/service/expen
 import {BylExpenseDetail} from "../../../../service/project/model/expense-detail.model";
 import {BylExpenseTicketDetailCrudComponent} from "../crud/crud.component";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylItemDeleteModel} from "../../../../service/model/item-delete.model";
+import {BylDetailDeleteModel} from "../../../../service/model/detail-delete.model";
 import {BylResultBody} from "../../../../service/model/result-body.model";
+import {BylExpenseTicket} from "../../../../service/project/model/expense-ticket.model";
 
 
 @Component({
     selector: 'byl-expense-ticket-detail-list',
     templateUrl: './list.component.html',
 })
-export class BylExpenseTicketDetailListComponent extends BylItemListComponentBase<BylExpenseDetail> {
+export class BylExpenseTicketDetailListComponent extends BylListComponentTicketDetail<BylExpenseDetail,BylExpenseTicket> {
 
     @Input()
     set setMasterId(value: string) {

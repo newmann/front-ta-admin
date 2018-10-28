@@ -16,7 +16,7 @@ import {
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylTicketListComponentBasePro} from "../../../common/ticket-list-component-base";
+import {BylListComponentTicket} from "../../../common/list-component-ticket";
 import {BylProjectProgressAssessTicket} from "../../../../service/project/model/project-progress-assess-ticket.model";
 import {BylProjectProgressAssessTicketService} from "../../../../service/project/service/project-progress-assess-ticket.service";
 import {
@@ -29,7 +29,7 @@ import {BylProjectProgressAssessTicketQuery} from "../../../../service/project/q
   selector: 'byl-project-progress-assess-ticket-list',
   templateUrl: './list.component.html',
 })
-export class BylProjectProgressAssessTicketListComponent  extends BylTicketListComponentBasePro<BylProjectProgressAssessTicket> {
+export class BylProjectProgressAssessTicketListComponent  extends BylListComponentTicket<BylProjectProgressAssessTicket> {
 
     // statusList: BylIStatusItem[]; //状态
 

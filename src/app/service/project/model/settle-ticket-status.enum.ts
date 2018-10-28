@@ -14,7 +14,7 @@ export const enum BylSettleTicketStatusEnum {
     DELETED = -1,
     SUBMITED_DELETED = -2,
     CHECKED_DELETED = -10,
-    SETTLEED_DELETED = -30
+    SETTLED_DELETED = -30
 }
 
 export class BylSettleTicketStatusManager {
@@ -39,7 +39,7 @@ export class BylSettleTicketStatusManager {
                 return '审核后作废';
             // case BylSettleTicketStatusEnum.COMFIRMED_DELETED:
             //     return '确认后作废';
-            case BylSettleTicketStatusEnum.SETTLEED_DELETED:
+            case BylSettleTicketStatusEnum.SETTLED_DELETED:
                 return '结算后作废';
 
             default:
@@ -60,7 +60,7 @@ export class BylSettleTicketStatusManager {
             {value: BylSettleTicketStatusEnum.SUBMITED_DELETED, caption: this.getCaption(BylSettleTicketStatusEnum.SUBMITED_DELETED)},
             {value: BylSettleTicketStatusEnum.CHECKED_DELETED, caption: this.getCaption(BylSettleTicketStatusEnum.CHECKED_DELETED)},
             // {value: BylSettleTicketStatusEnum.COMFIRMED_DELETED, caption: this.getCaption(BylSettleTicketStatusEnum.COMFIRMED_DELETED)}
-            {value: BylSettleTicketStatusEnum.SETTLEED_DELETED, caption: this.getCaption(BylSettleTicketStatusEnum.SETTLEED_DELETED)}
+            {value: BylSettleTicketStatusEnum.SETTLED_DELETED, caption: this.getCaption(BylSettleTicketStatusEnum.SETTLED_DELETED)}
         ];
     }
     static getSFSelectDataArray(): BylSFRadioData[] {
@@ -74,7 +74,7 @@ export class BylSettleTicketStatusManager {
             {value: BylSettleTicketStatusEnum.SUBMITED_DELETED, label: this.getCaption(BylSettleTicketStatusEnum.SUBMITED_DELETED)},
             {value: BylSettleTicketStatusEnum.CHECKED_DELETED, label: this.getCaption(BylSettleTicketStatusEnum.CHECKED_DELETED)},
             // {value: BylSettleTicketStatusEnum.COMFIRMED_DELETED, label: this.getCaption(BylSettleTicketStatusEnum.COMFIRMED_DELETED)}
-            {value: BylSettleTicketStatusEnum.SETTLEED_DELETED, label: this.getCaption(BylSettleTicketStatusEnum.SETTLEED_DELETED)}
+            {value: BylSettleTicketStatusEnum.SETTLED_DELETED, label: this.getCaption(BylSettleTicketStatusEnum.SETTLED_DELETED)}
         ];
 
     }

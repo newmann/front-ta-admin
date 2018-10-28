@@ -12,17 +12,17 @@ import {BylCheckTypeEnum, BylCheckTypeEnumManager} from "../../../../service/pro
 import {SFSchema} from "@delon/form";
 import {map} from "rxjs/operators";
 import {BylResultBody} from "../../../../service/model/result-body.model";
-import {isEmpty} from "../../../../service/utils/string.utils";
-import {BylMasterDataCrudComponentBasePro} from "../../../common/master-data-crud-component-base-pro";
+import {BylCrudComponentMasterData} from "../../../common/crud-component-master-data";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylMasterDataStatusEnum} from "../../../../service/model/master-data-status.enum";
+import {BylStringUtils} from "../../../../service/utils/string.utils";
 
 
 @Component({
     selector: 'byl-work-type-crud',
     templateUrl: './crud.component.html',
 })
-export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<BylWorkType>{
+export class BylWorkTypeCrudComponent extends BylCrudComponentMasterData<BylWorkType>{
     processType: string;
 
     private _newSchema: SFSchema;
@@ -46,7 +46,7 @@ export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<
                     "title": '代码',
                     "ui": {
                         "validator": (value: string) => {
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check code:', value);
                                 return [];
                             }
@@ -73,7 +73,7 @@ export class BylWorkTypeCrudComponent extends BylMasterDataCrudComponentBasePro<
                     "title": '名称',
                     "ui": {
                         "validator": (value: string) =>{
-                            if (isEmpty(value)) {
+                            if (BylStringUtils.isEmpty(value)) {
                                 console.log('check name:', value);
                                 return [];
                             }

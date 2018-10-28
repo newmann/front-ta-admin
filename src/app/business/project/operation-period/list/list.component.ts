@@ -20,7 +20,7 @@ import {
     BylTableDefine
 } from "../../../common/list-form-table-item/table.formitem";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
+import {BylListComponentMasterData} from "../../../common/list-component-master-data";
 import {BylOperationPeriod} from "../../../../service/project/model/operation-period.model";
 import {BylOperationPeriodService} from "../../../../service/project/service/operation-period.service";
 import {
@@ -34,7 +34,7 @@ import {simpleDeepCopy} from "../../../../service/utils/object.utils";
     selector: 'byl-operation-period-list',
     templateUrl: './list.component.html',
 })
-export class BylOperationPeriodListComponent extends BylMasterDataListComponentBasePro<BylOperationPeriod> {
+export class BylOperationPeriodListComponent extends BylListComponentMasterData<BylOperationPeriod> {
 
 
     statusList: BylIStatusItem[]; //状态

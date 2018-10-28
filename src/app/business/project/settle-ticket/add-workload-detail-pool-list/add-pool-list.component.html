@@ -1,0 +1,39 @@
+<!--<page-header [title]="'权限管理'" *ngIf="functionMode === LIST_MODE" >-->
+    <!--<ng-template #action>-->
+        <!--<button nz-button (click)="initPermission()" [nzType]="'default'"-->
+          <!--[nzLoading]="initPermissionLoading" [disabled]="initPermissionLoading"-->
+                <!--*ngIf="functionMode === LIST_MODE">-->
+            <!--<i class="anticon anticon-plus"></i><span>初始化权限</span>-->
+        <!--</button>-->
+
+        <!--<button nz-button (click)="search()" [nzType]="'primary'"-->
+                <!--[nzLoading]="loading" [disabled]="loading">-->
+            <!--<i class="anticon anticon-search"></i><span>查询</span>-->
+        <!--</button>-->
+
+    <!--</ng-template>-->
+<!--</page-header>-->
+<byl-list-query-widget [defaultData]="queryDefaultData" [schema]="querySchema"
+                       [uiSchema]="queryUiSchema" [actionTemplateRef]="queryAction"
+                       (searchConditionChange)="search()"
+></byl-list-query-widget>
+<ng-template #queryAction >
+  <ng-container>
+    <button nz-button (click) = "batchSelect($event)" [nzType]="'default'"  class="ml-sm">
+      <i class="anticon anticon-plus"></i><span>添加</span>
+    </button>
+    <button nz-button  (click)="search()" [nzType]="'primary'" [nzLoading]="loading"  class="ml-sm">
+      <i class="anticon anticon-search"></i><span>查询</span>
+    </button>
+  </ng-container>
+</ng-template>
+
+<nz-card [nzBordered]="false">
+  <byl-list-form-table-item [listData]="listData"  [total]="total" [loading]="loading"
+                            [tableDefine]="tableDefine"
+                            (pageChange)="pageChange($event)" (entityAction)="entityAction($event)"
+                            (selectedChange)="selectedChange($event)"
+
+  ></byl-list-form-table-item>
+
+</nz-card>

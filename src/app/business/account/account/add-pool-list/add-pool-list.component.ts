@@ -28,14 +28,14 @@ import {BylMasterDataStatusEnum, BylMasterDataStatusManager} from "../../../../s
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylListComponentBasePro} from "../../../common/list-component-base-pro";
 import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
-import {BylMasterDataListComponentBasePro} from "../../../common/master-data-list-component-base";
+import {BylListComponentMasterData} from "../../../common/list-component-master-data";
 
 
 @Component({
     selector: 'byl-account-add-pool-list',
     templateUrl: './add-pool-list.component.html',
 })
-export class BylAccountAddPoolListComponent extends BylMasterDataListComponentBasePro<BylAccount> {
+export class BylAccountAddPoolListComponent extends BylListComponentMasterData<BylAccount> {
     // LIST_MODE:BylListFormFunctionModeEnum = BylListFormFunctionModeEnum.CONFIRMED;
 
     @Input() masterId: string; //用户查询对应关系的界面，比如角色包含的用户等

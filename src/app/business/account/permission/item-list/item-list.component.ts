@@ -14,7 +14,7 @@ import {
     BylPermissionAvailablePoolsInterface, BylPermissionRelationInterface,
     BylSavePermissionRelationInterface
 } from "../../../../service/account/service/permission-related.interface";
-import {BylEntityRelationListComponentBase} from "../../../common/entity-relation-list.component-base";
+import {BylListComponentEntityRelation} from "../../../common/list-component-entity-relation";
 import {BylMenuLinkListComponent} from "../../menu-link/list/list.component";
 import {BylMenuLinkRelationInterface} from "../../../../service/account/service/menu-link-related.interface";
 import {BylPermissionAddPoolListComponent} from "../add-pool-list/add-pool-list.component";
@@ -28,7 +28,7 @@ import {BylPermissionAddPoolListComponent} from "../add-pool-list/add-pool-list.
   selector: 'byl-permission-item-list',
   templateUrl: './item-list.component.html',
 })
-export class BylPermissionItemListComponent extends BylEntityRelationListComponentBase<BylPermission> {
+export class BylPermissionItemListComponent extends BylListComponentEntityRelation<BylPermission> {
 
     // private _haveSearched: boolean =false; //是否已经查询过
     //
@@ -37,7 +37,7 @@ export class BylPermissionItemListComponent extends BylEntityRelationListCompone
     // }
     //
     // @Input()
-    // ReadOnly: boolean = false;
+    // readOnly: boolean = false;
     //
     // private _masterId: string;
     // @Input()

@@ -9,8 +9,8 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {Inject, Injectable} from '@angular/core';
 import {BylLoggerService} from '../utils/logger';
 import {CheckClientBrowserType} from '../utils/client-browser-type.utils';
-import {genMobileUrl, isMobileUrl} from '../utils/string.utils';
 import {DA_SERVICE_TOKEN, ITokenService, JWTTokenModel, SimpleTokenModel} from "@delon/auth";
+import {BylStringUtils} from "../utils/string.utils";
 
 @Injectable()
 export class BylRouterGuardService implements CanActivate{
@@ -34,11 +34,11 @@ export class BylRouterGuardService implements CanActivate{
 
         if (this._isMobile) {
             console.info("进入移动端");
-            if (isMobileUrl(url)){
+            if (BylStringUtils.isMobileUrl(url)){
                 console.info("url正确，无须转跳");
             }else{
-                console.info("新url:", genMobileUrl(url));
-                this.router.navigateByUrl(genMobileUrl(url));
+                console.info("新url:", BylStringUtils.genMobileUrl(url));
+                this.router.navigateByUrl(BylStringUtils.genMobileUrl(url));
                 return false;
             }
 

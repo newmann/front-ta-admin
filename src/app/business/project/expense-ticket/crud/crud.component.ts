@@ -1,31 +1,34 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
-import {NzMessageService, NzModalService, NzModalRef} from 'ng-zorro-antd';
+import {NzMessageService} from 'ng-zorro-antd';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {BylConfigService} from '../../../../service/constant/config.service';
-import {BylCheckTypeEnum, BylCheckTypeEnumManager} from "../../../../service/project/model/check-type.enum";
-import {ErrorData, SFComponent, SFSchema, SFUISchema} from "@delon/form";
+import {SFSchema} from "@delon/form";
 import {BylExpenseTicket} from "../../../../service/project/model/expense-ticket.model";
 import {BylExpenseTicketService} from "../../../../service/project/service/expense-ticket.service";
-import {BylDatetimeUtils} from "../../../../service/utils/datetime.utils";
 import {BylEmbeddableProject} from "../../../../service/model/embeddable-project.model";
 import {BylEntityReference} from "../../../../service/model/entity-reference.model";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
 import {BylExpenseTicketStatusEnum} from "../../../../service/project/model/expense-ticket-status.enum";
-import {BylTicketCrudComponentBasePro} from "../../../common/ticket-crud-component-base-pro";
-import {BylEmbeddableOperationPeriod} from "../../../../service/project/model/embeddable-operation-period.model";
+import {BylCrudComponentTicket} from "../../../common/crud-component-ticket";
+import {BylExpenseDetail} from "../../../../service/project/model/expense-detail.model";
+import {BylExpenseTicketDetailListComponent} from "../../expense-ticket-detail/list/list.component";
+import {BylDetailAddResultModel} from "../../../../service/model/detail-add-result.model";
+import {BylDetailDeleteResultModel} from "../../../../service/model/detail-delete-result.model";
+import {BylDetailUpdateResultModel} from "../../../../service/model/detail-update-Result.model";
 
 
 @Component({
     selector: 'byl-expense-type-crud',
     templateUrl: './crud.component.html',
 })
-export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro<BylExpenseTicket> {
+export class BylExpenseTicketCrudComponent
+    extends BylCrudComponentTicket<BylExpenseDetail, BylExpenseTicket> {
     processType: string;
 
-    // @ViewChild('sf') sf: SFComponent;
+    @ViewChild('detailList') detailList: BylExpenseTicketDetailListComponent;
 
     newBusinessData(): BylExpenseTicket {
         return new BylExpenseTicket();
@@ -363,15 +366,44 @@ export class BylExpenseTicketCrudComponent extends BylTicketCrudComponentBasePro
     //     this.followProcess(saveResult$);
     // }
 
-    getModifyDateTimeChange(value: number){
-        console.log("in ExpenseTicket Crud getModifyDateTimeChange, value ", value);
-        this.businessData.modifyAction.modifyDateTime = value;
-        this.defaultBusinessData.modifyAction.modifyDateTime = value;
-        this.reset();
-    };
+    // changeTicketModifyDateTime(value: number){
+    //     this.businessData.modifyAction.modifyDateTime = value;
+    //     this.defaultBusinessData.modifyAction.modifyDateTime = value;
+    //     // this.reset();
+    // };
 
     error(value: any) {
         console.log('error', value);
     }
+
+    detailTabClick(){
+        if (!this.detailList.haveSearched) this.detailList.search();
+    }
+
+    updateTicketForAddItem(addResult: BylDetailAddResultModel<BylExpenseDetail, BylExpenseTicket>): void {
+        this.changeTicketAmount(addResult.ticket.amount);
+        super.updateTicketForAddItem(addResult);
+    }
+
+    updateTicketForDeleteItem(deleteItemResult: BylDetailDeleteResultModel<BylExpenseDetail, BylExpenseTicket>): void {
+        this.changeTicketAmount(deleteItemResult.ticket.amount);
+        super.updateTicketForDeleteItem(deleteItemResult);
+    }
+
+    updateTicketForUpdateItem(updateItemResult: BylDetailUpdateResultModel<BylExpenseDetail, BylExpenseTicket>): void {
+        this.changeTicketAmount(updateItemResult.ticket.amount);
+        super.updateTicketForUpdateItem(updateItemResult);
+    }
+
+    /**
+     * 单据明细修改之后，需要调整单据头的最后修改时间，以便进行多用户控制
+     * @param {number} value
+     */
+    changeTicketAmount(value: number){
+        // console.log("in WorkloadTicket Crud getModifyDateTimeChange, value ", value);
+        this.businessData.amount = value;
+        this.defaultBusinessData.amount = value;
+        // this.reset();
+    };
 }
 

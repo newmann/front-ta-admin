@@ -5,7 +5,7 @@ import {BylConfigService} from '../../../../service/constant/config.service';
 import {Router} from '@angular/router';
 import {BylAccount} from '../../../../service/account/model/account.model';
 import {BylAccountRelationInterface} from '../../../../service/account/service/account-related.interface';
-import {BylEntityRelationListComponentBase} from "../../../common/entity-relation-list.component-base";
+import {BylListComponentEntityRelation} from "../../../common/list-component-entity-relation";
 import {Observable} from "rxjs/index";
 import {BylAccountAddPoolListComponent} from "../add-pool-list/add-pool-list.component";
 
@@ -18,7 +18,7 @@ import {BylAccountAddPoolListComponent} from "../add-pool-list/add-pool-list.com
     selector: 'byl-account-item-list',
     templateUrl: './item-list.component.html',
 })
-export class BylAccountItemListComponent extends BylEntityRelationListComponentBase<BylAccount>{
+export class BylAccountItemListComponent extends BylListComponentEntityRelation<BylAccount>{
     @Input() accountRelationService: BylAccountRelationInterface; //调用方，用户调出选择添加账户的窗口
     constructor(public message: NzMessageService,
                 public configService: BylConfigService,

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 
 import {ReuseTabService} from '@delon/abc';
 import {NzMessageService} from 'ng-zorro-antd';
@@ -7,7 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BylConfigService} from '../../../../service/constant/config.service';
 import {SFSchema} from "@delon/form";
 import {simpleDeepCopy} from "../../../../service/utils/object.utils";
-import {BylTicketCrudComponentBasePro} from "../../../common/ticket-crud-component-base-pro";
+import {BylCrudComponentTicket} from "../../../common/crud-component-ticket";
 import {BylSettleTicket} from "../../../../service/project/model/settle-ticket.model";
 import {BylSettleTicketService} from "../../../../service/project/service/settle-ticket.service";
 import {BylEmbeddableSettleResourse} from "../../../../service/project/model/embeddable-settle-resourse.model";
@@ -20,16 +20,30 @@ import {BylTicketStatusEnum} from "../../../../service/model/ticket-status.enum"
 
 import { default as ngLang } from '@angular/common/locales/zh-Hans';
 import { NZ_I18N, zh_CN } from 'ng-zorro-antd';
+import {BylSettleDetailWorkLoadTicketListComponent} from "../workload-ticket-list/list.component";
+import {BylSettleDetailWorkLoadListComponent} from "../workload-list/list.component";
+import {BylSettleDetailBorrowMoneyTicketListComponent} from "../borrow-money-ticket-list/list.component";
+import {BylSettleDetailBorrowMoneyListComponent} from "../borrow-money-list/list.component";
+import {BylSettleDetailBorrowMoneyTicket} from "../../../../service/project/model/settle-detail-borrow-money-ticket.model";
+import {BylSettleDetailBorrowMoney} from "../../../../service/project/model/settle-detail-borrow-money.model";
+import {BylSettleDetailWorkload} from "../../../../service/project/model/settle-detail-workload.model";
+import {BylSettleDetailWorkloadTicket} from "../../../../service/project/model/settle-detail-workload-ticket.model";
+import {BylDetailDeleteResultModel} from "../../../../service/model/detail-delete-result.model";
+import {BylDetailBatchAddResultModel} from "../../../../service/model/detail-batch-add-result.model";
 
 @Component({
     selector: 'byl-settle-ticket-crud',
     templateUrl: './crud.component.html',
 })
-export class BylSettleTicketCrudComponent extends BylTicketCrudComponentBasePro<BylSettleTicket> {
+export class BylSettleTicketCrudComponent
+    extends BylCrudComponentTicket<BylSettleDetailWorkloadTicket,BylSettleTicket> {
     // processType: string;
 
 
-    // @ViewChild('sf') sf: SFComponent;
+    @ViewChild('workloadTicketList') workloadTicketList: BylSettleDetailWorkLoadTicketListComponent;
+    @ViewChild('borrowMoneyTicketList') borrowMoneyTicketList: BylSettleDetailBorrowMoneyTicketListComponent;
+    @ViewChild('detailWorkloadList') workloadList: BylSettleDetailWorkLoadListComponent;
+    @ViewChild('detailBorrowMoneyList') borrowMoneyList: BylSettleDetailBorrowMoneyListComponent;
     // private _detailLoaded:boolean = false;
 
     newBusinessData(): BylSettleTicket {
@@ -107,7 +121,7 @@ export class BylSettleTicketCrudComponent extends BylTicketCrudComponentBasePro<
 
                 "borrowAmount": {
                     "type": 'string',
-                    "title": '考勤累计小时数',
+                    "title": '借款累计（元）',
                     'ui': {
                         'widget': 'text'
                     }
@@ -122,9 +136,10 @@ export class BylSettleTicketCrudComponent extends BylTicketCrudComponentBasePro<
                         precision: 2
                     },
                 },
-                "payDate": {
-                    "type": "number",
+                "payDateWidget": {
+                    "type": "string",
                     "title": '付款日期',
+                    "format": 'date',
 
                     ui: {
                         widget: 'date',
@@ -217,7 +232,7 @@ export class BylSettleTicketCrudComponent extends BylTicketCrudComponentBasePro<
 
                 "borrowAmount": {
                     "type": 'string',
-                    "title": '考勤累计小时数',
+                    "title": '借款累计（元）',
                     'ui': {
                         'widget': 'text'
                     }
@@ -368,6 +383,8 @@ export class BylSettleTicketCrudComponent extends BylTicketCrudComponentBasePro<
             }
 
         }
+        this.businessData.payed = this.businessData.shouldPayWorkloadAmount+ this.businessData.shouldPayOther
+            - this.businessData.borrowAmount - this.businessData.deduct;
         // if (this.businessData.operationPeriod) {
         //     if ( this.businessData.operationPeriod.operatonPeriodId){
         //         let m = new BylEmbeddableOperationPeriod();
@@ -435,7 +452,7 @@ export class BylSettleTicketCrudComponent extends BylTicketCrudComponentBasePro<
 
         let saveResult$: Observable<BylResultBody<BylSettleTicket>>;
 
-        console.log('in BylTicketCrudComponentBasePro confirmEntity', this.businessData);
+        console.log('in BylCrudComponentTicket confirmEntity', this.businessData);
 
         saveResult$ = this.settleTicketService.settle(this.businessData);
 
@@ -449,7 +466,7 @@ export class BylSettleTicketCrudComponent extends BylTicketCrudComponentBasePro<
     }
 
     showSettleButton(): boolean{
-        return this.businessData.status === BylSettleTicketStatusEnum.SETTLED;
+        return this.businessData.status === BylSettleTicketStatusEnum.CHECKED;
     }
 
     showBrowseButton(): boolean{
@@ -457,7 +474,7 @@ export class BylSettleTicketCrudComponent extends BylTicketCrudComponentBasePro<
             || this.businessData.status === BylSettleTicketStatusEnum.CHECKED_DELETED
             || this.businessData.status === BylSettleTicketStatusEnum.SUBMITED_DELETED
             || this.businessData.status === BylSettleTicketStatusEnum.SETTLED
-            || this.businessData.status === BylSettleTicketStatusEnum.SETTLEED_DELETED;
+            || this.businessData.status === BylSettleTicketStatusEnum.SETTLED_DELETED;
     }
 
     getModifyDateTimeChange(value: number){
@@ -472,12 +489,99 @@ export class BylSettleTicketCrudComponent extends BylTicketCrudComponentBasePro<
     }
 
     detailWorkloadTabClick(){
-
+        if (!this.workloadList.haveSearched) this.workloadList.search();
     }
 
     detailBorrowMoneyTabClick(){
+        if (!this.borrowMoneyList.haveSearched) this.borrowMoneyList.search();
+    }
+
+    detailWorkloadTicketTabClick(){
+        if (!this.workloadTicketList.haveSearched) this.workloadTicketList.search();
+    }
+
+    detailBorrowMoneyTicketTabClick(){
+        if (!this.borrowMoneyTicketList.haveSearched) this.borrowMoneyTicketList.search();
+    }
+
+    // /**
+    //  * 如果借款单明细单据有修改，这将借款单汇总的已查询状态修改为false，以便点击汇总tab后重新查询一次
+    //  * @param {BylSettleDetailBorrowMoneyTicket} item
+    //  */
+    // detailBorrowMoneyTicketDeleted(item: BylSettleDetailBorrowMoneyTicket){
+    //     this.borrowMoneyList.haveSearched = false;
+    // }
+    // /**
+    //  * 如果借款单明细单据有修改，这将借款单汇总的已查询状态修改为false，以便点击汇总tab后重新查询一次
+    //  * @param {BylSettleDetailBorrowMoneyTicket} item
+    //  */
+    // detailBorrowMoneyDeleted(item: BylSettleDetailBorrowMoney){
+    //     this.borrowMoneyTicketList.haveSearched = false;
+    // }
+    //
+    // detailWorkloadDeleted(item: BylSettleDetailWorkload){
+    //     this.workloadTicketList.haveSearched = false;
+    // }
+    showCancelButton(): boolean{
+        return this.businessData.status === BylSettleTicketStatusEnum.SUBMITED
+            || this.businessData.status === BylSettleTicketStatusEnum.CHECKED
+            || this.businessData.status === BylSettleTicketStatusEnum.SETTLED;
+    }
+
+    updateTicketForBatchAddItem(addResult: BylDetailBatchAddResultModel<BylSettleDetailWorkloadTicket, BylSettleTicket>): void {
+        this.workloadList.haveSearched =false;
+        this.changeTicketWorkload(addResult.ticket);
+
+        super.updateTicketForBatchAddItem(addResult);
+    }
+
+    updateTicketForDeleteItem(deleteItemResult: BylDetailDeleteResultModel<BylSettleDetailWorkloadTicket, BylSettleTicket>): void {
+        this.workloadList.haveSearched =false;
+        this.changeTicketWorkload(deleteItemResult.ticket);
+
+        super.updateTicketForDeleteItem(deleteItemResult);
 
     }
 
+    updateTicketForBorrowMoneyTicketBatchAddItem(addResult: BylDetailBatchAddResultModel<BylSettleDetailBorrowMoneyTicket, BylSettleTicket>): void {
+        this.borrowMoneyList.haveSearched =false;
+        this.changeTicketBorrowMoney(addResult.ticket);
+        this.changeTicketModifyDateTime(addResult.ticket.modifyAction.modifyDateTime);
+        this.reset();
+
+    }
+
+    updateTicketForBorrowMoneyTicketDeleteItem(deleteItemResult: BylDetailDeleteResultModel<BylSettleDetailBorrowMoneyTicket, BylSettleTicket>): void {
+        this.borrowMoneyList.haveSearched =false;
+        this.changeTicketBorrowMoney(deleteItemResult.ticket);
+        this.changeTicketModifyDateTime(deleteItemResult.ticket.modifyAction.modifyDateTime);
+        this.reset()
+    }
+
+    updateTicketForBorrowMoneyDeleteItem(deleteItemResult: BylDetailDeleteResultModel<BylSettleDetailBorrowMoney, BylSettleTicket>): void {
+        this.borrowMoneyTicketList.haveSearched =false;
+        this.changeTicketBorrowMoney(deleteItemResult.ticket);
+        this.changeTicketModifyDateTime(deleteItemResult.ticket.modifyAction.modifyDateTime);
+        this.reset()
+    }
+
+    updateTicketForWorkloadDeleteItem(deleteItemResult: BylDetailDeleteResultModel<BylSettleDetailWorkload, BylSettleTicket>): void {
+        this.workloadTicketList.haveSearched =false;
+        this.changeTicketWorkload(deleteItemResult.ticket);
+        this.changeTicketModifyDateTime(deleteItemResult.ticket.modifyAction.modifyDateTime);
+        this.reset()
+    }
+
+    changeTicketWorkload(newTicket: BylSettleTicket){
+        this.businessData.shouldPayWorkloadHours = newTicket.shouldPayWorkloadHours;
+        this.defaultBusinessData.shouldPayWorkloadHours = newTicket.shouldPayWorkloadHours;
+        this.businessData.shouldPayWorkloadDays = newTicket.shouldPayWorkloadDays;
+        this.defaultBusinessData.shouldPayWorkloadDays = newTicket.shouldPayWorkloadDays;
+    }
+
+    changeTicketBorrowMoney(newTicket: BylSettleTicket){
+        this.businessData.borrowAmount = newTicket.borrowAmount;
+        this.defaultBusinessData.borrowAmount = newTicket.borrowAmount;
+    }
 }
 
